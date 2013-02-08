@@ -107,7 +107,7 @@ publish
 [Oo]bj
 sql
 TestResults
-*.Cache
+#*.Cache
 ClientBin
 stylecop.*
 ~$*
@@ -167,5 +167,5 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
-/.cache/
-/.build/
+#/.cache/
+#/.build/
