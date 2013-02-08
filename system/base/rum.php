@@ -278,11 +278,6 @@
 	if( !defined( '__CACHE_PATH__' ))					define( '__CACHE_PATH__',					__ROOT__ . '/.cache' );
 
 	/**
-	 * specifies the root relative path to the tmp folder
-	 */
-	if( !defined( '__TMP_PATH__' ))						define( '__TMP_PATH__',						__ROOT__ . '/.tmp' );
-
-	/**
 	 * specifies the root relative path to the application folder
 	 */
 	if( !defined( '__APP_PATH__' ))						define( '__APP_PATH__',						__ROOT__ . '/app' );
