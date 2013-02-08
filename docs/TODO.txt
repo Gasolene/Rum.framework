@@ -1,0 +1,19 @@
+TODO
+====
+
+	Integrate with JQuery
+	Reduce HTML
+
+Components (BOD)
+==========
+
+	- PDODataADapter
+	- MSSQLDataAdapter
+
+CONTROLS (BOD)
+========
+
+BUGS/ISSUES
+===========
+
+	ENT_QUOTES causes GridViewControls to fail epically

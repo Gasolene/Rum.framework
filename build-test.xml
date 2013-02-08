@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Export Package" default="export test">
+
+	<property file="local.properties" />
+
+	<!-- exclude files -->
+	<patternset id="package.include.files">
+		<exclude name=".svn" />
+		<exclude name="docs/TODO.txt" />
+		<exclude name="nbproject/**" />
+        <exclude name="build.number" />
+        <exclude name="build-test.xml" />
+        <exclude name="export-package.xml" />
+        <exclude name="local.properties" />
+		<exclude name="application.xml" />
+	</patternset>
+
+	<target name="export test" description="Export test">
+		<copy todir="${test.output}">
+			<fileset dir=".">
+				<patternset refid="package.include.files" />
+			</fileset>
+		</copy>
+		<copy todir="${test.output}">
+			<fileset dir="${test.path}">
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean test" description="Export test">
+		<delete dir="${test.output}" />
+	</target>
+
+</project>

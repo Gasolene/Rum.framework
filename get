@@ -1,0 +1,20 @@
+<?php
+	/**
+	 * Rum script
+	 * Do not modify this script!
+	 */
+
+	namespace System\Get;
+
+	// include framework loader
+	include 'system/base/rum.php';
+
+	// clean build
+	\System\Base\Build::clean();
+
+	// create instance of the application and run!!!
+	\System\Base\ApplicationBase::getInstance(new Get())->run();
+
+	// clean build
+	\System\Base\Build::clean();
+?>

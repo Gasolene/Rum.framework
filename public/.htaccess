@@ -1,0 +1,25 @@
+order deny,allow
+allow from all
+
+# Turn Rewrite Engine On
+RewriteEngine On
+
+# Condition /(session)/page/id?vars
+RewriteCond %{REQUEST_URI} /(\((.*)\)/)(.*)/(.+)$
+RewriteRule (\((.*)\)/)?(.*)/(.*)?$ index.php?PHPSESSID=$2&page=$3&id=$4 [L,QSA]
+
+# Condition /(session)/page/?vars
+RewriteCond %{REQUEST_URI} /(\((.*)\)/)(.*)/$
+RewriteRule (\((.*)\)/)?(.*)/(.*)?$ index.php?PHPSESSID=$2&page=$3 [L,QSA]
+
+# Condition /page/id?vars
+RewriteCond %{REQUEST_URI} /(.*)/(.+)$
+RewriteRule (\((.*)\)/)?(.*)/(.*)?$ index.php?page=$3&id=$4 [L,QSA]
+
+# Condition /page/?vars
+RewriteCond %{REQUEST_URI} /(.*)/$
+RewriteRule (.*)/(.*)?$ index.php?page=$1 [L,QSA]
+
+# Condition /page?vars
+#RewriteCond %{REQUEST_URI} /(.*)$
+#RewriteRule (.*)?$ index.php?page=$1 [L,QSA]

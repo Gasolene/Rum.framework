@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Export Package" default="build.package">
+
+	<property file="local.properties" />
+
+	<!-- config -->
+	<property name="build.name"					value="Ice cube" />
+	<property name="build.version.number"		value="6.4" />
+	<property name="build.zip.exension"			value="6_4" />
+	<property name="build.revision.number"		value="15" />
+	<property name="authors"					value="darnell.shinbine" />
+	<property name="exclude"					value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, nbproject/**" />
+	<property name="plugins.path"				value="${test.path}/app/plugins" />
+
+	<property name="output.current_release"		value="${rum.path}/public/downloads/current_release/php_rum" />
+	<property name="output.archive"				value="${rum.path}/public/downloads/archive/php_rum_v${build.zip.exension}" />
+	<property name="output.hello_world"			value="${rum.path}/public/downloads/tutorials/hello_world" />
+	<property name="output.blog"				value="${rum.path}/public/downloads/tutorials/blog" />
+	<property name="output.plugins"				value="${rum.path}/public/downloads/plugins" />
+	<property name="output.docs"				value="${rum.path}/public/docs" />
+
+	<!-- exclude files -->
+	<patternset id="package.include.files">
+		<exclude name=".svn" />
+		<exclude name="docs/TODO.txt" />
+		<exclude name="nbproject/**" />
+        <exclude name="build.number" />
+        <exclude name="build-test.xml" />
+		<exclude name="export-package.xml" />
+        <exclude name="local.properties" />
+		<exclude name="application.xml" />
+	</patternset>
+
+	<target name="build.package" description="Build package and update source files">
+
+		<tstamp>
+			<format property="TSTAMP" pattern="yyyyMMddHHmm" />
+			<format property="DATE" pattern="dd MMM yy" />
+			<format property="TIME" pattern="HH:mm:ss z" />
+		</tstamp>
+
+		<buildnumber file=".\build.number" />
+
+		<echo message="Updating framework build number" />
+		<echo file="system/base/framework.info.file">&lt;?php
+	/**
+	 * @license			see /docs/license.txt
+	 * @package			PHPRum
+	 * @author			${authors}
+	 * @copyright		Copyright (c) 2011
+     * @version         ${build.version.number}.${build.revision.number}
+	 */
+	namespace System\Base;
+
+    /**
+     * build name
+     * @var string
+     */
+	const FRAMEWORK_BUILD_NAME = '${build.name}';
+
+    /**
+     * framework version number
+     * @var string
+     */
+	const FRAMEWORK_BUILD_VERSION = '${build.version.number}';
+
+    /**
+     * framework revision number
+     * @var string
+     */
+	const FRAMEWORK_BUILD_REVISION = '${build.revision.number}';
+
+    /**
+     * build number
+     * @var string
+     */
+	const FRAMEWORK_BUILD_NUMBER = '${TSTAMP}';
+
+    /**
+     * build date
+     * @var string
+     */
+	const FRAMEWORK_BUILD_TIME = '${DATE}';
+
+    /**
+     * build time
+     * @var string
+     */
+	const FRAMEWORK_BUILD_DATE = '${TIME}';
+
+    /**
+     * framework authors
+     * @var string
+     */
+	const FRAMEWORK_AUTHORS = '${authors}';
+
+    /**
+     * framework version string
+     * @var string
+     */
+	const FRAMEWORK_VERSION_STRING = '${build.version.number}.${build.revision.number} (Build ${TSTAMP})';
+
+    /**
+     * framework date string
+     * @var string
+     */
+	const FRAMEWORK_DATE_STRING = 'last build on ${DATE} at ${TIME}';
+?&gt;</echo>
+
+		<!-- update framework files -->
+		<echo message="Updating framework source files" />
+		<copy todir="${hello_world.path}" overwrite="true">
+			<fileset dir=".">
+				<patternset refid="package.include.files" />
+			</fileset>
+		</copy>
+
+		<!-- update themes -->
+		<echo message="Updating themes" />
+		<copy todir="${hello_world.path}/public/themes" overwrite="true">
+			<fileset dir="../framework test-plugin/public/themes">
+				<patternset refid="package.include.files" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="export.packages" description="Export packages">
+
+		<!-- copy docs to public folder -->
+		<echo message="Updating docs" />
+		<copy todir="${output.docs}" overwrite="true">
+			<fileset dir="./docs">
+				<patternset refid="package.include.files" />
+			</fileset>
+		</copy>
+
+		<!-- export packages -->
+		<antcall target="_export.package">
+			<param name="dest" value="${output.current_release}" />
+			<param name="src" value="." />
+		</antcall>
+
+		<antcall target="_export.package">
+			<param name="dest" value="${output.archive}" />
+			<param name="src" value="." />
+		</antcall>
+
+		<antcall target="_export.package">
+			<param name="dest" value="${output.hello_world}" />
+			<param name="src" value="${hello_world.path}" />
+		</antcall>
+
+		<antcall target="_export.package">
+			<param name="dest" value="${output.blog}" />
+			<param name="src" value="${blog.path}" />
+		</antcall>
+
+		<!-- export plugins -->
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="calendar" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="ckeditor" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="commoncontrols" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="datepicker" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="fckeditor" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="gatewayadapter" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="gd" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="imagecropper" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="jquery" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="pickadate" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="picklist" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="rss" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="suggestbox" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="tinymce" />
+		</antcall>
+		<antcall target="_export.plugin.package">
+			<param name="plugin" value="webbot" />
+		</antcall>
+
+	</target>
+
+	<target name="_export.plugin.package" description="Export plugin package">
+
+		<antcall target="_export.package">
+			<param name="dest" value="${output.plugins}/${plugin}" />
+			<param name="src" value="${plugins.path}/${plugin}" />
+		</antcall>
+
+	</target>
+
+	<target name="_export.package" description="Export package">
+
+		<echo message="Exporting package ${dest}.tar" />
+
+		<delete            file = "${dest}.tar" />
+		<tar           destfile = "${dest}.tar"
+                        basedir = "${src}"
+                       excludes = "${exclude}" />
+		<delete            file = "${dest}.zip" />
+		<zip           destfile = "${dest}.zip"
+                        basedir = "${src}"
+                       excludes = "${exclude}" />
+	</target>
+
+</project>
