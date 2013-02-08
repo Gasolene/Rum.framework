@@ -1,4 +1,4 @@
-<!--//--><![CDATA[//><!--
+
 
 	/**
 	 * Specifies whether a asyncronous validation attempt is ready
@@ -155,4 +155,3 @@
 	}
 
 
-//--><!]]>

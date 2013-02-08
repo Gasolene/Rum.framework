@@ -1,15 +1,15 @@
-<?php
+#php
 	/**
-	 * @package <Namespace>
+	 * @package <Namespac#end
 	 */
-	namespace <Namespace>;
+	namespace <Namespac#end;
 
 	/**
-	 * This class contains test cases for the /<PageURI> controller
+	 * This class contains test cases for the /<PageUR#end controller
 	 *
-	 * @package			<Namespace>
+	 * @package			<Namespac#end
 	 */
-	class <ClassName>ControllerTestCase extends \System\Test\ControllerTestCaseBase
+	class <ClassNam#endControllerTestCase extends \System\Test\ControllerTestCaseBase
 	{
 		/**
 		 * string containing comma seperated list of fixtures to load
@@ -50,4 +50,4 @@
 			// implement here
 		}
 	}
-?>
+#end

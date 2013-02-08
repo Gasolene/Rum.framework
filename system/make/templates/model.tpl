@@ -1,12 +1,12 @@
-<?php
+#php
 	/**
-	 * @package <Namespace>
+	 * @package <Namespac#end
 	 */
-	namespace <Namespace>;
+	namespace <Namespac#end;
 
 	/**
-	 * This class represents represents a <ClassName> table withing a database or an instance of a single
-	 * record in the <ClassName> table and provides database abstraction
+	 * This class represents represents a <ClassNam#end table withing a database or an instance of a single
+	 * record in the <ClassNam#end table and provides database abstraction
 	 *
 	 * The ActiveRecordBase exposes 5 protected properties, do not define these properties in the sub class
 	 * to have the properties auto determined
@@ -17,38 +17,38 @@
 	 * @property array $rules Specifies field names mapped to field rules
 	 * @property array $relationahips Specifies table relationships
 	 *
-	 * @package			<Namespace>
+	 * @package			<Namespac#end
 	 */
-	class <ClassName> extends \System\ActiveRecord\ActiveRecordBase
+	class <ClassNam#end extends \System\ActiveRecord\ActiveRecordBase
 	{
 		/**
 		 * Specifies the table name
 		 * @var string
 		**/
-		protected $table			= '<TableName>';
+		protected $table			= '<TableNam#end';
 
 		/**
 		 * Specifies the primary key (there can only be one primary key defined)
 		 * @var string
 		**/
-		protected $pkey				= '<PrimaryKey>';
+		protected $pkey				= '<PrimaryKe#end';
 
 		/**
 		 * Specifies field names mapped to field types
 		 * @var array
 		**/
-		protected $fields			= <Fields>;
+		protected $fields			= <Field#end;
 
 		/**
 		 * Specifies field names mapped to field rules
 		 * @var array
 		**/
-		protected $rules			= <Rules>;
+		protected $rules			= <Rule#end;
 
 		/**
 		 * Specifies table relationships
 		 * @var array
 		**/
-		protected $relationships	= <Relationships>;
+		protected $relationships	= <Relationship#end;
 	}
-?>
+#end

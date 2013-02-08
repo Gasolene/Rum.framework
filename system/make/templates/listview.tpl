@@ -1,1 +1,1 @@
-<?php $this-><ControlName>->render() ?>
+#php $this#end<ControlNam#end#endrender() #end

@@ -1,11 +1,11 @@
-<?php
+#php
 	/**
-	 * @package <Namespace>
+	 * @package <Namespac#end
 	 */
-	namespace <Namespace>;
+	namespace <Namespac#end;
 
 	/**
-	 * This class handles all requests for the /<PageURI> page.  In addition provides access to
+	 * This class handles all requests for the /<PageUR#end page.  In addition provides access to
 	 * a Page component to manage any WebControl components
 	 *
 	 * The PageControllerBase exposes 3 protected properties
@@ -13,9 +13,9 @@
 	 * @property Page $page Contains an instance of the Page component
 	 * @property string $theme Specifies the theme for this page
 	 *
-	 * @package			<Namespace>
+	 * @package			<Namespac#end
 	 */
-	final class <ClassName> extends <BaseClassName>
+	final class <ClassNam#end extends <BaseClassNam#end
 	{
 		/**
 		 * Event called before Viewstate is loaded and Page is loaded and Post events are handled
@@ -30,11 +30,11 @@
 		 */
 		public function onPageInit($sender, $args)
 		{
-			$this->page->add(<ObjectName>::form('form'));
-			$this->page->form->fieldset->legend = '<ControlTitle> record';
-			$this->page->form->ajaxValidation = true;
-			$this->page->form->submit->text = 'Save';
-			$this->page->form->add(new \System\Web\WebControls\Button('cancel'));
+			$this#endpage#endadd(<ObjectNam#end::form('form'));
+			$this#endpage#endform#endfieldset#endlegend = '<ControlTitl#end record';
+			$this#endpage#endform#endajaxValidation = true;
+			$this#endpage#endform#endsubmit#endtext = 'Save';
+			$this#endpage#endform#endadd(new \System\Web\WebControls\Button('cancel'));
 		}
 
 
@@ -52,11 +52,11 @@
 		{
 			if(isset(\System\Web\HTTPRequest::$request["id"]))
 			{
-				$<ControlName>Record = <ObjectName>::findById(\System\Web\HTTPRequest::$request["id"]);
+				$<ControlNam#endRecord = <ObjectNam#end::findById(\System\Web\HTTPRequest::$request["id"]);
 
-				if($<ControlName>Record)
+				if($<ControlNam#endRecord)
 				{
-					$this->page->form->attachDataSource($<ControlName>Record);
+					$this#endpage#endform#endattachDataSource($<ControlNam#endRecord);
 				}
 				else
 				{
@@ -65,7 +65,7 @@
 			}
 			else
 			{
-				$this->page->form->attachDataSource(<ObjectName>::create());
+				$this#endpage#endform#endattachDataSource(<ObjectNam#end::create());
 			}
 		}
 
@@ -79,12 +79,12 @@
 		 */
 		public function onSubmitClick($sender, $args)
 		{
-			if($this->form->validate())
+			if($this#endform#endvalidate())
 			{
-				$this->form->save();
+				$this#endform#endsave();
 
-				\Rum::flash("s:<ControlTitle> record has been saved");
-				\Rum::forward('<ReturnURI>');
+				\Rum::flash("s:<ControlTitl#end record has been saved");
+				\Rum::forward('<ReturnUR#end');
 			}
 			else
 			{
@@ -102,7 +102,7 @@
 		 */
 		public function onCancelClick($sender, $args)
 		{
-			\Rum::forward('<ReturnURI>');
+			\Rum::forward('<ReturnUR#end');
 		}
 	}
-?>
+#end

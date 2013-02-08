@@ -51,7 +51,7 @@
 				$fp = @fopen($path, "w+");
 				if(is_resource($fp))
 				{
-					fwrite($fp, $contents);
+					fwrite($fp, str_replace('#php', '<?php', str_replace('#end', '?>', $contents)));
 					fclose($fp);
 				}
 				else

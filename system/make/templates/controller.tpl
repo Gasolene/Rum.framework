@@ -1,18 +1,18 @@
-<?php
+#php
 	/**
-	 * @package <Namespace>
+	 * @package <Namespac#end
 	 */
-	namespace <Namespace>;
+	namespace <Namespac#end;
 
 	/**
-	 * This class handles all requests for the /<PageURI> uri.
+	 * This class handles all requests for the /<PageUR#end uri.
 	 *
 	 * The ControllerBase exposes 1 protected property
 	 * @property int $outputCache Specifies how long to cache page output in seconds, 0 disables caching
 	 *
-	 * @package			<Namespace>
+	 * @package			<Namespac#end
 	 */
-	final class <ClassName> extends <BaseClassName>
+	final class <ClassNam#end extends <BaseClassNam#end
 	{
 		/**
 		 * This method should return a view component for rendering
@@ -25,4 +25,4 @@
 			return new \System\Web\WebControls\View('view');
 		}
 	}
-?>
+#end

@@ -1,3 +1,3 @@
-<?php // this is the template file <PageURI><TemplateExtension> ?>
+#php // this is the template file <PageUR#end<TemplateExtensio#end #end
 
-<p>This is the view for the /<PageURI> controller</p>
+<#endThis is the view for the /<PageUR#end controller</#end

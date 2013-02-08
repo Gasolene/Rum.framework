@@ -1,4 +1,4 @@
-<!--//--><![CDATA[//><!--
+
 
 	/**
 	* treeviewToggleNode
@@ -73,4 +73,3 @@
 		return false;
 	}
 
-//--><!]]>

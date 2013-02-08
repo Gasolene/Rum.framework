@@ -1,4 +1,4 @@
-<!--//--><![CDATA[//><!--
+
 
 
 	/**
@@ -17,10 +17,10 @@
 		var len = inputTags.length;
 
 		for( var i = 0; i < len; i++ ) {
-			if( inputTags[i].getAttribute( 'type' ) == 'submit' ||
-				inputTags[i].getAttribute( 'type' ) == 'button' ) {
+			if( inputTags[i].getAttribute( 'type' ) === 'submit' ||
+				inputTags[i].getAttribute( 'type' ) === 'button' ) {
 
-				if( inputTags[i].name != button.name ) {
+				if( inputTags[i].name !== button.name ) {
 					inputTags[i].disabled = 'disabled';
 				}
 				else {
@@ -41,4 +41,3 @@
 	}
 
 
-//--><!]]>

@@ -1,11 +1,11 @@
-<?php
+#php
 	/**
-	 * @package <Namespace>
+	 * @package <Namespac#end
 	 */
-	namespace <Namespace>;
+	namespace <Namespac#end;
 
 	/**
-	 * This class handles client connections for the /<PageURI> web service.  In addition provides access to
+	 * This class handles client connections for the /<PageUR#end web service.  In addition provides access to
 	 * a the generated WDSL via the ?wdsl paremeter
 	 *
 	 * The ControllerBase exposes 4 protected properties
@@ -14,9 +14,9 @@
 	 * @property string $version specifies the SOAP version, default is SOAP_1_2
 	 * @property string $namespace specifies the namespace, default is controller id
 	 *
-	 * @package			<Namespace>
+	 * @package			<Namespac#end
 	 */
-	final class <ClassName> extends <BaseClassName>
+	final class <ClassNam#end extends <BaseClassNam#end
 	{
 		/**
 		 * This method is called remotely
@@ -35,4 +35,4 @@
 			}
 		}
 	}
-?>
+#end
