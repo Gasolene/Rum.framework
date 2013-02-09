@@ -1,11 +1,11 @@
 #php
 	/**
-	 * @package <Namespac#end
+	 * @package <Namespace>
 	 */
-	namespace <Namespac#end;
+	namespace <Namespace>;
 
 	/**
-	 * This class handles all requests for the /<PageUR#end page.  In addition provides access to
+	 * This class handles all requests for the /<PageURI> page.  In addition provides access to
 	 * a Page component to manage any WebControl components
 	 *
 	 * The PageControllerBase exposes 3 protected properties
@@ -13,9 +13,9 @@
 	 * @property Page $page Contains an instance of the Page component
 	 * @property string $theme Specifies the theme for this page
 	 *
-	 * @package			<Namespac#end
+	 * @package			<Namespace>
 	 */
-	final class <ClassNam#end extends <BaseClassNam#end
+	final class <ClassName> extends <BaseClassName>
 	{
 		/**
 		 * Event called before Viewstate is loaded and Page is loaded and Post events are handled

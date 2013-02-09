@@ -1,1 +1,1 @@
-#php $this#endform#endrender() #end
+#php $this->form->render() #end

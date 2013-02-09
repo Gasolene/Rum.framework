@@ -270,7 +270,7 @@
 			foreach( $schema->tableSchemas as $ftableSchema )
 			{
 				// get namespace of this object
-				$namespace = $baseNamespace . self::ModelNamespace;
+				$namespace = Make::$namespace . self::ModelNamespace;
 
 				// set true another table has pkey of this table
 				$pKeyFound = false;
@@ -341,27 +341,30 @@
 							// loop through all foreign tables
 							foreach( $schema->tableSchemas as $ftableSchema2 )
 							{
-								// ignore self
-								if( $ftableSchema->name != $ftableSchema2->name )
+								if( count( $ftableSchema->columnNames ) === 2 )
 								{
-									// if foreign table has primary key?
-									if( isset( $pkeys[$ftableSchema2->name] ))
+									// ignore self
+									if( $ftableSchema->name != $ftableSchema2->name )
 									{
-										// if foreign tables key = tables pkey
-										if( $pkeys[$ftableSchema2->name] === $columnSchema->name )
+										// if foreign table has primary key?
+										if( isset( $pkeys[$ftableSchema2->name] ))
 										{
-											$type = $namespace . '\\' . ucwords( $ftableSchema2->name );
+											// if foreign tables key = tables pkey
+											if( $pkeys[$ftableSchema2->name] === $columnSchema->name )
+											{
+												$type = $namespace . '\\' . ucwords( $ftableSchema2->name );
 
-											// found pkey of another table in foreign table
-											$mapping = array(
-												  'relationship' => \System\ActiveRecord\RelationshipType::HasManyAndBelongsTo()->__toString()
-												, 'type' => $type
-												, 'table' => $ftableSchema->name
-												, 'columnRef' => $pkeys[$ftableSchema2->name]
-												, 'columnKey' => $pkey
-												, 'notNull' => $columnSchema->notNull );
+												// found pkey of another table in foreign table
+												$mapping = array(
+													  'relationship' => \System\ActiveRecord\RelationshipType::HasManyAndBelongsTo()->__toString()
+													, 'type' => $type
+													, 'table' => $ftableSchema->name
+													, 'columnRef' => $pkeys[$ftableSchema2->name]
+													, 'columnKey' => $pkey
+													, 'notNull' => $columnSchema->notNull );
 
-											$mappings[] = $mapping;
+												//$mappings[] = $mapping;
+											}
 										}
 									}
 								}

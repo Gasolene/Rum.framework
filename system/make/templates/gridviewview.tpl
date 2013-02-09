@@ -1,5 +1,3 @@
-#php
-$this#endadd_form#endstart();
-$this#end<ControlNam#end#endrender();
-$this#endadd_form#endend();
-#end
+#php $this->add_form->start() #end
+#php $this-><ControlName>->render() #end
+#php $this->add_form->end() #end

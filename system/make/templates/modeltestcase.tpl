@@ -1,15 +1,15 @@
 #php
 	/**
-	 * @package <Namespac#end
+	 * @package <Namespace>
 	 */
-	namespace <Namespac#end;
+	namespace <Namespace>;
 
 	/**
-	 * This class contains test cases for the <ClassNam#end model
+	 * This class contains test cases for the <ClassName> model
 	 *
-	 * @package			<Namespac#end
+	 * @package			<Namespace>
 	 */
-	class <ClassNam#endTestCase extends \System\Test\TestCaseBase
+	class <ClassName>TestCase extends \System\Test\TestCaseBase
 	{
 		/**
 		 * string containing comma seperated list of fixtures

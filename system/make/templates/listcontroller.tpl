@@ -1,11 +1,11 @@
 #php
 	/**
-	 * @package <Namespac#end
+	 * @package <Namespace>
 	 */
-	namespace <Namespac#end;
+	namespace <Namespace>;
 
 	/**
-	 * This class handles all requests for the /<PageUR#end page.  In addition provides access to
+	 * This class handles all requests for the /<PageURI> page.  In addition provides access to
 	 * a Page component to manage any WebControl components
 	 *
 	 * The PageControllerBase exposes 3 protected properties
@@ -13,9 +13,9 @@
 	 * @property Page $page Contains an instance of the Page component
 	 * @property string $theme Specifies the theme for this page
 	 *
-	 * @package			<Namespac#end
+	 * @package			<Namespace>
 	 */
-	final class <ClassNam#end extends <BaseClassNam#end
+	final class <ClassName> extends <BaseClassName>
 	{
 		/**
 		 * Event called before Viewstate is loaded and Page is loaded and Post events are handled
@@ -30,12 +30,12 @@
 		 */
 		public function onPageInit($sender, $args)
 		{
-			$this#endpage#endadd(new \System\Web\WebControls\GridView('<ControlNam#end'));
-			$this#endpage#end<ControlNam#end#endcaption = '<ControlTitl#end';
-			$this#endpage#end<ControlNam#end#endshowFilters = true;
-			$this#endpage#end<ControlNam#end#endshowFooter = true;
-<Column#end			$this#endpage#end<ControlNam#end#endcolumns#endadd(new \System\Web\WebControls\GridViewButton('<PrimaryKe#end', 'Edit', 'edit', '', '', '', 'edit' ));
-			$this#endpage#end<ControlNam#end#endcolumns#endadd(new \System\Web\WebControls\GridViewButton('<PrimaryKe#end', 'Delete', 'delete', 'Are you sure you want to delete this <ControlTitl#end record?', '', '', 'delete' ));
+			$this->page->add(new \System\Web\WebControls\GridView('<ControlName>'));
+			$this->page-><ControlName>->caption = '<ControlTitle>';
+			$this->page-><ControlName>->showFilters = true;
+			$this->page-><ControlName>->showFooter = true;
+<Columns>			$this->page-><ControlName>->columns->add(new \System\Web\WebControls\GridViewButton('<PrimaryKey>', 'Edit', 'edit', '', '', '', 'edit' ));
+			$this->page-><ControlName>->columns->add(new \System\Web\WebControls\GridViewButton('<PrimaryKey>', 'Delete', 'delete', 'Are you sure you want to delete this <ControlTitle> record?', '', '', 'delete' ));
 		}
 
 
@@ -51,8 +51,8 @@
 		 */
 		public function onPageLoad($sender, $args)
 		{
-			$this#endpage#end<ControlNam#end#endattachDataSource(<ObjectNam#end::all());
-		}<ActiveEven#end
+			$this->page-><ControlName>->attachDataSource(<ObjectName>::all());
+		}<ActiveEvent>
 
 
 		/**
@@ -64,7 +64,7 @@
 		 */
 		public function onEditClick($sender, $args)
 		{
-			\Rum::forward('<PageUR#end/edit', array('id'#end$args["edit"]));
+			\Rum::forward('<PageURI>/edit', array('id'=>$args["edit"]));
 		}
 
 
@@ -77,22 +77,22 @@
 		 */
 		public function onDeleteAjaxPost($sender, $args)
 		{
-			$<ControlNam#endRecord = <ObjectNam#end::findById($args["<PrimaryKe#end"]);
+			$<ControlName>Record = <ObjectName>::findById($args["<PrimaryKey>"]);
 
-			if($<ControlNam#endRecord)
+			if($<ControlName>Record)
 			{
 				try
 				{
-					$<ControlNam#endRecord#enddelete();
+					$<ControlName>Record->delete();
 
-					$this#end<ControlNam#end#endattachDatasource(<ObjectNam#end::all());
-					$this#end<ControlNam#end#endupdateAjax();
+					$this-><ControlName>->attachDatasource(<ObjectName>::all());
+					$this-><ControlName>->updateAjax();
 
-					\Rum::flash("s:<ControlTitl#end record has been deleted");
+					\Rum::flash("s:<ControlTitle> record has been deleted");
 				}
 				catch(\System\DB\DatabaseException $e)
 				{
-					\Rum::flash("f:This <ControlTitl#end record cannot be deleted as there are other records that are associated with this record");
+					\Rum::flash("f:This <ControlTitle> record cannot be deleted as there are other records that are associated with this record");
 				}
 			}
 		}

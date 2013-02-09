@@ -1,11 +1,11 @@
 #php
 	/**
-	 * @package <Namespac#end
+	 * @package <Namespace>
 	 */
-	namespace <Namespac#end;
+	namespace <Namespace>;
 
 	/**
-	 * This class handles all requests for the /<PageUR#end page.  In addition provides access to
+	 * This class handles all requests for the /<PageURI> page.  In addition provides access to
 	 * a Page component to manage any WebControl components
 	 *
 	 * The PageControllerBase exposes 3 protected properties
@@ -13,9 +13,9 @@
 	 * @property Page $page Contains an instance of the Page component
 	 * @property string $theme Specifies the theme for this page
 	 *
-	 * @package			<Namespac#end
+	 * @package			<Namespace>
 	 */
-	final class <ClassNam#end extends <BaseClassNam#end
+	final class <ClassName> extends <BaseClassName>
 	{
 		/**
 		 * Event called before Viewstate is loaded and Page is loaded and Post events are handled
@@ -30,12 +30,12 @@
 		 */
 		public function onPageInit($sender, $args)
 		{
-			$this#endpage#endadd(new \System\Web\WebControls\GridView('<ControlNam#end'));
-			$this#endpage#end<ControlNam#end#endcaption = '<ControlTitl#end';
-			$this#endpage#end<ControlNam#end#endshowFooter = true;
+			$this->page->add(new \System\Web\WebControls\GridView('<ControlName>'));
+			$this->page-><ControlName>->caption = '<ControlTitle>';
+			$this->page-><ControlName>->showFooter = true;
 
-			$this#endpage#endadd(<ObjectNam#end::form('add_form'));
-<Column#end			$this#endpage#end<ControlNam#end#endcolumns#endadd(new \System\Web\WebControls\GridViewButton('<PrimaryKe#end', 'Delete', 'delete', 'Are you sure you want to delete this <ControlTitl#end record?', '', '\Rum::app()#endrequestHandler#endpage#endsubmit#endfetch(array(\'class\'#end\' add\'))', 'delete' ));
+			$this->page->add(<ObjectName>::form('add_form'));
+<Columns>			$this->page-><ControlName>->columns->add(new \System\Web\WebControls\GridViewButton('<PrimaryKey>', 'Delete', 'delete', 'Are you sure you want to delete this <ControlTitle> record?', '', '\Rum::app()->requestHandler->page->submit->fetch(array(\'class\'=>\' add\'))', 'delete' ));
 		}
 
 
@@ -51,9 +51,9 @@
 		 */
 		public function onPageLoad($sender, $args)
 		{
-			$this#endpage#end<ControlNam#end#endattachDataSource(<ObjectNam#end::all());
-			$this#endpage#endadd_form#endattachDataSource(<ObjectNam#end::create());
-		}<Event#end
+			$this->page-><ControlName>->attachDataSource(<ObjectName>::all());
+			$this->page->add_form->attachDataSource(<ObjectName>::create());
+		}<Events>
 
 
 		/**
@@ -65,14 +65,14 @@
 		 */
 		public function onSubmitAjaxClick($sender, $args)
 		{
-			if($this#endadd_form#endvalidate($err))
+			if($this->add_form->validate($err))
 			{
-				$this#endadd_form#endsave();
+				$this->add_form->save();
 
-				$this#endpage#end<ControlNam#end#endattachDataSource(<ObjectNam#end::all());
-				$this#endpage#end<ControlNam#end#endupdateAjax();
+				$this->page-><ControlName>->attachDataSource(<ObjectName>::all());
+				$this->page-><ControlName>->updateAjax();
 
-				\Rum::flash("s:<ControlTitl#end record has been added");
+				\Rum::flash("s:<ControlTitle> record has been added");
 			}
 			else
 			{
@@ -90,22 +90,22 @@
 		 */
 		public function onDeleteAjaxPost($sender, $args)
 		{
-			$<ControlNam#endRecord = <ObjectNam#end::findById($args["<PrimaryKe#end"]);
+			$<ControlName>Record = <ObjectName>::findById($args["<PrimaryKey>"]);
 
-			if($<ControlNam#endRecord)
+			if($<ControlName>Record)
 			{
 				try
 				{
-					$<ControlNam#endRecord#enddelete();
+					$<ControlName>Record->delete();
 
-					$this#end<ControlNam#end#endattachDatasource(<ObjectNam#end::all());
-					$this#end<ControlNam#end#endupdateAjax();
+					$this-><ControlName>->attachDatasource(<ObjectName>::all());
+					$this-><ControlName>->updateAjax();
 
-					\Rum::flash("s:<ControlTitl#end record has been deleted");
+					\Rum::flash("s:<ControlTitle> record has been deleted");
 				}
 				catch(\System\DB\DatabaseException $e)
 				{
-					\Rum::flash("f:This <ControlTitl#end record cannot be deleted as there are other records that are associated with this record");
+					\Rum::flash("f:This <ControlTitle> record cannot be deleted as there are other records that are associated with this record");
 				}
 			}
 		}
