@@ -14,10 +14,10 @@
 
 	<property name="output.current_release"		value="${rum.path}/public/downloads/current_release/php_rum" />
 	<property name="output.archive"				value="${rum.path}/public/downloads/archive/php_rum_v${build.zip.exension}_${build.revision.number}" />
-	<property name="output.hello_world"			value="${rum.path}/public/downloads/hello_world" />
-	<property name="output.blog"				value="${rum.path}/public/downloads/blog" />
+	<property name="output.hello_world"			value="${rum.path}/public/downloads/current_release/hello_world" />
+	<property name="output.blog"				value="${rum.path}/public/downloads/current_release/blog" />
 	<property name="output.plugins"				value="${rum.path}/public/downloads/plugins" />
-	<property name="output.docs"				value="${rum.path}/public/docs/api" />
+	<property name="output.docs"				value="${rum.path}/public/docs" />
 
 	<!-- exclude files -->
 	<patternset id="package.include.files">
