@@ -111,12 +111,12 @@
 				}
 				else
 				{
-					print("{$objectName} does not exist");
+					print("{$objectName} does not exist".PHP_EOL);
 				}
 			}
 			else
 			{
-				print("formcontroller expects one argument `objectName`");
+				throw new \System\Base\MissingArgumentException("formcontroller expects one argument `objectName`");
 			}
 		}
 	}

@@ -118,7 +118,7 @@ PHP MAKE [script] [target]
 		 *
 		 * @return void
 		 */
-		protected function handleException(\Exception $e) {die($e->getMessage());}
+		protected function handleException(\Exception $e) {die($e->getMessage().PHP_EOL);}
 
 
 		/**
@@ -131,6 +131,6 @@ PHP MAKE [script] [target]
 		 *
 		 * @return void
 		 */
-		protected function handleError($errno, $errstr, $errfile, $errline) {die("{$errstr} in {$errfile} on line {$errline}");}
+		protected function handleError($errno, $errstr, $errfile, $errline) {die("{$errstr} in {$errfile} on line {$errline}".PHP_EOL);}
 	}
 ?>

@@ -35,19 +35,19 @@
 
 			foreach($this->getMigrations() as $migration)
 			{
-				$transaction = \System\Base\ApplicationBase::getInstance()->dataAdapter->beginTransaction();
+				//$transaction = \System\Base\ApplicationBase::getInstance()->dataAdapter->beginTransaction();
 
 				if( $migration->version > $this->getCurrentVersion() &&
 					$migration->version <= $toVersion)
 				{
-					echo "Upgrading to version {$migration->version}\n";
+					echo "Upgrading to version {$migration->version}".PHP_EOL;
 					$migration->up();
 
 					// set version
 					$this->setVersion($migration->version);
 				}
 
-				$transaction->commit();
+				//$transaction->commit();
 			}
 		}
 
@@ -61,14 +61,14 @@
 			// default previous version
 			$toVersion=!is_null($toVersion)?(real)$toVersion:$this->getPreviousVersion();
 
-			foreach(\array_reverse($this->getMigrations()) as $migration)
-			{
-				$transaction = \System\Base\ApplicationBase::getInstance()->dataAdapter->beginTransaction();
+			//$transaction = \System\Base\ApplicationBase::getInstance()->dataAdapter->beginTransaction();
 
+                        foreach(\array_reverse($this->getMigrations()) as $migration)
+			{
 				if( $migration->version <= $this->getCurrentVersion() &&
 					$migration->version > $toVersion)
 				{
-					echo "Downgrading from version {$migration->version}\n";
+					echo "Downgrading from version {$migration->version}".PHP_EOL;
 					$migration->down();
 				}
 				if( $migration->version <= $this->getCurrentVersion() &&
@@ -76,13 +76,14 @@
 				{
 					$this->setVersion($migration->version);
 				}
-
-				$transaction->commit();
 			}
+
 			if($toVersion==0)
 			{
-				$this->setVersion($toVersion);
+				$this->setVersion(0);
 			}
+
+			//$transaction->commit();
 		}
 
 		/**

@@ -158,12 +158,12 @@
 				}
 				else
 				{
-					print("{$objectName} does not exist");
+					print("{$objectName} does not exist".PHP_EOL);
 				}
 			}
 			else
 			{
-				print("listcontroller expects one argument `objectName`");
+				throw new \System\Base\MissingArgumentException("listcontroller expects one argument `objectName`");
 			}
 		}
 	}

@@ -51,7 +51,7 @@
 		 * password
 		 * @var string
 		 */
-		protected $_commands	= array();
+		private $_commands	= array();
 
 
 		/**
@@ -75,7 +75,14 @@
 		 */
 		final protected function put( $local_path, $remote_path )
 		{
-			\passthru("pscp -v -r -P {$this->port} ".($this->password?"-pw {$this->password}":"")." \"{$local_path}\" {$this->username}@{$this->server}:{$remote_path}");
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') // if windows
+			{
+				\passthru("pscp -v -r -P {$this->port} ".($this->password?"-pw {$this->password}":"")." \"{$local_path}\" {$this->username}@{$this->server}:{$remote_path}");
+			}
+			else
+			{
+				\passthru("scp -v -r -P {$this->port} ".($this->password?"-pw {$this->password}":"")." \"{$local_path}\" {$this->username}@{$this->server}:{$remote_path}");
+			}
 		}
 
 
@@ -92,7 +99,7 @@
 			}
 			else
 			{
-				\passthru("ssh {$this->server} -l -p {$this->port} {$this->username} \"".\implode(";", $this->_commands)."\"");
+				\passthru("ssh {$this->server} -p {$this->port} -l {$this->username} \"".\implode(";", $this->_commands)."\"");
 			}
 		}
 	}

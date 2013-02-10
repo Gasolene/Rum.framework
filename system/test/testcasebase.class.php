@@ -231,7 +231,7 @@
 		{
 			if($fixture)
 			{
-				$tables = \System\Base\ApplicationBase::getInstance()->dataAdapter->getSchema()->tableNames;
+				$tables = \System\Base\ApplicationBase::getInstance()->dataAdapter->buildSchema()->tableNames;
 				$xmlParser = new \System\XML\XMLParser();
 				$fail = false;
 

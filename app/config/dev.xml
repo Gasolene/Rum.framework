@@ -7,4 +7,4 @@
 -->
 <dev
   namespace  = "MyApp"
-  repository = "http://php-rum.com/packages.xml" />
+  repository = "http://php-rum.com/downloads/release/6_4/package-list.xml" />

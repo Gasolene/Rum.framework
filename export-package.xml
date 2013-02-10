@@ -4,34 +4,34 @@
 	<property file="local.properties" />
 
 	<!-- config -->
-	<property name="build.name"					value="Ice cube" />
-	<property name="build.version.number"		value="6.4" />
+	<property name="build.name"				value="Ice cube" />
+	<property name="build.version.number"			value="6.4" />
 	<property name="build.zip.exension"			value="6_4" />
-	<property name="build.revision.number"		value="15" />
-	<property name="authors"					value="darnell.shinbine" />
-	<property name="exclude"					value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, nbproject/**" />
+	<property name="build.revision.number"			value="15" />
+	<property name="authors"				value="darnell.shinbine" />
+	<property name="exclude"				value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, nbproject/**" />
 	<property name="plugins.path"				value="${test.path}/app/plugins" />
 
-	<property name="output.current_release"		value="${rum.path}/public/downloads/current_release/php_rum" />
-	<property name="output.archive"				value="${rum.path}/public/downloads/archive/php_rum_v${build.zip.exension}_${build.revision.number}" />
-	<property name="output.hello_world"			value="${rum.path}/public/downloads/current_release/hello_world" />
-	<property name="output.blog"				value="${rum.path}/public/downloads/current_release/blog" />
-	<property name="output.plugins"				value="${rum.path}/public/downloads/plugins" />
+	<property name="output.archive"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}" />
+	<property name="output.plugins"				value="${rum.path}/public/downloads/release/${build.zip.exension}/plugins" />
+	<property name="output.current_release"			value="${rum.path}/public/downloads/release/current/php_rum" />
+	<property name="output.hello_world"			value="${rum.path}/public/downloads/demo/hello_world" />
+	<property name="output.blog"				value="${rum.path}/public/downloads/demo/blog" />
 	<property name="output.docs"				value="${rum.path}/public/docs" />
 
 	<!-- exclude files -->
 	<patternset id="package.include.files">
-		<exclude name=".svn" />
-		<exclude name=".git" />
-		<exclude name=".gitignore" />
-		<exclude name="docs/TODO.txt" />
-		<exclude name="nbproject/**" />
-        <exclude name="build.number" />
-        <exclude name="build-test.xml" />
-		<exclude name="export-package.xml" />
-        <exclude name="default.local.properties" />
-        <exclude name="local.properties" />
-		<exclude name="application.xml" />
+	<exclude name=".svn" />
+	<exclude name=".git" />
+	<exclude name=".gitignore" />
+	<exclude name="docs/TODO.txt" />
+	<exclude name="nbproject/**" />
+	<exclude name="build.number" />
+	<exclude name="build-test.xml" />
+	<exclude name="export-package.xml" />
+	<exclude name="default.local.properties" />
+	<exclude name="local.properties" />
+	<exclude name="application.xml" />
 	</patternset>
 
 	<target name="build.package" description="Build package and update source files">
@@ -121,7 +121,7 @@
 		<!-- update themes -->
 		<echo message="Updating themes" />
 		<copy todir="${hello_world.path}/public/themes" overwrite="true">
-			<fileset dir="../framework test-plugin/public/themes">
+			<fileset dir="${test.path}/public/themes">
 				<patternset refid="package.include.files" />
 			</fileset>
 		</copy>

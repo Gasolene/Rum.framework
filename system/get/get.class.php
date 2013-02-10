@@ -51,7 +51,7 @@
 			}
 			catch(\Exception $e)
 			{
-				echo "Unable to connect to repo at " . "$repo" . PHP_EOL;
+				echo "Unable to connect to repo at " . "{$repo}" . PHP_EOL;
 				return;
 			}
 
@@ -174,7 +174,7 @@ PHP GET [task] [package]
 		 *
 		 * @return void
 		 */
-		protected function handleException(\Exception $e) {die($e->getMessage());}
+		protected function handleException(\Exception $e) {die($e->getMessage().PHP_EOL);}
 
 
 		/**
@@ -187,7 +187,7 @@ PHP GET [task] [package]
 		 *
 		 * @return void
 		 */
-		protected function handleError($errno, $errstr, $errfile, $errline) {die("{$errstr} in {$errfile} on line {$errline}");}
+		protected function handleError($errno, $errstr, $errfile, $errline) {die("{$errstr} in {$errfile} on line {$errline}".PHP_EOL);}
 
 		private function getPackage($id)
 		{

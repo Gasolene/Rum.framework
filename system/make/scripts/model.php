@@ -53,7 +53,7 @@
 
 			if(is_null($da))
 			{
-				throw new \System\Base\InvalidOperationException("AppServlet::dataAdapter is null");
+				throw new \System\Base\InvalidOperationException("No DataAdapter configured");
 			}
 
 			$schema = $da->getSchema();
@@ -75,7 +75,7 @@
 
 			if( !$table )
 			{
-				throw new \System\Base\InvalidOperationException("table `{$target}` does not exist in DataAdapter");
+				throw new \System\Base\InvalidOperationException("table `{$target}` not found in DataAdapter");
 			}
 
 			// Get table schema
