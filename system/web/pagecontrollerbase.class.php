@@ -173,8 +173,8 @@
 			// include jscripts
 			if( \System\Web\WebApplicationBase::getInstance()->config->state == \System\Base\AppState::Debug() )
 			{
-				$this->page->addScript( \System\Web\WebApplicationBase::getInstance()->config->assets . '/debug/debug.js' );
-				$this->page->addLink( \System\Web\WebApplicationBase::getInstance()->config->assets . '/debug/debug.css' );
+				$this->page->addScript( \System\Web\WebApplicationBase::getInstance()->config->assets . '/web/debug.js' );
+				$this->page->addLink( \System\Web\WebApplicationBase::getInstance()->config->assets . '/web/debug.css' );
 			}
 
 			// include all css files for theme

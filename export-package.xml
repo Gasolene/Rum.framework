@@ -30,6 +30,7 @@
 	<exclude name="build-test.xml" />
 	<exclude name="export-package.xml" />
 	<exclude name="default.local.properties" />
+	<exclude name="README.md" />
 	<exclude name="local.properties" />
 	<exclude name="application.xml" />
 	</patternset>
