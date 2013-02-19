@@ -6,7 +6,7 @@
 	 * @copyright		Copyright (c) 2011
 	 */
 
-ini_set('memory_limit', '555M');
+
 	/**
 	 * Provides access to application services
 	 *
