@@ -3,17 +3,21 @@ Change log
 
 1. Version History
 
-version 6.4.15-beta - 02.11.13
+version 6.4.15-beta - 02.20.13
 	- added command line package manager "get" (beta)
 	- fixed bug in model make script when not reporting correct error message if table doesn't exist
 	- changed make script no longer needs /app/config/make/config.php
 	- added /app/config/dev.xml
 	- added event LoginFormSubmitEvent
+	- added RESTWebService
+	- changed WebServiceAuthentication
+	- fixed bug in WebApplication where replacing PHP session id even when cookieless session is false
+	- fixed bug in SOAPWebService::handle() where returning the handle
 	- fixed bug in model make script no longer determines many to many relationships
-        - fixed bug in migrate when migrating down from first version
-        - fixed bug in TestCastBase when building a new schema
-        - fixed bug in Model make script where not throwing Exception for missing argument
-        - fixed bug in Deploy script when deploying via SCP on linux
+	- fixed bug in migrate when migrating down from first version
+	- fixed bug in TestCastBase when building a new schema
+	- fixed bug in Model make script where not throwing Exception for missing argument
+	- fixed bug in Deploy script when deploying via SCP on linux
 
 version 6.4.14-beta - 01.21.13
 	- fixed bug in GridView::filters when setting filter values
