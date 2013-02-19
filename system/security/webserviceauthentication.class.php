@@ -26,11 +26,7 @@
 		{
 			if( WebServiceAuthentication::isAuthUserSet() )
 			{
-				if( WebServiceAuthentication::authenticateSecret( FormsAuthentication::getAuthCookie(), FormsAuthentication::getAuthSecret() ))
-				{
-					Authentication::$identity = WebServiceAuthentication::getAuthUser();
-					return true;
-				}
+				return WebServiceAuthentication::authenticateSecret( WebServiceAuthentication::getAuthUser(), WebServiceAuthentication::getAuthSecret() );
 			}
 			return false;
 		}
@@ -43,10 +39,16 @@
 		 * @param   string	$secret		secret
 		 * @return void
 		 */
-		private static function authenticateSecret($uid, $secret)
+		public static function authenticateSecret($uid, $secret)
 		{
+			WebServiceAuthentication::setAuthUser($uid);
 			$salt = $_SERVER["REMOTE_ADDR"].$uid;
-			return $secret === Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt);
+			if( $secret === Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt ))
+			{
+				Authentication::$identity = WebServiceAuthentication::getAuthUser();
+				return true;
+			}
+			return false;
 		}
 
 

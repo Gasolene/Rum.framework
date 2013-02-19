@@ -174,7 +174,7 @@
 				$soap_server->addFunction($rpc->getFunction());
 			}
 
-			$result = $soap_server->handle();
+			$soap_server->handle();
 		}
 
 		/**

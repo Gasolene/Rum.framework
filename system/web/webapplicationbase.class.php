@@ -890,15 +890,22 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 		 */
 		private function startSession()
 		{
-			if( isset( HTTPRequest::$post['PHPSESSID'] ))
+			if( ApplicationBase::getInstance()->config->cookielessSession )
 			{
-				$this->session->start( HTTPRequest::$post['PHPSESSID'] );
-				unset( HTTPRequest::$post['PHPSESSID'] );
-			}
-			elseif( isset( HTTPRequest::$get['PHPSESSID'] ))
-			{
-				$this->session->start( HTTPRequest::$get['PHPSESSID'] );
-				unset( HTTPRequest::$get['PHPSESSID'] );
+				if( isset( HTTPRequest::$post['PHPSESSID'] ))
+				{
+					$this->session->start( HTTPRequest::$post['PHPSESSID'] );
+					unset( HTTPRequest::$post['PHPSESSID'] );
+				}
+				elseif( isset( HTTPRequest::$get['PHPSESSID'] ))
+				{
+					$this->session->start( HTTPRequest::$get['PHPSESSID'] );
+					unset( HTTPRequest::$get['PHPSESSID'] );
+				}
+				else
+				{
+					$this->session->start();
+				}
 			}
 			else
 			{
