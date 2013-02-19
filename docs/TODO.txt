@@ -2,7 +2,8 @@ TODO
 ====
 
 	Integrate with JQuery
-	Reduce HTML
+	Reduce HTML output
+	Separate formsCookieName and WebServiceCookieName
 
 Components (BOD)
 ==========

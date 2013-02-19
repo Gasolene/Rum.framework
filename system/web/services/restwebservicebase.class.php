@@ -15,7 +15,7 @@
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
 	 */
-	abstract class RESTServiceBase extends WebServiceBase
+	abstract class RESTWebServiceBase extends WebServiceBase
 	{
 		/**
 		 * specifies encoding options

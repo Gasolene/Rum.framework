@@ -86,7 +86,7 @@
      @realm (default=MyRealm): the name of the Http Realm
    @forms
      @loginpage (default=login): the login page controller
-     @cookienam (default=__AUTHCOOKIE): the name of the authentication cookie
+     @cookiename (default=__AUTHCOOKIE): the name of the authentication cookie
      @secret: specifies the secret when setting auth cookies
    @credentials
      @user
