@@ -28,69 +28,28 @@
 		 * handle get requests
 		 * @return void
 		 */
-		abstract public function get(array $args);
+		public function get(array $args) {return null;}
 
 
 		/**
 		 * handle post requests
 		 * @return void
 		 */
-		abstract public function post(array $args);
+		public function post(array $args) {return null;}
 
 
 		/**
 		 * handle put requests
 		 * @return void
 		 */
-		abstract public function put(array $args);
+		public function put(array $args) {return null;}
 
 
 		/**
 		 * handle delete requests
 		 * @return void
 		 */
-		abstract public function delete(array $args);
-
-
-		/**
-		 * gets object property
-		 *
-		 * @param  string	$field		name of field
-		 * @return string				string of variables
-		 * @ignore
-		 */
-		public function __get( $field )
-		{
-			if( $field === 'encoding' )
-			{
-				return $this->encoding;
-			}
-			else
-			{
-				return parent::__get( $field );
-			}
-		}
-
-
-		/**
-		 * sets an object property
-		 *
-		 * @param  string	$field		name of the field
-		 * @param  mixed	$value		value of the field
-		 * @return bool					true on success
-		 * @ignore
-		 */
-		public function __set( $field, $value )
-		{
-			if( $field === 'encoding' )
-			{
-				$this->encoding = (string)$value;
-			}
-			else
-			{
-				return parent::__set( $field, $value );
-			}
-		}
+		public function delete(array $args) {return null;}
 
 
 		/**
