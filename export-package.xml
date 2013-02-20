@@ -9,7 +9,7 @@
 	<property name="build.zip.exension"			value="6_4" />
 	<property name="build.revision.number"			value="15" />
 	<property name="authors"				value="darnell.shinbine" />
-	<property name="exclude"				value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, nbproject/**" />
+	<property name="exclude"				value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, default.local.properties, README.md, nbproject/**" />
 	<property name="plugins.path"				value="${test.path}/app/plugins" />
 
 	<property name="output.archive"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}" />
@@ -32,7 +32,6 @@
 	<exclude name="default.local.properties" />
 	<exclude name="README.md" />
 	<exclude name="local.properties" />
-	<exclude name="application.xml" />
 	</patternset>
 
 	<target name="build.package" description="Build package and update source files">
@@ -143,21 +142,25 @@
 		<antcall target="_export.package">
 			<param name="dest" value="${output.current_release}" />
 			<param name="src" value="." />
+			<param name="excludes" value="${exclude}" />
 		</antcall>
 
 		<antcall target="_export.package">
 			<param name="dest" value="${output.archive}" />
 			<param name="src" value="." />
+			<param name="excludes" value="${exclude}, app/config/application.xml, app/config/dev.xml, app/config/langs.xml, public/.htaccess, public/index.php, public/themes/**" />
 		</antcall>
 
 		<antcall target="_export.package">
 			<param name="dest" value="${output.hello_world}" />
 			<param name="src" value="${hello_world.path}" />
+			<param name="excludes" value="${exclude}" />
 		</antcall>
 
 		<antcall target="_export.package">
 			<param name="dest" value="${output.blog}" />
 			<param name="src" value="${blog.path}" />
+			<param name="excludes" value="${exclude}" />
 		</antcall>
 
 		<!-- export plugins -->
@@ -220,6 +223,7 @@
 		<antcall target="_export.package">
 			<param name="dest" value="${output.plugins}/${plugin}" />
 			<param name="src" value="${plugins.path}/${plugin}" />
+			<param name="excludes" value="${exclude}" />
 		</antcall>
 
 	</target>
@@ -231,11 +235,11 @@
 		<delete            file = "${dest}.tar" />
 		<tar           destfile = "${dest}.tar"
                         basedir = "${src}"
-                       excludes = "${exclude}" />
+                       excludes = "${excludes}" />
 		<delete            file = "${dest}.zip" />
 		<zip           destfile = "${dest}.zip"
                         basedir = "${src}"
-                       excludes = "${exclude}" />
+                       excludes = "${excludes}" />
 	</target>
 
 </project>
