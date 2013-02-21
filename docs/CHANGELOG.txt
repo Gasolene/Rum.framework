@@ -9,6 +9,7 @@ version 6.4.16-beta - 02.21.13
 	- fixed security exploit in FormsAuthentication where not using a timestamp to seed the secret
 	- fixed security exploit where session not timing out
 	- changed WebServiceAuthentication is now stateless, (use FormsAuthentication for SOAP web services)
+	- fixed bug in TableCredential when updating source where table source contains more than one table
 
 version 6.4.15-beta - 02.19.13
 	- added command line package manager "get" (beta)

@@ -138,16 +138,19 @@
 			{
 				if($ds[$this->credential['attemptwindowexpires-field']] < time()) {
 					// Reset failed count as attempt window has reset
-					$ds[$this->credential['failedattemptcount-field']] = 1;
-					$ds[$this->credential['attemptwindowexpires-field']] = time() + \System\Web\WebApplicationBase::getInstance()->config->authenticationAttemtpWindow;
+					$ds->dataAdapter->queryBuilder()
+							->update($ds->table)
+							->setColumns($ds->table, array($this->credential['failedattemptcount-field'],$this->credential['attemptwindowexpires-field']),
+									array(1,time() + \System\Web\WebApplicationBase::getInstance()->config->authenticationAttemtpWindow))
+							->runQuery();
 				}
 				else {
 					// Increment failed count
-					$ds[$this->credential['failedattemptcount-field']] = $ds[$this->credential['failedattemptcount-field']] + 1;
+					$ds->dataAdapter->queryBuilder()
+							->update($ds->table)
+							->set($ds->table, $this->credential['failedattemptcount-field'],1)
+							->runQuery();
 				}
-
-				// Store failed count with user
-				$ds->update();
 			}
 		}
 	}
