@@ -315,7 +315,7 @@
 			$response = new \System\Web\HTTPResponse(); // start output buffer
 
 			// check if error code is mapped to controller
-			if( !isset( $this->config->errors[$statuscode] ) || $this->requestHandler instanceof Services\WebServiceBase )
+			if( !isset( $this->config->errors[$statuscode] ) || false === strpos($_SERVER["HTTP_ACCEPT"], 'text/html'))
 			{
 				$response->statusCode = $statuscode;
 			}
