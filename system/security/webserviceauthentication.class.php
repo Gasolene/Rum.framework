@@ -43,14 +43,15 @@
 		 * 
 		 * @param   string	$uid		unique value representing user
 		 * @param   string	$secret		secret
+		 * @param   int     $expires	time in seconds until token expires
 		 * @return void
 		 */
-		public static function authenticateSecret($uid, $secret)
+		public static function authenticateSecret($uid, $secret, $expires = 0)
 		{
 			$timestamp = substr($secret, 40);
 			$hash = substr($secret, 0, 40);
 			$salt = $_SERVER["REMOTE_ADDR"].$uid.$timestamp;
-			if( 0 === \System\Base\ApplicationBase::getInstance()->config->sessionTimeout || $timestamp + \System\Base\ApplicationBase::getInstance()->config->sessionTimeout > time() )
+			if( 0 === $expires || $timestamp + $expires > time() )
 			{
 				if( $hash === Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt ))
 				{
