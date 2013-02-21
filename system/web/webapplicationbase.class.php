@@ -315,7 +315,11 @@
 			$response = new \System\Web\HTTPResponse(); // start output buffer
 
 			// check if error code is mapped to controller
-			if( isset( $this->config->errors[$statuscode] ))
+			if( !isset( $this->config->errors[$statuscode] ) || $this->requestHandler instanceof Services\WebServiceBase )
+			{
+				$response->statusCode = $statuscode;
+			}
+			else
 			{
 				$page = $this->config->errors[$statuscode];
 
@@ -323,10 +327,6 @@
 
 				// Render View
 				$requestHandler->getView( $this->request )->render();
-			}
-			else
-			{
-				$response->statusCode = $statuscode;
 			}
 
 			\System\Web\HTTPResponse::end(); // flush and end output buffer
@@ -494,9 +494,6 @@
 
 			// Handle Request Params
 			$this->handleRequestParams(new \System\Web\HTTPRequest());
-
-			// set session timeout directive
-			ini_set( 'session.cookie_lifetime', $this->config->sessionTimeout );
 
 			// Load Application State
 			$this->loadApplicationState();
@@ -890,6 +887,9 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 		 */
 		private function startSession()
 		{
+			// set session timeout directive
+			ini_set( 'session.gc_maxlifetime', $this->config->sessionTimeout );
+
 			if( ApplicationBase::getInstance()->config->cookielessSession )
 			{
 				if( isset( HTTPRequest::$post['PHPSESSID'] ))
@@ -910,6 +910,21 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 			else
 			{
 				$this->session->start();
+			}
+
+			if( $this->config->sessionTimeout > 0 )
+			{
+				if(!isset($this->session[$this->applicationId.'_timeout']))
+				{
+					$this->session[$this->applicationId.'_timeout'] = time() + $this->config->sessionTimeout;
+				}
+				else
+				{
+					if($this->session[$this->applicationId.'_timeout'] < time())
+					{
+						$this->session->destroy();
+					}
+				}
 			}
 		}
 

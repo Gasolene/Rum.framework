@@ -3,7 +3,14 @@ Change log
 
 1. Version History
 
-version 6.4.15-beta - 02.20.13
+version 6.4.16-beta - 02.21.13
+	- fixed security exploit in FormsAuthentication where sending cookies without encrypting
+	- fixed security exploit in FormsAuthentication where not unsetting the session secret during signout
+	- fixed security exploit in FormsAuthentication where not using a timestamp to seed the secret
+	- fixed security exploit where session not timing out
+	- changed WebServiceAuthentication is now stateless, (use FormsAuthentication for SOAP web services)
+
+version 6.4.15-beta - 02.19.13
 	- added command line package manager "get" (beta)
 	- fixed bug in model make script when not reporting correct error message if table doesn't exist
 	- changed make script no longer needs /app/config/make/config.php

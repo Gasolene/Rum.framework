@@ -26,7 +26,11 @@
 		{
 			if( FormsAuthentication::isAuthCookieSet() )
 			{
-				return FormsAuthentication::authenticateSecret( FormsAuthentication::getAuthCookie(), FormsAuthentication::getAuthSecret() );
+				if( FormsAuthentication::authenticateSecret( FormsAuthentication::getAuthCookie(), FormsAuthentication::getAuthSecret() ))
+				{
+					Authentication::$identity = FormsAuthentication::getAuthCookie();
+					return true;
+				}
 			}
 			return false;
 		}
@@ -86,15 +90,12 @@
 		 * @param   string	$secret		secret
 		 * @return void
 		 */
-		public static function authenticateSecret($uid, $secret)
+		protected static function authenticateSecret($uid, $secret)
 		{
-			$salt = $_SERVER["REMOTE_ADDR"].$uid;
-			if( $secret === Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt ))
-			{
-				Authentication::$identity = FormsAuthentication::getAuthCookie();
-				return true;
-			}
-			return false;
+			$timestamp = substr($secret, 40);
+			$hash = substr($secret, 0, 40);
+			$salt = $_SERVER["REMOTE_ADDR"].$uid.$timestamp;
+			return( $hash === Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt ));
 		}
 
 
@@ -107,15 +108,16 @@
 		 *
 		 * @return  void
 		 */
-		public static function setAuthCookie( $uid, $permanent = false, $expires = 31536000 )
+		public static function setAuthCookie( $uid, $permanent = false, $expires = 31536000, $ssl = false )
 		{
-			$salt = $_SERVER["REMOTE_ADDR"].$uid;
-			$secret = Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt);
+			$timestamp = time();
+			$salt = $_SERVER["REMOTE_ADDR"].$uid.$timestamp;
+			$secret = Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt) . $timestamp;
 
 			if( $permanent )
 			{
-				\System\Web\HTTPResponse::setCookie(\System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName, $uid, time() + $expires, \System\Web\WebApplicationBase::getInstance()->config->uri );
-				\System\Web\HTTPResponse::setCookie(\System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret', $secret, time() + $expires, \System\Web\WebApplicationBase::getInstance()->config->uri );
+				\System\Web\HTTPResponse::setCookie(\System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName, $uid, time() + $expires, \System\Web\WebApplicationBase::getInstance()->config->uri, null, $ssl );
+				\System\Web\HTTPResponse::setCookie(\System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret', $secret, time() + $expires, \System\Web\WebApplicationBase::getInstance()->config->uri, null, $ssl );
 			}
 			else
 			{
@@ -202,6 +204,7 @@
 			if( isset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName] ))
 			{
 				unset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName] );
+				unset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret'] );
 			}
 
 			setcookie( \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName, '', time()-31536000, \System\Base\ApplicationBase::getInstance()->config->uri );
