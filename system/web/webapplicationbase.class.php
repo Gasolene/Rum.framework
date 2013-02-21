@@ -914,17 +914,15 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 
 			if( $this->config->sessionTimeout > 0 )
 			{
-				if(!isset($this->session[$this->applicationId.'_timeout']))
-				{
-					$this->session[$this->applicationId.'_timeout'] = time() + $this->config->sessionTimeout;
-				}
-				else
+				if(isset($this->session[$this->applicationId.'_timeout']))
 				{
 					if($this->session[$this->applicationId.'_timeout'] < time())
 					{
 						$this->session->destroy();
 					}
 				}
+
+				$this->session[$this->applicationId.'_timeout'] = time() + $this->config->sessionTimeout;
 			}
 		}
 
