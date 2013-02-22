@@ -64,27 +64,24 @@
 		 */
 		public function put( $id, $value, $expires = 0 )
 		{
-			if(file_exists(__CACHE_PATH__))
-			{
-				$file = $this->getPath( (string)$id );
-				$value = time() + (int)$expires . "\n" . \serialize( $value );
+			$file = $this->getPath( (string)$id );
+			$value = time() + (int)$expires . "\n" . \serialize( $value );
 
-				$fp = @fopen( $file, 'wb+' );
-				if( $fp )
+			$fp = @fopen( $file, 'wb+' );
+			if( $fp )
+			{
+				if( fwrite( $fp, $value, strlen( $value )) !== false )
 				{
-					if( fwrite( $fp, $value, strlen( $value )) !== false )
-					{
-						fclose( $fp );
-					}
-					else
-					{
-						throw new CacheException("Could not write to cache file {$file}");
-					}
+					fclose( $fp );
+				}
+				else
+				{
+					throw new \System\Utils\FileNotWritableException("Could not write to log file `{$file}`, check that directory " . __CACHE_PATH__ . " is writable");
 				}
 			}
 			else
 			{
-				mkdir(__CACHE_PATH__);
+				throw new \System\Utils\DirectoryNotFoundException("Could not open file `{$file}` for output, check that directory " . __CACHE_PATH__ . " exists");
 			}
 		}
 

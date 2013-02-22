@@ -296,14 +296,17 @@
 			{
 				$autoLoaders = array();
 
-				$dir = opendir( __PLUGINS_PATH__ );
-				while(( $folder = readdir( $dir )) !== false )
+				$dir = @opendir( __PLUGINS_PATH__ );
+				if( $dir )
 				{
-					if( $folder != '.' && $folder != '..')
+					while(( $folder = readdir( $dir )) !== false )
 					{
-						if( file_exists( __PLUGINS_PATH__ . '/' . $folder . '/loader.php' ))
+						if( $folder != '.' && $folder != '..')
 						{
-							$autoLoaders[] = __PLUGINS_PATH__ . '/' . $folder . '/loader.php';
+							if( file_exists( __PLUGINS_PATH__ . '/' . $folder . '/loader.php' ))
+							{
+								$autoLoaders[] = __PLUGINS_PATH__ . '/' . $folder . '/loader.php';
+							}
 						}
 					}
 				}

@@ -119,12 +119,12 @@
 				}
 				else
 				{
-					throw new LoggerException("Could not write to log file `{$file}`");
+					throw new \System\Utils\FileNotWritableException("Could not write to log file `{$file}`, check that directory " . $this->path . " is writable");
 				}
 			}
 			else
 			{
-				throw new LoggerException("Could not open file `{$file}` for output");
+				throw new \System\Utils\DirectoryNotFoundException("Could not open file `{$file}` for output, check that directory " . $this->path . " exists");
 			}
 		}
 

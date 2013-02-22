@@ -12,6 +12,8 @@ version 6.4.16-beta - 02.21.13
 	- fixed bug in TableCredential when updating source where table source contains more than one table
 	- fixed bug in DBCache when creating cache table
 	- changed DBLogger and DBTranslator now set default table in constructor as default parameter
+	- fixed bug where missing plugins folder caused errors
+	- changed FileLogger, FileCache, and Build objects no longer create directories if not found
 
 version 6.4.15-beta - 02.19.13
 	- added command line package manager "get" (beta)
