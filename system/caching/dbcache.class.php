@@ -36,7 +36,7 @@
 		 * @param string $table table name
 		 * @param string $dsn database connection string
 		 */
-		public function __construct($table = '', $dsn = '')
+		public function __construct($table = __CACHE_TABLENAME__, $dsn = '')
 		{
 			if($table)
 			{
@@ -96,7 +96,7 @@
 						'table' => $this->table,
 						'type' => 'MEDIUMBLOB',
 						'notNull' => true,
-						'blog' => true)),
+						'blob' => true)),
 						new \System\DB\ColumnSchema(array(
 						'name' => 'expires',
 						'table' => $this->table,

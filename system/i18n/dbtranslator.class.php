@@ -36,7 +36,7 @@
 		 * @param string $table table name
 		 * @param string $dsn database connection string
 		 */
-		public function __construct($table = '', $dsn = '')
+		public function __construct($table = __LANGS_TABLENAME__, $dsn = '')
 		{
 			if($table)
 			{
