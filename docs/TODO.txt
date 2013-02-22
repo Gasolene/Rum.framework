@@ -1,9 +1,13 @@
 TODO
 ====
 
+	Mv /pub/assets into system?
+	Compress assets (one time manually?)
+
 	Integrate with JQuery
 	Reduce HTML output
-	Separate formsCookieName and WebServiceCookieName
+
+	Maybe:Compress themes using tool?
 
 Components (BOD)
 ==========

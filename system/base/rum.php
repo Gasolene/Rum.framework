@@ -24,20 +24,7 @@
 	/**
 	 * specifies the default timezone
 	 */
-	if( !defined( '__DEFAULT_TIMEZONE__' ))				define( '__DEFAULT_TIMEZONE__',		'Canada/Mountain' );
-	date_default_timezone_set( __DEFAULT_TIMEZONE__ );
-
-	// rem empty params redirected by the .htaccess file
-	if( isset( $_GET['id'] )) {
-		if( empty( $_GET['id'] )) {
-			unset( $_GET['id'] );
-		}
-	}
-	if( isset( $_GET['page'] )) {
-		if( empty( $_GET['page'] )) {
-			unset( $_GET['page'] );
-		}
-	}
+	date_default_timezone_set(date_default_timezone_get());
 
 	/*
 	 * auto detected env variables
@@ -53,36 +40,7 @@
 
 	// auto detect root path
 	if( !defined( '__ROOT__' )) {
-
-		// current folder
-		$current_dir = __HTDOCS_PATH__?__HTDOCS_PATH__:'.';
-
-		// search for system folder
-		while( $dir = opendir( $current_dir )) {
-			while( $file = readdir( $dir )) {
-				if( $file === 'system' ) {
-					define( '__ROOT__', $current_dir );
-					break 2;
-				}
-			}
-
-			// up one level
-			if( 0 === strpos( $current_dir, '.' )) {
-				// relative
-				$current_dir .= '/..';
-			}
-			elseif( false !== strpos( $current_dir, '/' )) {
-				// *nix
-				$current_dir = substr( $current_dir, 0, strrpos( $current_dir, '/' ));
-			}
-			else {
-				// winNT
-				$current_dir = substr( $current_dir, 0, strrpos( $current_dir, '\\' ));
-			}
-		}
-		if( !defined( '__ROOT__' )) {
-			throw new \Exception("Could not detect root path");
-		}
+		define( '__ROOT__', substr( __FILE__, 0, strlen( __FILE__ ) - 20 ));
 	}
 
 	$protocol = 'http';
@@ -151,11 +109,6 @@
 	 * specifies the environment parameter
 	 */
 	if( !defined( '__APP_CONF_FILENAME__' ))			define( '__APP_CONF_FILENAME__',			'/application.xml' );
-
-	/**
-	 * specifies the environment parameter
-	 */
-	if( !defined( '__ENV_CONF_FILENAME__' ))			define( '__ENV_CONF_FILENAME__',			'/environment.php' );
 
 	/**
 	 * specifies the environment parameter
