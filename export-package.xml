@@ -5,9 +5,9 @@
 
 	<!-- config -->
 	<property name="build.name"					value="Ice cube" />
-	<property name="build.version.number"		value="6.4" />
-	<property name="build.zip.exension"			value="6_4" />
-	<property name="build.revision.number"		value="17rc2" />
+	<property name="build.version.number"		value="6.5" />
+	<property name="build.zip.exension"			value="6_5" />
+	<property name="build.revision.number"		value="0-beta" />
 	<property name="authors"					value="darnell.shinbine" />
 	<property name="exclude"					value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, default.local.properties, README.md, nbproject/**" />
 	<property name="plugins.path"				value="${test.path}/app/plugins" />

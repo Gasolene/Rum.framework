@@ -41,7 +41,7 @@
 			print "<html lang=\"en\">\n<head>\n<title>$test_name</title>\n";
 			print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" .
 					$this->_character_set . "\">\n";
-			print "<link href=\"" . \System\Web\WebApplicationBase::getInstance()->config->assets . "/web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\">";
+			print "<link href=\"" . \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\">";
 			print "<style type=\"text/css\">\n";
 			print $this->_getCss() . "\n";
 			print "</style>\n";
