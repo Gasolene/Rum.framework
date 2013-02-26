@@ -20,12 +20,12 @@
 
 	<target name="export test" description="Export test">
 		<copy todir="${test.output}">
-			<fileset dir=".">
-				<patternset refid="package.include.files" />
+			<fileset dir="${test.path}">
 			</fileset>
 		</copy>
 		<copy todir="${test.output}">
-			<fileset dir="${test.path}">
+			<fileset dir=".">
+				<patternset refid="package.include.files" />
 			</fileset>
 		</copy>
 	</target>

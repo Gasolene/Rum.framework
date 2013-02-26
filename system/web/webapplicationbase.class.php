@@ -739,9 +739,9 @@
 <head>
 <title>Unhandled Exception: ".htmlentities($e->getMessage())."</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
-<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=/web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/debug.js\" type=\"text/javascript\"></script>
+<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/debug.js\" type=\"text/javascript\"></script>
 </head>
 <body>
 
@@ -993,16 +993,13 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 <head>
 <title>Building...</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
-<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-".(isset($request["nostyle"])?"":"<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />")."
-<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/debug.js\" type=\"text/javascript\"></script>
+<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+".(isset($request["nostyle"])?"":"<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />")."
+<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/js')) . "&asset=web/debug.js\" type=\"text/javascript\"></script>
 </head>
 <body>
 
-<div id=\"tl\">
-<div id=\"tr\">
-<div id=\"bl\">
-<div id=\"br\">
+<div id=\"page\">
 
 <h1>Building...</h1>
 
@@ -1031,9 +1028,6 @@ No building is needed or allowed in a production environment.</p>
 <p><strong>Framework Version:</strong> ".\System\Base\FRAMEWORK_VERSION_STRING."</p>
 </div>
 
-</div>
-</div>
-</div>
 </div>
 
 </body>
