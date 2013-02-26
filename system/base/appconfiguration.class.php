@@ -678,7 +678,7 @@
 						}
 						// authenticationRestrict
 						if( isset( $node_data['attributes']['RESTRICT'] )) {
-							$this->authenticationRestrict = (int)$node_data['attributes']['RESTRICT'];
+							$this->authenticationRestrict = $node_data['attributes']['RESTRICT'];
 						}
 						// authenticationMaxInvalidAttempts
 						if( isset( $node_data['attributes']['MAXINVALIDATTEMPTS'] )) {
@@ -952,7 +952,7 @@
 						}
 						// restrict
 						if( isset( $node_data['attributes']['RESTRICT'] )) {
-							$page["restrict"] = (int)$node_data['attributes']['RESTRICT'];
+							$page["restrict"] = $node_data['attributes']['RESTRICT'];
 						}
 						// requireSSL
 						if( isset( $node_data['attributes']['REQUIRESSL'] )) {

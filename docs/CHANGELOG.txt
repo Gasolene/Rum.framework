@@ -3,7 +3,13 @@ Change log
 
 1. Version History
 
-version 6.4.16-beta - 02.21.13
+version 6.4.17-rc2 - 02.25.13
+	- changed WebControlBase output to remove whitespace from HTML
+	- moved assets from the public folder, now served directly by the WebApplication
+	- changed asset install issue, no longer writes (installs) during runtime
+	- fixed bug in AppConfiguration where not reading the restrict property
+
+version 6.4.16-rc1 - 02.21.13
 	- fixed security exploit in FormsAuthentication where sending cookies without encrypting
 	- fixed security exploit in FormsAuthentication where not unsetting the session secret during signout
 	- fixed security exploit in FormsAuthentication where not using a timestamp to seed the secret

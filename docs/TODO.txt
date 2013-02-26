@@ -1,11 +1,11 @@
 TODO
 ====
 
-	Mv /pub/assets into system?
+	[Due in 6.5.0]
 	Compress assets (one time manually?)
-
-	Integrate with JQuery
 	Reduce HTML output
+	Clean PDO/MSSQL
+	Integrate with JQuery
 
 	Maybe:Compress themes using tool?
 

@@ -76,11 +76,11 @@
 		{
 			if($this->controlToValidate)
 			{
-				if( isset( $_FILES[$this->controlToValidate->getHTMLControlIdString()] ))
+				if( isset( $_FILES[$this->controlToValidate->getHTMLControlId()] ))
 				{
-					if( $_FILES[$this->controlToValidate->getHTMLControlIdString()]['size'] > 0 )
+					if( $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] > 0 )
 					{
-						if( array_search( $_FILES[$this->controlToValidate->getHTMLControlIdString()]['type'], $this->types ) === false )
+						if( array_search( $_FILES[$this->controlToValidate->getHTMLControlId()]['type'], $this->types ) === false )
 						{
 							return false;
 						}

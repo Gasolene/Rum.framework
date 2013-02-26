@@ -121,27 +121,27 @@
 				return;
 			}
 
-			if( isset( $httpRequest[$this->getHTMLControlIdString().'__month'] ) &&
-				isset( $httpRequest[$this->getHTMLControlIdString().'__day'] ) &&
-				isset( $httpRequest[$this->getHTMLControlIdString().'__year'] ))
+			if( isset( $httpRequest[$this->getHTMLControlId().'__month'] ) &&
+				isset( $httpRequest[$this->getHTMLControlId().'__day'] ) &&
+				isset( $httpRequest[$this->getHTMLControlId().'__year'] ))
 			{
 				$this->submitted = true;
 
-				if( isset( $httpRequest[$this->getHTMLControlIdString().'__null'] ) || !$this->allowNull )
+				if( isset( $httpRequest[$this->getHTMLControlId().'__null'] ) || !$this->allowNull )
 				{
-					if( $this->value != $httpRequest[$this->getHTMLControlIdString().'__year'] . '-' .
-							$httpRequest[$this->getHTMLControlIdString().'__month'] . '-' .
-							$httpRequest[$this->getHTMLControlIdString().'__day'] ) {
+					if( $this->value != $httpRequest[$this->getHTMLControlId().'__year'] . '-' .
+							$httpRequest[$this->getHTMLControlId().'__month'] . '-' .
+							$httpRequest[$this->getHTMLControlId().'__day'] ) {
 						$this->changed = true;
 					}
 
-					$this->value = $httpRequest[$this->getHTMLControlIdString().'__year'] . '-' .
-						$httpRequest[$this->getHTMLControlIdString().'__month'] . '-' .
-						$httpRequest[$this->getHTMLControlIdString().'__day'];
+					$this->value = $httpRequest[$this->getHTMLControlId().'__year'] . '-' .
+						$httpRequest[$this->getHTMLControlId().'__month'] . '-' .
+						$httpRequest[$this->getHTMLControlId().'__day'];
 
-					if( isset( $httpRequest[$this->getHTMLControlIdString().'__null'] ))
+					if( isset( $httpRequest[$this->getHTMLControlId().'__null'] ))
 					{
-						unset( $httpRequest[$this->getHTMLControlIdString().'__null'] );
+						unset( $httpRequest[$this->getHTMLControlId().'__null'] );
 					}
 				}
 				else
@@ -153,9 +153,9 @@
 					$this->value = null; // bug fix: changed to null
 				}
 
-				unset( $httpRequest[$this->getHTMLControlIdString().'__month'] );
-				unset( $httpRequest[$this->getHTMLControlIdString().'__day'] );
-				unset( $httpRequest[$this->getHTMLControlIdString().'__year'] );
+				unset( $httpRequest[$this->getHTMLControlId().'__month'] );
+				unset( $httpRequest[$this->getHTMLControlId().'__day'] );
+				unset( $httpRequest[$this->getHTMLControlId().'__year'] );
 			}
 
 			parent::onRequest($httpRequest);
@@ -171,7 +171,7 @@
 		{
 			parent::onLoad();
 
-			$this->defaultHTMLControlId = $this->getHTMLControlIdString().'__month';
+			$this->defaultHTMLControlId = $this->getHTMLControlId().'__month';
 		}
 
 
@@ -194,8 +194,8 @@
 			$null = new \System\XML\DomObject( 'input' );
 
 			$null->setAttribute( 'type', 'checkbox' );
-			$null->setAttribute( 'name', $this->getHTMLControlIdString() . '__null' );
-			$null->setAttribute( 'id', $this->getHTMLControlIdString() . '__null' );
+			$null->setAttribute( 'name', $this->getHTMLControlId() . '__null' );
+			$null->setAttribute( 'id', $this->getHTMLControlId() . '__null' );
 
 			if( $this->value )
 			{
@@ -207,13 +207,13 @@
 			$select_year->setAttribute( 'class', 'dateselector_year' );
 			$null->setAttribute( 'class', 'dateselector_null' );
 
-			$select_day->setAttribute( 'name', $this->getHTMLControlIdString() . '__day' );
-			$select_month->setAttribute( 'name', $this->getHTMLControlIdString() . '__month' );
-			$select_year->setAttribute( 'name', $this->getHTMLControlIdString() . '__year' );
+			$select_day->setAttribute( 'name', $this->getHTMLControlId() . '__day' );
+			$select_month->setAttribute( 'name', $this->getHTMLControlId() . '__month' );
+			$select_year->setAttribute( 'name', $this->getHTMLControlId() . '__year' );
 
-			$select_day->setAttribute( 'id', $this->getHTMLControlIdString() . '__day' );
-			$select_month->setAttribute( 'id', $this->getHTMLControlIdString() . '__month' );
-			$select_year->setAttribute( 'id', $this->getHTMLControlIdString() . '__year' );
+			$select_day->setAttribute( 'id', $this->getHTMLControlId() . '__day' );
+			$select_month->setAttribute( 'id', $this->getHTMLControlId() . '__month' );
+			$select_year->setAttribute( 'id', $this->getHTMLControlId() . '__year' );
 
 			$select_month->setAttribute( 'tabIndex', $this->tabIndex++ );
 			$select_day->setAttribute( 'tabIndex', $this->tabIndex++ );
@@ -224,25 +224,25 @@
 			$value=$this->value?strtotime($this->value)?$this->value:date('m/d/y', time()):date('m/d/y', time());
 
 			// auto set on date
-			$select_day->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlIdString() . '__null\').checked = true;' );
-			$select_month->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlIdString() . '__null\').checked = true;' );
-			$select_year->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlIdString() . '__null\').checked = true;' );
+			$select_day->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+			$select_month->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+			$select_year->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
 
 			// set onchange attribute
 			if( $this->autoPostBack )
 			{
-				$select_day->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlIdString() . '__null\').checked = true; submit();' );
-				$select_month->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlIdString() . '__null\').checked = true; submit();' );
-				$select_year->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlIdString() . '__null\').checked = true; submit();' );
-				$null->setAttribute( 'onchange', 'document.getElementById(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlIdString().'\').submit();' );
+				$select_day->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true; submit();' );
+				$select_month->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true; submit();' );
+				$select_year->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true; submit();' );
+				$null->setAttribute( 'onchange', 'document.getElementById(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
 			if( $this->ajaxPostBack )
 			{
-				$select_day->appendAttribute( 'onchange', $this->ajaxHTTPRequest .   ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'__post=1&'.$this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
-				$select_month->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'__post=1&'.$this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
-				$select_year->appendAttribute( 'onchange', $this->ajaxHTTPRequest .  ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'__post=1&'.$this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
-				$null->appendAttribute( 'onchange', $this->ajaxHTTPRequest .         ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'__post=1&'.$this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$select_day->appendAttribute( 'onchange', $this->ajaxHTTPRequest .   ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__post=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$select_month->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__post=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$select_year->appendAttribute( 'onchange', $this->ajaxHTTPRequest .  ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__post=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$null->appendAttribute( 'onchange', $this->ajaxHTTPRequest .         ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__post=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
 			}
 
 			// set invalid class

@@ -373,7 +373,7 @@
 				$this->validate($errMsg);
 			}
 
-			return "<span id=\"{$this->getHTMLControlIdString()}__err\" class=\"err_msg\" style=\"".(!$errMsg?'display:none;':'')."\"><span>{$errMsg}</span></span>";
+			return "<span id=\"{$this->getHTMLControlId()}__err\" class=\"err_msg\" style=\"".(!$errMsg?'display:none;':'')."\"><span>{$errMsg}</span></span>";
 		}
 
 
@@ -429,8 +429,8 @@
 		protected function getInputDomObject()
 		{
 			$input = $this->createDomObject( 'input' );
-			$input->setAttribute( 'name', $this->getHTMLControlIdString() );
-			$input->setAttribute( 'id', $this->getHTMLControlIdString() );
+			$input->setAttribute( 'name', $this->getHTMLControlId() );
+			$input->setAttribute( 'id', $this->getHTMLControlId() );
 			$input->setAttribute( 'title', $this->tooltip );
 
 			if( $this->submitted && !$this->validate() )
@@ -440,20 +440,20 @@
 
 			if( $this->autoPostBack )
 			{
-				$input->appendAttribute( 'onchange', 'document.getElementById(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlIdString().'\').submit();' );
+				$input->appendAttribute( 'onchange', 'document.getElementById(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
 			if( $this->ajaxPostBack )
 			{
-				$input->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$input->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
 			}
 
 			if( $this->ajaxValidation )
 			{
 				$input->appendAttribute( 'onfocus', 'PHPRum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');' );
-				$input->appendAttribute( 'onchange', $this->ajaxHTTPRequest .                                     ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'__validate=1&'.$this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
-				$input->appendAttribute( 'onkeyup',  'if(PHPRum.isValidationReady() && PHPRum.hasText(document.getElementById(\''.$this->getHTMLControlIdString().'__err\'))){' . $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'__validate=1&'.$this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); PHPRum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');}' );
-				$input->appendAttribute( 'onblur',  $this->ajaxHTTPRequest .                                      ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'__validate=1&'.$this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); PHPRum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');' );
+				$input->appendAttribute( 'onchange', $this->ajaxHTTPRequest .                                     ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$input->appendAttribute( 'onkeyup',  'if(PHPRum.isValidationReady() && PHPRum.hasText(document.getElementById(\''.$this->getHTMLControlId().'__err\'))){' . $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); PHPRum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');}' );
+				$input->appendAttribute( 'onblur',  $this->ajaxHTTPRequest .                                      ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); PHPRum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');' );
 			}
 
 			if( $this->readonly )
@@ -515,7 +515,7 @@
 		 */
 		protected function onInit()
 		{
-			$this->defaultHTMLControlId = $this->getHTMLControlIdString();
+			$this->defaultHTMLControlId = $this->getHTMLControlId();
 		}
 
 
@@ -544,27 +544,27 @@
 				{
 					$this->submitted = true;
 				}
-				elseif( isset( $request[$this->getHTMLControlIdString()] ))
+				elseif( isset( $request[$this->getHTMLControlId()] ))
 				{
 					// submitted
 					$this->submitted = true;
 
 					// changed
-					if( $this->value != $request[$this->getHTMLControlIdString()] )
+					if( $this->value != $request[$this->getHTMLControlId()] )
 					{
 						$this->changed = true;
 					}
 
 					// setvalue
-					$this->value = $request[$this->getHTMLControlIdString()];
-					unset( $request[$this->getHTMLControlIdString()] );
+					$this->value = $request[$this->getHTMLControlId()];
+					unset( $request[$this->getHTMLControlId()] );
 				}
 			}
 
 			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted )
 			{
 				$this->validate($errMsg);
-				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("if(document.getElementById('{$this->getHTMLControlIdString()}__err')){PHPRum.setText(document.getElementById('{$this->getHTMLControlIdString()}__err'), '".\addslashes($errMsg)."')}");
+				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("if(document.getElementById('{$this->getHTMLControlId()}__err')){PHPRum.setText(document.getElementById('{$this->getHTMLControlId()}__err'), '".\addslashes($errMsg)."')}");
 			}
 		}
 
@@ -621,7 +621,7 @@
 		 */
 		protected function onUpdateAjax()
 		{
-			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$this->getHTMLControlIdString()}').value='$this->value';");
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$this->getHTMLControlId()}').value='$this->value';");
 		}
 	}
 ?>

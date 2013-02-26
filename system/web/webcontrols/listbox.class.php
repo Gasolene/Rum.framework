@@ -75,20 +75,20 @@
 		public function getDomObject()
 		{
 			$select = $this->createDomObject( 'select' );
-			$select->setAttribute( 'id', $this->getHTMLControlIdString());
+			$select->setAttribute( 'id', $this->getHTMLControlId());
 			$select->setAttribute( 'title', $this->tooltip );
 			$select->appendAttribute( 'class', ' listbox' );
 			$select->setAttribute( 'size', $this->listSize );
-			$select->appendAttribute( 'onchange', 'if(document.getElementById(\''.$this->getHTMLControlIdString().'_err\')){document.getElementById(\''.$this->getHTMLControlIdString().'_err\').style.display = \'none\';this.className = this.className.replace(\'invalid\', \'\');}' );
+			$select->appendAttribute( 'onchange', 'if(document.getElementById(\''.$this->getHTMLControlId().'_err\')){document.getElementById(\''.$this->getHTMLControlId().'_err\').style.display = \'none\';this.className = this.className.replace(\'invalid\', \'\');}' );
 
 			if( $this->multiple )
 			{
 				$select->setAttribute( 'multiple', 'multiple' );
-				$select->setAttribute( 'name', $this->getHTMLControlIdString() .'[]' );
+				$select->setAttribute( 'name', $this->getHTMLControlId() .'[]' );
 			}
 			else
 			{
-				$select->setAttribute( 'name', $this->getHTMLControlIdString());
+				$select->setAttribute( 'name', $this->getHTMLControlId());
 			}
 
 			if( $this->submitted && !$this->validate() )
@@ -98,12 +98,12 @@
 
 			if( $this->autoPostBack )
 			{
-				$select->appendAttribute( 'onchange', 'document.getElementById(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlIdString().'\').submit();' );
+				$select->appendAttribute( 'onchange', 'document.getElementById(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
 			if( $this->ajaxPostBack )
 			{
-				$select->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'__post=1&'.$this->getHTMLControlIdString().'__validate=1&'.$this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$select->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__post=1&'.$this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
 			}
 
 			if( $this->readonly )
@@ -161,10 +161,10 @@
 		 */
 		protected function onUpdateAjax()
 		{
-			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$this->getHTMLControlIdString()}').length=0;");
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$this->getHTMLControlId()}').length=0;");
 			foreach($this->items as $key=>$value)
 			{
-				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$this->getHTMLControlIdString()}').options.add(new Option('{$key}', '{$value}'));");
+				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$this->getHTMLControlId()}').options.add(new Option('{$key}', '{$value}'));");
 			}
 		}
 	}

@@ -312,7 +312,7 @@
         {
 			parent::onInit();
 
-			$this->addScript( \System\Web\WebApplicationBase::getInstance()->config->assets . '/page/page.js' );
+			$this->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/page/page.js' );
 			$this->onload .= 'PHPRum.asyncParameter = \''.__ASYNC_REQUEST_PARAMETER__.'\';';
         }
 

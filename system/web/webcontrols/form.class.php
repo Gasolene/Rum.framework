@@ -494,7 +494,7 @@
 		{
 			$form = $this->createDomObject( 'form' );
 
-			$form->setAttribute( 'id', $this->getHTMLControlIdString() );
+			$form->setAttribute( 'id', $this->getHTMLControlId() );
 			$form->setAttribute( 'action', $this->action );
 			$form->setAttribute( 'method', strtolower( $this->method ));
 			$form->setAttribute( 'enctype', $this->encodeType );
@@ -506,10 +506,12 @@
 			}
 
 			// public to check if form has been submitted
-			$this->parameters[$this->getHTMLControlIdString() . '__submit'] = '1';
+			$this->parameters[$this->getHTMLControlId() . '__submit'] = '1';
 
 			// send session id as http var
-			$this->parameters['PHPSESSID'] = session_id();
+			if( \System\Web\WebApplicationBase::getInstance()->config->cookielessSession ) {
+				$this->parameters['PHPSESSID'] = session_id();
+			}
 
 			// get current variables
 			$vars = array_keys( \System\Web\HTTPRequest::$request );
@@ -523,7 +525,7 @@
 					$obj = $this->controls->itemAt($y);
 
 					// if request public = object name, unset found flag
-					if( $obj->getHTMLControlIdString() === $vars[$x] )
+					if( $obj->getHTMLControlId() === $vars[$x] )
 					{
 						// found instance
 						$b=false;
@@ -531,7 +533,7 @@
 				}
 
 				// if not found in object
-				if( $b && $vars[$x] != $this->getHTMLControlIdString() )
+				if( $b && $vars[$x] != $this->getHTMLControlId() )
 				{
 					$this->parameters[$vars[$x]] = \System\Web\HTTPRequest::$request[$vars[$x]];
 				}
@@ -586,11 +588,11 @@
 			parent::onLoad();
 
 			$page = $this->getParentByType('\System\Web\WebControls\Page');
-			$page->addScript( \System\Web\WebApplicationBase::getInstance()->config->assets . '/form/form.js' );
+			$page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/form/form.js' );
 
 			if($this->hiddenField)
 			{
-				$page->addLink( \System\Web\WebApplicationBase::getInstance()->config->assets . '/form/form.css' );
+				$page->addLink( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . '&asset=/form/form.css' );
 			}
 
 			// perform ajax request
@@ -609,7 +611,7 @@
 		 */
 		protected function onRequest( array &$request )
 		{
-			if( isset( $request[ $this->getHTMLControlIdString() . '__submit'] ))
+			if( isset( $request[ $this->getHTMLControlId() . '__submit'] ))
 			{
 				if( $this->hiddenField )
 				{
@@ -627,7 +629,7 @@
 					$this->submitted = true;
 				}
 
-				unset( $request[ $this->getHTMLControlIdString() . '__submit'] );
+				unset( $request[ $this->getHTMLControlId() . '__submit'] );
 			}
 			elseif( $this->autoFocus && isset( $this->controls[0] ))
 			{
@@ -650,7 +652,7 @@
 						{
 							if( $childControl->focus )
 							{
-								$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$childControl->getHTMLControlIdString()}').focus()");
+								$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$childControl->getHTMLControlId()}').focus()");
 								break;
 							}
 						}

@@ -101,7 +101,7 @@
 		public function getDomObject()
 		{
 			$fieldset = new \System\XML\DomObject( 'fieldset' );
-			$fieldset->setAttribute( 'id', $this->getHTMLControlIdString() );
+			$fieldset->setAttribute( 'id', $this->getHTMLControlId() );
 			$fieldset->appendAttribute( 'class', ' radiobuttonlist' );
 
 			if( !$this->visible )
@@ -112,7 +112,7 @@
 			for( $i = 0, $count = $this->items->count; $i < $count; $i++ )
 			{
 				$input = $this->createDomObject( 'input' );
-				$input->setAttribute( 'id', $this->getHTMLControlIdString() . '__' . $i );
+				$input->setAttribute( 'id', $this->getHTMLControlId() . '__' . $i );
 				$input->setAttribute( 'class', 'radiobuttonlist_input' );
 				$input->setAttribute( 'value', $this->items->itemAt( $i ));
 				$input->setAttribute( 'title', $this->tooltip );
@@ -124,12 +124,12 @@
 
 				if( $this->autoPostBack )
 				{
-					$input->appendAttribute( 'onclick', 'document.getElementById(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlIdString().'\').submit();' );
+					$input->appendAttribute( 'onclick', 'document.getElementById(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 				}
 
 				if( $this->ajaxPostBack )
 				{
-					$input->appendAttribute( 'onclick', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlIdString().'__post=1&'.$this->getHTMLControlIdString().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+					$input->appendAttribute( 'onclick', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__post=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
 				}
 
 				if( $this->readonly )
@@ -145,7 +145,7 @@
 				if( $this->multiple )
 				{
 					$input->setAttribute( 'type', 'checkbox' );
-					$input->setAttribute( 'name', $this->getHTMLControlIdString() .'[]' );
+					$input->setAttribute( 'name', $this->getHTMLControlId() .'[]' );
 
 					if( in_array( $this->items->itemAt( $i ), $this->value, false ))
 					{
@@ -155,7 +155,7 @@
 				else
 				{
 					$input->setAttribute( 'type', 'radio' );
-					$input->setAttribute( 'name', $this->getHTMLControlIdString() );
+					$input->setAttribute( 'name', $this->getHTMLControlId() );
 
 					if( $this->value === $this->items->itemAt( $i ))
 					{
@@ -187,7 +187,7 @@
 
 			if( $this->items->count > 0 )
 			{
-				$this->defaultHTMLControlId = $this->getHTMLControlIdString() . "__0";
+				$this->defaultHTMLControlId = $this->getHTMLControlId() . "__0";
 			}
 		}
 	}

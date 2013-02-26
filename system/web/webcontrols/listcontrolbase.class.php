@@ -214,7 +214,7 @@
 		{
 			parent::onLoad();
 
-			$this->getParentByType( '\System\Web\WebControls\Form' )->addParameter( $this->getHTMLControlIdString() . '__post', '1' );
+			$this->getParentByType( '\System\Web\WebControls\Form' )->addParameter( $this->getHTMLControlId() . '__post', '1' );
 		}
 
 
@@ -231,19 +231,19 @@
 				{
 					$this->submitted = true;
 				}
-				elseif( isset( $request[$this->getHTMLControlIdString() . '__post'] ))
+				elseif( isset( $request[$this->getHTMLControlId() . '__post'] ))
 				{
 					$this->submitted = true;
 
-					if( isset( $request[$this->getHTMLControlIdString()] ))
+					if( isset( $request[$this->getHTMLControlId()] ))
 					{
-						if( $this->value != $request[$this->getHTMLControlIdString()] )
+						if( $this->value != $request[$this->getHTMLControlId()] )
 						{
 							$this->changed = true;
 						}
 
-						$this->value = $request[$this->getHTMLControlIdString()];
-						unset( $request[$this->getHTMLControlIdString()] );
+						$this->value = $request[$this->getHTMLControlId()];
+						unset( $request[$this->getHTMLControlId()] );
 					}
 					else
 					{
@@ -255,7 +255,7 @@
 						$this->value = null;
 					}
 
-					unset( $request[$this->getHTMLControlIdString() . '__post'] );
+					unset( $request[$this->getHTMLControlId() . '__post'] );
 				}
 
 				if( !$this->value && $this->multiple )
@@ -271,7 +271,7 @@
 			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted)
 			{
 				$this->validate($errMsg);
-				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("if(document.getElementById('{$this->getHTMLControlIdString()}__err')){PHPRum.setText(document.getElementById('{$this->getHTMLControlIdString()}__err'), '".\addslashes($errMsg)."')}");
+				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("if(document.getElementById('{$this->getHTMLControlId()}__err')){PHPRum.setText(document.getElementById('{$this->getHTMLControlId()}__err'), '".\addslashes($errMsg)."')}");
 			}
 		}
 	}

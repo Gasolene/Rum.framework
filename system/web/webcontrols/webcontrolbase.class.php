@@ -552,7 +552,7 @@
 		{
 			if( $this->_parent )
 			{
-				return $this->_parent->getParentString() . $this->_parent->controlId . '_';
+				return $this->_parent->getParentString() . substr($this->_parent->controlId,0,2) . '_';
 			}
 			else
 			{
@@ -761,10 +761,12 @@
 		 * creates controlId string for html
 		 *
 		 * @return string	html id string
+		 * @deprecated since version number
+		 * @ignore
 		 */
 		final public function getHTMLControlIdString()
 		{
-			return $this->getParentString() . $this->controlId;
+			return $this->getHTMLControlId();
 		}
 
 
@@ -955,7 +957,7 @@
 			// loop through request variables
 			for( $i=0, $count=count( $vars ); $i < $count; $i++ )
 			{
-				if( substr( $vars[$i], 0, strlen( $this->getHTMLControlIdString().'_' )) != $this->getHTMLControlIdString().'_' )
+				if( substr( $vars[$i], 0, strlen( $this->getHTMLControlId().'_' )) != $this->getHTMLControlId().'_' )
 				{
 					$data = '';
 					if( is_array( \System\Web\HTTPRequest::$request[$vars[$i]] ))

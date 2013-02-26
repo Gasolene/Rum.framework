@@ -38,9 +38,9 @@
 		 */
 		public function getFileInfo()
 		{
-			if( isset( $_FILES[$this->getHTMLControlIdString()] ))
+			if( isset( $_FILES[$this->getHTMLControlId()] ))
 			{
-				return $_FILES[$this->getHTMLControlIdString()];
+				return $_FILES[$this->getHTMLControlId()];
 			}
 			else
 			{
@@ -158,10 +158,10 @@
 		{
 			if( !$this->disabled )
 			{
-				if( isset( $_FILES[$this->getHTMLControlIdString()] ))
+				if( isset( $_FILES[$this->getHTMLControlId()] ))
 				{
 					$this->submitted = true;
-					$this->value = $_FILES[$this->getHTMLControlIdString()]['tmp_name'];
+					$this->value = $_FILES[$this->getHTMLControlId()]['tmp_name'];
 				}
 			}
 

@@ -4,17 +4,17 @@
 	<property file="local.properties" />
 
 	<!-- config -->
-	<property name="build.name"				value="Ice cube" />
-	<property name="build.version.number"			value="6.4" />
-	<property name="build.zip.exension"			value="6_4" />
-	<property name="build.revision.number"			value="16rc1" />
-	<property name="authors"				value="darnell.shinbine" />
-	<property name="exclude"				value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, default.local.properties, README.md, nbproject/**" />
+	<property name="build.name"					value="Ice cube" />
+	<property name="build.version.number"		value="6.5" />
+	<property name="build.zip.exension"			value="6_5" />
+	<property name="build.revision.number"		value="0beta" />
+	<property name="authors"					value="darnell.shinbine" />
+	<property name="exclude"					value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, default.local.properties, README.md, nbproject/**" />
 	<property name="plugins.path"				value="${test.path}/app/plugins" />
 
 	<property name="output.archive"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}" />
 	<property name="output.plugins"				value="${rum.path}/public/downloads/release/${build.zip.exension}/plugins" />
-	<property name="output.current_release"			value="${rum.path}/public/downloads/release/current/php_rum" />
+	<property name="output.current_release"		value="${rum.path}/public/downloads/release/current/php_rum" />
 	<property name="output.hello_world"			value="${rum.path}/public/downloads/demo/hello_world" />
 	<property name="output.blog"				value="${rum.path}/public/downloads/demo/blog" />
 	<property name="output.docs"				value="${rum.path}/public/docs" />
@@ -50,7 +50,7 @@
 	 * @license			see /docs/license.txt
 	 * @package			PHPRum
 	 * @author			${authors}
-	 * @copyright		Copyright (c) 2011
+	 * @copyright		Copyright (c) 2013
      * @version         ${build.version.number}.${build.revision.number}
 	 */
 	namespace System\Base;
@@ -147,8 +147,8 @@
 
 		<antcall target="_export.package">
 			<param name="dest" value="${output.archive}" />
-			<param name="src" value="." />
-			<param name="excludes" value="${exclude}, app/config/application.xml, app/config/dev.xml, app/config/langs.xml, public/.htaccess, public/index.php, public/themes/**" />
+			<param name="src" value="system/" />
+			<param name="excludes" value="${exclude}" />
 		</antcall>
 
 		<antcall target="_export.package">

@@ -516,7 +516,7 @@
 			$tfoot   = new \System\XML\DomObject( 'tfoot' );
 
 			// set some basic attributes/properties
-			$table->setAttribute( 'id', $this->getHTMLControlIdString() );
+			$table->setAttribute( 'id', $this->getHTMLControlId() );
 			$table->appendAttribute( 'class', ' gridview' );
 
 			$caption->nodeValue .= $this->caption;
@@ -758,8 +758,8 @@
 			$page = $this->getParentByType( '\System\Web\WebControls\Page' );
 			if( $page )
 			{
-				$page->addLink(   \System\Web\WebApplicationBase::getInstance()->config->assets . '/gridview/gridview.css' );
-				$page->addScript( \System\Web\WebApplicationBase::getInstance()->config->assets . '/gridview/gridview.js' );
+				$page->addLink( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . '&asset=/gridview/gridview.css' );
+				$page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/gridview/gridview.js' );
 			}
 		}
 
@@ -773,48 +773,48 @@
 		{
 			$this->columns->onRequest( $request );
 
-			if( isset( $request[$this->getHTMLControlIdString().'__sort_by'] ))
+			if( isset( $request[$this->getHTMLControlId().'__sort_by'] ))
 			{
-				$this->sortBy = $request[$this->getHTMLControlIdString().'__sort_by'];
-				unset( $request[$this->getHTMLControlIdString().'__sort_by'] );
+				$this->sortBy = $request[$this->getHTMLControlId().'__sort_by'];
+				unset( $request[$this->getHTMLControlId().'__sort_by'] );
 			}
 
-			if( isset( $request[$this->getHTMLControlIdString().'__sort_order'] ))
+			if( isset( $request[$this->getHTMLControlId().'__sort_order'] ))
 			{
-				$this->sortOrder = $request[$this->getHTMLControlIdString().'__sort_order'];
-				unset( $request[$this->getHTMLControlIdString().'__sort_order'] );
+				$this->sortOrder = $request[$this->getHTMLControlId().'__sort_order'];
+				unset( $request[$this->getHTMLControlId().'__sort_order'] );
 			}
 
-			if( isset( $request[$this->getHTMLControlIdString().'__move'] ))
+			if( isset( $request[$this->getHTMLControlId().'__move'] ))
 			{
-				$this->moveCursor = $request[$this->getHTMLControlIdString().'__move'];
-				unset( $request[$this->getHTMLControlIdString().'__move'] );
+				$this->moveCursor = $request[$this->getHTMLControlId().'__move'];
+				unset( $request[$this->getHTMLControlId().'__move'] );
 			}
 
-			if( isset( $request[$this->getHTMLControlIdString().'__move_order'] ))
+			if( isset( $request[$this->getHTMLControlId().'__move_order'] ))
 			{
-				$this->moveOrder = $request[$this->getHTMLControlIdString().'__move_order'];
-				unset( $request[$this->getHTMLControlIdString().'__move_order'] );
+				$this->moveOrder = $request[$this->getHTMLControlId().'__move_order'];
+				unset( $request[$this->getHTMLControlId().'__move_order'] );
 			}
 
-			if( isset( $request[$this->getHTMLControlIdString().'__page'] ))
+			if( isset( $request[$this->getHTMLControlId().'__page'] ))
 			{
-				$this->page = (int) $request[$this->getHTMLControlIdString().'__page'];
-				unset( $request[$this->getHTMLControlIdString().'__page'] );
+				$this->page = (int) $request[$this->getHTMLControlId().'__page'];
+				unset( $request[$this->getHTMLControlId().'__page'] );
 			}
 
-			if( isset( $request[$this->getHTMLControlIdString().'__selected'] ))
+			if( isset( $request[$this->getHTMLControlId().'__selected'] ))
 			{
-				$this->selected = $request[$this->getHTMLControlIdString().'__selected'];
-				unset( $request[$this->getHTMLControlIdString().'__selected'] );
+				$this->selected = $request[$this->getHTMLControlId().'__selected'];
+				unset( $request[$this->getHTMLControlId().'__selected'] );
 			}
 
-			if( isset( $request[$this->getHTMLControlIdString().'__filter_name'] ))
+			if( isset( $request[$this->getHTMLControlId().'__filter_name'] ))
 			{
-				if( isset( $request[$this->getHTMLControlIdString().'__filter_value'] ))
+				if( isset( $request[$this->getHTMLControlId().'__filter_value'] ))
 				{
 					// filter results
-					$htmlId = $this->getHTMLControlIdString();
+					$htmlId = $this->getHTMLControlId();
 
 					$this->filters[$request[$htmlId.'__filter_name']] = trim($request[$htmlId.'__filter_value']);
 
@@ -831,10 +831,10 @@
 						$this->filters[$request[$htmlId.'__filter_name']] = '0';
 					}
 
-					unset( $request[$this->getHTMLControlIdString().'__filter_value'] );
+					unset( $request[$this->getHTMLControlId().'__filter_value'] );
 				}
 
-				unset( $request[$this->getHTMLControlIdString().'__filter_name'] );
+				unset( $request[$this->getHTMLControlId().'__filter_name'] );
 			}
 
 			// order DataSet
@@ -941,7 +941,7 @@
 			// update entire table
 			$page = $this->getParentByType('\System\Web\WebControls\Page');
 
-			$page->loadAjaxJScriptBuffer('table1 = document.getElementById(\''.$this->getHTMLControlIdString().'\');');
+			$page->loadAjaxJScriptBuffer('table1 = document.getElementById(\''.$this->getHTMLControlId().'\');');
 			$page->loadAjaxJScriptBuffer('table2 = document.createElement(\'div\');');
 			$page->loadAjaxJScriptBuffer('table2.innerHTML = \''.\addslashes(str_replace("\n", '', str_replace("\r", '', $this->fetch()))).'\';');
 			$page->loadAjaxJScriptBuffer('table1.parentNode.insertBefore(table2, table1);');
@@ -973,9 +973,9 @@
 				{
 					$input = new \System\XML\DomObject( 'input' );
 					$input->setAttribute( 'type', 'checkbox' );
-					$input->setAttribute( 'onclick', 'PHPRum.gridViewSelectAll(\''.$this->getHTMLControlIdString().'\');' );
-					$input->setAttribute( 'id', $this->getHTMLControlIdString() . '__selectall' );
-					$input->setAttribute( 'name', $this->getHTMLControlIdString() . '__selectall' );
+					$input->setAttribute( 'onclick', 'PHPRum.gridViewSelectAll(\''.$this->getHTMLControlId().'\');' );
+					$input->setAttribute( 'id', $this->getHTMLControlId() . '__selectall' );
+					$input->setAttribute( 'name', $this->getHTMLControlId() . '__selectall' );
 
 					// add input to th
 					$th->addChild( $input );
@@ -1020,10 +1020,10 @@
 
 					// generate sort URL
 					if(( $this->sortBy === $column['DataField'] ) && $this->sortOrder=='asc' ) {
-						$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlIdString().'__page='.$this->page.'&'.$this->getHTMLControlIdString().'__sort_by='.rawurlencode($column['DataField']).'&'.$this->getHTMLControlIdString().'__sort_order=desc' ));
+						$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__sort_by='.rawurlencode($column['DataField']).'&'.$this->getHTMLControlId().'__sort_order=desc' ));
 					}
 					else {
-						$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlIdString().'__page='.$this->page.'&'.$this->getHTMLControlIdString().'__sort_by='.rawurlencode($column['DataField']).'&'.$this->getHTMLControlIdString().'__sort_order=asc' ));
+						$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__sort_by='.rawurlencode($column['DataField']).'&'.$this->getHTMLControlId().'__sort_order=asc' ));
 					}
 
 					// add link node to column
@@ -1109,7 +1109,7 @@
 								$keys = array_keys($this->filterValues[$column["DataField"]]);
 
 								$select = new \System\XML\DomObject( 'select' );
-								$select->setAttribute('name', $this->getHTMLControlIdString().'__filter_value');
+								$select->setAttribute('name', $this->getHTMLControlId().'__filter_value');
 								$option = new \System\XML\DomObject( 'option' );
 								$option->setAttribute('value', '');
 								$option->nodeValue = '';
@@ -1140,13 +1140,13 @@
 									$select->addChild($option);
 								}
 
-								$select->setAttribute( 'onchange', "PHPRum.sendPostBack('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlIdString().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlIdString()."__filter_value='+this.value);" );
+								$select->setAttribute( 'onchange', "PHPRum.sendPostBack('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+this.value);" );
 								$th->addChild( $select );
 							}
 							else
 							{
 								$input = new \System\XML\DomObject('input');
-								$input->setAttribute('name', $this->getHTMLControlIdString().'__filter_value');
+								$input->setAttribute('name', $this->getHTMLControlId().'__filter_value');
 								$input->setAttribute('class', 'textbox');
 								$button = new \System\XML\DomObject('input');
 								$button->setAttribute('type', 'button');
@@ -1159,8 +1159,8 @@
 									$input->setAttribute('value', $this->filters[$column["DataField"]]);
 								}
 
-								$input->setAttribute( 'onchange', "PHPRum.sendPostBack('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlIdString().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlIdString()."__filter_value='+this.value);" );
-								$button->setAttribute( 'onclick', "PHPRum.sendPostBack('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlIdString().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlIdString()."__filter_value='+document.getElementById('".$this->getHTMLControlIdString().'__filter_value'."').value);" );
+								$input->setAttribute( 'onchange', "PHPRum.sendPostBack('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+this.value);" );
+								$button->setAttribute( 'onclick', "PHPRum.sendPostBack('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+document.getElementById('".$this->getHTMLControlId().'__filter_value'."').value);" );
 
 								$th->addChild( $input );
 								$th->addChild( $button );
@@ -1204,7 +1204,7 @@
 			$tr->setAttribute( 'class', ($ds->cursor & 1)?'row_alt':'row' );
 
 			// set row attributes
-			$tr->setAttribute( 'id', $this->getHTMLControlIdString() . '__' . $ds->cursor );
+			$tr->setAttribute( 'id', $this->getHTMLControlId() . '__' . $ds->cursor );
 
 			// list item
 			if( $this->valueField && $this->showList ) {
@@ -1218,10 +1218,10 @@
 				$input = new \System\XML\DomObject( 'input' );
 				$input->setAttribute( 'type',	( $this->multiple?'checkbox':'radio' ) );
 				$input->setAttribute( 'onclick', 'if(this.checked)this.checked=false;else this.checked=true;' );
-				$input->setAttribute( 'id', $this->getHTMLControlIdString() . '__item_' . \rawurlencode( $ds[$this->valueField] ));
-				$input->setAttribute( 'name', $this->getHTMLControlIdString() . '__selected' . ( $this->multiple?'[]':'' ));
+				$input->setAttribute( 'id', $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds[$this->valueField] ));
+				$input->setAttribute( 'name', $this->getHTMLControlId() . '__selected' . ( $this->multiple?'[]':'' ));
 				$input->setAttribute( 'value', $ds[$this->valueField] );
-				$input->setAttribute( 'class', $this->getHTMLControlIdString() . '__checkbox' );
+				$input->setAttribute( 'class', $this->getHTMLControlId() . '__checkbox' );
 
 				if( $this->multiple ) {
 					if( is_array( $this->selected )) {
@@ -1237,12 +1237,12 @@
 						$tr->appendAttribute( 'class', ' selected' );
 					}
 
-					$tr->appendAttribute( 'onclick', 'PHPRum.gridViewUnSelectAll( \'' . $this->getHTMLControlIdString() . '\' );' );
+					$tr->appendAttribute( 'onclick', 'PHPRum.gridViewUnSelectAll( \'' . $this->getHTMLControlId() . '\' );' );
 				}
 
-				$tr->appendAttribute( 'onclick', 'if( document.getElementById(\'' . (string) $this->getHTMLControlIdString() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { document.getElementById(\''. (string) $this->getHTMLControlIdString() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = false; } else { document.getElementById(\'' . (string) $this->getHTMLControlIdString() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = true; }' );
-				$tr->appendAttribute( 'onclick', 'if( document.getElementById(\'' . (string) $this->getHTMLControlIdString() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'row\' ) { this.className = \'selected row\'; } else { this.className = \'selected row_alt\'; }}' );
-				$tr->appendAttribute( 'onclick', 'if(!document.getElementById(\'' . (string) $this->getHTMLControlIdString() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'selected row\' ) { this.className = \'row\'; } else { this.className = \'row_alt\'; }}' );
+				$tr->appendAttribute( 'onclick', 'if( document.getElementById(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { document.getElementById(\''. (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = false; } else { document.getElementById(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = true; }' );
+				$tr->appendAttribute( 'onclick', 'if( document.getElementById(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'row\' ) { this.className = \'selected row\'; } else { this.className = \'selected row_alt\'; }}' );
+				$tr->appendAttribute( 'onclick', 'if(!document.getElementById(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'selected row\' ) { this.className = \'row\'; } else { this.className = \'row_alt\'; }}' );
 
 				// add td element to tr
 				$td->addChild( $input );
@@ -1347,13 +1347,13 @@
 
 				if($this->ajaxPostBack)
 				{
-					$up->setAttribute( 'onclick', 'PHPRum.sendHttpRequest(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlIdString().'__page='.$this->page.'&'.$this->getHTMLControlIdString().'__move_order=up&'.$this->getHTMLControlIdString().'__move='.$ds->cursor.'\', \'POST\', \'PHPRum.gridViewAjaxCallback\');');
-					$down->setAttribute( 'onclick', 'PHPRum.sendHttpRequest(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlIdString().'__page='.$this->page.'&'.$this->getHTMLControlIdString().'__move_order=down&'.$this->getHTMLControlIdString().'__move='.$ds->cursor.'\', \'POST\', \'PHPRum.gridViewAjaxCallback\');');
+					$up->setAttribute( 'onclick', 'PHPRum.sendHttpRequest(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=up&'.$this->getHTMLControlId().'__move='.$ds->cursor.'\', \'POST\', \'PHPRum.gridViewAjaxCallback\');');
+					$down->setAttribute( 'onclick', 'PHPRum.sendHttpRequest(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=down&'.$this->getHTMLControlId().'__move='.$ds->cursor.'\', \'POST\', \'PHPRum.gridViewAjaxCallback\');');
 				}
 				else
 				{
-					$up->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlIdString().'__page='.$this->page.'&'.$this->getHTMLControlIdString().'__move_order=up&'.$this->getHTMLControlIdString().'__move='.$ds->cursor));
-					$down->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlIdString().'__page='.$this->page.'&'.$this->getHTMLControlIdString().'__move_order=down&'.$this->getHTMLControlIdString().'__move='.$ds->cursor));
+					$up->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=up&'.$this->getHTMLControlId().'__move='.$ds->cursor));
+					$down->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=down&'.$this->getHTMLControlId().'__move='.$ds->cursor));
 				}
 
 				$up->setAttribute('class', 'move_up');
@@ -1483,7 +1483,7 @@
 			$a->setAttribute('class', 'prev');
 			if( $this->page > 1 )
 			{
-				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlIdString().'__page='.($this->page-1).'&'.$this->getHTMLControlIdString().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlIdString().'__sort_order='.($this->sortOrder?'desc':'asc' )));
+				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.($this->sortOrder?'desc':'asc' )));
 			}
 			else
 			{
@@ -1510,7 +1510,7 @@
 				if( $this->page <> $page )
 				{
 					$a = new \System\XML\DomObject( 'a' );
-					$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlIdString().'__page='.$page.'&'.$this->getHTMLControlIdString().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlIdString().'__sort_order='.($this->sortOrder?'desc':'asc' )));
+					$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$page.'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.($this->sortOrder?'desc':'asc' )));
 					$a->nodeValue .= $page;
 					$a->setAttribute( 'class', 'page' );
 					$span->addChild( $a );
@@ -1530,7 +1530,7 @@
 			$a->setAttribute('class', 'next');
 			if(( $this->page * $this->pageSize ) < $this->_data->count && $this->pageSize )
 			{
-				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlIdString().'__page='.($this->page+1).'&'.$this->getHTMLControlIdString().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlIdString().'__sort_order='.($this->sortOrder?'desc':'asc' )));
+				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.($this->sortOrder?'desc':'asc' )));
 			}
 			else
 			{

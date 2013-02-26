@@ -171,7 +171,7 @@
 			// disable all buttons onclick
 			if( $this->disableOnSubmit )
 			{
-				$input->appendAttribute( 'onclick', 'PHPRum.disableButtons(document.getElementById(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlIdString().'\'), this, \''.($this->submitText?$this->submitText:$this->text).'\');return true;' );
+				$input->appendAttribute( 'onclick', 'PHPRum.disableButtons(document.getElementById(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\'), this, \''.($this->submitText?$this->submitText:$this->text).'\');return true;' );
 			}
 
 			$input->setAttribute('onchange', '');
@@ -194,7 +194,9 @@
 			parent::onLoad();
 
 			$page = $this->getParentByType( '\System\Web\WebControls\Page' );
-			$page->addScript( \System\Web\WebApplicationBase::getInstance()->config->assets . '/button/button.js' );
+			$page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/button/button.js' );
+
+			$page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/button/button.js' );
 
 			// perform ajax request
 			if( $this->ajaxPostBack )
@@ -202,7 +204,7 @@
 				$form = $this->getParentByType('\System\Web\WebControls\Form');
 				if($form)
 				{
-					$this->attributes->add('onclick', 'return PHPRum.submitForm(document.getElementById(\'' . $form->getHTMLControlIdString() . '\'), ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'PHPRum.evalFormResponse);' ));
+					$this->attributes->add('onclick', 'return PHPRum.submitForm(document.getElementById(\'' . $form->getHTMLControlId() . '\'), ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'PHPRum.evalFormResponse);' ));
 				}
 			}
 		}
@@ -226,12 +228,12 @@
 					$this->disabled = true;
 				}
 
-				if( isset( $request[$this->getHTMLControlIdString() . '__x'] ) &&
-					isset( $request[$this->getHTMLControlIdString() . '__y'] ))
+				if( isset( $request[$this->getHTMLControlId() . '__x'] ) &&
+					isset( $request[$this->getHTMLControlId() . '__y'] ))
 				{
-					$request[$this->getHTMLControlIdString()] = $this->text;
-					unset( $request[$this->getHTMLControlIdString() . '__x'] );
-					unset( $request[$this->getHTMLControlIdString() . '__y'] );
+					$request[$this->getHTMLControlId()] = $this->text;
+					unset( $request[$this->getHTMLControlId() . '__x'] );
+					unset( $request[$this->getHTMLControlId() . '__y'] );
 				}
 			}
 

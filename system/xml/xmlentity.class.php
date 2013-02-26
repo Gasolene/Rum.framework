@@ -448,8 +448,8 @@
 			/* add attributes */
 			foreach( $this->attributes as $key => $value ) {
 				$key   = \Rum::escape( strtolower( $key ));
-				$value = \Rum::escape( $value );
-				$xml  .= " $key=\"$value\"";
+				$value = trim(\Rum::escape( $value ));
+				$xml  .= " $key=\"{$value}\"";
 			}
 
 			/* add elements */

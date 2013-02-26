@@ -94,7 +94,7 @@
 		{
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'value', $this->value );
-			$input->setAttribute( 'name',  $this->parent->getHTMLControlIdString() );
+			$input->setAttribute( 'name',  $this->parent->getHTMLControlId() );
 			$input->appendAttribute( 'class', ' radiobutton' );
 
 			if( $this->visible )
@@ -141,13 +141,13 @@
 				{
 					$radiogroup = $this->getParentByType( '\System\Web\WebControls\RadioGroup' );
 
-					if( isset( $request[$radiogroup->getHTMLControlIdString()] ))
+					if( isset( $request[$radiogroup->getHTMLControlId()] ))
 					{
 						// submitted
 						$this->submitted = true;
 
 						// changed
-						if( $this->value === $request[$radiogroup->getHTMLControlIdString()] )
+						if( $this->value === $request[$radiogroup->getHTMLControlId()] )
 						{
 							if( !$this->checked )
 							{

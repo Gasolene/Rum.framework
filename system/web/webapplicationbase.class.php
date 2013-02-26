@@ -739,16 +739,13 @@
 <head>
 <title>Unhandled Exception: ".htmlentities($e->getMessage())."</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
-<link href=\"" . $this->config->assets . "/web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<link href=\"" . $this->config->assets . "/web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<script src=\"" . $this->config->assets . "/web/debug.js\" type=\"text/javascript\"></script>
+<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=/web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/debug.js\" type=\"text/javascript\"></script>
 </head>
 <body>
 
-<div id=\"tl\">
-<div id=\"tr\">
-<div id=\"bl\">
-<div id=\"br\">
+<div id=\"page\">
 
 <h1>Unhandled Exception in " . strrchr( $e->getFile(), '/' ) . "</h1>
 
@@ -784,9 +781,6 @@
 <p><strong>Framework Version:</strong> ".\System\Base\FRAMEWORK_VERSION_STRING."</p>
 </div>
 
-</div>
-</div>
-</div>
 </div>
 
 </body>
@@ -948,9 +942,38 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 		{
 			if(isset($request->get["page"]) && isset($request->get["id"]))
 			{
-				if($_SERVER[__ENV_PARAMETER__]==__DEV_ENV__||$_SERVER[__ENV_PARAMETER__]==__TEST_ENV__)
+				// modules
+				if($request->get["page"]===__MODULE_REQUEST_PARAMETER__&&isset($request->get["asset"])&&isset($request->get["type"]))
 				{
-					if($request->get["page"]=='dev' && ($request->get["id"]=="clean" || $request->get["id"]=="build"))
+					if( $request["type"]==='text/html' ||
+						$request["type"]==='text/javascript' ||
+						$request["type"]==='text/css' ||
+						$request["type"]==='image/jpeg' ||
+						$request["type"]==='image/gif' ||
+						$request["type"]==='image/png')
+					{
+						$asset = str_replace('./', '', $request->get["asset"]);
+						if($request["id"]==='core')
+						{
+							$path = __SYSTEM_PATH__ . '/web';
+						}
+						else
+						{
+							$path = __PLUGINS_PATH__ . '/' . urlencode($request["id"]);
+						}
+						$content = file_get_contents($path . '/assets/' . $asset);
+
+						HTTPResponse::addHeader("content-type:".$request["type"]);
+						// TODO: compress
+						// TODO: cache
+						HTTPResponse::write($content);
+						HTTPResponse::end();
+					}
+				}
+				// dev parameters
+				elseif($_SERVER[__ENV_PARAMETER__]===__DEV_ENV__||$_SERVER[__ENV_PARAMETER__]===__TEST_ENV__)
+				{
+					if($request->get["page"]==='dev' && ($request->get["id"]==="clean" || $request->get["id"]==="build"))
 					{
 						\System\Base\Build::$verbose = true;
 						\System\Base\Build::clean();
@@ -970,9 +993,9 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 <head>
 <title>Building...</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
-<link href=\"" . $this->config->assets . "/web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-".(isset($request["nostyle"])?"":"<link href=\"" . $this->config->assets . "/web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />")."
-<script src=\"" . $this->config->assets . "/web/debug.js\" type=\"text/javascript\"></script>
+<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+".(isset($request["nostyle"])?"":"<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />")."
+<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&/web/debug.js\" type=\"text/javascript\"></script>
 </head>
 <body>
 

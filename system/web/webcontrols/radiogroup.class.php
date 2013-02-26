@@ -100,7 +100,7 @@
 
 			if( isset( $this->controls[0] ))
 			{
-				$this->defaultHTMLControlId = $this->controls[0]->getHTMLControlIdString();
+				$this->defaultHTMLControlId = $this->controls[0]->getHTMLControlId();
 			}
 			else
 			{
@@ -123,20 +123,20 @@
 				{
 					$this->submitted = true;
 				}
-				elseif( isset( $request[$this->getHTMLControlIdString()] ))
+				elseif( isset( $request[$this->getHTMLControlId()] ))
 				{
 					// submitted
 					$this->submitted = true;
 
 					// changed
-					if( $this->value != $request[$this->getHTMLControlIdString()] )
+					if( $this->value != $request[$this->getHTMLControlId()] )
 					{
 						$this->changed = true;
 					}
 
 					// set value
-					$this->value = $request[$this->getHTMLControlIdString()];
-					unset( $request[$this->getHTMLControlIdString()] );
+					$this->value = $request[$this->getHTMLControlId()];
+					unset( $request[$this->getHTMLControlId()] );
 				}
 			}
 

@@ -64,11 +64,11 @@
 		{
 			if($this->controlToValidate)
 			{
-				if( isset( $_FILES[$this->controlToValidate->getHTMLControlIdString()] ))
+				if( isset( $_FILES[$this->controlToValidate->getHTMLControlId()] ))
 				{
-					if( $_FILES[$this->controlToValidate->getHTMLControlIdString()]['size'] > 0 )
+					if( $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] > 0 )
 					{
-						if(( ( (int) $this->maxSize * 1024 ) < (int) $_FILES[$this->controlToValidate->getHTMLControlIdString()]['size'] ) && (int) $this->maxSize > 0 )
+						if(( ( (int) $this->maxSize * 1024 ) < (int) $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] ) && (int) $this->maxSize > 0 )
 						{
 							return false;
 						}

@@ -136,6 +136,11 @@
 	if( !defined( '__ASYNC_REQUEST_PARAMETER__' ))		define( '__ASYNC_REQUEST_PARAMETER__',		'async' );
 
 	/**
+	 * specifies the async request parameter
+	 */
+	if( !defined( '__MODULE_REQUEST_PARAMETER__' ))		define( '__MODULE_REQUEST_PARAMETER__',		'modules' );
+
+	/**
 	 * specifies the dev environment name
 	 */
 	if( !defined( '__DEV_ENV__' ))						define( '__DEV_ENV__',						'dev' );
@@ -325,14 +330,14 @@
 	 * @var int
 	 * @ignore
 	 */
-	const INDENT = 2;
+	const INDENT = 0;
 
 	/**
 	 * characters used to denote carriage return
 	 * @var string
 	 * @ignore
 	 */
-	const CARAGERETURN = "\n\r";
+	const CARAGERETURN = '';
 
 	/**
 	 * include prefix
