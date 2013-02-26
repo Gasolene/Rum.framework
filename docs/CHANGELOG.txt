@@ -3,7 +3,7 @@ Change log
 
 1. Version History
 
-version 6.5.0-beta - 02.25.13
+version 6.4.17-rc1 - 02.25.13
 	- changed WebControlBase output to remove whitespace from HTML
 	- moved assets from the public folder, now served directly by the WebApplication
 	- changed asset install issue, no longer writes (installs) during runtime

@@ -552,7 +552,7 @@
 		{
 			if( $this->_parent )
 			{
-				return $this->_parent->getParentString() . substr($this->_parent->controlId,0,2) . '_';
+				return $this->_parent->getParentString() . $this->_parent->controlId . '_';
 			}
 			else
 			{
