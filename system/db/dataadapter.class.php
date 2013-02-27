@@ -254,7 +254,7 @@
 		 *
 		 * @param   string   $dsn   connection string
 		 * @return	DataAdapter
-		 */
+		 * /
 		final static public function createPDO( $dsn )
 		{
 			include_once __SYSTEM_PATH__ . '/db/pdo/pdodataadapter' . __CLASS_EXTENSION__;

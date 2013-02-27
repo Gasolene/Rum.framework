@@ -50,14 +50,13 @@
 		 * array of reserved methods
 		 * @var array
 		 */
-		protected static $xreserved_methods = array(
+		protected static $reserved_methods = array(
 			'__construct',
 			'__set',
 			'__get',
 			'getView',
 			'getRoles',
 			'getCacheId',
-			'login',
 			'configure',
 			'handle',
 			'getWSDL',
@@ -135,9 +134,6 @@
 		 */
 		final protected function configure()
 		{
-			WebServiceBase::$reserved_methods[] = 'getWSDL';
-			WebServiceBase::$reserved_methods[] = 'getWSDLURL';
-
 			parent::configure();
 		}
 

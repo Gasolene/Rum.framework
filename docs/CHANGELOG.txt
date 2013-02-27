@@ -3,6 +3,10 @@ Change log
 
 1. Version History
 
+version 6.4.17-rc2 - 02.26.13
+	- added JSONRestServiceBase, XMLRestServiceBase
+	- removed JSONServiceBase
+
 version 6.4.17-rc1 - 02.25.13
 	- changed WebControlBase output to remove whitespace from HTML
 	- moved assets from the public folder, now served directly by the WebApplication

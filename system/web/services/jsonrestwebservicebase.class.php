@@ -9,18 +9,15 @@
 
 
 	/**
-	 * This class handles all remote procedure calls for a web service
+	 * This class handles all remote procedure calls for a JSON REST web service
 	 *
-	 * @property string $encoding specifies the character set for the soap message, default is ISO-8859-1
-	 * @property string $cache specifies whether to cache the WSDL, default is WSDL_CACHE_NONE
-	 * @property string $version specifies the SOAP version, default is SOAP_1_2
-	 * @property string $namespace specifies the namespace, default is controller id
+	 * @property array $options specifies json encoding options
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
 	 */
-	abstract class JSONServiceBase extends WebServiceBase
+	abstract class JSONRESTWebServiceBase extends RESTWebServiceBase
 	{
 		/**
 		 * specifies encoding options
@@ -38,11 +35,7 @@
 		 */
 		public function __get( $field )
 		{
-			if( $field === 'encoding' )
-			{
-				return $this->encoding;
-			}
-			elseif( $field === 'options' )
+			if( $field === 'options' )
 			{
 				return $this->options;
 			}
@@ -63,11 +56,7 @@
 		 */
 		public function __set( $field, $value )
 		{
-			if( $field === 'encoding' )
-			{
-				$this->encoding = (string)$value;
-			}
-			elseif( $field === 'options' )
+			if( $field === 'options' )
 			{
 				$this->options = $value;
 			}
@@ -79,25 +68,23 @@
 
 
 		/**
-		 * configure the web service
-		 * @return void
+		 * configure the server
 		 */
 		final protected function configure()
 		{
+			$this->view->contentType = "application/json";
 			parent::configure();
 		}
 
 
 		/**
-		 * this method will handle the web service request
-		 *
-		 * @param   HTTPRequest		&$request	HTTPRequest object
-		 * @return  void
+		 * format the object
+		 * @param object $object
+		 * @return string
 		 */
-		final public function handle( \System\Web\HTTPRequest &$request )
+		final protected function formatObject( $object )
 		{
-			// format and return
-			$this->view->setData(json_encode(call_user_method($_GET["method"], $this, $_GET), $this->options));
+			return json_encode($object, $this->options);
 		}
 	}
 ?>

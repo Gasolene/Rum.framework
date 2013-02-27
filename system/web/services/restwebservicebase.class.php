@@ -18,13 +18,6 @@
 	abstract class RESTWebServiceBase extends WebServiceBase
 	{
 		/**
-		 * specifies encoding options
-		 * @var string
-		 */
-		protected $options = null;
-
-
-		/**
 		 * handle get requests
 		 * @return void
 		 */
@@ -76,6 +69,14 @@
 
 
 		/**
+		 * format the object
+		 * @param object $object
+		 * @return string
+		 */
+		abstract protected function formatObject( $object );
+
+
+		/**
 		 * this method will handle the web service request
 		 *
 		 * @param   HTTPRequest		&$request	HTTPRequest object
@@ -86,22 +87,20 @@
 			if(\System\Web\HTTPRequest::getRequestMethod() == 'GET')
 			{
 				unset($_GET[__PAGE_REQUEST_PARAMETER__]);
-				$this->view->setData(call_user_method('get', $this, $_GET), $this->options);
+				$this->view->setData($this->formatObject(call_user_method('get', $this, $_GET)));
 			}
 			elseif(\System\Web\HTTPRequest::getRequestMethod() == 'POST')
 			{
 				unset($_POST[__PAGE_REQUEST_PARAMETER__]);
-				$this->view->setData(call_user_method('post', $this, $_POST), $this->options);
+				$this->view->setData($this->formatObject(call_user_method('post', $this, $_POST)));
 			}
 			elseif(\System\Web\HTTPRequest::getRequestMethod() == 'PUT')
 			{
-				unset($_POST[__PAGE_REQUEST_PARAMETER__]);
-				$this->view->setData(call_user_method('put', $this, fopen("php://input", "r")), $this->options);
+				$this->view->setData($this->formatObject(call_user_method('put', $this, fopen("php://input", "r"))));
 			}
 			elseif(\System\Web\HTTPRequest::getRequestMethod() == 'DELETE')
 			{
-				unset($_POST[__PAGE_REQUEST_PARAMETER__]);
-				$this->view->setData(call_user_method('delete', $this, fopen("php://input", "r")), $this->options);
+				$this->view->setData($this->formatObject(call_user_method('delete', $this, fopen("php://input", "r"))));
 			}
 			else
 			{
