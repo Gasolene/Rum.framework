@@ -3,9 +3,10 @@ Change log
 
 1. Version History
 
-version 6.4.17-rc2 - 02.26.13
+version 6.4.17-rc2 - 02.27.13
 	- added JSONRestServiceBase, XMLRestServiceBase
-	- removed JSONServiceBase
+	- removed redundant JSONServiceBase
+	- fixed bug in rum.php where not unsetting empty GET vars
 
 version 6.4.17-rc1 - 02.25.13
 	- changed WebControlBase output to remove whitespace from HTML

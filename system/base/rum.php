@@ -26,6 +26,18 @@
 	 */
 	date_default_timezone_set(date_default_timezone_get());
 
+	// rem empty params redirected by the .htaccess file
+	if( isset( $_GET['id'] )) {
+		if( empty( $_GET['id'] )) {
+			unset( $_GET['id'] );
+		}
+	}
+	if( isset( $_GET['page'] )) {
+		if( empty( $_GET['page'] )) {
+			unset( $_GET['page'] );
+		}
+	}
+
 	/*
 	 * auto detected env variables
 	 * these env vars are auto detected, and may be overridden
