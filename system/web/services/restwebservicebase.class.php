@@ -76,7 +76,6 @@
 		 */
 		public function getView( \System\Web\HTTPRequest &$request )
 		{
-			$view = parent::getView( $request );
 			if(isset($request["format"]))
 			{
 				if($request["format"]=="json")
@@ -97,7 +96,7 @@
 				$this->contentType = 'application/xml';
 			}
 
-			return $view;
+			return parent::getView( $request );;
 		}
 
 
