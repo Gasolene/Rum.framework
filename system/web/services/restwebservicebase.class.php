@@ -69,18 +69,43 @@
 
 
 		/**
+		 * return view component for rendering
+		 *
+		 * @param   HTTPRequest		&$request	HTTPRequest object
+		 * @return  View			view control
+		 */
+		public function getView( \System\Web\HTTPRequest &$request )
+		{
+			$view = parent::getView( $request );
+			if(isset($request["format"]))
+			{
+				if($request["format"]=="json")
+				{
+					$this->contentType = "application/json";
+				}
+				elseif($request["format"]=="xml")
+				{
+					$this->contentType = "application/xml";
+				}
+			}
+			elseif(strpos($_SERVER["HTTP_ACCEPT"], "application/json")!==false)
+			{
+				$this->contentType = 'application/json';
+			}
+			else
+			{
+				$this->contentType = 'application/xml';
+			}
+
+			return $view;
+		}
+
+
+		/**
 		 * configure the server
 		 */
 		protected function configure()
 		{
-			// set content type
-			if(strpos($_SERVER["HTTP_ACCEPT"], "application/json")!==false) {
-				$this->contentType = 'application/json';
-			}
-			else {
-				$this->contentType = 'text/xml';
-			}
-
 			$rpc = new WebServiceMethod('get');
 			$rpc->setParameters('args', 'array');
 			$this->remoteProcedures[] = $rpc;

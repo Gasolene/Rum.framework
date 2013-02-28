@@ -30,7 +30,7 @@
 		 * specifies the character set for the soap message
 		 * @var string
 		 */
-		protected $contentType = 'text/xml';
+		protected $contentType = 'application/xml';
 
 		/**
 		 * Contains an array of RPC method calls
@@ -65,7 +65,7 @@
 		 * @param   HTTPRequest		&$request	HTTPRequest object
 		 * @return  View			view control
 		 */
-		final public function getView( \System\Web\HTTPRequest &$request )
+		public function getView( \System\Web\HTTPRequest &$request )
 		{
 			// Configure Web Service
 			$this->view = new \System\Web\WebControls\View('view');
