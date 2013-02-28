@@ -142,24 +142,24 @@
 		{
 			if(\System\Web\HTTPRequest::getRequestMethod() == 'GET')
 			{
-				unset($_GET[__PATH_REQUEST_PARAMETER__]);
+				unset($_GET[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]);
 				$this->view->setData($this->encode(call_user_method('get', $this, $_GET), $this->contentType));
 			}
 			elseif(\System\Web\HTTPRequest::getRequestMethod() == 'POST')
 			{
-				unset($_POST[__PATH_REQUEST_PARAMETER__]);
+				unset($_POST[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]);
 				$this->view->setData($this->encode(call_user_method('post', $this, $_POST), $this->contentType));
 			}
 			elseif(\System\Web\HTTPRequest::getRequestMethod() == 'PUT')
 			{
 				$data = fopen("php://input", "r");
-				unset($data[__PATH_REQUEST_PARAMETER__]);
+				unset($data[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]);
 				$this->view->setData($this->encode(call_user_method('put', $this, $data), $this->contentType));
 			}
 			elseif(\System\Web\HTTPRequest::getRequestMethod() == 'DELETE')
 			{
 				$data = fopen("php://input", "r");
-				unset($data[__PATH_REQUEST_PARAMETER__]);
+				unset($data[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]);
 				$this->view->setData($this->encode(call_user_method('delete', $this, $data), $this->contentType));
 			}
 			else

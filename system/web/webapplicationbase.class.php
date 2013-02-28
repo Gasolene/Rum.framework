@@ -933,10 +933,10 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 		 */
 		private function handleRequestParams( \System\Web\HTTPRequest &$request )
 		{
-			if(isset($request->get[__PATH_REQUEST_PARAMETER__]) && isset($request->get["id"]))
+			if(isset($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]) && isset($request->get["id"]))
 			{
 				// modules
-				if($request->get[__PATH_REQUEST_PARAMETER__]===__MODULE_REQUEST_PARAMETER__&&isset($request->get["asset"])&&isset($request->get["type"]))
+				if($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]===__MODULE_REQUEST_PARAMETER__&&isset($request->get["asset"])&&isset($request->get["type"]))
 				{
 					if( $request["type"]==='text/html' ||
 						$request["type"]==='text/javascript' ||
@@ -966,7 +966,7 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 				// dev parameters
 				elseif($_SERVER[__ENV_PARAMETER__]===__DEV_ENV__||$_SERVER[__ENV_PARAMETER__]===__TEST_ENV__)
 				{
-					if($request->get[__PATH_REQUEST_PARAMETER__]==='dev' && ($request->get["id"]==="clean" || $request->get["id"]==="build"))
+					if($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]==='dev' && ($request->get["id"]==="clean" || $request->get["id"]==="build"))
 					{
 						\System\Base\Build::$verbose = true;
 						\System\Base\Build::clean();
@@ -1027,19 +1027,19 @@ No building is needed or allowed in a production environment.</p>
 </html>" );
 						exit;
 					}
-					elseif($request->get[__PATH_REQUEST_PARAMETER__]=='dev' && $request->get["id"]=="run_all")
+					elseif($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]=='dev' && $request->get["id"]=="run_all")
 					{
 						$tester = new \System\Test\Tester();
 						$tester->runAllTestCases(new \System\Test\HTMLTestReporter());
 						exit;
 					}
-					elseif($request->get[__PATH_REQUEST_PARAMETER__]=='dev/run_unit_test' )
+					elseif($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]=='dev/run_unit_test' )
 					{
 						$tester = new \System\Test\Tester();
 						$tester->runUnitTestCase($request->get["id"], new \System\Test\HTMLTestReporter());
 						exit;
 					}
-					elseif($request->get[__PATH_REQUEST_PARAMETER__]=='dev/run_functional_test' )
+					elseif($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]=='dev/run_functional_test' )
 					{
 						$tester = new \System\Test\Tester();
 						$tester->runFunctionalTestCase($request->get["id"], new \System\Test\HTMLTestReporter());
