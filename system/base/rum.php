@@ -26,18 +26,6 @@
 	 */
 	date_default_timezone_set(date_default_timezone_get());
 
-	// rem empty params redirected by the .htaccess file
-	if( isset( $_GET['id'] )) {
-		if( empty( $_GET['id'] )) {
-			unset( $_GET['id'] );
-		}
-	}
-	if( isset( $_GET['page'] )) {
-		if( empty( $_GET['page'] )) {
-			unset( $_GET['page'] );
-		}
-	}
-
 	/*
 	 * auto detected env variables
 	 * these env vars are auto detected, and may be overridden
@@ -140,7 +128,7 @@
 	/**
 	 * specifies the page request parameter
 	 */
-	if( !defined( '__PAGE_REQUEST_PARAMETER__' ))		define( '__PAGE_REQUEST_PARAMETER__',		'page' );
+	if( !defined( '__PATH_REQUEST_PARAMETER__' ))		define( '__PATH_REQUEST_PARAMETER__',		'path' );
 
 	/**
 	 * specifies the async request parameter
@@ -368,7 +356,7 @@
 	require __SYSTEM_PATH__ . '/base/build.class.php';
 	require __SYSTEM_PATH__ . '/rum.class.php';
 
-	if(__HOST__=='localhost' && isset($_GET["page"]) && isset($_GET["id"]) && $_GET["page"]=='dev' && ($_GET["id"]=='clean' || $_GET["id"]=='build'))
+	if(__HOST__=='localhost' && isset($_GET[__PATH_REQUEST_PARAMETER__]) && isset($_GET["id"]) && $_GET[__PATH_REQUEST_PARAMETER__]=='dev' && ($_GET["id"]=='clean' || $_GET["id"]=='build'))
 	{
 		ob_start();
 		Build::$verbose = true;

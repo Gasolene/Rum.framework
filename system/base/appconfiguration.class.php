@@ -136,7 +136,7 @@
 		 * specifies the default controller parameter
 		 * @var string
 		 */
-		private $requestParameter				= __PAGE_REQUEST_PARAMETER__;
+		private $requestParameter				= __PATH_REQUEST_PARAMETER__;
 
 		/**
 		 * specifies the re-write URI status
