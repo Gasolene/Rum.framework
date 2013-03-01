@@ -66,6 +66,37 @@
 
 
 		/**
+		 * checks if uid is authorized based on the credential
+		 *
+		 * @param   string	$username	specifies username
+		 * @return  bool
+		 */
+		public function authorize( $username )
+		{
+			// connect to data source
+			$da = null;
+			if( isset( $this->credential['dsn'] )) {
+				$da = \System\DB\DataAdapter::create( $this->credential['dsn'] );
+			}
+			else {
+				$da = \System\Base\ApplicationBase::getInstance()->dataAdapter;
+			}
+
+			$ds = $da->openDataSet( $this->credential['source'] );
+			if( $ds ) {
+				if( $ds->seek( $this->credential['username-field'], (string)$username, true )) {
+					if( $this->checkAccountActive( $ds )) {
+						// Success!
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+
+		/**
 		 * compare passwords, return true on success
 		 * 
 		 * @param type $encryptedPassword
@@ -148,7 +179,7 @@
 					// Increment failed count
 					$ds->dataAdapter->queryBuilder()
 							->update($ds->table)
-							->set($ds->table, $this->credential['failedattemptcount-field'],1)
+							->set($ds->table, $this->credential['failedattemptcount-field'],$this->credential['failedattemptcount-field']+1)
 							->runQuery();
 				}
 			}

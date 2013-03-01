@@ -155,6 +155,37 @@
 
 
 		/**
+		 * return user authorization status
+		 *
+		 * @param   string	$username	specifies username
+		 * @return  bool
+		 */
+		public static function isUserAuthorized( $username ) {
+
+			// Authenticate using credentials users
+			foreach( \System\Base\ApplicationBase::getInstance()->config->authenticationCredentialsUsers as $credential ) {
+				$credential = new UserCredential($credential);
+
+				if( $credential->authorize( $username ) ) {
+					return true;
+				}
+			}
+
+			// Authenticate using credentials tables
+			foreach( \System\Base\ApplicationBase::getInstance()->config->authenticationCredentialsTables as $credential ) {
+				$credential = new TableCredential($credential);
+
+				if( $credential->authorize( $username ) ) {
+					return true;
+				}
+			}
+
+			// Invalid credentials
+			return false;
+		}
+
+
+		/**
 		 * returns true if user authenticated
 		 *
 		 * @return  bool

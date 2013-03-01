@@ -55,6 +55,25 @@
 
 
 		/**
+		 * checks if uid is authorized based on the credential
+		 *
+		 * @param   string	$username	specifies username
+		 * @return  bool
+		 */
+		public function authorize( $username )
+		{
+			if($this->credential["username"] == $username)
+			{
+				if( $this->credential['active'] ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+
+		/**
 		 * compare passwords, return true on success
 		 * 
 		 * @param type $encryptedPassword
