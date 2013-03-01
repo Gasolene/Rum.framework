@@ -28,8 +28,11 @@
 			{
 				if( Authentication::authenticate( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] )->authenticated() )
 				{
-					Authentication::$identity = BasicAuthentication::getAuthUser();
-					return true;
+					if( Authentication::authorize( $_SERVER['PHP_AUTH_USER'] ))
+					{
+						Authentication::$identity = BasicAuthentication::getAuthUser();
+						return true;
+					}
 				}
 			}
 			return false;

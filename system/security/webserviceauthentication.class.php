@@ -34,7 +34,7 @@
 			{
 				if( WebServiceAuthentication::authenticateSecret( WebServiceAuthentication::getAuthUser(), WebServiceAuthentication::getAuthSecret() ))
 				{
-					return Authentication::isUserAuthorized(WebServiceAuthentication::getAuthUser());
+					return Authentication::authorize(WebServiceAuthentication::getAuthUser());
 				}
 			}
 			return false;

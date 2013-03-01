@@ -10,7 +10,7 @@
 
 	/**
 	 * Provides application wide authentication
-	 *
+	 * 
 	 * @package			PHPRum
 	 * @subpackage		Security
 	 * @author			Darnell Shinbine
@@ -22,6 +22,12 @@
 		 * @var string
 		 */
 		static public $identity;
+
+		/**
+		 * sets the log level, default HighLevelEvents
+		 * @var int
+		 */
+		static public $logLevel = 2;
 
 		/**
 		 * specifies whether the current controller is protected
@@ -54,21 +60,27 @@
 
 				if( $status->authenticated() )
 				{
-					\Rum::log("User `{$username}` logged in from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
+					if(self::$logLevel>=AuthenticationLogLevel::AllEvents())
+					{
+						\Rum::log("User `{$username}` logged in from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
+					}
 				}
 				else
 				{
-					if( $status->invalidCredentials() )
+					if(self::$logLevel>=AuthenticationLogLevel::HighLevelEvents())
 					{
-						\Rum::log("Failed login attempt for user `{$username}` from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
-					}
-					elseif( $status->disabled() )
-					{
-						\Rum::log("Blocked login for suspended user `{$username}` from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
-					}
-					elseif( $status->lockedOut() )
-					{
-						\Rum::log("Blocked login due to too many failed login attempts for user `{$username}` from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
+						if( $status->invalidCredentials() )
+						{
+							\Rum::log("Failed login attempt for user `{$username}` from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
+						}
+						elseif( $status->disabled() )
+						{
+							\Rum::log("Blocked login for suspended user `{$username}` from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
+						}
+						elseif( $status->lockedOut() )
+						{
+							\Rum::log("Blocked login due to too many failed login attempts for user `{$username}` from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
+						}
 					}
 				}
 
@@ -85,27 +97,33 @@
 
 
 		/**
-		 * perform sign out (does not end session)
+		 * authenticate user based on credentials (does not set cookie)
 		 *
-		 * @return  void
+		 * @param   string	$username	specifies username
+		 * @return  bool
 		 */
-		public static function signout()
-		{
-			if(Authentication::$identity)
-			{
-				\Rum::log("User `".Authentication::$identity."` logged out from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
+		public static function authorize( $username ) {
+
+			// Authenticate using credentials users
+			foreach( \System\Base\ApplicationBase::getInstance()->config->authenticationCredentialsUsers as $credential ) {
+				$credential = new UserCredential($credential);
+
+				if( $credential->authorize( $username ) ) {
+					return true;
+				}
 			}
 
-			// Basic Authentication
-			if( \System\Security\Authentication::getAuthMethod() === 'basic' )
-			{
-				BasicAuthentication::signout();
+			// Authenticate using credentials tables
+			foreach( \System\Base\ApplicationBase::getInstance()->config->authenticationCredentialsTables as $credential ) {
+				$credential = new TableCredential($credential);
+
+				if( $credential->authorize( $username ) ) {
+					return true;
+				}
 			}
-			// Forms Authentication
-			elseif( \System\Security\Authentication::getAuthMethod() === 'forms' )
-			{
-				FormsAuthentication::signout();
-			}
+
+			// Invalid credentials
+			return false;
 		}
 
 
@@ -151,37 +169,6 @@
 					return true;
 				}
 			}
-		}
-
-
-		/**
-		 * return user authorization status
-		 *
-		 * @param   string	$username	specifies username
-		 * @return  bool
-		 */
-		public static function isUserAuthorized( $username ) {
-
-			// Authenticate using credentials users
-			foreach( \System\Base\ApplicationBase::getInstance()->config->authenticationCredentialsUsers as $credential ) {
-				$credential = new UserCredential($credential);
-
-				if( $credential->authorize( $username ) ) {
-					return true;
-				}
-			}
-
-			// Authenticate using credentials tables
-			foreach( \System\Base\ApplicationBase::getInstance()->config->authenticationCredentialsTables as $credential ) {
-				$credential = new TableCredential($credential);
-
-				if( $credential->authorize( $username ) ) {
-					return true;
-				}
-			}
-
-			// Invalid credentials
-			return false;
 		}
 
 
@@ -363,6 +350,31 @@
 				$i++;
 			} while ($i < $len);
 			return $salt;
+		}
+
+
+		/**
+		 * perform sign out (does not end session)
+		 *
+		 * @return  void
+		 */
+		public static function signout()
+		{
+			if(Authentication::$identity)
+			{
+				\Rum::log("User `".Authentication::$identity."` logged out from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
+			}
+
+			// Basic Authentication
+			if( \System\Security\Authentication::getAuthMethod() === 'basic' )
+			{
+				BasicAuthentication::signout();
+			}
+			// Forms Authentication
+			elseif( \System\Security\Authentication::getAuthMethod() === 'forms' )
+			{
+				FormsAuthentication::signout();
+			}
 		}
 
 

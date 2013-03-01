@@ -28,7 +28,7 @@
 			{
 				if( FormsAuthentication::authenticateSecret( FormsAuthentication::getAuthCookie(), FormsAuthentication::getAuthSecret() ))
 				{
-					if( Authentication::isUserAuthorized(FormsAuthentication::getAuthCookie() ))
+					if( Authentication::authorize(FormsAuthentication::getAuthCookie() ))
 					{
 						Authentication::$identity = FormsAuthentication::getAuthCookie();
 						return true;

@@ -37,17 +37,17 @@
 		 */
 		function paintHeader($test_name) {
 			$this->sendNoCacheHeaders();
-			print "<!DOCTYPE html>\n";
-			print "<html lang=\"en\">\n<head>\n<title>$test_name</title>\n";
+			print "<!DOCTYPE html>".PHP_EOL;
+			print "<html lang=\"en\">\n<head>\n<title>$test_name</title>".PHP_EOL;
 			print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" .
-					$this->_character_set . "\">\n";
+					$this->_character_set . "\">".PHP_EOL;
 			print "<link href=\"" . \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\">";
-			print "<style type=\"text/css\">\n";
-			print $this->_getCss() . "\n";
-			print "</style>\n";
-			print "</head>\n<body>\n";
-			print "<div id=\"tl\"><div id=\"tr\"><div id=\"bl\"><div id=\"br\">\n";
-			print "<h1>" . str_replace( '_', '::', $test_name ) . "()</h1>\n";
+			print "<style type=\"text/css\">".PHP_EOL;
+			print $this->_getCss() . "".PHP_EOL;
+			print "</style>".PHP_EOL;
+			print "</head>\n<body>".PHP_EOL;
+			print "<div id=\"page\">".PHP_EOL;
+			print "<h1>" . str_replace( '_', '::', $test_name ) . "()</h1>".PHP_EOL;
 
 			print "<div id=\"details\">";
 			print "<p><strong>Test Results:</strong></p>";
@@ -65,7 +65,7 @@
 			print "</div>";
 			print "<div class=\"results\" style=\"background-color: #F7F7F7; color: {$colour};margin-top: 10px;padding: 8px;\">";
 			print $this->getTestCaseProgress() . "/" . $this->getTestCaseCount();
-			print " test cases complete:\n";
+			print " test cases complete:".PHP_EOL;
 			print "<strong>" . $this->getPassCount() . "</strong> passes, ";
 			print "<strong>" . $this->getFailCount() . "</strong> fails and ";
 			print "<strong>" . $this->getExceptionCount() . "</strong> exceptions.";
@@ -74,10 +74,10 @@
 			print "<strong>Elapsed Time:</strong> " . \number_format( $this->_elapsed, 4 ) . "s<br />";
 			print "<strong>Memory Usage:</strong> " . \number_format( memory_get_usage( TRUE ) / 1048576, 2, '.', '' ) . " MB";
 			print "</p>";
-			print "</div>\n";
-			print "</div></div></div></div>\n";
+			print "</div>".PHP_EOL;
+			print "</div>".PHP_EOL;
 			
-			print "</body>\n</html>\n";
+			print "</body>\n</html>".PHP_EOL;
 		}
 
 
