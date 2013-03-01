@@ -1,14 +1,6 @@
 TODO
 ====
 
-forms can stay signed in forever - this is OK if user is validated
-webservice can have multiple tokens - this is OK, tokens are safe
-neither prevents user authorization - add validate to authenticated() method in credential objects
-
-no writing to user table, failed login?
- - move to login form???
-
-
 	[Due in 6.5.0]
 	Compress assets (one time manually?)
 	Integrate with JQuery
