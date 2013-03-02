@@ -88,7 +88,7 @@
 
 			if( $this->ajaxPostBack )
 			{
-				$input->setAttribute( 'onchange', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__post=1&'.$this->getHTMLControlId().'=\'+(this.checked?1:0)+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$input->setAttribute( 'onchange', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \''.$this->getHTMLControlId().'=\'+(this.checked?1:0)+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
 			}
 
 			if( $this->ajaxValidation )
@@ -112,22 +112,6 @@
 
 
 		/**
-		 * called when control is loaded
-		 *
-		 * @return bool			true if successfull
-		 */
-		protected function onLoad()
-		{
-			parent::onLoad();
-
-			if( $this->getParentByType( '\System\Web\WebControls\Form' ))
-			{
-				$this->getParentByType( '\System\Web\WebControls\Form' )->addParameter( $this->getHTMLControlId() . '__post', '1' );
-			}
-		}
-
-
-		/**
 		 * process the HTTP request array
 		 *
 		 * @return void
@@ -140,7 +124,7 @@
 				{
 					$this->submitted = true;
 				}
-				elseif( isset( $request[$this->getHTMLControlId() . '__post'] ))
+				else
 				{
 					$this->submitted = true;
 
@@ -156,8 +140,6 @@
 					else {
 						$this->value = false;
 					}
-
-					unset( $request[$this->getHTMLControlId() . '__post'] );
 				}
 			}
 

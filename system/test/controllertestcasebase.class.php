@@ -188,7 +188,6 @@
 					if(strpos($controlId, 'page_') === false)
 					{
 						$params['page_' . $formId . '_' . $controlId] = $value;
-						$params['page_' . $formId . '_' . $controlId . '__post'] = '1';
 					}
 
 					$params[$controlId] = $value;
