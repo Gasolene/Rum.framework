@@ -4,22 +4,22 @@
 	<property file="local.properties" />
 
 	<!-- config -->
-	<property name="build.name"				value="Ice cube" />
+	<property name="build.name"				value="Jamaica" />
 	<property name="build.version.number"			value="6.4" />
 	<property name="build.zip.exension"			value="6_4" />
-	<property name="build.revision.number"			value="18-rc2" />
+	<property name="build.revision.number"			value="18-rc3" />
 	<property name="authors"				value="darnell.shinbine" />
-	<property name="exclude"				value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, default.local.properties, README.md, nbproject/**" />
-	<property name="plugins.path"				value="${test.path}/app/plugins" />
 
-	<property name="output.archive"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}" />
+	<property name="output.install"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_release" />
+	<property name="output.update"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_update" />
+	<property name="output.archive"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}.${build.revision.number}" />
 	<property name="output.plugins"				value="${rum.path}/public/downloads/release/${build.zip.exension}/plugins" />
-	<property name="output.current_release"			value="${rum.path}/public/downloads/release/current/php_rum" />
 	<property name="output.hello_world"			value="${rum.path}/public/downloads/demo/hello_world" />
 	<property name="output.blog"				value="${rum.path}/public/downloads/demo/blog" />
 	<property name="output.docs"				value="${rum.path}/public/docs" />
 
 	<!-- exclude files -->
+	<property name="exclude"				value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, default.local.properties, README.md, nbproject/**" />
 	<patternset id="package.include.files">
 	<exclude name=".svn" />
 	<exclude name=".git" />
@@ -34,7 +34,7 @@
 	<exclude name="local.properties" />
 	</patternset>
 
-	<target name="build.package" description="Build package and update source files">
+	<target name="update.version" description="Update package version">
 
 		<tstamp>
 			<format property="TSTAMP" pattern="yyyyMMddHHmm" />
@@ -109,6 +109,9 @@
      */
 	const FRAMEWORK_DATE_STRING = 'last build on ${DATE} at ${TIME}';
 ?&gt;</echo>
+	</target>
+
+	<target name="build.hello_world" description="Build HelloWorld package and update source files">
 
 		<!-- update framework files -->
 		<echo message="Updating framework source files" />
@@ -140,14 +143,20 @@
 
 		<!-- export packages -->
 		<antcall target="_export.package">
-			<param name="dest" value="${output.current_release}" />
+			<param name="dest" value="${output.install}" />
 			<param name="src" value="." />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
 
 		<antcall target="_export.package">
-			<param name="dest" value="${output.archive}" />
+			<param name="dest" value="${output.update}" />
 			<param name="src" value="system/" />
+			<param name="excludes" value="${exclude}" />
+		</antcall>
+
+		<antcall target="_export.package">
+			<param name="dest" value="${output.archive}" />
+			<param name="src" value="." />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
 
@@ -222,7 +231,7 @@
 
 		<antcall target="_export.package">
 			<param name="dest" value="${output.plugins}/${plugin}" />
-			<param name="src" value="${plugins.path}/${plugin}" />
+			<param name="src" value="${test.path}/app/plugins/${plugin}" />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
 

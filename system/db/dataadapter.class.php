@@ -242,28 +242,6 @@
 
 
 		/**
-		 * creates a connection object to a datasource
-		 *
-		 * Examples:
-		 * <code>
-		 * adapter=mysql;uid=root;pwd=;server=localhost;database=northwind;charset=utf8;pconnect=false;cache_enabled=false;cache_expires=300;
-		 * adapter=mssql;uid=root;pwd=;server=localhost;database=northwind;charset=utf8;
-		 * adapter=text;format=TabDelimited;source=/northwind.csv;charset=utf8;
-		 * adapter=dir;source=/northwind;
-		 * </code>
-		 *
-		 * @param   string   $dsn   connection string
-		 * @return	DataAdapter
-		 * /
-		final static public function createPDO( $dsn )
-		{
-			include_once __SYSTEM_PATH__ . '/db/pdo/pdodataadapter' . __CLASS_EXTENSION__;
-			$da = new PDO\PDODataAdapter($args);
-			return $da;
-		}
-
-
-		/**
 		 * opens a DataSet specified by the source
 		 *
 		 * @param  string		$source		source string (or QueryBuilder)
