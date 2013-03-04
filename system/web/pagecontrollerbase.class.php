@@ -173,9 +173,12 @@
 			// include jscripts
 			if( \System\Web\WebApplicationBase::getInstance()->config->state == \System\Base\AppState::Debug() )
 			{
-				$this->page->addScript( WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=web/debug.js' );
-				$this->page->addLink( WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . '&asset=web/debug.css' );
+				$this->page->addScript( WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=debug_tools/debug.js' );
+				$this->page->addLink( WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . '&asset=debug_tools/debug.css' );
 			}
+
+			$this->page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=rum.js' );
+			$this->page->onload .= 'Rum.asyncParam = \''.__ASYNC_REQUEST_PARAMETER__.'\';';
 
 			// include all css files for theme
 			foreach( glob( \System\Web\WebApplicationBase::getInstance()->config->htdocs . substr( \System\Web\WebApplicationBase::getInstance()->config->themes, strlen( \System\Web\WebApplicationBase::getInstance()->config->uri )) . '/' . $this->theme . "/*.css" ) as $stylesheet )
@@ -316,11 +319,11 @@
 						$this->page->loadAjaxJScriptBuffer("var li = document.createElement('li');");
 						$this->page->loadAjaxJScriptBuffer("li.setAttribute('id', '{$id}');");
 						$this->page->loadAjaxJScriptBuffer("li.setAttribute('class', '".\strtolower($msg->type)."');");
-						$this->page->loadAjaxJScriptBuffer("li.setAttribute('onclick', 'PHPRum.fadeOut(this);this.onclick=null;');");
+						$this->page->loadAjaxJScriptBuffer("li.setAttribute('onclick', 'Rum.fadeOut(this);this.onclick=null;');");
 						$this->page->loadAjaxJScriptBuffer("li.style.display='none';");
 						$this->page->loadAjaxJScriptBuffer("li.innerHTML = '".\str_replace("\n", '', \str_replace("\r", '', \nl2br(\addslashes($msg->message))))."';");
 						$this->page->loadAjaxJScriptBuffer("if(ul) ul.appendChild(li);");
-						$this->page->loadAjaxJScriptBuffer("PHPRum.fadeIn(document.getElementById('{$id}'));");
+						$this->page->loadAjaxJScriptBuffer("Rum.fadeIn(document.getElementById('{$id}'));");
 					}
 
 					\System\Web\WebApplicationBase::getInstance()->messages->removeAll();

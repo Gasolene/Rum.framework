@@ -12,7 +12,7 @@
 	* 
 	* @return	bool						TRUE if successfull
 	*/
-	PHPRum.treeviewToggleNode = function( controlId, nodeId, uri, params ) {
+	Rum.treeviewToggleNode = function( controlId, nodeId, uri, params ) {
 
 		node = document.getElementById( controlId + '__node_' + nodeId );
 
@@ -66,7 +66,7 @@
 					}
 				}
 
-				return PHPRum.sendHttpRequest( uri, params, 'POST' );
+				return Rum.sendAsync( uri, params, 'POST' );
 			}
 		}
 

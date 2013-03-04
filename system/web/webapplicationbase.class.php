@@ -732,9 +732,9 @@
 <head>
 <title>Unhandled Exception: ".htmlentities($e->getMessage())."</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
-<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/debug.js\" type=\"text/javascript\"></script>
+<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/debug.js\" type=\"text/javascript\"></script>
 </head>
 <body>
 
@@ -954,11 +954,15 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 						{
 							$path = __PLUGINS_PATH__ . '/' . urlencode($request["id"]);
 						}
+
+						$offset = 60 * 60 * 24 * 365; // 1 year
+
 						$content = file_get_contents($path . '/assets/' . $asset);
 
+						HTTPResponse::addHeader("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
+						HTTPResponse::addHeader("Cache-Control: max-age=$offset, must-revalidate"); 
 						HTTPResponse::addHeader("content-type:".$request["type"]);
-						// TODO: compress
-						// TODO: cache
+
 						HTTPResponse::write($content);
 						HTTPResponse::end();
 					}
@@ -986,9 +990,9 @@ ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\
 <head>
 <title>Building...</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
-<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-".(isset($request["nostyle"])?"":"<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />")."
-<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/js')) . "&asset=web/debug.js\" type=\"text/javascript\"></script>
+<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+".(isset($request["nostyle"])?"":"<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />")."
+<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/js')) . "&asset=debug_tools/debug.js\" type=\"text/javascript\"></script>
 </head>
 <body>
 

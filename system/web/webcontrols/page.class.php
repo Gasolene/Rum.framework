@@ -59,7 +59,7 @@
 		 * specifies whether object is currently rendering
 		 * @var bool
 		 */
-		private $_rendering				= false;
+		private $_rendering			= false;
 
 		/**
 		 * contains the buffer
@@ -301,20 +301,6 @@
 				throw new \System\Base\InvalidOperationException("cannot fetch while rendering");
 			}
 		}
-
-
-		/**
-		 * Event called when control is initiated
-		 *
-		 * @return void
-		 */
-		protected function onInit()
-        {
-			parent::onInit();
-
-			$this->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/page/page.js' );
-			$this->onload .= 'PHPRum.asyncParameter = \''.__ASYNC_REQUEST_PARAMETER__.'\';';
-        }
 
 
 		/**

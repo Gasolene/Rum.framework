@@ -13,6 +13,7 @@
 	 *
 	 * @property string $contentType Document content-type
 	 * @property string $charset Document character set
+	 * @property int $contentExpires Cache expiration in seconds, default is 0 (no-cache)
 	 * @property string $template Document template
 	 * @property array $parameters Document parameters
 	 * @property MasterView $master Document master page
@@ -27,13 +28,19 @@
 		 * specifies content-Type, default is text/plain
 		 * @var string
 		 */
-		protected $contentType				= 'text/plain';
+		protected $contentType					= 'text/plain';
 
 		/**
 		 * specifies charset, default is utf-8
 		 * @var string
 		 */
 		protected $charset					= 'utf-8';
+
+		/**
+		 * specifies content cache expiration in seconds, default is 0 (no-cache)
+		 * @var int
+		 */
+		protected $contentExpires				= 0;
 
 		/**
 		 * specifies view template
@@ -45,7 +52,7 @@
 		 * array of parameters
 		 * @var array
 		 */
-		private $_parameters				= array();
+		private $_parameters					= array();
 
 		/**
 		 * array of headers
@@ -379,12 +386,12 @@
 		 * @return void
 		 */
 		protected function onLoad()
-        {
-            if(!is_null($this->master))
-            {
-                $this->master->loadMasterView();
-            }
-        }
+		{
+			if(!is_null($this->master))
+			{
+				$this->master->loadMasterView();
+			}
+		}
 
 
 		/**
@@ -394,12 +401,12 @@
 		 * @return void
 		 */
 		protected function onRequest( array &$request )
-        {
-            if(!is_null($this->master))
-            {
-                $this->master->masterViewRequestProcessor($request);
-            }
-        }
+		{
+			if(!is_null($this->master))
+			{
+				$this->master->masterViewRequestProcessor($request);
+			}
+		}
 
 
 		/**
@@ -424,7 +431,9 @@
 		 */
 		protected function sendHeaders()
 		{
-			\System\Web\HTTPResponse::addHeader( "Content-type: {$this->contentType}; charset={$this->charset};" );
+			\System\Web\HTTPResponse::addHeader("Content-type: {$this->contentType}; charset={$this->charset};");
+			\System\Web\HTTPResponse::addHeader("Expires: " . gmdate("D, d M Y H:i:s", time() + $this->contentExpires) . " GMT");
+			\System\Web\HTTPResponse::addHeader("Cache-Control: max-age={$this->contentExpires}, must-revalidate"); 
 
 			foreach( $this->_headers as $header )
 			{

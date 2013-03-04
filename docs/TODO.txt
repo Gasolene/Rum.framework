@@ -2,11 +2,8 @@ TODO
 ====
 
 	[Due in 6.5.0]
-	Compress assets (one time manually?)
+	Add Minifi to compress themes
 	Integrate with JQuery
-	Reduce HTML output
-
-	Maybe:Compress themes using tool?
 
 Components (BOD)
 ==========

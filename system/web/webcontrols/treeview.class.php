@@ -226,7 +226,7 @@
 				$branchNode->setAttribute( 'class', ($final?'f':'') . ($treeNode->expanded?'expanded':'collapsed') );
 				$branchNode->setAttribute( 'title', ($treeNode->expanded?'expanded':'collapsed') );
 
-				$branchNode->setAttribute( 'onclick', 'PHPRum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($treeNode->id) . '\',\'' . $this->ajaxCallback . '\', \'' . $this->getRequestData() . '\' );this.href=\'#\';' );
+				$branchNode->setAttribute( 'onclick', 'Rum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($treeNode->id) . '\',\'' . $this->ajaxCallback . '\', \'' . $this->getRequestData() . '\' );this.href=\'#\';' );
 				$branchNode->setAttribute( 'href', $this->getQueryString( '?' . urlencode($this->getHTMLControlId().'__'.$treeNode->id) . ($treeNode->expanded?'_collapse':'_expand') . '=1' ));
 
 				if( !$final )
@@ -253,7 +253,7 @@
 					$img->setAttribute( 'src', $treeNode->imgSrc );
 					$img->setAttribute( 'alt', $treeNode->id );
 
-					$img->setAttribute( 'onclick', 'PHPRum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($this->getHTMLControlId().'__'.$treeNode->id) . '\',\'' . \System\Web\WebApplicationBase::getInstance()->config->uri( '', array( $this->getHTMLControlId() . '_submitted' => '1' )) . '\');' );
+					$img->setAttribute( 'onclick', 'Rum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($this->getHTMLControlId().'__'.$treeNode->id) . '\',\'' . \System\Web\WebApplicationBase::getInstance()->config->uri( '', array( $this->getHTMLControlId() . '_submitted' => '1' )) . '\');' );
 
 					$rootNode->addChild( $img );
 				}
@@ -264,7 +264,7 @@
 					$img->setAttribute( 'src', \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . '&asset=/treeview/spacer.gif' );
 					$img->setAttribute( 'alt', $treeNode->id );
 
-					$img->setAttribute( 'onclick', 'PHPRum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($this->getHTMLControlId().'__'.$treeNode->id) . '\',\'' . \System\Web\WebApplicationBase::getInstance()->config->uri( '', array( $this->getHTMLControlId() . '_submitted' => '1' )) . '\');' );
+					$img->setAttribute( 'onclick', 'Rum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($this->getHTMLControlId().'__'.$treeNode->id) . '\',\'' . \System\Web\WebApplicationBase::getInstance()->config->uri( '', array( $this->getHTMLControlId() . '_submitted' => '1' )) . '\');' );
 
 					$rootNode->addChild( $img );
 				}

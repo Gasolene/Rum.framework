@@ -129,11 +129,11 @@
 			if( $this->ajaxPostBack )
 			{
 				$params .= "&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
-				return '\'<input type="button" title="'.$this->buttonName.'" value="'.$this->buttonName.'" class="button" onclick="'.($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'').'PHPRum.httpRequestObjects[\\\''.strtolower($parameter).'HTTPRequest\\\'] = PHPRum.sendHttpRequest(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\', function() { PHPRum.evalHttpResponse(\\\'PHPRum.httpRequestObjects[\\\\\\\''.strtolower($parameter).'HTTPRequest\\\\\\\']\\\') } );" />\'';
+				return '\'<input type="button" title="'.$this->buttonName.'" value="'.$this->buttonName.'" class="button" onclick="'.($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'').'Rum.objs[\\\''.strtolower($parameter).'HTTPRequest\\\'] = Rum.sendAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\', function() { Rum.eval(\\\'Rum.objs[\\\\\\\''.strtolower($parameter).'HTTPRequest\\\\\\\']\\\') } );" />\'';
 			}
 			else
 			{
-				return "'<input type=\"button\" title=\"{$this->buttonName}\" value=\"{$this->buttonName}\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'')."PHPRum.sendPostBack(\\'".\System\Web\WebApplicationBase::getInstance()->config->uri."\\', \\'".$this->escape($this->getRequestData())."&amp;{$parameter}='.%{$dataField}%.'\\', \\'POST\\');\" />'";
+				return "'<input type=\"button\" title=\"{$this->buttonName}\" value=\"{$this->buttonName}\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'')."Rum.sendSync(\\'".\System\Web\WebApplicationBase::getInstance()->config->uri."\\', \\'".$this->escape($this->getRequestData())."&amp;{$parameter}='.%{$dataField}%.'\\', \\'POST\\');\" />'";
 			}
 		}
 	}

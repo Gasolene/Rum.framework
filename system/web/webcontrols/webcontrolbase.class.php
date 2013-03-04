@@ -129,7 +129,7 @@
 
 			// set ajax handlers
 			$this->ajaxCallback	= $_SERVER['PHP_SELF'];
-			$this->ajaxHTTPRequest = 'PHPRum.httpRequestObjects[\'' . strtolower( $this->_controlId ) . 'HTTPRequest\']';
+			$this->ajaxHTTPRequest = 'Rum.objs[\'' . strtolower( $this->_controlId ) . '\']';
 
 			// set viewstate
 			$this->enableViewState = \System\Web\WebApplicationBase::getInstance()->config->viewStateEnabled;

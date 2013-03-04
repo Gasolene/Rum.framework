@@ -19,7 +19,6 @@
 	 * @property int $size Specifies the size of a textbox
 	 * @property int $rows Specifies that number of rows in multiline textbox
 	 * @property int $cols Specifies that number of columns in multiline textbox
-	 * @property string $watermark Specifies an optional watermark that is displayed when the control is empty
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -75,12 +74,6 @@
 		 */
 		protected $cols						= 60;
 
-		/**
-		 * Specifies an optional watermark that is displayed when the control is empty
-		 * @var string
-		 */
-		protected $watermark				= '';
-
 
 		/**
 		 * gets object property
@@ -113,9 +106,6 @@
 			}
 			elseif( $field === 'cols' ) {
 				return $this->cols;
-			}
-			elseif( $field === 'watermark' ) {
-				return $this->watermark;
 			}
 			else {
 				return parent::__get( $field );
@@ -155,9 +145,6 @@
 			}
 			elseif( $field === 'cols' ) {
 				$this->cols = (int)$value;
-			}
-			elseif( $field === 'watermark' ) {
-				$this->watermark = (string)$value;
 			}
 			else {
 				parent::__set($field,$value);
@@ -208,20 +195,20 @@
 
 				if( $this->autoPostBack )
 				{
-					$textarea->appendAttribute( 'onchange', 'document.getElementById(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
+					$textarea->appendAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 				}
 
 				if( $this->ajaxPostBack )
 				{
-					$textarea->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+					$textarea->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
 				}
 
 				if( $this->ajaxValidation )
 				{
-					$textarea->appendAttribute( 'onfocus', 'PHPRum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');' );
-					$textarea->appendAttribute( 'onchange', $this->ajaxHTTPRequest .                                     ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
-					$textarea->appendAttribute( 'onkeyup',  'if(PHPRum.isValidationReady() && PHPRum.hasText(document.getElementById(\''.$this->getHTMLControlId().'__err\'))){' . $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); PHPRum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');}' );
-					$textarea->appendAttribute( 'onblur',  $this->ajaxHTTPRequest .                                      ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); PHPRum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');' );
+					$textarea->appendAttribute( 'onfocus', 'Rum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');' );
+					$textarea->appendAttribute( 'onchange', $this->ajaxHTTPRequest .                                     ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+					$textarea->appendAttribute( 'onkeyup',  'if(Rum.isValidationReady() && Rum.hasText(Rum.id(\''.$this->getHTMLControlId().'__err\'))){' . $this->ajaxHTTPRequest . ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); Rum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');}' );
+					$textarea->appendAttribute( 'onblur',  $this->ajaxHTTPRequest .                                      ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); Rum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');' );
 				}
 
 				if( $this->readonly )
@@ -257,22 +244,10 @@
 				{
 					$input->setAttribute( 'value', $this->value );
 				}
-				elseif($this->watermark)
-				{
-					$input->appendAttribute( 'class', ' watermark' );
-					$input->setAttribute( 'value', $this->watermark );
-				}
 
 				if( $this->ajaxPostBack )
 				{
-					$input->appendAttribute( 'onkeyup',  'if(PHPRum.isValidationReady()){' . $this->ajaxHTTPRequest . ' = PHPRum.sendHttpRequest( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { PHPRum.evalHttpResponse(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); PHPRum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');}' );
-				}
-
-				if($this->watermark)
-				{
-					$input->appendAttribute( 'onchange', "PHPRum.textboxUpdateWatermark(this, '".\addslashes($this->watermark)."');" );
-					$input->appendAttribute( 'onblur', "PHPRum.textboxUpdateWatermark(this, '".\addslashes($this->watermark)."');" );
-					$input->appendAttribute( 'onclick', "if(this.value=='{$this->watermark}'){this.value='';}" );
+					$input->appendAttribute( 'onkeyup',  'if(Rum.isValidationReady()){' . $this->ajaxHTTPRequest . ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' ); Rum.resetValidationTimer('.__VALIDATION_TIMEOUT__.');}' );
 				}
 
 				if( $this->visible )
@@ -304,46 +279,6 @@
 			}
 
 			return $input;
-		}
-
-
-		/**
-		 * called when control is loaded
-		 *
-		 * @return bool			true if successfull
-		 */
-		protected function onLoad()
-		{
-			parent::onLoad();
-
-			if( !$this->tooltip )
-			{
-				$this->tooltip = $this->watermark;
-			}
-
-			$page = $this->getParentByType( '\System\Web\WebControls\Page' );
-
-			if( $page )
-			{
-				$page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/textbox/textbox.js' );
-			}
-		}
-
-
-		/**
-		 * process the HTTP request array
-		 *
-		 * @param  object	$request	HTTPRequest Object
-		 * @return void
-		 */
-		protected function onRequest( array &$request )
-		{
-			parent::onRequest( $request );
-
-			if( $this->value == $this->watermark )
-			{
-				$this->value = '';
-			}
 		}
 	}
 ?>

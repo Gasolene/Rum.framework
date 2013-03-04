@@ -136,7 +136,6 @@
 
 					// set value
 					$this->value = $request[$this->getHTMLControlId()];
-					unset( $request[$this->getHTMLControlId()] );
 				}
 			}
 

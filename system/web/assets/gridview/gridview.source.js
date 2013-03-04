@@ -8,7 +8,7 @@
 	 * @param	controlId		name of control
 	 * @return	TRUE if successfull
 	 */
-	PHPRum.gridViewSelectAll = function( controlId )
+	Rum.gridViewSelectAll = function( controlId )
 	{
 		var table = document.getElementById( controlId );
 		var selectAll = document.getElementById( controlId + "__selectall" );
@@ -32,7 +32,7 @@
 	 * @param	controlId		name of control
 	 * @return	TRUE if successfull
 	 */
-	PHPRum.gridViewUnSelectAll = function( controlId ) {
+	Rum.gridViewUnSelectAll = function( controlId ) {
 		var trTags = document.getElementById( controlId ).getElementsByTagName( 'tr' );
 
 		for( var i = 0; i < trTags.length; i++ ) {
@@ -51,7 +51,7 @@
 	 *
 	 * @return	void
 	 */
-	PHPRum.gridViewAjaxCallback = function() {
+	Rum.gridViewAjaxCallback = function() {
 
 		// if xmlhttp shows "loaded"
 		if (http_request) {

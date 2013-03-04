@@ -776,37 +776,31 @@
 			if( isset( $request[$this->getHTMLControlId().'__sort_by'] ))
 			{
 				$this->sortBy = $request[$this->getHTMLControlId().'__sort_by'];
-				unset( $request[$this->getHTMLControlId().'__sort_by'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__sort_order'] ))
 			{
 				$this->sortOrder = $request[$this->getHTMLControlId().'__sort_order'];
-				unset( $request[$this->getHTMLControlId().'__sort_order'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__move'] ))
 			{
 				$this->moveCursor = $request[$this->getHTMLControlId().'__move'];
-				unset( $request[$this->getHTMLControlId().'__move'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__move_order'] ))
 			{
 				$this->moveOrder = $request[$this->getHTMLControlId().'__move_order'];
-				unset( $request[$this->getHTMLControlId().'__move_order'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__page'] ))
 			{
 				$this->page = (int) $request[$this->getHTMLControlId().'__page'];
-				unset( $request[$this->getHTMLControlId().'__page'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__selected'] ))
 			{
 				$this->selected = $request[$this->getHTMLControlId().'__selected'];
-				unset( $request[$this->getHTMLControlId().'__selected'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__filter_name'] ))
@@ -820,7 +814,6 @@
 
 					if(!$this->filters[$request[$htmlId.'__filter_name']])
 					{
-						unset($this->filters[$request[$htmlId.'__filter_name']]);
 					}
 					elseif($this->filters[$request[$htmlId.'__filter_name']] == 'true')
 					{
@@ -830,11 +823,7 @@
 					{
 						$this->filters[$request[$htmlId.'__filter_name']] = '0';
 					}
-
-					unset( $request[$this->getHTMLControlId().'__filter_value'] );
 				}
-
-				unset( $request[$this->getHTMLControlId().'__filter_name'] );
 			}
 
 			// order DataSet
@@ -941,7 +930,7 @@
 			// update entire table
 			$page = $this->getParentByType('\System\Web\WebControls\Page');
 
-			$page->loadAjaxJScriptBuffer('table1 = document.getElementById(\''.$this->getHTMLControlId().'\');');
+			$page->loadAjaxJScriptBuffer('table1 = Rum.id(\''.$this->getHTMLControlId().'\');');
 			$page->loadAjaxJScriptBuffer('table2 = document.createElement(\'div\');');
 			$page->loadAjaxJScriptBuffer('table2.innerHTML = \''.\addslashes(str_replace("\n", '', str_replace("\r", '', $this->fetch()))).'\';');
 			$page->loadAjaxJScriptBuffer('table1.parentNode.insertBefore(table2, table1);');
@@ -973,7 +962,7 @@
 				{
 					$input = new \System\XML\DomObject( 'input' );
 					$input->setAttribute( 'type', 'checkbox' );
-					$input->setAttribute( 'onclick', 'PHPRum.gridViewSelectAll(\''.$this->getHTMLControlId().'\');' );
+					$input->setAttribute( 'onclick', 'Rum.gridViewSelectAll(\''.$this->getHTMLControlId().'\');' );
 					$input->setAttribute( 'id', $this->getHTMLControlId() . '__selectall' );
 					$input->setAttribute( 'name', $this->getHTMLControlId() . '__selectall' );
 
@@ -1140,7 +1129,7 @@
 									$select->addChild($option);
 								}
 
-								$select->setAttribute( 'onchange', "PHPRum.sendPostBack('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+this.value);" );
+								$select->setAttribute( 'onchange', "Rum.sendSync('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+this.value);" );
 								$th->addChild( $select );
 							}
 							else
@@ -1159,8 +1148,8 @@
 									$input->setAttribute('value', $this->filters[$column["DataField"]]);
 								}
 
-								$input->setAttribute( 'onchange', "PHPRum.sendPostBack('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+this.value);" );
-								$button->setAttribute( 'onclick', "PHPRum.sendPostBack('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+document.getElementById('".$this->getHTMLControlId().'__filter_value'."').value);" );
+								$input->setAttribute( 'onchange', "Rum.sendSync('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+this.value);" );
+								$button->setAttribute( 'onclick', "Rum.sendSync('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+Rum.id('".$this->getHTMLControlId().'__filter_value'."').value);" );
 
 								$th->addChild( $input );
 								$th->addChild( $button );
@@ -1237,12 +1226,12 @@
 						$tr->appendAttribute( 'class', ' selected' );
 					}
 
-					$tr->appendAttribute( 'onclick', 'PHPRum.gridViewUnSelectAll( \'' . $this->getHTMLControlId() . '\' );' );
+					$tr->appendAttribute( 'onclick', 'Rum.gridViewUnSelectAll( \'' . $this->getHTMLControlId() . '\' );' );
 				}
 
-				$tr->appendAttribute( 'onclick', 'if( document.getElementById(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { document.getElementById(\''. (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = false; } else { document.getElementById(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = true; }' );
-				$tr->appendAttribute( 'onclick', 'if( document.getElementById(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'row\' ) { this.className = \'selected row\'; } else { this.className = \'selected row_alt\'; }}' );
-				$tr->appendAttribute( 'onclick', 'if(!document.getElementById(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'selected row\' ) { this.className = \'row\'; } else { this.className = \'row_alt\'; }}' );
+				$tr->appendAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { Rum.id(\''. (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = false; } else { Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = true; }' );
+				$tr->appendAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'row\' ) { this.className = \'selected row\'; } else { this.className = \'selected row_alt\'; }}' );
+				$tr->appendAttribute( 'onclick', 'if(!Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'selected row\' ) { this.className = \'row\'; } else { this.className = \'row_alt\'; }}' );
 
 				// add td element to tr
 				$td->addChild( $input );
@@ -1347,8 +1336,8 @@
 
 				if($this->ajaxPostBack)
 				{
-					$up->setAttribute( 'onclick', 'PHPRum.sendHttpRequest(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=up&'.$this->getHTMLControlId().'__move='.$ds->cursor.'\', \'POST\', \'PHPRum.gridViewAjaxCallback\');');
-					$down->setAttribute( 'onclick', 'PHPRum.sendHttpRequest(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=down&'.$this->getHTMLControlId().'__move='.$ds->cursor.'\', \'POST\', \'PHPRum.gridViewAjaxCallback\');');
+					$up->setAttribute( 'onclick', 'Rum.sendAsync(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=up&'.$this->getHTMLControlId().'__move='.$ds->cursor.'\', \'POST\', \'Rum.gridViewAjaxCallback\');');
+					$down->setAttribute( 'onclick', 'Rum.sendAsync(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=down&'.$this->getHTMLControlId().'__move='.$ds->cursor.'\', \'POST\', \'Rum.gridViewAjaxCallback\');');
 				}
 				else
 				{

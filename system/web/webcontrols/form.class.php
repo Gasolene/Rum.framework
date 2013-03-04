@@ -24,7 +24,7 @@
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback, Default is false
 	 * @property bool $ajaxValidation specifies whether to perform ajax validation, Default is false
 	 * @property bool $autoFocus specifies whether to auto focus
-	 * @property bool $hiddenField specifies whether to check for hidden honeypot field before processing request
+	 * @property string $honeyPot specifies the content of the honeypot field
 	 * @property string $submitted specifies if form was submitted
 	 * @property RequestParameterCollection $parameters form parameters
 	 *
@@ -84,10 +84,10 @@
 		protected $ajaxValidation		= false;
 
 		/**
-		 * specifies whether to check for hidden honeypot field before processing request
+		 * specifies whether to check for hidden field before processing request
 		 * @var bool
 		 */
-		protected $hiddenField			= false;
+		protected $honeyPot			= false;
 
 		/**
 		 * set if the form was submitted
@@ -196,7 +196,11 @@
 			}
 			elseif( $field === 'hiddenField' )
 			{
-				$this->hiddenField = (string)$value;
+				$this->honeyPot = (string)$value;
+			}
+			elseif( $field === 'honeyPot' )
+			{
+				$this->honeyPot = (string)$value;
 			}
 			elseif( $field === 'onPost' )
 			{
@@ -250,9 +254,9 @@
 			{
 				return $this->ajaxValidation;
 			}
-			elseif( $field === 'hiddenField' )
+			elseif( $field === 'honeyPot' )
 			{
-				return $this->hiddenField;
+				return $this->honeyPot;
 			}
 			elseif( $field === 'onPost' )
 			{
@@ -505,9 +509,6 @@
 				$form->appendAttribute( 'onsubmit', $this->_onsubmit );
 			}
 
-			// public to check if form has been submitted
-			$this->parameters[$this->getHTMLControlId() . '__submit'] = '1';
-
 			// send session id as http var
 			if( \System\Web\WebApplicationBase::getInstance()->config->cookielessSession ) {
 				$this->parameters['PHPSESSID'] = session_id();
@@ -567,7 +568,7 @@
 				}
 			}
 
-			if( $this->hiddenField )
+			if( $this->honeyPot )
 			{
 				$hiddenElements .= "<div class=\"hp\"><input type=\"text\" name=\"".GOTCHAFIELD."\" /></div>";
 			}
@@ -587,18 +588,10 @@
 		{
 			parent::onLoad();
 
-			$page = $this->getParentByType('\System\Web\WebControls\Page');
-			$page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/form/form.js' );
-
-			if($this->hiddenField)
-			{
-				$page->addLink( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . '&asset=/form/form.css' );
-			}
-
 			// perform ajax request
 			if( $this->ajaxPostBack )
 			{
-				$this->_onsubmit = "return PHPRum.submitForm(this, " . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'PHPRum.evalFormResponse);' );
+				$this->_onsubmit = "return Rum.submit(this, " . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'Rum.evalFormResponse);' );
 			}
 		}
 
@@ -611,54 +604,19 @@
 		 */
 		protected function onRequest( array &$request )
 		{
-			if( isset( $request[ $this->getHTMLControlId() . '__submit'] ))
+			if( $this->honeyPot )
 			{
-				if( $this->hiddenField )
+				if( isset( $request[GOTCHAFIELD] )?$request[GOTCHAFIELD]:false )
 				{
-					if( isset( $request[GOTCHAFIELD] )?!$request[GOTCHAFIELD]:false )
-					{
-						$this->submitted = true;
-					}
-					else
-					{
-						\System\Base\ApplicationBase::getInstance()->logger->log( 'spam submission attack detected from IP ' . $_SERVER['REMOTE_ADDR'], 'security' );
-					}
+					\System\Base\ApplicationBase::getInstance()->logger->log( 'spam submission attack detected from IP ' . $_SERVER['REMOTE_ADDR'], 'security' );
 				}
-				else
-				{
-					$this->submitted = true;
-				}
-
-				unset( $request[ $this->getHTMLControlId() . '__submit'] );
 			}
-			elseif( $this->autoFocus && isset( $this->controls[0] ))
+
+			if( $this->autoFocus && isset( $this->controls[0] ))
 			{
 				// auto focus first control
 				$childControl = $this->controls[0];
 				$childControl->focus();
-			}
-
-			if( $this->ajaxPostBack && $this->submitted )
-			{
-				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("");
-/**
-				if($this->autoFocus)
-				{
-					$this->validate($errMsg);
-
-					foreach( $this->controls as $childControl )
-					{
-						if( $childControl instanceof InputBase )
-						{
-							if( $childControl->focus )
-							{
-								$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$childControl->getHTMLControlId()}').focus()");
-								break;
-							}
-						}
-					}
-				}
- */
 			}
 		}
 
@@ -671,16 +629,15 @@
 		 */
 		protected function onPost( array &$request )
 		{
-			if( $this->submitted )
+			$this->submitted = true;
+
+			if( $this->ajaxPostBack )
 			{
-				if( $this->ajaxPostBack )
-				{
-					$this->events->raise(new \System\Web\Events\FormAjaxPostEvent(), $this, $request);
-				}
-				else
-				{
-					$this->events->raise(new \System\Web\Events\FormPostEvent(), $this, $request);
-				}
+				$this->events->raise(new \System\Web\Events\FormAjaxPostEvent(), $this, $request);
+			}
+			else
+			{
+				$this->events->raise(new \System\Web\Events\FormPostEvent(), $this, $request);
 			}
 		}
 
