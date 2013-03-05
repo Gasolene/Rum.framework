@@ -193,28 +193,6 @@
 		}
 	}
 
-	/**
-	 * Function to fade in
-	 */
-	Rum.fadeIn = function(element, duration) {
-		if(!duration) duration = 1000; /* 1000 millisecond fade = 1 sec */
-		for (i = 0; i <= 1; i += (1 / 20)) {
-			setTimeout("Rum.setOpacity('"+element.id+"'," + i + ")", i * duration);
-		}
-	}
-
-	/**
-	 * Function to fade out
-	 */
-	Rum.fadeOut = function(element, duration) {
-		if(element.style.display != 'none') {
-			if(!duration) duration = 1000; /* 1000 millisecond fade = 1 sec */
-			for (i = 0; i <= 1; i += (1 / 20)) {
-				setTimeout("Rum.setOpacity('"+element.id+"'," + (1 - i) + ")", i * duration);
-			}
-		}
-	}
-
 
 	/**
 	 * Function to submit html forms
@@ -349,7 +327,7 @@
 	/**
 	 * Function to reset validation timer
 	 */
-	Rum.resetValidationTimer = function(timeout) {
+	Rum.reset = function(timeout) {
 		Rum.validationReady = false;
 		window.setTimeout('Rum.setValidationReady()', timeout);
 	}
@@ -358,7 +336,7 @@
 	/**
 	 * Function to specify whether an asyncronous validation attempt is ready
 	 */
-	Rum.isValidationReady = function() {
+	Rum.isReady = function() {
 		return Rum.validationReady;
 	}
 

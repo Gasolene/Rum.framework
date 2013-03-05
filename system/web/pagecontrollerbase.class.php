@@ -178,7 +178,7 @@
 			}
 
 			$this->page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=rum.js' );
-			$this->page->onload .= 'Rum.asyncParam = \''.__ASYNC_REQUEST_PARAMETER__.'\';';
+			$this->page->onload .= 'Rum.init(\''.__ASYNC_REQUEST_PARAMETER__.'\', '.__VALIDATION_TIMEOUT__.');';
 
 			// include all css files for theme
 			foreach( glob( \System\Web\WebApplicationBase::getInstance()->config->htdocs . substr( \System\Web\WebApplicationBase::getInstance()->config->themes, strlen( \System\Web\WebApplicationBase::getInstance()->config->uri )) . '/' . $this->theme . "/*.css" ) as $stylesheet )
@@ -291,7 +291,6 @@
 					. '_masterviewstate'] = serialize( $viewStateArray );
 			}
 
-
 			$config = \System\Web\WebApplicationBase::getInstance()->config;
 			if($config->viewStateMethod == 'cookies')
 			{
@@ -310,20 +309,9 @@
 
 				if(\System\Web\WebApplicationBase::getInstance()->messages->count>0)
 				{
-					$this->page->loadAjaxJScriptBuffer("var ul = document.getElementById('messages');");
-					//$this->page->loadAjaxJScriptBuffer("if(ul){if(ul.hasChildNodes()){while(ul.childNodes.length>=1){ul.removeChild(ul.firstChild);}}}");
-
 					foreach(\System\Web\WebApplicationBase::getInstance()->messages as $msg)
 					{
-						$id = 'm'.uniqid();
-						$this->page->loadAjaxJScriptBuffer("var li = document.createElement('li');");
-						$this->page->loadAjaxJScriptBuffer("li.setAttribute('id', '{$id}');");
-						$this->page->loadAjaxJScriptBuffer("li.setAttribute('class', '".\strtolower($msg->type)."');");
-						$this->page->loadAjaxJScriptBuffer("li.setAttribute('onclick', 'Rum.fadeOut(this);this.onclick=null;');");
-						$this->page->loadAjaxJScriptBuffer("li.style.display='none';");
-						$this->page->loadAjaxJScriptBuffer("li.innerHTML = '".\str_replace("\n", '', \str_replace("\r", '', \nl2br(\addslashes($msg->message))))."';");
-						$this->page->loadAjaxJScriptBuffer("if(ul) ul.appendChild(li);");
-						$this->page->loadAjaxJScriptBuffer("Rum.fadeIn(document.getElementById('{$id}'));");
+						$this->page->loadAjaxJScriptBuffer("Rum.flash( '".\str_replace("\n", '', \str_replace("\r", '', \nl2br(\addslashes($msg->message))))."', '".\strtolower($msg->type)."');");
 					}
 
 					\System\Web\WebApplicationBase::getInstance()->messages->removeAll();
@@ -332,7 +320,7 @@
 				if(\System\Web\WebApplicationBase::getInstance()->forwardURI)
 				{
 					$url = \System\Web\WebApplicationBase::getInstance()->getPageURI( \System\Web\WebApplicationBase::getInstance()->forwardURI, \System\Web\WebApplicationBase::getInstance()->forwardParams );
-					$this->page->loadAjaxJScriptBuffer("location.href='".$url."';");
+					$this->page->loadAjaxJScriptBuffer("Rum.forward('".$url."');");
 
 					// clear forward
 					\System\Web\WebApplicationBase::getInstance()->clearForwardPage();

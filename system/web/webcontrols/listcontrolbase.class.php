@@ -253,7 +253,7 @@
 			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted)
 			{
 				$this->validate($errMsg);
-				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.setErrMsg('{$this->getHTMLControlId()}'__err)");
+				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}__err', '".\addslashes($errMsg)."');");
 			}
 		}
 	}

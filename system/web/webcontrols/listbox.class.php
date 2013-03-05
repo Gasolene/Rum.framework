@@ -79,7 +79,7 @@
 			$select->setAttribute( 'title', $this->tooltip );
 			$select->appendAttribute( 'class', ' listbox' );
 			$select->setAttribute( 'size', $this->listSize );
-			$select->appendAttribute( 'onchange', 'Rum.clrErrMsg(\''.$this->getHTMLControlId().'_err\');' );
+			$select->appendAttribute( 'onchange', 'Rum.clear(\''.$this->getHTMLControlId().'_err\');' );
 
 			if( $this->multiple )
 			{

@@ -16,9 +16,6 @@
 	 * @property bool $enableViewState Specifies whether to enable view state preservation
 	 * @property bool $visible Specifies whether control is visible
 	 * @property bool $escapeOutput Specifies whether to escape the output
-	 * @property string $ajaxCallback Specifies the ajax callback uri (optional)
-	 * @property string $ajaxEventHandler Specifies the name of the ajax event handler javascript function (optional)
-	 * @property string $ajaxHTTPRequest Specifies the name of the ajax HTTPRequest object (optional)
 	 * @property WebControlAttributeCollection $attributes Collection of attributes
 	 * @property WebControlCollection $controls Collection of child controls
 	 * @property WebControlBase $parent parent control
@@ -55,12 +52,6 @@
 		 * @var string
 		 */
 		protected $ajaxCallback			= '';
-
-		/**
-		 * specifies the name of the ajax event handler javascript function (optional)
-		 * @var string
-		 */
-		protected $ajaxEventHandler		= '';
 
 		/**
 		 * specifies the name of the ajax HTTPRequest object (optional)
@@ -129,7 +120,7 @@
 
 			// set ajax handlers
 			$this->ajaxCallback	= $_SERVER['PHP_SELF'];
-			$this->ajaxHTTPRequest = 'Rum.objs[\'' . strtolower( $this->_controlId ) . '\']';
+			$this->ajaxHTTPRequest = strtolower( $this->_controlId );
 
 			// set viewstate
 			$this->enableViewState = \System\Web\WebApplicationBase::getInstance()->config->viewStateEnabled;
@@ -192,18 +183,6 @@
 			{
 				return $this->escapeOutput;
 			}
-			elseif( $field === 'ajaxCallback' )
-			{
-				return $this->ajaxCallback;
-			}
-			elseif( $field === 'ajaxEventHandler' )
-			{
-				return $this->ajaxEventHandler;
-			}
-			elseif( $field === 'ajaxHTTPRequest' )
-			{
-				return $this->ajaxHTTPRequest;
-			}
 			elseif( $field === 'attributes' )
 			{
 				return $this->attributes;
@@ -260,18 +239,6 @@
 			elseif( $field === 'escapeOutput' )
 			{
 				$this->escapeOutput = (bool)$value;
-			}
-			elseif( $field === 'ajaxCallback' )
-			{
-				$this->ajaxCallback = (string)$value;
-			}
-			elseif( $field === 'ajaxEventHandler' )
-			{
-				$this->ajaxEventHandler = (string)$value;
-			}
-			elseif( $field === 'ajaxHTTPRequest' )
-			{
-				$this->ajaxHTTPRequest = (string)$value;
 			}
 			elseif( $field === 'dataSource' )
 			{
@@ -766,6 +733,7 @@
 		 */
 		final public function getHTMLControlIdString()
 		{
+			trigger_error('WebControlBase::getHTMLControlIdString() is deprecated, use WebControlBase::getHTMLControlId() instead', E_USER_DEPRECATED);
 			return $this->getHTMLControlId();
 		}
 
