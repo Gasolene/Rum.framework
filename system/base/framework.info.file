@@ -4,7 +4,7 @@
 	 * @package			PHPRum
 	 * @author			darnell.shinbine
 	 * @copyright		Copyright (c) 2013
-     * @version         6.4.18-rc2
+     * @version         6.4.18-rc3
 	 */
 	namespace System\Base;
 
@@ -12,7 +12,7 @@
      * build name
      * @var string
      */
-	const FRAMEWORK_BUILD_NAME = 'Ice cube';
+	const FRAMEWORK_BUILD_NAME = 'Jamaica';
 
     /**
      * framework version number
@@ -24,25 +24,25 @@
      * framework revision number
      * @var string
      */
-	const FRAMEWORK_BUILD_REVISION = '18-rc2';
+	const FRAMEWORK_BUILD_REVISION = '18-rc3';
 
     /**
      * build number
      * @var string
      */
-	const FRAMEWORK_BUILD_NUMBER = '201303011000';
+	const FRAMEWORK_BUILD_NUMBER = '201303051056';
 
     /**
      * build date
      * @var string
      */
-	const FRAMEWORK_BUILD_TIME = '01 Mar 13';
+	const FRAMEWORK_BUILD_TIME = '05 Mar 13';
 
     /**
      * build time
      * @var string
      */
-	const FRAMEWORK_BUILD_DATE = '10:00:27 MST';
+	const FRAMEWORK_BUILD_DATE = '10:56:31 MST';
 
     /**
      * framework authors
@@ -54,11 +54,11 @@
      * framework version string
      * @var string
      */
-	const FRAMEWORK_VERSION_STRING = '6.4.18-rc2 (Build 201303011000)';
+	const FRAMEWORK_VERSION_STRING = '6.4.18-rc3 (Build 201303051056)';
 
     /**
      * framework date string
      * @var string
      */
-	const FRAMEWORK_DATE_STRING = 'last build on 01 Mar 13 at 10:00:27 MST';
+	const FRAMEWORK_DATE_STRING = 'last build on 05 Mar 13 at 10:56:31 MST';
 ?>
