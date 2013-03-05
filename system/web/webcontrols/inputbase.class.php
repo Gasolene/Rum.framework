@@ -445,15 +445,16 @@
 
 			if( $this->ajaxPostBack )
 			{
-				$input->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$input->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
 			}
 
 			if( $this->ajaxValidation )
 			{
-				$input->appendAttribute( 'onfocus', 'Rum.reset('.__VALIDATION_TIMEOUT__.');' );
-				$input->appendAttribute( 'onchange', $this->ajaxHTTPRequest .                                     ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
-				$input->appendAttribute( 'onkeyup',  'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . $this->ajaxHTTPRequest . ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );}' );
-				$input->appendAttribute( 'onblur',  $this->ajaxHTTPRequest .                                      ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$event = 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');';
+				$input->appendAttribute( 'onfocus', 'Rum.reset();' );
+				$input->appendAttribute( 'onchange', $event);
+				$input->appendAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . $event . '}' );
+				$input->appendAttribute( 'onblur', $event );
 			}
 
 			if( $this->readonly )

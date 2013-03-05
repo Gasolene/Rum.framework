@@ -36,7 +36,7 @@
 			if($this->ajaxPostBack)
 			{
 				$params .= "&{$parameter}=\'+this.value+\'";
-				return '\'<input type="text" size="'.$this->size.'" value="\'.%'.$dataField.'%.\'" class="textbox" onchange="Rum.objs[\\\''.strtolower($parameter).'HTTPRequest\\\'] = Rum.sendAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\', function() { Rum.eval(\\\'Rum.objs[\\\\\\\''.strtolower($parameter).'HTTPRequest\\\\\\\']\\\') } );" />\'';
+				return '\'<input type="text" size="'.$this->size.'" value="\'.%'.$dataField.'%.\'" class="textbox" onchange="Rum.objs[\\\''.strtolower($parameter).'HTTPRequest\\\'] = Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\', function() { Rum.eval(\\\'Rum.objs[\\\\\\\''.strtolower($parameter).'HTTPRequest\\\\\\\']\\\') } );" />\'';
 			}
 			else
 			{

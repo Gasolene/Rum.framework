@@ -79,7 +79,6 @@
 			$select->setAttribute( 'title', $this->tooltip );
 			$select->appendAttribute( 'class', ' listbox' );
 			$select->setAttribute( 'size', $this->listSize );
-			$select->appendAttribute( 'onchange', 'Rum.clear(\''.$this->getHTMLControlId().'_err\');' );
 
 			if( $this->multiple )
 			{
@@ -103,7 +102,7 @@
 
 			if( $this->ajaxPostBack )
 			{
-				$select->appendAttribute( 'onchange', $this->ajaxHTTPRequest . ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \''.$this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+				$select->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
 			}
 
 			if( $this->readonly )

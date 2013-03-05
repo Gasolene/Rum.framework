@@ -129,7 +129,7 @@
 
 				if( $this->ajaxPostBack )
 				{
-					$input->appendAttribute( 'onclick', $this->ajaxHTTPRequest . ' = Rum.sendAsync( \'' . $this->ajaxCallback . '\', \''.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\', \'POST\', ' . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'function() { Rum.eval(\''.\addslashes($this->ajaxHTTPRequest).'\') }' ) . ' );' );
+					$input->appendAttribute( 'onclick', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
 				}
 
 				if( $this->readonly )

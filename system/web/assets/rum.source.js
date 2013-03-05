@@ -5,12 +5,15 @@
 	 */
 	var Rum = {};
 
-	Rum.objs = Array();
-
 	/**
 	 * Specifies the asyncronous request parameter
 	 */
 	Rum.asyncParam = '';
+
+	/**
+	 * Specifies the asyncronous request parameter
+	 */
+	Rum.validationTimeout = 10;
 
 	/**
 	 * Specifies whether a asyncronous validation attempt is ready
@@ -20,12 +23,44 @@
 	/**
 	 * Function to get a xmlhttp object.
 	 */
+	Rum.init = function(param, timeout) {
+		Rum.asyncParam = param;
+		Rum.validationTimeout = timeout;
+	}
+
+
+	/**
+	 * Function to get a xmlhttp object.
+	 */
 	Rum.id = function(id) {
 		return document.getElementById(id);
 	}
 
+
+	/**
+	 * Function to set a new message
+	 */
+	Rum.flash = function(message, type) {
+		if(Rum.id('messages')) {
+			var li = document.createElement('li');
+			li.setAttribute('class', type);
+			li.innerHTML = message;
+			Rum.id('messages').appendChild(li);
+		}
+	}
+
+
+	/**
+	 * Function to forward
+	 */
+	Rum.forward = function(url) {
+		location.href=url;
+	}
+
+
 	/**
 	 * Function to get a xmlhttp object.
+	 * @ignore
 	 */
 	Rum.createXMLHttpRequest = function() {
 
@@ -59,7 +94,7 @@
 	/**
 	 * Function to send a xmlhttp request.
 	 */
-	Rum.sendAsync = function( url, params, method, callback ) {
+	Rum.sendAsync = function( http_request, url, params, method, callback ) {
 
 		if (method == null){
 			method = 'GET';
@@ -82,8 +117,6 @@
 			params = '';
 		}
 
-		http_request = Rum.createXMLHttpRequest();
-
 		if (callback != null){
 			eval( 'http_request.onreadystatechange=' + callback );
 		}
@@ -95,6 +128,48 @@
 		http_request.send( params );
 
 		return http_request;
+	}
+
+
+	/**
+	 * Function to send a xmlhttp request.
+	 */
+	Rum.evalAsync = function( url, params, method ) {
+
+		http_request = Rum.createXMLHttpRequest();
+		var callback = function() { Rum.evalHttpResponze( http_request ); };
+		Rum.sendAsync(http_request, url, params, method, callback);
+	}
+
+
+	/**
+	 * Function to receive HTTP response
+	 */
+	Rum.getHttpResponse = function( http_request ) {
+
+		// if xmlhttp shows "loaded"
+		if (http_request) {
+			// if xmlhttp shows "loaded"
+			if (http_request.readyState==4) {
+				// if status "OK"
+				if (http_request.status==200) {
+					// get response
+					response = http_request.responseText;
+					return response;
+				}
+				else {
+					throw "Problem retrieving XML data";
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Function to parse HTTP response
+	 */
+	Rum.evalHttpResponze = function( http_request ) {
+		eval(Rum.getHttpResponse(http_request));
 	}
 
 
@@ -144,63 +219,22 @@
 
 
 	/**
-	 * Function to receive HTTP response
-	 */
-	Rum.getHttpResponse = function( http_request_var ) {
-
-		eval("var http_request = " + http_request_var);
-
-		// if xmlhttp shows "loaded"
-		if (http_request) {
-			// if xmlhttp shows "loaded"
-			if (http_request.readyState==4) {
-				// if status "OK"
-				if (http_request.status==200) {
-					// get response
-					response = http_request.responseText;
-					eval(http_request_var + " = null");
-					return response;
-				}
-				else {
-					throw "Problem retrieving XML data";
-				}
-			}
-		}
-	}
-
-
-	/**
-	 * Function to parse HTTP response
-	 */
-	Rum.eval = function( http_request_var ) {
-		eval(Rum.getHttpResponse(http_request_var));
-	}
-
-	/**
-	 * Function to set opacity
-	 */
-	Rum.setOpacity = function(elementId, level) {
-		document.getElementById(elementId).style.opacity = level;
-		document.getElementById(elementId).style.MozOpacity = level;
-		document.getElementById(elementId).style.KhtmlOpacity = level;
-		document.getElementById(elementId).style.filter = "alpha(opacity=" + (level * 100) + ");";
-
-		if(level<0.1) {
-			document.getElementById(elementId).style.display = 'none';
-		}
-		else {
-			document.getElementById(elementId).style.display = 'block';
-		}
-	}
-
-
-	/**
 	 * Function to submit html forms
 	 */
 	Rum.submit = function( form, callback ) {
 
 		Rum.createFrame(form, callback);
 		return true;
+	}
+
+
+	/**
+	 * Function to set the validation ready flag
+	 */
+	Rum.evalFormResponse = function(form, response) {
+		eval(response);
+		form.removeChild(document.getElementById(form.getAttribute('id')+'__async'));
+		form.setAttribute('target', '');
 	}
 
 
@@ -218,7 +252,7 @@
 		}
 
 		divElement.id = form.getAttribute('id') + '__async_postback'
-		divElement.innerHTML = '<iframe style="display:none" src="about:blank" id="'+frameName+'" name="'+frameName+'" onload="Rum.documentLoaded(document.getElementById(\''+form.getAttribute('id')+'\'), \''+frameName+'\'); return true;"></iframe>';
+		divElement.innerHTML = '<iframe style="display:none" src="about:blank" id="'+frameName+'" name="'+frameName+'" onload="Rum.documentLoaded(Rum.id(\''+form.getAttribute('id')+'\'), \''+frameName+'\'); return true;"></iframe>';
 
 		document.body.appendChild(divElement);
 
@@ -263,20 +297,47 @@
 	}
 
 	/**
-	 * Funciton to clear Error Message
+	 * Funciton to assert a Validation Message
 	 */
-	Rum.setErrMsg = function( id, msg ) {
+	Rum.assert = function( id, msg ) {
 		Rum.setText(Rum.id(id), msg);
+		Rum.reset();
 	}
 
 	/**
-	 * Funciton to clear Error Message
+	 * Funciton to clear Validation Message
 	 */
-	Rum.clrErrMsg = function( id ) {
+	Rum.clear = function( id ) {
 		if(Rum.id(id)) {
 			Rum.id(id).style.display = 'none';
 			this.className = this.className.replace('invalid', '');
 		}
+		Rum.reset();
+	}
+
+	/**
+	 * Function to reset validation timer
+	 */
+	Rum.reset = function() {
+		Rum.validationReady = false;
+		window.setTimeout('Rum.setValidationReady()', Rum.validationTimeout);
+	}
+
+	/**
+	 * Function to set the Validation Ready flag
+	 */
+	Rum.setValidationReady = function() {
+		Rum.validationReady = true;
+	}
+
+	/**
+	 * Function to specify whether an asyncronous Validation attempt is ready
+	 */
+	Rum.isReady = function( id ) {
+		if(Rum.hasText(Rum.id(id))) {
+			return Rum.validationReady;
+		}
+		return false;
 	}
 
 	/**
@@ -305,7 +366,6 @@
 		}
 	}
 
-
 	/**
 	 * Function to return if element contains text
 	 */
@@ -321,39 +381,4 @@
 			}
 		}
 		return null;
-	}
-
-
-	/**
-	 * Function to reset validation timer
-	 */
-	Rum.reset = function(timeout) {
-		Rum.validationReady = false;
-		window.setTimeout('Rum.setValidationReady()', timeout);
-	}
-
-
-	/**
-	 * Function to specify whether an asyncronous validation attempt is ready
-	 */
-	Rum.isReady = function() {
-		return Rum.validationReady;
-	}
-
-
-	/**
-	 * Function to set the validation ready flag
-	 */
-	Rum.setValidationReady = function() {
-		Rum.validationReady = true;
-	}
-
-
-	/**
-	 * Function to set the validation ready flag
-	 */
-	Rum.evalFormResponse = function(form, response) {
-		eval(response);
-		form.removeChild(document.getElementById(form.getAttribute('id')+'__async'));
-		form.setAttribute('target', '');
 	}

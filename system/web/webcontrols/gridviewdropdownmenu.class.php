@@ -56,7 +56,7 @@
 			{
 				$params .= "&{$parameter}=\'+this.value+\'";
 
-				$html = '\'<select class="listbox" onchange="Rum.objs[\\\''.strtolower($parameter).'HTTPRequest\\\'] = Rum.sendAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\', function() { Rum.eval(\\\'Rum.objs[\\\\\\\''.strtolower($parameter).'HTTPRequest\\\\\\\']\\\') } );">';
+				$html = '\'<select class="listbox" onchange="Rum.objs[\\\''.strtolower($parameter).'HTTPRequest\\\'] = Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\', function() { Rum.eval(\\\'Rum.objs[\\\\\\\''.strtolower($parameter).'HTTPRequest\\\\\\\']\\\') } );">';
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);

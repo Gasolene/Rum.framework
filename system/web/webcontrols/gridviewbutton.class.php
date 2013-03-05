@@ -129,7 +129,7 @@
 			if( $this->ajaxPostBack )
 			{
 				$params .= "&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
-				return '\'<input type="button" title="'.$this->buttonName.'" value="'.$this->buttonName.'" class="button" onclick="'.($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'').'Rum.objs[\\\''.strtolower($parameter).'HTTPRequest\\\'] = Rum.sendAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\', function() { Rum.eval(\\\'Rum.objs[\\\\\\\''.strtolower($parameter).'HTTPRequest\\\\\\\']\\\') } );" />\'';
+				return '\'<input type="button" title="'.$this->buttonName.'" value="'.$this->buttonName.'" class="button" onclick="'.($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'').'Rum.objs[\\\''.strtolower($parameter).'HTTPRequest\\\'] = Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\', function() { Rum.eval(\\\'Rum.objs[\\\\\\\''.strtolower($parameter).'HTTPRequest\\\\\\\']\\\') } );" />\'';
 			}
 			else
 			{

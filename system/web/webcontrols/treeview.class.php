@@ -226,7 +226,7 @@
 				$branchNode->setAttribute( 'class', ($final?'f':'') . ($treeNode->expanded?'expanded':'collapsed') );
 				$branchNode->setAttribute( 'title', ($treeNode->expanded?'expanded':'collapsed') );
 
-				$branchNode->setAttribute( 'onclick', 'Rum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($treeNode->id) . '\',\'' . $this->ajaxCallback . '\', \'' . $this->getRequestData() . '\' );this.href=\'#\';' );
+				$branchNode->setAttribute( 'onclick', 'Rum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($treeNode->id) . '\',\'' . $this->ajaxCallback . '\',\'' . $this->getRequestData() . '\' );this.href=\'#\';' );
 				$branchNode->setAttribute( 'href', $this->getQueryString( '?' . urlencode($this->getHTMLControlId().'__'.$treeNode->id) . ($treeNode->expanded?'_collapse':'_expand') . '=1' ));
 
 				if( !$final )

@@ -591,7 +591,7 @@
 			// perform ajax request
 			if( $this->ajaxPostBack )
 			{
-				$this->_onsubmit = "return Rum.submit(this, " . ( $this->ajaxEventHandler?'\'' . addslashes( (string) $this->ajaxEventHandler ) . '\'':'Rum.evalFormResponse);' );
+				$this->_onsubmit = "return Rum.submit(this, " . ( 'Rum.evalFormResponse);' );
 			}
 		}
 
