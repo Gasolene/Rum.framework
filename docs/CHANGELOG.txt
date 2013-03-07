@@ -3,15 +3,14 @@ Change log
 
 1. Version History
 
-version 6.4.18-rc3 - 03.02.13
-	- removed broken DataAdapters
-
-version 6.4.18-rc2 - 03.01.13
+version 6.4.18-rc2 - 03.07.13
 	- patched security hole in credentials where session could remain active after user authorization is revoked
 	- fixed bug in TableCredential where not using ActiveRecords to update source
 	- fixed bug in TableCredential where source contained multiple tables
 	- fixed bug in HTMLTestReporter where not loading resources
 	- added log levels to Authentication
+	- removed broken DataAdapters
+	- remove auto dismiss on syncronous flash message
 
 version 6.4.18-rc1 - 02.28.13
 	- changed .htaccess file to contain default page routings for web services
