@@ -450,11 +450,7 @@
 
 			if( $this->ajaxValidation )
 			{
-				$event = 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');';
-				$input->appendAttribute( 'onfocus', 'Rum.reset();' );
-				$input->appendAttribute( 'onchange', $event);
-				$input->appendAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . $event . '}' );
-				$input->appendAttribute( 'onblur', $event );
+				$input->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');');
 			}
 
 			if( $this->readonly )
@@ -563,8 +559,14 @@
 
 			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted )
 			{
-				$this->validate($errMsg);
-				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}__err', '".\addslashes($errMsg)."');");
+				if($this->validate($errMsg))
+				{
+					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.clear('{$this->getHTMLControlId()}');");
+				}
+				else
+				{
+					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}', '".\addslashes($errMsg)."');");
+				}
 			}
 		}
 

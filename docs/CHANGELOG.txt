@@ -3,28 +3,31 @@ Change log
 
 1. Version History
 
-version 6.5.0-beta-1.00 - 03.05.13
-	- major change to UI controls lighten HTML response
-		- removed all traces of __post from UI controls
-		- removed all unset($request[param]) from UI controls
-		- renamed Form::hiddenField to Form::honeyPot
-		- removed Button::$disableOnSubmit
-		- removed Button::$submitText
-		- removed TextBox::watermark
+version 6.5.0-beta-1.00 - 03.08.13
+	- major change to js scripts (lighten output)
 		- shortened function names in js scripts
 		- removed button.js
 		- removed textbox.js
-		- removed Rum.fadeIn(), Rum.fadeOut()
-		- removed js animations and message events (use JQuery)
+		- combines page.js and form.js into rum.js
+		- removed Rum.fadeIn(), Rum.fadeOut(), Rum.setOpacity()
+		- removed js animations and message events (use JQuery instead)
 		- added js functions Rum.id(), added Rum.assert(), Rum.clear(), Rum.reset() Rum.flash(), Rum.forward()
-		- added send
+		- added Rum.sendAsync
 		- moved all js into single rum.js
 		- compress js scripts
-		- changed sendAsync now handles callback implementation
-	- added View::contentExpires
-	- add cache headers to assets
-	- separated TextBox and TextArea
+		- changed Rum.sendAsync now handles callback implementation
+		- Rum.assert() and Rum.clear() now set and remove invalid class
+	- removed all traces of __post from UI controls (lighten output)
+	- removed all unset($request[param]) from UI controls
+	- renamed Form::hiddenField to Form::honeyPot
+	- removed Button::$disableOnSubmit (use JQuery instead)
+	- removed Button::$submitText (use JQuery instead)
+	- removed TextBox::watermark (use JQuery instead)
 	- removed TextBox::multiline, use TextArea instead
+	- separated TextBox and TextArea
+	- added View::contentExpires
+	- added TextBox::placeholder
+	- added cache headers to assets
 
 version 6.4.18-rc2 - 03.01.13
 	- patched security hole in credentials where session could remain active after user authorization is revoked

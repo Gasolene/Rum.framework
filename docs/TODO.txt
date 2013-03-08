@@ -1,6 +1,10 @@
 TODO
 ====
 
+Hide JS script methods
+JQuery + testcontroller
+Flash to include dismiss/animation (use jquery in template)
+
 	[Due in 6.5.0]
 	Add Minifi to compress themes
 	Integrate with JQuery

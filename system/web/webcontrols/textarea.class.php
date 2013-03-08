@@ -63,10 +63,7 @@
 
 			if( $this->ajaxValidation )
 			{
-				$textarea->appendAttribute( 'onfocus', 'Rum.reset();' );
-				$textarea->appendAttribute( 'onchange', $this->ajaxHTTPRequest .																' = Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
-				$textarea->appendAttribute( 'onkeyup',  'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . $this->ajaxHTTPRequest .	' = Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');}' );
-				$textarea->appendAttribute( 'onblur',  $this->ajaxHTTPRequest .																	' = Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
+				$textarea->appendAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');}' );
 			}
 
 			if( $this->readonly )
