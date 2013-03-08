@@ -178,7 +178,7 @@
 			}
 
 			$this->page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=rum.js' );
-			$this->page->onload .= 'Rum.init(\''.__ASYNC_REQUEST_PARAMETER__.'\', '.__VALIDATION_TIMEOUT__.');';
+			$this->page->onload .= 'Rum = new Rum(\''.__ASYNC_REQUEST_PARAMETER__.'\', '.__VALIDATION_TIMEOUT__.');';
 
 			// include all css files for theme
 			foreach( glob( \System\Web\WebApplicationBase::getInstance()->config->htdocs . substr( \System\Web\WebApplicationBase::getInstance()->config->themes, strlen( \System\Web\WebApplicationBase::getInstance()->config->uri )) . '/' . $this->theme . "/*.css" ) as $stylesheet )

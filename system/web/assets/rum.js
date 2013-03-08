@@ -3,385 +3,398 @@
 	/**
 	 * Initialize namespace
 	 */
-	var Rum = {};
+	Rum = function(param, timeout) {
 
-	/**
-	 * Specifies the asyncronous request parameter
-	 */
-	Rum.asyncParam = '';
+		/**
+		 * Specifies the asyncronous request parameter
+		 */
+		var asyncParam = param;
 
-	/**
-	 * Specifies the asyncronous request parameter
-	 */
-	Rum.validationTimeout = 10;
+		/**
+		 * Specifies the validation timeout
+		 */
+		var validationTimeout = timeout;
 
-	/**
-	 * Specifies whether a asyncronous validation attempt is ready
-	 */
-	Rum.validationReady = true;
+		/**
+		 * Specifies whether a asyncronous validation attempt is ready
+		 */
+		var validationReady = true;
 
-	/**
-	 * Function to get a xmlhttp object.
-	 */
-	Rum.init = function(param, timeout) {
-		Rum.asyncParam = param;
-		Rum.validationTimeout = timeout;
-	}
-
-
-	/**
-	 * Function to get a xmlhttp object.
-	 */
-	Rum.id = function(id) {
-		return document.getElementById(id);
-	}
+		/**
+		 * Function to get a XMLDom object
+		 */
+		this.id = function(id) {
+			return document.getElementById(id);
+		};
 
 
-	/**
-	 * Function to set a new message
-	 */
-	Rum.flash = function(message, type) {
-		if(Rum.id('messages')) {
-			var li = document.createElement('li');
-			li.setAttribute('class', type);
-			li.innerHTML = message;
-			Rum.id('messages').appendChild(li);
-		}
-	}
-
-
-	/**
-	 * Function to forward
-	 */
-	Rum.forward = function(url) {
-		location.href=url;
-	}
-
-
-	/**
-	 * Function to get a xmlhttp object.
-	 * @ignore
-	 */
-	Rum.createXMLHttpRequest = function() {
-
-		if (window.XMLHttpRequest) { // Mozilla, Safari,...
-			http_request = new XMLHttpRequest();
-
-			if (http_request.overrideMimeType) {
-				// set type accordingly to anticipated content type
-				// http_request.overrideMimeType('text/xml');
-				http_request.overrideMimeType('text/html');
+		/**
+		 * Function to flash a new message
+		 */
+		this.flash = function(message, type) {
+			if(this.id('messages')) {
+				var li = document.createElement('li');
+				li.setAttribute('class', type);
+				li.innerHTML = message;
+				this.id('messages').appendChild(li);
 			}
-		} else if (window.ActiveXObject) { // IE
-			try {
-				http_request = new ActiveXObject("Msxml2.XMLHTTP");
-			} catch (e) {
+		};
+
+
+		/**
+		 * this.to clear all flash messages
+		 */
+		this.unflashAll = function() {
+			if(this.id('messages')) {
+				var messages = this.id('messages').childNodes;
+				for(i=0;i<messages.length;i++)
+				{
+					messages[i].parentNode.removeChild(messages[i]);
+				}
+			}
+		};
+
+
+		/**
+		 * this.to forward
+		 */
+		this.forward = function(url) {
+			location.href=url;
+		};
+
+
+		/**
+		 * Function to get a xmlhttp object.
+		 * @ignore
+		 */
+		this.createXMLHttpRequest = function() {
+			if (window.XMLHttpRequest) { // Mozilla, Safari,...
+				http_request = new XMLHttpRequest();
+
+				if (http_request.overrideMimeType) {
+					// set type accordingly to anticipated content type
+					// http_request.overrideMimeType('text/xml');
+					http_request.overrideMimeType('text/html');
+				}
+			} else if (window.ActiveXObject) { // IE
 				try {
-					http_request = new ActiveXObject("Microsoft.XMLHTTP");
-				} catch (e) {}
+					http_request = new ActiveXObject("Msxml2.XMLHTTP");
+				} catch (e) {
+					try {
+						http_request = new ActiveXObject("Microsoft.XMLHTTP");
+					} catch (e) {}
+				}
 			}
-		}
 
-		if (!http_request) {
-			alert('Cannot create XMLHTTP instance');
-			return false;
-		}
+			if (!http_request) {
+				alert('Cannot create XMLHTTP instance');
+				return false;
+			}
 
-		return http_request;
-	}
+			return http_request;
+		};
 
 
-	/**
-	 * Function to send a xmlhttp request.
-	 */
-	Rum.sendAsync = function( http_request, url, params, method, callback ) {
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.sendAsync = function( http_request, url, params, method, callback ) {
 
-		if (method == null){
-			method = 'GET';
-		}
+			if (method == null){
+				method = 'GET';
+			}
 
-		if(params) {
-			params += '&'+Rum.asyncParam+'=1';
-		}
-		else {
-			params = '?'+Rum.asyncParam+'=1';
-		}
-
-		if (method.toUpperCase() == 'GET' && params){
-			if( url.indexOf( '?' ) > -1 ) {
-				url = url + '&' + params;
+			if(params) {
+				params += '&'+asyncParam+'=1';
 			}
 			else {
-				url = url + '?' + params;
+				params = '?'+asyncParam+'=1';
 			}
-			params = '';
-		}
 
-		if (callback != null){
-			eval( 'http_request.onreadystatechange=' + callback );
-		}
-
-		http_request.open(method, url, true);
-		http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		http_request.setRequestHeader("Content-length", params.length);
-		http_request.setRequestHeader("Connection", "close");
-		http_request.send( params );
-	}
-
-
-	/**
-	 * Function to send a xmlhttp request.
-	 */
-	Rum.evalAsync = function( url, params, method ) {
-
-		http_request = Rum.createXMLHttpRequest();
-		var callback = function() { Rum.evalHttpResponze( http_request ); };
-		Rum.sendAsync(http_request, url, params, method, callback);
-	}
-
-
-	/**
-	 * Function to receive HTTP response
-	 */
-	Rum.getHttpResponse = function( http_request ) {
-
-		// if xmlhttp shows "loaded"
-		if (http_request) {
-			// if xmlhttp shows "loaded"
-			if (http_request.readyState==4) {
-				// if status "OK"
-				if (http_request.status==200) {
-					// get response
-					response = http_request.responseText;
-					return response;
+			if (method.toUpperCase() == 'GET' && params){
+				if( url.indexOf( '?' ) > -1 ) {
+					url = url + '&' + params;
 				}
 				else {
-					throw "Problem retrieving XML data";
+					url = url + '?' + params;
 				}
-			}
-		}
-	}
-
-
-	/**
-	 * Function to parse HTTP response
-	 */
-	Rum.evalHttpResponze = function( http_request ) {
-		eval(Rum.getHttpResponse(http_request));
-	}
-
-
-	/**
-	 * Function to send a xmlhttp request.
-	 */
-	Rum.sendSync = function( url, params, method ) {
-
-		if (method == null){
-			method = 'GET';
-		}
-		if (params == null){
-			params = '';
-		}
-
-		if (method.toUpperCase() == 'GET' && params){
-			if( url.indexOf( '?' ) > -1 ) {
-				url = url + '&' + params;
-			}
-			else {
-				url = url + '?' + params;
-			}
-			params = '';
-
-			location.href = url;
-		}
-		else
-		{
-			params = params.split('&');
-			var temp=document.createElement("form");
-			temp.action=url+'/';
-			temp.method="POST";
-			temp.style.display="none";
-			for(var x = 0; x < params.length; x++)
-			{
-				param = params[x].split('=');
-				var input=document.createElement("input");
-				input.setAttribute('name', param[0]);
-				input.setAttribute('value', param[1]);
-				temp.appendChild(input);
+				params = '';
 			}
 
-			document.body.appendChild(temp);
-			temp.submit();
-		}
-	}
-
-
-	/**
-	 * Function to submit html forms
-	 */
-	Rum.submit = function( form, callback ) {
-
-		Rum.createFrame(form, callback);
-		return true;
-	}
-
-
-	/**
-	 * Function to set the validation ready flag
-	 */
-	Rum.evalFormResponse = function(form, response) {
-		eval(response);
-		form.removeChild(document.getElementById(form.getAttribute('id')+'__async'));
-		form.setAttribute('target', '');
-	}
-
-
-	/**
-	 * Function to create frame element
-	 */
-	Rum.createFrame = function( form, callback ) {
-
-		var frameName = 'f' + Math.floor(Math.random() * 99999);
-		var divElement = document.createElement('DIV');
-		var iFrameElement = document.getElementById(form.getAttribute('id') + '__async_postback');
-
-		if(iFrameElement) {
-			iFrameElement.parentNode.removeChild(iFrameElement);
-		}
-
-		divElement.id = form.getAttribute('id') + '__async_postback'
-		divElement.innerHTML = '<iframe style="display:none" src="about:blank" id="'+frameName+'" name="'+frameName+'" onload="Rum.documentLoaded(Rum.id(\''+form.getAttribute('id')+'\'), \''+frameName+'\'); return true;"></iframe>';
-
-		document.body.appendChild(divElement);
-
-		var frameElement = document.getElementById(frameName);
-		if (callback && typeof(callback) == 'function') {
-			frameElement.completeCallback = callback;
-		}
-
-		var input = document.createElement("input");
-		input.setAttribute("type", "hidden");
-		input.setAttribute("name", Rum.asyncParam);
-		input.setAttribute("value", "1");
-		input.setAttribute("id", form.getAttribute('id') + "__async");
-		form.appendChild(input);
-
-		form.setAttribute('target', frameName);
-	}
-
-
-	/**
-	 * Function to reset validation timer
-	 */
-	Rum.documentLoaded = function(form, iframeID) {
-
-		var frameElement = document.getElementById(iframeID);
-		var documentElement = null;
-
-		if (frameElement.contentDocument) {
-			documentElement = frameElement.contentDocument;
-		} else if (frameElement.contentWindow) {
-			documentElement = frameElement.contentWindow.document;
-		} else {
-			documentElement = window.frames[iframeID].document;
-		}
-
-		if (documentElement.location.href == "about:blank") {
-			return;
-        }
-		if (typeof(frameElement.completeCallback) == 'function') {
-			frameElement.completeCallback(form, documentElement.body.textContent);
-		}
-	}
-
-	/**
-	 * Funciton to assert a Validation Message
-	 */
-	Rum.assert = function( id, msg ) {
-		if(Rum.id(id)) {
-			if(Rum.id(id).className.indexOf(" invalid") === -1) {
-				Rum.id(id).className = Rum.id(id).className + " invalid";
-			}
-			Rum.setText(Rum.id(id+"__err"), msg);
-		}
-		Rum.reset();
-	}
-
-	/**
-	 * Funciton to clear Validation Message
-	 */
-	Rum.clear = function( id ) {
-		if(Rum.id(id)) {
-			Rum.id(id+"__err").style.display = "none";
-			Rum.id(id).className = Rum.id(id).className.replace(" invalid", "");
-		}
-		Rum.reset();
-	}
-
-	/**
-	 * Function to reset validation timer
-	 */
-	Rum.reset = function() {
-		Rum.validationReady = false;
-		window.setTimeout('Rum.setValidationReady()', Rum.validationTimeout);
-	}
-
-	/**
-	 * Function to set the Validation Ready flag
-	 */
-	Rum.setValidationReady = function() {
-		Rum.validationReady = true;
-	}
-
-	/**
-	 * Function to specify whether an asyncronous Validation attempt is ready
-	 */
-	Rum.isReady = function( id ) {
-		if(Rum.hasText(Rum.id(id))) {
-			return Rum.validationReady;
-		}
-		return false;
-	}
-
-	/**
-	 * Function to set text of an element
-	 */
-	Rum.setText = function( element, text, status ) {
-
-		if ( element ) {
-			if ( element.hasChildNodes() ) {
-				while ( element.childNodes.length >= 1 ) {
-					element.removeChild( element.firstChild );
-				}
-			}
-			var span = document.createElement('span');
-
-			if(text.length>0) {
-				span.appendChild(document.createTextNode(text));
-				element.style.display = 'block';
-			}
-			else {
-				span.appendChild(document.createTextNode(''));
-				element.style.display = 'none';
+			if (callback != null){
+				eval( 'http_request.onreadystatechange=' + callback );
 			}
 
-			element.appendChild(span);
-		}
-	}
+			http_request.open(method, url, true);
+			http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			http_request.setRequestHeader("Content-length", params.length);
+			http_request.setRequestHeader("Connection", "close");
+			http_request.send( params );
+		};
 
-	/**
-	 * Function to return if element contains text
-	 */
-	Rum.hasText = function( element ) {
 
-		if ( element ) {
-			if ( element.hasChildNodes() ) {
-				if ( element.childNodes.length >= 1 ) {
-					if(element.childNodes[0].textContent.length>0) {
-						return true;
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.evalAsync = function( url, params, method ) {
+
+			http_request = createXMLHttpRequest();
+			var callback = function() { evalHttpResponze( http_request ); };
+			sendAsync(http_request, url, params, method, callback);
+		};
+
+
+		/**
+		 * this.to receive HTTP response
+		 */
+		this.getHttpResponse = function( http_request ) {
+
+			// if xmlhttp shows "loaded"
+			if (http_request) {
+				// if xmlhttp shows "loaded"
+				if (http_request.readyState==4) {
+					// if status "OK"
+					if (http_request.status==200) {
+						// get response
+						response = http_request.responseText;
+						return response;
+					}
+					else {
+						throw "Problem retrieving XML data";
 					}
 				}
 			}
-		}
-		return null;
-	}
+		};
+
+
+		/**
+		 * this.to parse HTTP response
+		 */
+		this.evalHttpResponze = function( http_request ) {
+			eval(this.getHttpResponse(http_request));
+		};
+
+
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.sendSync = function( url, params, method ) {
+
+			if (method == null){
+				method = 'GET';
+			}
+			if (params == null){
+				params = '';
+			}
+
+			if (method.toUpperCase() == 'GET' && params){
+				if( url.indexOf( '?' ) > -1 ) {
+					url = url + '&' + params;
+				}
+				else {
+					url = url + '?' + params;
+				}
+				params = '';
+
+				location.href = url;
+			}
+			else
+			{
+				params = params.split('&');
+				var temp=document.createElement("form");
+				temp.action=url+'/';
+				temp.method="POST";
+				temp.style.display="none";
+				for(var x = 0; x < params.length; x++)
+				{
+					param = params[x].split('=');
+					var input=document.createElement("input");
+					input.setAttribute('name', param[0]);
+					input.setAttribute('value', param[1]);
+					temp.appendChild(input);
+				}
+
+				document.body.appendChild(temp);
+				temp.submit();
+			}
+		};
+
+
+		/**
+		 * this.to submit html forms
+		 */
+		this.submit = function(formElement, callback) {
+
+			this.createFrame(formElement, callback);
+			return true;
+		};
+
+
+		/**
+		 * this.to set the validation ready flag
+		 */
+		this.evalFormResponse = function(formElement, response) {
+			eval(response);
+			formElement.removeChild(id(form.getAttribute('id')+'__async'));
+			formElement.setAttribute('target', '');
+		};
+
+
+		/**
+		 * this.to create frame element
+		 */
+		this.createFrame = function(formElement, callback) {
+
+			var frameName = 'f' + Math.floor(Math.random() * 99999);
+			var divElement = document.createElement('DIV');
+			var iFrameElement = document.getElementById(formElement.getAttribute('id') + '__async_postback');
+
+			if(iFrameElement) {
+				iFrameElement.parentNode.removeChild(iFrameElement);
+			}
+
+			divElement.id = formElement.getAttribute('id') + '__async_postback'
+			divElement.innerHTML = '<iframe style="display:none" src="about:blank" id="'+frameName+'" name="'+frameName+'" onload="this.documentLoaded(this.id(\''+formElement.getAttribute('id')+'\'), \''+frameName+'\'); return true;"></iframe>';
+
+			document.body.appendChild(divElement);
+
+			var frameElement = document.getElementById(frameName);
+			if (callback && typeof(callback) == 'this.function =') {
+				frameElement.completeCallback = callback;
+			}
+
+			var input = document.createElement("input");
+			input.setAttribute("type", "hidden");
+			input.setAttribute("name", asyncParam);
+			input.setAttribute("value", "1");
+			input.setAttribute("id", formElement.getAttribute('id') + "__async");
+			formElement.appendChild(input);
+
+			formElement.setAttribute('target', frameName);
+		};
+
+
+		/**
+		 * this.to reset validation timer
+		 */
+		this.documentLoaded = function(formElement, iframeID) {
+
+			var frameElement = document.getElementById(iframeID);
+			var documentElement = null;
+
+			if (frameElement.contentDocument) {
+				documentElement = frameElement.contentDocument;
+			} else if (frameElement.contentWindow) {
+				documentElement = frameElement.contentWindow.document;
+			} else {
+				documentElement = window.frames[iframeID].document;
+			}
+
+			if (documentElement.location.href == "about:blank") {
+				return;
+			}
+			if (typeof(frameElement.completeCallback) == 'this.function =') {
+				frameElement.completeCallback(formElement, documentElement.body.textContent);
+			}
+		};
+
+
+		/**
+		 * Funciton to assert a Validation Message
+		 */
+		this.assert = function(id, msg) {
+			if(this.id(id)) {
+				if(this.id(id).className.indexOf(" invalid") === -1) {
+					this.id(id).className = this.id(id).className + " invalid";
+				}
+				setText(this.id(id+"__err"), msg);
+			}
+			this.reset();
+		};
+
+
+		/**
+		 * Funciton to clear Validation Message
+		 */
+		this.clear = function( id ) {
+			if(this.id(id)) {
+				this.id(id+"__err").style.display = "none";
+				this.id(id).className = this.id(id).className.replace(" invalid", "");
+			}
+			this.reset();
+		};
+
+
+		/**
+		 * this.to reset validation timer
+		 */
+		this.reset  = function() {
+			validationReady = false;
+			window.setTimeout('this.setValidationReady()', validationTimeout);
+		};
+
+
+		/**
+		 * this.to set the Validation Ready flag
+		 */
+		this.setValidationReady = function() {
+			validationReady = true;
+		};
+
+
+		/**
+		 * this.to specify whether an asyncronous Validation attempt is ready
+		 */
+		this.isReady = function( id ) {
+			if(hasText(this.id(id))) {
+				return validationReady;
+			}
+			return false;
+		};
+
+
+		/**
+		 * this.to set text of an element
+		 */
+		this.setText = function( element, text, status ) {
+
+			if ( element ) {
+				if ( element.hasChildNodes() ) {
+					while ( element.childNodes.length >= 1 ) {
+						element.removeChild( element.firstChild );
+					}
+				}
+				var span = document.createElement('span');
+
+				if(text.length>0) {
+					span.appendChild(document.createTextNode(text));
+					element.style.display = 'block';
+				}
+				else {
+					span.appendChild(document.createTextNode(''));
+					element.style.display = 'none';
+				}
+
+				element.appendChild(span);
+			}
+		};
+
+
+		/**
+		 * this.to return if element contains text
+		 */
+		this.hasText = function( element ) {
+			if ( element ) {
+				if ( element.hasChildNodes() ) {
+					if ( element.childNodes.length >= 1 ) {
+						if(element.childNodes[0].textContent.length>0) {
+							return true;
+						}
+					}
+				}
+			}
+			return null;
+		};
+	};
+
+	console.log("Rum loaded...");
