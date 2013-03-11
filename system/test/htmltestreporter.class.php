@@ -41,7 +41,7 @@
 			print "<html lang=\"en\">\n<head>\n<title>$test_name</title>".PHP_EOL;
 			print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" .
 					$this->_character_set . "\">".PHP_EOL;
-			print "<link href=\"" . \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=web/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\">";
+			print "<link href=\"" . \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\">";
 			print "<style type=\"text/css\">".PHP_EOL;
 			print $this->_getCss() . "".PHP_EOL;
 			print "</style>".PHP_EOL;

@@ -3,22 +3,30 @@
 	/**
 	 * Initialize namespace
 	 */
-	Rum = function(param, timeout) {
+	var Rum = new function() {
 
 		/**
 		 * Specifies the asyncronous request parameter
 		 */
-		var asyncParam = param;
+		var asyncParam = '';
 
 		/**
 		 * Specifies the validation timeout
 		 */
-		var validationTimeout = timeout;
+		var validationTimeout = 10;
 
 		/**
 		 * Specifies whether a asyncronous validation attempt is ready
 		 */
 		var validationReady = true;
+
+		/**
+		 * Function to get a XMLDom object
+		 */
+		this.init = function(param, timeout) {
+			asyncParam = param;
+			validationTimeout = timeout;
+		};
 
 		/**
 		 * Function to get a XMLDom object
@@ -60,38 +68,6 @@
 		 */
 		this.forward = function(url) {
 			location.href=url;
-		};
-
-
-		/**
-		 * Function to get a xmlhttp object.
-		 * @ignore
-		 */
-		this.createXMLHttpRequest = function() {
-			if (window.XMLHttpRequest) { // Mozilla, Safari,...
-				http_request = new XMLHttpRequest();
-
-				if (http_request.overrideMimeType) {
-					// set type accordingly to anticipated content type
-					// http_request.overrideMimeType('text/xml');
-					http_request.overrideMimeType('text/html');
-				}
-			} else if (window.ActiveXObject) { // IE
-				try {
-					http_request = new ActiveXObject("Msxml2.XMLHTTP");
-				} catch (e) {
-					try {
-						http_request = new ActiveXObject("Microsoft.XMLHTTP");
-					} catch (e) {}
-				}
-			}
-
-			if (!http_request) {
-				alert('Cannot create XMLHTTP instance');
-				return false;
-			}
-
-			return http_request;
 		};
 
 
@@ -139,39 +115,8 @@
 		this.evalAsync = function( url, params, method ) {
 
 			http_request = createXMLHttpRequest();
-			var callback = function() { evalHttpResponze( http_request ); };
-			sendAsync(http_request, url, params, method, callback);
-		};
-
-
-		/**
-		 * this.to receive HTTP response
-		 */
-		this.getHttpResponse = function( http_request ) {
-
-			// if xmlhttp shows "loaded"
-			if (http_request) {
-				// if xmlhttp shows "loaded"
-				if (http_request.readyState==4) {
-					// if status "OK"
-					if (http_request.status==200) {
-						// get response
-						response = http_request.responseText;
-						return response;
-					}
-					else {
-						throw "Problem retrieving XML data";
-					}
-				}
-			}
-		};
-
-
-		/**
-		 * this.to parse HTTP response
-		 */
-		this.evalHttpResponze = function( http_request ) {
-			eval(this.getHttpResponse(http_request));
+			var callback = function() { evalHttpResponse( http_request ); };
+			this.sendAsync(http_request, url, params, method, callback);
 		};
 
 
@@ -223,54 +168,11 @@
 		/**
 		 * this.to submit html forms
 		 */
-		this.submit = function(formElement, callback) {
+		this.submit = function(formElement) {
 
-			this.createFrame(formElement, callback);
+			var callback = evalFormResponse;
+			createFrame(formElement, callback);
 			return true;
-		};
-
-
-		/**
-		 * this.to set the validation ready flag
-		 */
-		this.evalFormResponse = function(formElement, response) {
-			eval(response);
-			formElement.removeChild(id(form.getAttribute('id')+'__async'));
-			formElement.setAttribute('target', '');
-		};
-
-
-		/**
-		 * this.to create frame element
-		 */
-		this.createFrame = function(formElement, callback) {
-
-			var frameName = 'f' + Math.floor(Math.random() * 99999);
-			var divElement = document.createElement('DIV');
-			var iFrameElement = document.getElementById(formElement.getAttribute('id') + '__async_postback');
-
-			if(iFrameElement) {
-				iFrameElement.parentNode.removeChild(iFrameElement);
-			}
-
-			divElement.id = formElement.getAttribute('id') + '__async_postback'
-			divElement.innerHTML = '<iframe style="display:none" src="about:blank" id="'+frameName+'" name="'+frameName+'" onload="this.documentLoaded(this.id(\''+formElement.getAttribute('id')+'\'), \''+frameName+'\'); return true;"></iframe>';
-
-			document.body.appendChild(divElement);
-
-			var frameElement = document.getElementById(frameName);
-			if (callback && typeof(callback) == 'this.function =') {
-				frameElement.completeCallback = callback;
-			}
-
-			var input = document.createElement("input");
-			input.setAttribute("type", "hidden");
-			input.setAttribute("name", asyncParam);
-			input.setAttribute("value", "1");
-			input.setAttribute("id", formElement.getAttribute('id') + "__async");
-			formElement.appendChild(input);
-
-			formElement.setAttribute('target', frameName);
 		};
 
 
@@ -293,9 +195,9 @@
 			if (documentElement.location.href == "about:blank") {
 				return;
 			}
-			if (typeof(frameElement.completeCallback) == 'this.function =') {
+			//if (typeof(frameElement.completeCallback) == 'this.function =') {
 				frameElement.completeCallback(formElement, documentElement.body.textContent);
-			}
+			//}
 		};
 
 
@@ -318,7 +220,9 @@
 		 */
 		this.clear = function( id ) {
 			if(this.id(id)) {
-				this.id(id+"__err").style.display = "none";
+				if(this.id(id+"__err")) {
+					this.id(id+"__err").style.display = "none";
+				}
 				this.id(id).className = this.id(id).className.replace(" invalid", "");
 			}
 			this.reset();
@@ -330,15 +234,7 @@
 		 */
 		this.reset  = function() {
 			validationReady = false;
-			window.setTimeout('this.setValidationReady()', validationTimeout);
-		};
-
-
-		/**
-		 * this.to set the Validation Ready flag
-		 */
-		this.setValidationReady = function() {
-			validationReady = true;
+			window.setTimeout('setValidationReady()', validationTimeout);
 		};
 
 
@@ -354,9 +250,124 @@
 
 
 		/**
+		 * this.to set the Validation Ready flag
+		 */
+		setValidationReady = function() {
+			validationReady = true;
+		};
+
+
+		/**
+		 * Function to get a xmlhttp object.
+		 * @ignore
+		 */
+		createXMLHttpRequest = function() {
+			if (window.XMLHttpRequest) { // Mozilla, Safari,...
+				http_request = new XMLHttpRequest();
+
+				if (http_request.overrideMimeType) {
+					// set type accordingly to anticipated content type
+					// http_request.overrideMimeType('text/xml');
+					http_request.overrideMimeType('text/html');
+				}
+			} else if (window.ActiveXObject) { // IE
+				try {
+					http_request = new ActiveXObject("Msxml2.XMLHTTP");
+				} catch (e) {
+					try {
+						http_request = new ActiveXObject("Microsoft.XMLHTTP");
+					} catch (e) {}
+				}
+			}
+
+			if (!http_request) {
+				alert('Cannot create XMLHTTP instance');
+				return false;
+			}
+
+			return http_request;
+		};
+
+
+		/**
+		 * this.to receive HTTP response
+		 */
+		getHttpResponse = function( http_request ) {
+
+			// if xmlhttp shows "loaded"
+			if (http_request) {
+				// if xmlhttp shows "loaded"
+				if (http_request.readyState==4) {
+					// if status "OK"
+					if (http_request.status==200) {
+						// get response
+						response = http_request.responseText;
+						return response;
+					}
+					else {
+						throw "Problem retrieving XML data";
+					}
+				}
+			}
+		};
+
+
+		/**
+		 * this.to parse HTTP response
+		 */
+		evalHttpResponse = function( http_request ) {
+			eval(getHttpResponse(http_request));
+		};
+
+
+		/**
+		 * this.to set the validation ready flag
+		 */
+		evalFormResponse = function(formElement, response) {
+			eval(response);
+			formElement.removeChild(Rum.id(formElement.getAttribute('id')+'__async'));
+			formElement.setAttribute('target', '');
+		};
+
+
+		/**
+		 * this.to create frame element
+		 */
+		createFrame = function(formElement, callback) {
+
+			var frameName = 'f' + Math.floor(Math.random() * 99999);
+			var divElement = document.createElement('DIV');
+			var iFrameElement = document.getElementById(formElement.getAttribute('id') + '__async_postback');
+
+			if(iFrameElement) {
+				iFrameElement.parentNode.removeChild(iFrameElement);
+			}
+
+			divElement.id = formElement.getAttribute('id') + '__async_postback'
+			divElement.innerHTML = '<iframe style="display:none" src="about:blank" id="'+frameName+'" name="'+frameName+'" onload="Rum.documentLoaded(Rum.id(\''+formElement.getAttribute('id')+'\'), \''+frameName+'\'); return true;"></iframe>';
+
+			document.body.appendChild(divElement);
+
+			var frameElement = document.getElementById(frameName);
+			//if (callback && typeof(callback) == 'this.function =') {
+				frameElement.completeCallback = callback;
+			//}
+
+			var input = document.createElement("input");
+			input.setAttribute("type", "hidden");
+			input.setAttribute("name", asyncParam);
+			input.setAttribute("value", "1");
+			input.setAttribute("id", formElement.getAttribute('id') + "__async");
+			formElement.appendChild(input);
+
+			formElement.setAttribute('target', frameName);
+		};
+
+
+		/**
 		 * this.to set text of an element
 		 */
-		this.setText = function( element, text, status ) {
+		setText = function( element, text, status ) {
 
 			if ( element ) {
 				if ( element.hasChildNodes() ) {
@@ -383,7 +394,7 @@
 		/**
 		 * this.to return if element contains text
 		 */
-		this.hasText = function( element ) {
+		hasText = function( element ) {
 			if ( element ) {
 				if ( element.hasChildNodes() ) {
 					if ( element.childNodes.length >= 1 ) {
@@ -396,5 +407,3 @@
 			return null;
 		};
 	};
-
-	console.log("Rum loaded...");
