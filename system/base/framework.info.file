@@ -12,7 +12,7 @@
      * build name
      * @var string
      */
-	const FRAMEWORK_BUILD_NAME = 'Jamaica';
+	const FRAMEWORK_BUILD_NAME = 'Rum';
 
     /**
      * framework version number
@@ -30,19 +30,19 @@
      * build number
      * @var string
      */
-	const FRAMEWORK_BUILD_NUMBER = '201303071437';
+	const FRAMEWORK_BUILD_NUMBER = '201303120941';
 
     /**
      * build date
      * @var string
      */
-	const FRAMEWORK_BUILD_TIME = '07 Mar 13';
+	const FRAMEWORK_BUILD_TIME = '12 Mar 13';
 
     /**
      * build time
      * @var string
      */
-	const FRAMEWORK_BUILD_DATE = '14:37:08 MST';
+	const FRAMEWORK_BUILD_DATE = '09:41:05 MDT';
 
     /**
      * framework authors
@@ -54,11 +54,11 @@
      * framework version string
      * @var string
      */
-	const FRAMEWORK_VERSION_STRING = '6.4.18-rc2 (Build 201303071437)';
+	const FRAMEWORK_VERSION_STRING = '6.4.18-rc2 (Build 201303120941)';
 
     /**
      * framework date string
      * @var string
      */
-	const FRAMEWORK_DATE_STRING = 'last build on 07 Mar 13 at 14:37:08 MST';
+	const FRAMEWORK_DATE_STRING = 'last build on 12 Mar 13 at 09:41:05 MDT';
 ?>

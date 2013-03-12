@@ -4,11 +4,11 @@
 	<property file="local.properties" />
 
 	<!-- config -->
-	<property name="build.name"				value="Jamaica" />
-	<property name="build.version.number"			value="6.4" />
+	<property name="build.name"					value="Rum" />
+	<property name="build.version.number"		value="6.4" />
 	<property name="build.zip.exension"			value="6_4" />
-	<property name="build.revision.number"			value="18-rc2" />
-	<property name="authors"				value="darnell.shinbine" />
+	<property name="build.revision.number"		value="18-rc2" />
+	<property name="authors"					value="darnell.shinbine" />
 
 	<property name="output.install"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_release" />
 	<property name="output.update"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_update" />
