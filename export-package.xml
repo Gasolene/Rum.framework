@@ -4,7 +4,7 @@
 	<property file="local.properties" />
 
 	<!-- config -->
-	<property name="build.name"					value="Jamaica" />
+	<property name="build.name"					value="Rum" />
 	<property name="build.version.number"		value="6.5" />
 	<property name="build.zip.exension"			value="6_5" />
 	<property name="build.revision.number"		value="0-beta-1.00" />

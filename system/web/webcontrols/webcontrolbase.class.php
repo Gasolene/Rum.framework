@@ -115,7 +115,7 @@
 
 			// set collections
 			$this->controls = new WebControlCollection( $this );
-			$this->attributes = new WebControlAttributeCollection();
+			$this->attributes = new WebControlAttributeCollection(array('class'=>''));
 			$this->events = new \System\Base\EventCollection();
 
 			// set ajax handlers
