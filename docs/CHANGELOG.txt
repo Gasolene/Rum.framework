@@ -5,7 +5,8 @@ Change log
 
 version 6.4.18-rc3 - 03.14.13
 	- fixed bug in WebApplicationBase where not rendering async exceptions - now uses javascript popup
-	- 
+	- removed broken DataAdapters
+	- remove auto dismiss on syncronous flash message
 
 version 6.4.18-rc2 - 03.07.13
 	- patched security hole in credentials where session could remain active after user authorization is revoked
@@ -13,8 +14,6 @@ version 6.4.18-rc2 - 03.07.13
 	- fixed bug in TableCredential where source contained multiple tables
 	- fixed bug in HTMLTestReporter where not loading resources
 	- added log levels to Authentication
-	- removed broken DataAdapters
-	- remove auto dismiss on syncronous flash message
 
 version 6.4.18-rc1 - 02.28.13
 	- changed .htaccess file to contain default page routings for web services
