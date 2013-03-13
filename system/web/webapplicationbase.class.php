@@ -721,20 +721,36 @@
 					}
 				}
 
-				// bad form, not structured - but the only way to clear the output buffer
+				// KLUDGE: bad form, not structured - but the only way to clear the output buffer
 				@ob_clean();
 
 				$response = new \System\Web\HTTPResponse();
 
-				\System\Web\HTTPResponse::addHeader( "Content-Type: text/html" );
-				\System\Web\HTTPResponse::write( "<!DOCTYPE html>
+				// handle exceptions on ajax requests
+				if($this->requestHandler)
+				{
+					if($this->requestHandler instanceof PageControllerBase)
+					{
+						if($this->requestHandler->isAjaxPostBack)
+						{
+							$content = "Unhandled Exception in " . strrchr( $e->getFile(), '/' ) . "\\nRuntime Error: ".addslashes($e->getMessage())."\\n\\rDescription: An unhandled exception occurred during execution\\n\\rDetails: " . get_class($e) . ": ".addslashes($e->getMessage())."\\n\\rSource File: ".addslashes($filename)." on line: {$line}";
+
+							\System\Web\HTTPResponse::clear();
+							\System\Web\HTTPResponse::write("alert('".($content)."');");
+						}
+					}
+				}
+				else
+				{
+					\System\Web\HTTPResponse::addHeader( "Content-Type: text/html" );
+					\System\Web\HTTPResponse::write( "<!DOCTYPE html>
 <html lang=\"en\">
 <head>
 <title>Unhandled Exception: ".htmlentities($e->getMessage())."</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
-<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/debug.js\" type=\"text/javascript\"></script>
+<link href=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css', 'asset'=>'web/exception.css'))) . "\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<link href=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css', 'asset'=>'web/debug.css'))) . "\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<script src=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript', 'asset'=>'web/debug.js'))) . "\" type=\"text/javascript\"></script>
 </head>
 <body>
 
@@ -758,16 +774,14 @@
 <pre>
 <strong>Stack Trace:</strong>\r\n\r\n");
 
-				$this->dumpCallStack($e->getTrace());
-				\System\Web\HTTPResponse::write( "
+					$this->dumpCallStack($e->getTrace());
+					\System\Web\HTTPResponse::write( "
 </pre>
 
 <!--<p class=\"dump\" id=\"debug_show\"><a href=\"#debug_dump\" onclick=\"document.getElementById('debug_info').style.display='block';document.getElementById('debug_show').style.display='none';\">Show Debug Information</a></p>-->
 <div style=\"display:none;\" id=\"debug_info\">");
 
-				$this->dumpDebug();
-
-				\System\Web\HTTPResponse::write( "
+					\System\Web\HTTPResponse::write( "
 </div>
 
 <div id=\"version\">
@@ -778,21 +792,6 @@
 
 </body>
 </html>" );
-
-				// handle exceptions on ajax requests
-				if($this->requestHandler)
-				{
-					if($this->requestHandler instanceof PageControllerBase)
-					{
-						if($this->requestHandler->isAjaxPostBack)
-						{
-							$content = \System\Web\HTTPResponse::getResponseContent();
-							\System\Web\HTTPResponse::clear();
-							\System\Web\HTTPResponse::write( "
-ExceptionWindow=window.open('', 'Dialog', 'height=800,width=1024,toolbar=no,scrollbars=yes,menubar=no,directories=no,location=no,status=no');
-ExceptionWindow.document.write(\"".addslashes(str_replace(array("\r\n", "\r", "\n"), '', $content))."\")");
-						}
-					}
 				}
 			}
 			else

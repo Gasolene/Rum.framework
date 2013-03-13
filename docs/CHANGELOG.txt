@@ -3,8 +3,9 @@ Change log
 
 1. Version History
 
-version 6.5.0-beta-1.01 - 03.11.13
+version 6.5.0-beta-1.01 - 03.15.13
 	- added default class attribute to WebControlBase
+	- fixed bug in WebApplicationBase where not rendering async exceptions - now uses javascript popup
 
 version 6.5.0-beta-1.00 - 03.11.13
 	- major change to js scripts (lighten output)
@@ -20,6 +21,7 @@ version 6.5.0-beta-1.00 - 03.11.13
 		- compress js scripts
 		- changed Rum.sendAsync now handles callback implementation
 		- Rum.assert() and Rum.clear() now set and remove invalid class
+		- remove auto dismiss on syncronous flash message
 	- removed all traces of __post from UI controls (lighten output)
 	- removed all unset($request[param]) from UI controls
 	- renamed Form::hiddenField to Form::honeyPot
