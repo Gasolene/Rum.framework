@@ -1,13 +1,13 @@
 TODO
 ====
 
-Hide JS script methods
-JQuery + testcontroller
-Flash to include dismiss/animation (use jquery in template)
+	compress CSS files into a single file
+	don't pass uri every Rum. request
 
-	[Due in 6.5.0]
-	Add Minifi to compress themes
-	Integrate with JQuery
+Plugins
+=======
+
+	- JQuery
 
 Components (BOD)
 ==========

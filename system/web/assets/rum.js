@@ -41,9 +41,15 @@
 		 */
 		this.flash = function(message, type) {
 			if(this.id('messages')) {
+				var a = document.createElement('a');
 				var li = document.createElement('li');
+				var text = document.createTextNode(message);
 				li.setAttribute('class', type);
 				li.innerHTML = message;
+				a.nodeValue = 'dismiss';
+				addListener(a, 'click', function(){li.style.display='none';});
+				li.appendChild(text);
+				li.appendChild(a);
 				this.id('messages').appendChild(li);
 			}
 		};
@@ -406,4 +412,16 @@
 			}
 			return null;
 		};
+
+		addListener = function(element, eventName, handler) {
+		  if (element.addEventListener) {
+			element.addEventListener(eventName, handler, false);
+		  }
+		  else if (element.attachEvent) {
+			element.attachEvent('on' + eventName, handler);
+		  }
+		  else {
+			element['on' + eventName] = handler;
+		  }
+		}
 	};
