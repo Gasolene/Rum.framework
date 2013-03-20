@@ -215,9 +215,9 @@
 						}
 					}
 				}
-			}
 
-			\System\Base\ApplicationBase::getInstance()->dataAdapter->rebuildSchema();
+				\System\Base\ApplicationBase::getInstance()->dataAdapter->rebuildSchema();
+			}
 		}
 
 

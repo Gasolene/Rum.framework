@@ -7,6 +7,7 @@ version 6.5.0-beta-1.01 - 03.15.13
 	- added default class attribute to WebControlBase
 	- fixed bug in WebApplicationBase where not rendering async exceptions - now uses javascript popup
 	- async flash messages now render dismiss element
+	- fixed bug in TestCaseBase where setting dataAdapter when no dsn connection specified
 
 version 6.5.0-beta-1.00 - 03.11.13
 	- major change to js scripts (lighten output)
