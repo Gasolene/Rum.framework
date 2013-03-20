@@ -217,7 +217,10 @@
 				\System\Base\ApplicationBase::getInstance()->loadAppConfig( __ENV_PATH__ . '/' . __TEST_ENV__ . __APP_CONF_FILENAME__ );
 			}
 
-			\Rum::app()->dataAdapter = \System\DB\DataAdapter::create(\Rum::config()->dsn);
+			if(\Rum::config()->dsn)
+			{
+				\Rum::app()->dataAdapter = \System\DB\DataAdapter::create(\Rum::config()->dsn);
+			}
 		}
 	}
 ?>
