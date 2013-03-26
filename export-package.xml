@@ -166,65 +166,6 @@
 			<param name="excludes" value="${exclude}" />
 		</antcall>
 
-		<antcall target="_export.package">
-			<param name="dest" value="${output.blog}" />
-			<param name="src" value="${blog.path}" />
-			<param name="excludes" value="${exclude}" />
-		</antcall>
-
-		<!-- export plugins -->
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="calendar" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="ckeditor" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="commoncontrols" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="datepicker" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="fckeditor" />
-		</antcall>
-		<!--
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="gatewayadapter" />
-		</antcall>
-		-->
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="gd" />
-		</antcall>
-		<!--
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="imagecropper" />
-		</antcall>
-		-->
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="jquery" />
-		</antcall>
-		<!--
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="pickadate" />
-		</antcall>
-		-->
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="picklist" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="rss" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="suggestbox" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="tinymce" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="webbot" />
-		</antcall>
-
 	</target>
 
 	<target name="_export.plugin.package" description="Export plugin package">
