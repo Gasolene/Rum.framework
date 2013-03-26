@@ -178,12 +178,12 @@
 			}
 
 			// include all css files for theme
-			foreach( glob( \System\Web\WebApplicationBase::getInstance()->config->htdocs . substr( \System\Web\WebApplicationBase::getInstance()->config->themes, strlen( \System\Web\WebApplicationBase::getInstance()->config->uri )) . '/' . $this->theme . "/*.css" ) as $stylesheet )
+			foreach( (array)glob( \System\Web\WebApplicationBase::getInstance()->config->htdocs . substr( \System\Web\WebApplicationBase::getInstance()->config->themes, strlen( \System\Web\WebApplicationBase::getInstance()->config->uri )) . '/' . $this->theme . "/*.css" ) as $stylesheet )
 			{
 				$this->page->addLink( \System\Web\WebApplicationBase::getInstance()->config->themes . '/' . $this->theme . strrchr( $stylesheet, '/' ));
 			}
 			// include all js files for theme
-			foreach( glob( \System\Web\WebApplicationBase::getInstance()->config->htdocs . substr( \System\Web\WebApplicationBase::getInstance()->config->themes, strlen( \System\Web\WebApplicationBase::getInstance()->config->uri )) . '/' . $this->theme . "/scripts/*.js" ) as $script )
+			foreach( (array)glob( \System\Web\WebApplicationBase::getInstance()->config->htdocs . substr( \System\Web\WebApplicationBase::getInstance()->config->themes, strlen( \System\Web\WebApplicationBase::getInstance()->config->uri )) . '/' . $this->theme . "/scripts/*.js" ) as $script )
 			{
 				$this->page->addScript( \System\Web\WebApplicationBase::getInstance()->config->themes . '/' . $this->theme . '/scripts' . strrchr( $script, '/' ));
 			}

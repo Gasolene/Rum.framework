@@ -6,6 +6,7 @@ Change log
 version 6.4.18-rc4 - 03.26.13
 	- fixed bug in TestCaseBase where setting dataAdapter when no dsn connection specified
 	- fixed bug where upgrade changes default page param
+	- fixed bug in PageController when OS can't determine if glob is empty or an error has occurred
 
 version 6.4.18-rc3 - 03.14.13
 	- fixed bug in WebApplicationBase where not rendering async exceptions - now uses javascript popup
