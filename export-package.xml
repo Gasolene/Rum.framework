@@ -133,13 +133,14 @@
 
 	<target name="export.packages" description="Export packages">
 
-		<!-- copy docs to public folder -->
+		<!-- copy docs to public folder - ->
 		<echo message="Updating docs" />
 		<copy todir="${output.docs}" overwrite="true">
 			<fileset dir="./docs">
 				<patternset refid="package.include.files" />
 			</fileset>
 		</copy>
+		-->
 
 		<!-- export packages -->
 		<antcall target="_export.package">
