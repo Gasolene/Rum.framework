@@ -737,13 +737,13 @@
 
 							\System\Web\HTTPResponse::clear();
 							\System\Web\HTTPResponse::write("alert('".($content)."');");
+							\System\Web\HTTPResponse::end();
 						}
 					}
 				}
-				else
-				{
-					\System\Web\HTTPResponse::addHeader( "Content-Type: text/html" );
-					\System\Web\HTTPResponse::write( "<!DOCTYPE html>
+
+				\System\Web\HTTPResponse::addHeader( "Content-Type: text/html" );
+				\System\Web\HTTPResponse::write( "<!DOCTYPE html>
 <html lang=\"en\">
 <head>
 <title>Unhandled Exception: ".htmlentities($e->getMessage())."</title>
@@ -774,14 +774,14 @@
 <pre>
 <strong>Stack Trace:</strong>\r\n\r\n");
 
-					$this->dumpCallStack($e->getTrace());
-					\System\Web\HTTPResponse::write( "
+				$this->dumpCallStack($e->getTrace());
+				\System\Web\HTTPResponse::write( "
 </pre>
 
 <!--<p class=\"dump\" id=\"debug_show\"><a href=\"#debug_dump\" onclick=\"document.getElementById('debug_info').style.display='block';document.getElementById('debug_show').style.display='none';\">Show Debug Information</a></p>-->
 <div style=\"display:none;\" id=\"debug_info\">");
 
-					\System\Web\HTTPResponse::write( "
+				\System\Web\HTTPResponse::write( "
 </div>
 
 <div id=\"version\">
@@ -792,7 +792,8 @@
 
 </body>
 </html>" );
-				}
+
+				\System\Web\HTTPResponse::end();
 			}
 			else
 			{
