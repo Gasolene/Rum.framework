@@ -263,14 +263,12 @@
 				$fieldMeta = sqlsrv_field_metadata( $columns );
 				while($i < \sqlsrv_num_fields($columns))
 				{
-				
 					$field = $this->getField($table[0], $fieldMeta[$i]["Name"]);
 					// setting primary key
 					if((bool) $field['primaryKey'])
 						{						
 						$tableProperties['primaryKey'] = $fieldMeta[$i]["Name"];
 						}
-					 
 					// mssql field info
 					$columnSchemas[] = new \System\DB\ColumnSchema(array(
 							'name' => (string) $fieldMeta[$i]["Name"],
@@ -320,7 +318,7 @@
 							'binary' => (bool) (( $fieldMeta[$i]["Type"] === -2 ) ||
 														( $fieldMeta[$i]["Type"] === -3 ))
 							));
-					
+										
 					$i++;
 				}
 				
@@ -361,7 +359,6 @@
 				$result = \sqlsrv_query( $this->link , $query );
 				if( !$result )
 				{										
-					dmp($query);
 					throw new \System\DB\DatabaseException(implode(' ', array_pop(sqlsrv_errors())));
 					
 				}
@@ -467,10 +464,11 @@
 					// set table property
 					$ds->setTable($this->getTableFromSQL( $source ));
 					$fieldMeta = sqlsrv_field_metadata( $result );
-					//dmp($fieldMeta);
+					
 					for( $i=0; $i < $colcount; $i++ )
 					{
 						$field = $this->getField($ds->table, $fieldMeta[$i]["Name"]);
+						//if($fieldMeta[$i]["Name"] == "test_blob") dmp($fieldMeta);					
 						// mssql field info
 						$fieldMetas[] = new \System\DB\ColumnSchema(array(
 							'name' => (string) $fieldMeta[$i]["Name"],
@@ -493,9 +491,10 @@
 														( $fieldMeta[$i]["Type"] === 3 ) ||
 														( $fieldMeta[$i]["Type"] === 6 ) ||
 														( $fieldMeta[$i]["Type"] === 7 )),
-							'blob' => (bool) (( $fieldMeta[$i]["Type"] === -3 ) ||
+							'blob' => (bool) (( $fieldMeta[$i]["Type"] === -3 && !(bool)$fieldMeta[$i]["Size"]) ||
 														( $fieldMeta[$i]["Type"] === -4 )),
 							'string' => (bool) (( $fieldMeta[$i]["Type"] === 1 ) ||
+														( $fieldMeta[$i]["Type"] === -3  && (bool)$fieldMeta[$i]["Size"]) ||
 														( $fieldMeta[$i]["Type"] === -8 ) ||
 														( $fieldMeta[$i]["Type"] === 12 ) ||
 														( $fieldMeta[$i]["Type"] === -9 ) ||
@@ -598,12 +597,13 @@
 		{
 			if( $this->link )
 			{
-				$tableSchema = $ds->dataAdapter->getSchema()->seek($ds->table);
-				$auto_increment=false;$not_null=false; 				
-				for($i=0,$index=-1;$i<count($tableSchema->columnSchemas);$i++)	
+				$tableSchema = $ds->dataAdapter->getSchema()->seek($ds->table);				
+				$auto_increment=false;$not_null=false; $primary_key=null;
+				
+				for($i=0,$index=-1;$i<count($ds->fieldMeta);$i++)	
 						{
-						$column = $tableSchema->columnSchemas[$i];						
-						if($column->name == $tableSchema->primaryKey )	
+						$column = $ds->fieldMeta[$i];						
+						if( $column->name == $tableSchema->primaryKey )	
 							{
 							if((bool)$column->autoIncrement) $auto_increment=true;
 							if((bool)$column->notNull )$not_null=true;
@@ -615,6 +615,7 @@
 							throw new \System\DB\DataAdapterException("Primary key can't be null");						
 						}		
 				
+						
 				$this->queryBuilder()
 					->insertInto($ds->table, $ds->fields)
 					->values($ds->row)
@@ -646,7 +647,6 @@
 			if( $this->link )
 			{
 				$tableSchema = $ds->dataAdapter->getSchema()->seek($ds->table);
-			
 				if($tableSchema->primaryKey)
 				{
 					$this->queryBuilder()
@@ -1201,7 +1201,9 @@ having';
 
 	public function getField($table, $fieldName)
 			{
-				$sql = "select c.status as status, case when pc.colid = c.colid then '1' else '' end as xtype, case when systypes.name = 'uniqueidentifier' then 1 else 0 end as guid
+				$sql = "select  c.status as status, 
+								case when pc.colid = c.colid then '1' else '' end as xtype, 
+								case when systypes.name = 'uniqueidentifier' then 1 else 0 end as guid
 												from sysobjects o
 												left join (sysindexes i
 													join sysobjects pk ON i.name = pk.name
@@ -1220,7 +1222,6 @@ having';
 				$link = $this->runQuery( $sql );
 				//dmp($link);
 				$result = sqlsrv_fetch_array( $link );
-				//dmp($result);
 				//dmp($fieldName);
 				$field = array();
 				$field['name'] = $fieldName;
@@ -1228,6 +1229,9 @@ having';
 				$field['autoIncrement'] = ($result[0] & 128) == 128;
 				$field['primaryKey'] = ($result[1] == '1');
 				$field['unique'] = ($result[2] == '1');
+				
+				//if($fieldName == "test_float") dmp($result);
+				
 				return $field;
 			}
 

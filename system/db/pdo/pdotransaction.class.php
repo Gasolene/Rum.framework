@@ -32,7 +32,7 @@
 		 */
 		protected function rollbackTransaction()
 		{
-			$this->dataAdapter->pdo->rollBack;
+			$this->dataAdapter->pdo->rollBack();
 		}
 
 

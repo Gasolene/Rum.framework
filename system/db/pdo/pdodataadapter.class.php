@@ -23,7 +23,7 @@
 		 * @var PDO
 		 */
 		private $pdo;
-		private $db;
+		public $db;
 
 
 		/**
@@ -102,7 +102,6 @@
 			if( $this->pdo )
 			{
 				$result = $this->pdo->query( $query );
-				
 				if( !$result )
 				{
 					$pdo_error = $this->pdo->errorInfo()[2];
@@ -129,7 +128,7 @@
 			if( $this->pdo )
 			{
 				$result = $this->runQuery( $ds->source );
-				
+					
 				if( $result )
 				{
 					$fields = array();
@@ -145,12 +144,15 @@
 						$table=$meta['table'];
 					}
 					
-					$rows = array();
+					$rows = $result->fetchAll( \PDO::FETCH_ASSOC);
 					$rowCount = $result->rowCount();
+					/*
+					var_dump($rowCount);
 					for( $row=0; $row < $rowCount; $row++ )
 					{
 						$rows[] =  $result->fetch( \PDO::FETCH_ASSOC);
-					}
+					}					  
+					*/
 					$ds->setTable($table);
 					$ds->setFieldMeta( $fieldMeta );
 					$ds->setFields( $fields );
@@ -201,10 +203,22 @@
 						$meta = $columns->getColumnMeta($i);
 						$meta['table']=$table[0];
 						$columnSchemas[] = $this->getColumnSchema($meta);
-						if(is_array($meta['flags']) && in_array("primary_key", $meta['flags']))
-						{
-							$tableProperties['primaryKey'] = $meta['name'];
-						}
+						// setting the primary key
+						if($this->db == "mysql" || $this->db == "mysqli")
+							{
+								if(is_array($meta['flags']) && in_array("primary_key", $meta['flags']))
+								{
+									$tableProperties['primaryKey'] = $meta['name'];
+								}							
+							}
+						else if($this->db == "mssql")
+							{
+								$flags = explode(" ", $meta['sqlsrv:decl_type']);				
+								if(is_array($flags) && in_array("identity", $flags))
+								{
+									$tableProperties['primaryKey'] = $meta['name'];
+								}
+							}
 					}
 				
 				
@@ -361,7 +375,7 @@
 			if( $this->pdo )
 			{
 				$tableSchema = $ds->dataAdapter->getSchema()->seek($ds->table);
-				
+				//dmp($tableSchema);
 				$this->queryBuilder()
 					->insertInto($ds->table, $ds->fields)
 					->values($ds->row)
@@ -516,23 +530,21 @@
 			/*
 			 * MySQL Problems with PDO:
 			 * YEAR, BINARY, VAR_BINARY, TINY_INT AND BIT FIELDS NOT SUPPORTED YET BY PDO 
-			 * Auto_increment is also not supported
+			 * Auto_increment is also not supported - Used another way to get autoincrement id
 			 * 
 			 * MSSQL Problems with PDO:
-			 * Null, autoincrement not supported
+			 * Null, autoincrement not supported - Used another way to get null and autoincrement id
 			 * 
 			 */
 			if(!isset($meta['native_type'])) $meta['native_type']=null;
 			/*
-			if($meta['name'] == "test_date") 
+			if($meta['name'] == "test_id") 
 				{
 				var_dump($meta);
+				
 				dmp($meta);
-				
 				}
-			 * 
-			 */
-				
+			*/	
 			if($this->db == "mssql")
 				{
 				$flags = explode(" ", $meta['sqlsrv:decl_type']);
@@ -544,11 +556,11 @@
 					'table' => $meta['table'],
 					'type' => $type==null?"":$type,
 					'length' => $meta['len'],
-					'notNull' => is_array($meta['flags'])==true?in_array("not_null", $meta['flags']):false ,
+					'notNull' => (bool) ($field['notNull']) ,
 					'primaryKey' => is_array($flags)==true?in_array("identity", $flags):false ,
 					'multipleKey' => is_array($meta['flags'])==true?in_array("multiple_key", $meta['flags']):false,
 					'foreignKey' => FALSE,
-					'unique' => (bool) ($field['autoIncrement']),
+					'unique' => (bool) ($field['unique']),
 					'numeric' => (bool)	(	$type == "int" || 
 											$type == "smallint" || 
 											$type == "tinyint" || 
@@ -599,6 +611,8 @@
 				}
 			else if($this->db == "mysql" || $this->db == "mysqli")
 				{
+				$extra=$this->getMySQLFieldExtra($meta['table'], $meta['name']);
+				
 				return new \System\DB\ColumnSchema(array(
 					'name' => $meta['name'],
 					'table' => $meta['table'],
@@ -637,11 +651,16 @@
 					'time' => (bool)	(	$meta['native_type'] == "TIME" ),
 					'datetime' => (bool)	(	$meta['native_type'] == "DATETIME" ),
 					'boolean' => (bool) ($meta['len']===1 && !$meta['native_type']),
-					'autoIncrement' => FALSE,
+					'autoIncrement' => is_array($extra)==true?(bool) in_array("auto_increment", $extra):"",
 					'binary' => false));
 			
 				}									 
 		}
+		/**
+		 * return table name
+		 *
+		 * @return string
+		 */
 		private function getTableFromSQL($sql)
 		{
 			$posStart = stripos($sql,'from');
@@ -659,7 +678,11 @@
 
 			return $table;
 		}
-		
+		/**
+		 * return string without white spaces
+		 *
+		 * @return int
+		 */
 		private function removeWhitespace($string,$start)
 		{
 		if($start >= strlen($string)){
@@ -670,24 +693,31 @@
 				substr($string,$start,1)=="\n" ||
 				substr($string,$start,1)=="\r";
 		}
-		
+		/**
+		 * return field attributes not found using PDO MEta function
+		 *
+		 * @return array
+		 */
 		public function getField($table, $fieldName)
 			{
-				$sql = "select c.status as status, case when pc.colid = c.colid then '1' else '' end as xtype, case when systypes.name = 'uniqueidentifier' then 1 else 0 end as guid
-												from sysobjects o
-												left join (sysindexes i
-													join sysobjects pk ON i.name = pk.name
+				$sql = "select	c.status as status, 
+								case when pc.colid = c.colid then '1' else '' end as xtype, 
+								case when systypes.name = 'uniqueidentifier' then 1 else 0 end as guid,
+								c.isNullable as isnull											
+						from sysobjects o
+								left join (sysindexes i
+									join sysobjects pk ON i.name = pk.name
 													and pk.parent_obj = i.id
 													and pk.xtype = 'PK'
 													join sysindexkeys ik on i.id = ik.id
 													and i.indid = ik.indid
 													join syscolumns pc ON ik.id = pc.id
 													AND ik.colid = pc.colid) ON i.id = o.id
-												join syscolumns c ON c.id = o.id
-												left join systypes on c.xusertype = systypes.xusertype
-												where o.name = '".$table."'
-												AND c.name = '".$fieldName."'
-												order by ik.keyno
+									join syscolumns c ON c.id = o.id
+											left join systypes on c.xusertype = systypes.xusertype
+									where o.name = '".$table."'
+										AND c.name = '".$fieldName."'
+										order by ik.keyno
 			";			
 				$result = $this->runQuery( $sql );
 				$attributes = $result->Fetch(\PDO::FETCH_BOTH);
@@ -699,7 +729,28 @@
 				$field['autoIncrement'] = ($attributes[0] & 128) == 128;
 				$field['primaryKey'] = ($attributes[1] == '1');
 				$field['unique'] = ($attributes[2] == '1');
+				$field['notNull'] = ($attributes[3] == '0');
 				return $field;
+			}
+			/**
+			* return extra attribute ie autoincrement not supported by PDO META
+			*
+			* @return int
+			*/
+			public function getMySQLFieldExtra($table, $fieldName)
+			{
+				$sql = "SELECT EXTRA
+								FROM INFORMATION_SCHEMA.COLUMNS
+						WHERE TABLE_NAME = '".$table."'
+							AND COLUMN_NAME = '".$fieldName."'
+							AND DATA_TYPE = 'int'
+							AND COLUMN_DEFAULT IS NULL
+							AND IS_NULLABLE = 'NO'
+						AND EXTRA like '%auto_increment%'
+					";			
+				$result = $this->runQuery( $sql );
+				return $result->Fetch(\PDO::FETCH_BOTH);
+				
 			}
 	
 	}

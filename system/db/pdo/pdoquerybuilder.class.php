@@ -179,7 +179,8 @@
 		 */
 		public function getQuery() {
 			
-			return $this->getMSSQLQuery();
+			if($this->dataAdapter->db =="mysql" ||$this->dataAdapter->db =="mysqli")	return $this->getMySQLQuery();
+			else if($this->dataAdapter->db =="mssql" )	return $this->getMSSQLQuery();
 			
 		}
 		

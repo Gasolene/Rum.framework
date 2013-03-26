@@ -180,7 +180,6 @@
 			if($this->controller instanceof \System\Web\PageControllerBase)
 			{
 				$params = array();
-				$params['page_' . $formId . '__submit'] = '1';
 				$params['page_' . $formId . \System\Web\WebControls\GOTCHAFIELD] = '';
 
 				foreach($data as $controlId => $value)

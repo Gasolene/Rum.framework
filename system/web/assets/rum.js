@@ -120,7 +120,7 @@
 		 */
 		this.evalAsync = function( url, params, method ) {
 
-			http_request = createXMLHttpRequest();
+			http_request = this.createXMLHttpRequest();
 			var callback = function() { evalHttpResponse( http_request ); };
 			this.sendAsync(http_request, url, params, method, callback);
 		};
@@ -267,7 +267,7 @@
 		 * Function to get a xmlhttp object.
 		 * @ignore
 		 */
-		createXMLHttpRequest = function() {
+		this.createXMLHttpRequest = function() {
 			if (window.XMLHttpRequest) { // Mozilla, Safari,...
 				http_request = new XMLHttpRequest();
 
