@@ -128,7 +128,7 @@
 	/**
 	 * specifies the page request parameter
 	 */
-	if( !defined( '__PATH_REQUEST_PARAMETER__' ))		define( '__PATH_REQUEST_PARAMETER__',		'path' );
+	if( !defined( '__PATH_REQUEST_PARAMETER__' ))		define( '__PATH_REQUEST_PARAMETER__',		'page' );
 
 	/**
 	 * specifies the async request parameter
