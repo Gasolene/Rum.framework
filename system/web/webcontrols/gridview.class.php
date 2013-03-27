@@ -582,12 +582,13 @@
 					else {
 						// filter DataSet
 						foreach( $this->filters as $column=>$value) {
-							if(!$value)$value='0';
-							if(isset($this->filterValues[$column])) {
-								$this->_data->filter( $column, '=', $value, true );
-							}
-							else {
-								$this->_data->filter( $column, 'contains', $value, true );
+							if(strlen($value)>0) {
+								if(isset($this->filterValues[$column])) {
+									$this->_data->filter( $column, '=', $value, true );
+								}
+								else {
+									$this->_data->filter( $column, 'contains', $value, true );
+								}
 							}
 						}
 					}
