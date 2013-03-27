@@ -32,12 +32,6 @@
 		 */
 		protected $src						= '';
 
-		/**
-		 * specifies button text to display on submit
-		 * @var string
-		 */
-		protected $submitText				= '';
-
 
 		/**
 		 * Constructor
