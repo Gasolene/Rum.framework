@@ -1025,7 +1025,7 @@
 			$this->enableViewState = (bool)$enableViewState;
 			foreach( $this->controls as $childControl )
 			{
-				$childControl->enableViewState = (bool)$enableViewState;
+				$childControl->setEnableViewState((bool)$enableViewState);
 			}
 		}
 	}

@@ -5,6 +5,7 @@ Change log
 
 version 6.4.19 - 03.29.13
 	- fixed bug in GridView when setting filter values when filter value = ''
+	- fixed bug in WebControlBase::setEnableVieState() where not cascading
 
 version 6.4.18-rc4 - 03.26.13
 	- fixed bug in TestCaseBase where setting dataAdapter when no dsn connection specified
