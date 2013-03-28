@@ -1666,7 +1666,13 @@
 			// filter
 			foreach( $args as $key => $value )
 			{
-				$query->where( $activeRecord->table, $key, '=', $value );
+				$field = explode('.', $key);
+				if(count($field)==2) {
+					$query->where( $field[0], $field[1], '=', $value );
+				}
+				else {
+					$query->where( $activeRecord->table, $key, '=', $value );
+				}
 			}
 
 			// sort
@@ -1730,7 +1736,13 @@
 			// filter
 			foreach( $args as $key => $value )
 			{
-				$query->where( $activeRecord->table, $key, '=', $value );
+				$field = explode('.', $key);
+				if(count($field)==2) {
+					$query->where( $field[0], $field[1], '=', $value );
+				}
+				else {
+					$query->where( $activeRecord->table, $key, '=', $value );
+				}
 			}
 
 			// sort

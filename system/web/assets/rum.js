@@ -80,50 +80,11 @@
 		/**
 		 * this.to send a xmlhttp request.
 		 */
-		this.sendAsync = function( http_request, url, params, method, callback ) {
-
-			if (method == null){
-				method = 'GET';
-			}
-
-			if(params) {
-				params += '&'+asyncParam+'=1';
-			}
-			else {
-				params = '?'+asyncParam+'=1';
-			}
-
-			if (method.toUpperCase() == 'GET' && params){
-				if( url.indexOf( '?' ) > -1 ) {
-					url = url + '&' + params;
-				}
-				else {
-					url = url + '?' + params;
-				}
-				params = '';
-			}
-
-			if (callback != null){
-				eval( 'http_request.onreadystatechange=' + callback );
-			}
-
-			http_request.open(method, url, true);
-			http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			http_request.setRequestHeader("Content-length", params.length);
-			http_request.setRequestHeader("Connection", "close");
-			http_request.send( params );
-		};
-
-
-		/**
-		 * this.to send a xmlhttp request.
-		 */
-		this.evalAsync = function( url, params, method ) {
+		this.sendAsync = function( url, params, method ) {
 
 			http_request = this.createXMLHttpRequest();
-			var callback = function() { evalHttpResponse( http_request ); };
-			this.sendAsync(http_request, url, params, method, callback);
-		};
+			this.sendAsyncWithCallback(http_request, url, params, method);
+		}
 
 
 		/**
@@ -179,6 +140,55 @@
 			var callback = evalFormResponse;
 			createFrame(formElement, callback);
 			return true;
+		};
+
+
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.sendAsyncWithCallback = function( http_request, url, params, method, callback ) {
+
+			if (method == null){
+				method = 'GET';
+			}
+
+			if(params) {
+				params += '&'+asyncParam+'=1';
+			}
+			else {
+				params = '?'+asyncParam+'=1';
+			}
+
+			if (method.toUpperCase() == 'GET' && params){
+				if( url.indexOf( '?' ) > -1 ) {
+					url = url + '&' + params;
+				}
+				else {
+					url = url + '?' + params;
+				}
+				params = '';
+			}
+
+			if (callback != null){
+				eval( 'http_request.onreadystatechange=' + callback );
+			}
+
+			http_request.open(method, url, true);
+			http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			http_request.setRequestHeader("Content-length", params.length);
+			http_request.setRequestHeader("Connection", "close");
+			http_request.send( params );
+		};
+
+
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.evalAsync = function( url, params, method ) {
+
+			http_request = this.createXMLHttpRequest();
+			var callback = function() { evalHttpResponse( http_request ); };
+			this.sendAsyncWithCallback(http_request, url, params, method, callback);
 		};
 
 
@@ -256,14 +266,6 @@
 
 
 		/**
-		 * this.to set the Validation Ready flag
-		 */
-		setValidationReady = function() {
-			validationReady = true;
-		};
-
-
-		/**
 		 * Function to get a xmlhttp object.
 		 * @ignore
 		 */
@@ -292,6 +294,14 @@
 			}
 
 			return http_request;
+		};
+
+
+		/**
+		 * this.to set the Validation Ready flag
+		 */
+		setValidationReady = function() {
+			validationReady = true;
 		};
 
 
