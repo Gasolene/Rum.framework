@@ -30,10 +30,10 @@
 	abstract class WebControlBase
 	{
 		/**
-		 * specifies whether the server control persists its view state, Default is true
+		 * specifies whether the server control persists its view state, Default is false
 		 * @var bool
 		 */
-		protected $enableViewState		= true;
+		protected $enableViewState		= false;
 
 		/**
 		 * determines whether the control is visible, Default is true
@@ -993,7 +993,7 @@
 			$this->enableViewState = (bool)$enableViewState;
 			foreach( $this->controls as $childControl )
 			{
-				$childControl->enableViewState = (bool)$enableViewState;
+				$childControl->setEnableViewState((bool)$enableViewState);
 			}
 		}
 	}

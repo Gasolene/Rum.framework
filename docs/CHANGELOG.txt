@@ -3,7 +3,7 @@ Change log
 
 1. Version History
 
-version 6.5.0-beta-1.01 - 03.26.13
+version 6.5.0-beta-1.01 - 03.28.13
 	- added default class attribute to WebControlBase
 	- fixed bug in WebApplicationBase where not rendering async exceptions - now uses javascript popup
 	- async flash messages now render dismiss element
@@ -11,6 +11,8 @@ version 6.5.0-beta-1.01 - 03.26.13
 	- fixed bug in PageController when OS can't determine whether glob returned no results, or an error occurred
 	- fixed bug in GridView where setting filter values when value == ''
 	- removed Button::submitText
+	- fixed bug in ListControlBase where overwriting state if nothing submitted
+	- fixed bug in WeControlBase::setEnableViewState() where not cascading
 
 version 6.5.0-beta-1.00 - 03.11.13
 	- major change to js scripts (lighten output)

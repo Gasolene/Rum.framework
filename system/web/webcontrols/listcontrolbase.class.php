@@ -230,15 +230,6 @@
 
 					$this->value = $request[$this->getHTMLControlId()];
 				}
-				else
-				{
-					if( $this->value != null )
-					{
-						$this->changed = true;
-					}
-
-					$this->value = null;
-				}
 
 				if( !$this->value && $this->multiple )
 				{
