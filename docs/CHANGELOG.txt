@@ -3,11 +3,15 @@ Change log
 
 1. Version History
 
-version 6.5.0-beta-1.02 - 03.28.13
+version 6.5.0-beta-1.02 - 04.09.13
 	- changed rum.js
 		- added sendAsyncWithCallback(htto_request, url, params, method, callback)
 		- changed sendAsync(url, params, method) no longer accepts http request object
 	- changed ActiveRecordBase::all() and more() now support table.field syntax
+	- fixed bug in FileBrowser where uploaded files that contain an error are ignored as filesize is 0
+	- fixed bug in FileSizeValidator where files that are 0 bytes do not result in error
+	- patched source code in FileSizeValidator so code completion has appropriate description
+	- changed FileSizeValidator constructor now accepts minSize in KB
 
 version 6.5.0-beta-1.01 - 03.28.13
 	- added default class attribute to WebControlBase
