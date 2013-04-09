@@ -58,9 +58,9 @@
 		{
 			$info = $this->getFileInfo();
 
-			if( $info['size'] > 0 )
+			if( $info['error'] === UPLOAD_ERR_OK )
 			{
-				if( $info['error'] === UPLOAD_ERR_OK )
+				if( $info['size'] > 0 )
 				{
 					$fp = fopen( $info['tmp_name'], 'rb' );
 					if( $fp )
@@ -76,43 +76,43 @@
 				}
 				else
 				{
-					if( $info['error'] === UPLOAD_ERR_INI_SIZE )
-					{
-						throw new \System\Base\InvalidOperationException("the uploaded file exceeds the upload_max_filesize directive");
-					}
-					elseif( $info['error'] === UPLOAD_ERR_FORM_SIZE )
-					{
-						throw new \System\Base\InvalidOperationException("the uploaded file exceeds the MAX_FILE_SIZE directive");
-					}
-					elseif( $info['error'] === UPLOAD_ERR_PARTIAL )
-					{
-						throw new \System\Base\InvalidOperationException("the uploaded file was only partially uploaded");
-					}
-					elseif( $info['error'] === UPLOAD_ERR_NO_FILE )
-					{
-						throw new \System\Base\InvalidOperationException("no file was uploaded");
-					}
-					elseif( $info['error'] === UPLOAD_ERR_NO_TMP_DIR )
-					{
-						throw new \System\Base\FileLoadException("missing temporary folder");
-					}
-					elseif( $info['error'] === UPLOAD_ERR_CANT_WRITE )
-					{
-						throw new \System\Base\InvalidOperationException("failed to write file to disk");
-					}
-					elseif( $info['error'] === UPLOAD_ERR_EXTENSION )
-					{
-						throw new \System\Base\InvalidOperationException("file upload stopped by extension");
-					}
-					else
-					{
-						throw new \System\Base\InvalidOperationException("unknown file upload failure");
-					}
+					return '';
 				}
 			}
 			else
 			{
-				return '';
+				if( $info['error'] === UPLOAD_ERR_INI_SIZE )
+				{
+					throw new \System\Base\InvalidOperationException("the uploaded file exceeds the upload_max_filesize directive");
+				}
+				elseif( $info['error'] === UPLOAD_ERR_FORM_SIZE )
+				{
+					throw new \System\Base\InvalidOperationException("the uploaded file exceeds the MAX_FILE_SIZE directive");
+				}
+				elseif( $info['error'] === UPLOAD_ERR_PARTIAL )
+				{
+					throw new \System\Base\InvalidOperationException("the uploaded file was only partially uploaded");
+				}
+				elseif( $info['error'] === UPLOAD_ERR_NO_FILE )
+				{
+					throw new \System\Base\InvalidOperationException("no file was uploaded");
+				}
+				elseif( $info['error'] === UPLOAD_ERR_NO_TMP_DIR )
+				{
+					throw new \System\Base\FileLoadException("missing temporary folder");
+				}
+				elseif( $info['error'] === UPLOAD_ERR_CANT_WRITE )
+				{
+					throw new \System\Base\InvalidOperationException("failed to write file to disk");
+				}
+				elseif( $info['error'] === UPLOAD_ERR_EXTENSION )
+				{
+					throw new \System\Base\InvalidOperationException("file upload stopped by extension");
+				}
+				else
+				{
+					throw new \System\Base\InvalidOperationException("unknown file upload failure");
+				}
 			}
 		}
 

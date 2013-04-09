@@ -20,7 +20,13 @@
 	class FileSizeValidator extends ValidatorBase
 	{
 		/**
-		 * maxSize
+		 * minimum fileszie
+		 * @var double
+		 */
+		private $minSize;
+
+		/**
+		 * maximum fileszie
 		 * @var double
 		 */
 		private $maxSize;
@@ -29,15 +35,17 @@
 		/**
 		 * FileSizeValidator
 		 *
-		 * @param  double	$maxSize	max size
+		 * @param  double	$maxSize maximum size in KB
+		 * @param  double	$maxSize minimum size in KB, defaults to 0
 		 * @param  string	$errorMessage error message
 		 * @return void
 		 */
-		public function __construct( $maxSize, $errorMessage = '')
+		public function __construct( $maxSize, $minSize = 0, $errorMessage = '')
 		{
 			parent::__construct($errorMessage);
 
 			$this->maxSize = (double) $maxSize;
+			$this->minSize = (double) $minSize;
 		}
 
 
@@ -66,13 +74,15 @@
 			{
 				if( isset( $_FILES[$this->controlToValidate->getHTMLControlId()] ))
 				{
-					if( $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] > 0 )
+					if( $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] > $this->minSize )
 					{
 						if(( ( (int) $this->maxSize * 1024 ) < (int) $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] ) && (int) $this->maxSize > 0 )
 						{
 							return false;
 						}
 					}
+
+					return false;
 				}
 
 				return true;
