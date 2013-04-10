@@ -183,16 +183,19 @@
 			$value=$this->value?strtotime($this->value)?$this->value:date('g:ia', time()):date('g:ia', time());
 
 			// auto set on date
-			$select_hour->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
-			$select_minute->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
-			$select_meridiem->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+			if( $this->allowNull )
+			{
+				$select_hour->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+				$select_minute->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+				$select_meridiem->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+			}
 
 			// set onchange attribute
 			if( $this->autoPostBack )
 			{
-				$select_hour->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true; submit();' );
-				$select_minute->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true; submit();' );
-				$select_meridiem->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true; submit();' );
+				$select_hour->appendAttribute( 'onchange', 'submit();' );
+				$select_minute->appendAttribute( 'onchange', 'submit();' );
+				$select_meridiem->appendAttribute( 'onchange', 'submit();' );
 				$null->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 

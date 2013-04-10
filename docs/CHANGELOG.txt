@@ -12,6 +12,9 @@ version 6.5.0-beta-1.02 - 04.09.13
 	- fixed bug in FileSizeValidator where files that are 0 bytes do not result in error
 	- patched source code in FileSizeValidator so code completion has appropriate description
 	- changed FileSizeValidator constructor now accepts minSize in KB
+	- fixed bug in DateSelector where setting onchange javascript event for null element when allowNull is false
+	- fixed bug in DateTimeSelector where setting onchange javascript event for null element when allowNull is false
+	- fixed bug in TimeSelector where setting onchange javascript event for null element when allowNull is false
 
 version 6.5.0-beta-1.01 - 03.28.13
 	- added default class attribute to WebControlBase
