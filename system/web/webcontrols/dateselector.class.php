@@ -224,17 +224,20 @@
 			$value=$this->value?strtotime($this->value)?$this->value:date('m/d/y', time()):date('m/d/y', time());
 
 			// auto set on date
-			$select_day->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
-			$select_month->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
-			$select_year->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+			if($this->allowNull)
+			{
+				$select_day->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+				$select_month->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+				$select_year->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true;' );
+			}
 
 			// set onchange attribute
 			if( $this->autoPostBack )
 			{
-				$select_day->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true; submit();' );
-				$select_month->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true; submit();' );
-				$select_year->setAttribute( 'onchange', 'getElementById(\'' . $this->getHTMLControlId() . '__null\').checked = true; submit();' );
-				$null->setAttribute( 'onchange', 'document.getElementById(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
+				$select_day->appendAttribute( 'onchange', 'submit();' );
+				$select_month->appendAttribute( 'onchange', 'submit();' );
+				$select_year->appendAttribute( 'onchange', 'submit();' );
+				$null->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
 			if( $this->ajaxPostBack )
