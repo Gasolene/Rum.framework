@@ -3,7 +3,7 @@ Change log
 
 1. Version History
 
-version 6.5.0-beta-1.02 - 04.09.13
+version 6.5.0-beta-1.02 - 04.11.13
 	- changed rum.js
 		- added sendAsyncWithCallback(htto_request, url, params, method, callback)
 		- changed sendAsync(url, params, method) no longer accepts http request object
