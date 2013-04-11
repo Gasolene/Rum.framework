@@ -1,17 +1,21 @@
 TODO
 ====
 
+	[Due in 6.5.1]
+	Compress assets (one time manually?)
 	compress CSS files into a single file
 	don't pass uri every Rum. request
 
 Plugins
 =======
 
+	[Due in 6.5.1]
 	- JQuery
 
 Components (BOD)
 ==========
 
+	[Due in 6.5.1]
 	- PDODataADapter
 	- MSSQLDataAdapter
 
@@ -22,3 +26,4 @@ BUGS/ISSUES
 ===========
 
 	ENT_QUOTES causes GridViewControls to fail epically
+	DateSelector AJAX fails epically

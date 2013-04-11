@@ -54,12 +54,6 @@
 		protected $ajaxCallback			= '';
 
 		/**
-		 * specifies the name of the ajax HTTPRequest object (optional)
-		 * @var string
-		 */
-		protected $ajaxHTTPRequest		= '';
-
-		/**
 		 * collection of arbitrary attributes (for rendering only)
 		 * @var WebControlAttributeCollection
 		 */
@@ -120,7 +114,6 @@
 
 			// set ajax handlers
 			$this->ajaxCallback	= $_SERVER['PHP_SELF'];
-			$this->ajaxHTTPRequest = strtolower( $this->_controlId );
 
 			// set viewstate
 			$this->enableViewState = \System\Web\WebApplicationBase::getInstance()->config->viewStateEnabled;

@@ -443,14 +443,9 @@
 				$input->appendAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
-			if( $this->ajaxPostBack )
+			if( $this->ajaxPostBack || $this->ajaxValidation )
 			{
 				$input->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
-			}
-
-			if( $this->ajaxValidation )
-			{
-				$input->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');');
 			}
 
 			if( $this->readonly )

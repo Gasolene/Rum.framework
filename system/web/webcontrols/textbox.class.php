@@ -162,14 +162,9 @@
 				$input->setAttribute( 'value', $this->value );
 			}
 
-			if( $this->ajaxPostBack )
+			if( $this->ajaxPostBack || $this->ajaxValidation )
 			{
-				$input->appendAttribute( 'onkeyup',  'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');}' );
-			}
-
-			if( $this->ajaxValidation )
-			{
-				$input->appendAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');}' );
+				$input->appendAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');}' );
 			}
 
 			if( $this->visible )

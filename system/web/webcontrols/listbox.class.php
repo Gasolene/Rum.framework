@@ -100,7 +100,7 @@
 				$select->appendAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
-			if( $this->ajaxPostBack )
+			if( $this->ajaxPostBack || $this->ajaxValidation )
 			{
 				$select->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
 			}
