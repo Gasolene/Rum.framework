@@ -19,6 +19,7 @@ version 6.5.0-beta-1.02 - 04.11.13
 		- fixed bug in Selectors where setting onchange javascript event for null element when allowNull is false
 		- fixed bug in Selectors where ajax validation not sending entire value
 		- fixed bug in Selectors where ajax validation postback not being sent
+	- added DateRangeValidator (Steph)
 
 version 6.5.0-beta-1.01 - 03.28.13
 	- added default class attribute to WebControlBase
