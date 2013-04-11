@@ -20,6 +20,8 @@ version 6.5.0-beta-1.02 - 04.11.13
 		- fixed bug in Selectors where ajax validation not sending entire value
 		- fixed bug in Selectors where ajax validation postback not being sent
 	- added DateRangeValidator (Steph)
+	- fixed bug in FileSizeValidator where always failing
+	- changed FileBrowser removed auto filesize validator
 
 version 6.5.0-beta-1.01 - 03.28.13
 	- added default class attribute to WebControlBase

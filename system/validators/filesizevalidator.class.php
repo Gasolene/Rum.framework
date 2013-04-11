@@ -76,10 +76,12 @@
 				{
 					if( $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] > $this->minSize )
 					{
-						if(( ( (int) $this->maxSize * 1024 ) < (int) $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] ) && (int) $this->maxSize > 0 )
+						if(( ( (int) $this->maxSize ) < (int) $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] ) && (int) $this->maxSize > 0 )
 						{
 							return false;
 						}
+
+						return true;
 					}
 
 					return false;
