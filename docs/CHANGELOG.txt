@@ -12,6 +12,7 @@ version 6.4.20 - 04.11.13
 		- fixed bug in Selectors where setting onchange javascript event for null element when allowNull is false
 		- fixed bug in Selectors where ajax validation not sending entire value
 		- fixed bug in Selectors where ajax validation postback not being sent
+	- added DateRangeValidator (Steph)
 
 version 6.4.19 - 03.29.13
 	- fixed bug in GridView when setting filter values when filter value = ''
