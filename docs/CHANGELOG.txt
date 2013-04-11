@@ -22,6 +22,7 @@ version 6.5.0-beta-1.02 - 04.11.13
 	- added DateRangeValidator (Steph)
 	- fixed bug in FileSizeValidator where always failing
 	- changed FileBrowser removed auto filesize validator
+	- fixed bug in WebApplicationBase where not logging ajax exceptions to the console
 
 version 6.5.0-beta-1.01 - 03.28.13
 	- added default class attribute to WebControlBase

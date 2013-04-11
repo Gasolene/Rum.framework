@@ -736,7 +736,7 @@
 							$content = "Unhandled Exception in " . strrchr( $e->getFile(), '/' ) . "\\nRuntime Error: ".addslashes($e->getMessage())."\\n\\rDescription: An unhandled exception occurred during execution\\n\\rDetails: " . get_class($e) . ": ".addslashes($e->getMessage())."\\n\\rSource File: ".addslashes($filename)." on line: {$line}";
 
 							\System\Web\HTTPResponse::clear();
-							\System\Web\HTTPResponse::write("alert('".($content)."');");
+							\System\Web\HTTPResponse::write("console.log('".(str_replace("\n", '', str_replace("\r", '', $content)))."');");
 							\System\Web\HTTPResponse::end();
 						}
 					}
