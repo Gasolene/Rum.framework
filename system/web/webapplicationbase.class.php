@@ -793,7 +793,7 @@
 							\System\Web\HTTPResponse::clear();
 							\System\Web\HTTPResponse::write( "
 //ExceptionWindow=window.open('', 'Dialog', 'height=800,width=1024,toolbar=no,scrollbars=yes,menubar=no,directories=no,location=no,status=no');
-alert('".($content)."');
+console.log('".(str_replace("\n", '', str_replace("\r", '', $content)))."');
 ");
 						}
 					}

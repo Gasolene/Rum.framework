@@ -319,8 +319,7 @@
 						$this->page->loadAjaxJScriptBuffer("li.setAttribute('onclick', 'PHPRum.fadeOut(this);this.onclick=null;');");
 						$this->page->loadAjaxJScriptBuffer("li.style.display='none';");
 						$this->page->loadAjaxJScriptBuffer("li.innerHTML = '".\str_replace("\n", '', \str_replace("\r", '', \nl2br(\addslashes($msg->message))))."';");
-						$this->page->loadAjaxJScriptBuffer("if(ul) ul.appendChild(li);");
-						$this->page->loadAjaxJScriptBuffer("PHPRum.fadeIn(document.getElementById('{$id}'));");
+						$this->page->loadAjaxJScriptBuffer("if(ul){ul.appendChild(li);PHPRum.fadeIn(document.getElementById('{$id}'));}");
 					}
 
 					\System\Web\WebApplicationBase::getInstance()->messages->removeAll();
