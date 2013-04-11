@@ -13,6 +13,8 @@ version 6.4.20 - 04.11.13
 		- fixed bug in Selectors where ajax validation not sending entire value
 		- fixed bug in Selectors where ajax validation postback not being sent
 	- added DateRangeValidator (Steph)
+	- fixed bug in FileSizeValidator where always failing
+	- changed FileBrowser removed auto filesize validator
 
 version 6.4.19 - 03.29.13
 	- fixed bug in GridView when setting filter values when filter value = ''

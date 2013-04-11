@@ -26,8 +26,6 @@
 		public function __construct( $controlId )
 		{
 			parent::__construct( $controlId, '' );
-
-			$this->addValidator(new \System\Validators\FileSizeValidator(( (int) str_replace( 'M', '', ini_get( 'upload_max_filesize' ))) * 1024)); // 1024 = Kb
 		}
 
 
