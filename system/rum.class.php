@@ -236,22 +236,21 @@
 			{
 				foreach(\System\Web\WebApplicationBase::getInstance()->messages as $message)
 				{
-					$id = 'm' . uniqid();
 					if($message->type == \System\Base\AppMessageType::Fail())
 					{
-						$output .= "<li class=\"fail\" id=\"{$id}\" onclick=\"PHPRum.fadeOut(this);this.onclick=null;\">";
+						$output .= "<li class=\"fail\">";
 					}
 					elseif($message->type == \System\Base\AppMessageType::Warning())
 					{
-						$output .= "<li class=\"warning\" id=\"{$id}\" onclick=\"PHPRum.fadeOut(this);this.onclick=null;\">";
+						$output .= "<li class=\"warning\">";
 					}
 					elseif($message->type == \System\Base\AppMessageType::Success())
 					{
-						$output .= "<li class=\"success\" id=\"{$id}\" onclick=\"PHPRum.fadeOut(this);this.onclick=null;\">";
+						$output .= "<li class=\"success\">";
 					}
 					else
 					{
-						$output .= "<li class=\"info\" id=\"{$id}\" onclick=\"PHPRum.fadeOut(this);this.onclick=null;\">";
+						$output .= "<li class=\"info\">";
 					}
 
 					$output .= \nl2br(\Rum::escape($message->message)) . '</li>';
