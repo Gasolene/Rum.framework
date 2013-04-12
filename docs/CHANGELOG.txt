@@ -3,6 +3,13 @@ Change log
 
 1. Version History
 
+version 6.5.0-beta-1.03 - 04.12.13
+	- fixed bug in rum.js Rum.flash() where flashing duplicate messages
+	- fixed bug in rum.js Rum.flash() where dismiss link not working
+	- fixed bug in GridView Controls where not referencing Rum.evalAsync()
+	- replaced all unset($request[param]) back in UI controls (removed in 6.5.0-beta-1.00)
+	- updated copyright notice
+
 version 6.5.0-beta-1.02 - 04.11.13
 	- changed rum.js
 		- added sendAsyncWithCallback(htto_request, url, params, method, callback)

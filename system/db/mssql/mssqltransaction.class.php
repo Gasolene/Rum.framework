@@ -4,7 +4,7 @@
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
 	 * @author			Tahsin Zulkarnine
-	 * @copyright		Copyright (c) 2011
+	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\DB\MySQL;
 	use \System\DB\TransactionBase;

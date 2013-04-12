@@ -777,31 +777,37 @@
 			if( isset( $request[$this->getHTMLControlId().'__sort_by'] ))
 			{
 				$this->sortBy = $request[$this->getHTMLControlId().'__sort_by'];
+				unset( $request[$this->getHTMLControlId().'__sort_by'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__sort_order'] ))
 			{
 				$this->sortOrder = $request[$this->getHTMLControlId().'__sort_order'];
+				unset( $request[$this->getHTMLControlId().'__sort_order'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__move'] ))
 			{
 				$this->moveCursor = $request[$this->getHTMLControlId().'__move'];
+				unset( $request[$this->getHTMLControlId().'__move'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__move_order'] ))
 			{
 				$this->moveOrder = $request[$this->getHTMLControlId().'__move_order'];
+				unset( $request[$this->getHTMLControlId().'__move_order'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__page'] ))
 			{
 				$this->page = (int) $request[$this->getHTMLControlId().'__page'];
+				unset( $request[$this->getHTMLControlId().'__page'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__selected'] ))
 			{
 				$this->selected = $request[$this->getHTMLControlId().'__selected'];
+				unset( $request[$this->getHTMLControlId().'__selected'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__filter_name'] ))
@@ -824,7 +830,11 @@
 					{
 						$this->filters[$request[$htmlId.'__filter_name']] = '0';
 					}
+
+					unset( $request[$this->getHTMLControlId().'__filter_value'] );
 				}
+
+				unset( $request[$this->getHTMLControlId().'__filter_name'] );
 			}
 
 			// order DataSet

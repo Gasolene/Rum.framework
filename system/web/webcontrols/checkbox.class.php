@@ -3,7 +3,7 @@
 	 * @license			see /docs/license.txt
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
-	 * @copyright		Copyright (c) 2011
+	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\Web\WebControls;
 
@@ -136,6 +136,7 @@
 					if( isset( $request[$this->getHTMLControlId()] ))
 					{
 						$this->value = true;
+						unset( $request[$this->getHTMLControlId()] );
 					}
 					else {
 						$this->value = false;

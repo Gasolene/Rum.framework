@@ -157,6 +157,7 @@
 			{
 				$this->_handlePostBack = true;
 				$this->_args = $request;
+				unset( $request[$this->parameter] );
 			}
 		}
 

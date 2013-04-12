@@ -3,7 +3,7 @@
 	 * @license			see /docs/license.txt
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
-	 * @copyright		Copyright (c) 2011
+	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\Web\WebControls;
 
@@ -129,7 +129,7 @@
 			if( $this->ajaxPostBack )
 			{
 				$params .= "&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
-				return '\'<input type="button" title="'.$this->buttonName.'" value="'.$this->buttonName.'" class="button" onclick="'.($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'').'Rum.objs[\\\''.strtolower($parameter).'HTTPRequest\\\'] = Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\', function() { Rum.eval(\\\'Rum.objs[\\\\\\\''.strtolower($parameter).'HTTPRequest\\\\\\\']\\\') } );" />\'';
+				return '\'<input type="button" title="'.$this->buttonName.'" value="'.$this->buttonName.'" class="button" onclick="'.($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'').'Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');" />\'';
 			}
 			else
 			{

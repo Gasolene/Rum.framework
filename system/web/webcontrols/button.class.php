@@ -195,6 +195,8 @@
 					isset( $request[$this->getHTMLControlId() . '__y'] ))
 				{
 					$request[$this->getHTMLControlId()] = $this->text;
+					unset( $request[$this->getHTMLControlId() . '__x'] );
+					unset( $request[$this->getHTMLControlId() . '__y'] );
 				}
 			}
 

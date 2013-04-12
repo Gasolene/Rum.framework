@@ -3,7 +3,7 @@
 	 * @license			see /docs/license.txt
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
-	 * @copyright		Copyright (c) 2011
+	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\Web\WebControls;
 
@@ -229,6 +229,7 @@
 					}
 
 					$this->value = $request[$this->getHTMLControlId()];
+					unset( $request[$this->getHTMLControlId()] );
 				}
 
 				if( !$this->value && $this->multiple )

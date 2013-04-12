@@ -45,8 +45,9 @@
 				var li = document.createElement('li');
 				var text = document.createTextNode(message);
 				li.setAttribute('class', type);
-				li.innerHTML = message;
-				a.nodeValue = 'dismiss';
+				a.appendChild(document.createTextNode(' dismiss'));
+				a.setAttribute('class', 'dismiss');
+				a.setAttribute('title', 'Dismiss');
 				addListener(a, 'click', function(){li.style.display='none';});
 				li.appendChild(text);
 				li.appendChild(a);

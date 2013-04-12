@@ -3,7 +3,7 @@
 	 * @license			see /docs/license.txt
 	 * @package			PHPRum
 	 * @author			Tahsin Zulkarnine
-	 * @copyright		Copyright (c) 2011
+	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\DB\PDO;
 	use \System\DB\TransactionBase;
