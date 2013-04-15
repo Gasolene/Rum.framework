@@ -506,7 +506,6 @@
 				}
 				catch(\ErrorException $e)
 				{
-					ob_end_clean();
 					$this->handleException($e);
 				}
 			}
