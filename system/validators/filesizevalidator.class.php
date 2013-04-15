@@ -35,8 +35,8 @@
 		/**
 		 * FileSizeValidator
 		 *
-		 * @param  double	$maxSize maximum size in KB
-		 * @param  double	$maxSize minimum size in KB, defaults to 0
+		 * @param  double	$maxSize maximum size in Bytes
+		 * @param  double	$maxSize minimum size in Bytes, defaults to 0
 		 * @param  string	$errorMessage error message
 		 * @return void
 		 */
