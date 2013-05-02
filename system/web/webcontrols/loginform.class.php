@@ -389,7 +389,7 @@
 							$ds = $app->dataAdapter->openDataSet( $table['source'] );
 						}
 
-						if( $ds->seek( $table['emailaddress-field'], $this->email->value ))
+						if( $ds->seek( $table['emailaddress-field'], $this->email->value, 1 ))
 						{
 							$found = true;
 							$url = __PROTOCOL__ . '://' . __HOST__ . $app->getPageURI( $app->config->authenticationFormsLoginPage, array($this->controlId.'_reset'=>$ds[$table['emailaddress-field']], 'e'=>md5($ds[$table['username-field']].$ds[$table['password-field']].time()), 't'=>time()) );
