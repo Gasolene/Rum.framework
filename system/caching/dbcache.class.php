@@ -64,10 +64,10 @@
 		{
 			try
 			{
-				$value = \unserialize($this->db->queryBuilder()
+				$value = ($this->db->queryBuilder()
 					->select($this->table, 'value')
 					->from($this->table)
-					->where($this->table, 'cache_id', '>', (string)$id)
+					->where($this->table, 'cache_id', '=', (string)$id)
 					->where($this->table, 'expires', '>', time())
 					->openDataSet()
 					->row["value"]);
@@ -102,7 +102,7 @@
 						'table' => $this->table,
 						'type' => 'DATETIME',
 						'notNull' => true,
-						'datetime' => true)))));
+						'integer' => true)))));
 			}
 
 			return null;
@@ -130,6 +130,8 @@
 				$expires = 2147483647;
 			}
 
+			$this->clear($id);
+
 			$this->db->queryBuilder()
 				->insertInto($this->table, array('cache_id', 'value', 'expires'))
 				->values(array((string)$id, \serialize($value), $expires))
@@ -148,7 +150,7 @@
 			$this->db->queryBuilder()
 				->delete()
 				->from($this->table)
-				->where($this->table, 'cache_id', '=', $id)
+				->where($this->table, 'cache_id', '=', (string)$id)
 				->runQuery();
 		}
 
