@@ -3,9 +3,10 @@ Change log
 
 1. Version History
 
-version 6.4.21 - 05.02.13
+version 6.4.21 - 05.08.13
 	- fixed bug in ApplicationBase where clearing empty buffer on exception
 	- fixed bug in LoginForm where email address lookup was case sensitive
+	- fixed bug in DBCache where not caching
 
 version 6.4.20 - 04.11.13
 	- fixed bug in FileBrowser where uploaded files that contain an error are ignored as filesize is 0
