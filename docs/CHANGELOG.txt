@@ -3,10 +3,12 @@ Change log
 
 1. Version History
 
-version 6.5.0-beta-1.04 - 05.08.13
+version 6.5.0-beta-1.04 - 05.13.13
 	- fixed bug in ApplicationBase where clearing empty buffer on exception
 	- fixed bug in LoginForm where email address lookup was case sensitive
 	- fixed bug in DBCache where not caching
+	- fixed bug in FileTranslator where not caching
+	- fixed bug in FileTranslator where not comparing the correct language
 
 version 6.5.0-beta-1.03 - 04.12.13
 	- fixed bug in rum.js Rum.flash() where flashing duplicate messages
