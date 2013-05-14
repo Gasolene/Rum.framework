@@ -42,8 +42,14 @@
 				$this->file = $file;
 			}
 
-			$xmlParser = new \System\XML\XMLParser();
-			$this->langs = $xmlParser->parse(\file_get_contents($this->file));
+			$this->langs = \System\Base\Build::get('langs'.$file);
+
+			if(!$this->langs)
+			{
+				$xmlParser = new \System\XML\XMLParser();
+				$this->langs = $xmlParser->parse(\file_get_contents($this->file));
+				\System\Base\Build::put('langs'.$file, $this->langs);
+			}
 		}
 
 
@@ -61,7 +67,7 @@
 
 			foreach($this->langs->children as $lang)
 			{
-				if($lang["lang"]==$this->langs)
+				if($lang["lang"]==$this->lang)
 				{
 					foreach($lang->children as $string)
 					{
