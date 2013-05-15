@@ -61,7 +61,7 @@
 
 			foreach($this->langs->children as $lang)
 			{
-				if($lang["lang"]==$this->langs)
+				if($lang["lang"]==$this->lang)
 				{
 					foreach($lang->children as $string)
 					{
