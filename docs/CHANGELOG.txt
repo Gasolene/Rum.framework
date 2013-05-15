@@ -3,6 +3,8 @@ Change log
 
 1. Version History
 
+May 15, 2013 - retiring changelog, will use Git to log changes.
+
 version 6.5.0-beta-1.04 - 05.13.13
 	- fixed bug in ApplicationBase where clearing empty buffer on exception
 	- fixed bug in LoginForm where email address lookup was case sensitive
