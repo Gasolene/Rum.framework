@@ -100,7 +100,7 @@
 						new \System\DB\ColumnSchema(array(
 						'name' => 'expires',
 						'table' => $this->table,
-						'type' => 'DATETIME',
+						'type' => 'INTEGER',
 						'notNull' => true,
 						'integer' => true)))));
 			}
