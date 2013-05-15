@@ -748,9 +748,9 @@
 <head>
 <title>Unhandled Exception: ".htmlentities($e->getMessage())."</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
-<link href=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css', 'asset'=>'web/exception.css'))) . "\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<link href=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css', 'asset'=>'web/debug.css'))) . "\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<script src=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript', 'asset'=>'web/debug.js'))) . "\" type=\"text/javascript\"></script>
+<link href=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css', 'asset'=>'debug_tools/exception.css'))) . "\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<link href=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css', 'asset'=>'debug_tools/debug.css'))) . "\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
+<script src=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript', 'asset'=>'debug_tools/debug.js'))) . "\" type=\"text/javascript\"></script>
 </head>
 <body>
 
