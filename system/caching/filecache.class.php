@@ -64,8 +64,15 @@
 		 */
 		public function put( $id, $value, $expires = 0 )
 		{
+			if($expires) {
+				$expires = time() + (int)$expires;
+			}
+			else {
+				$expires = 2147483647;
+			}
+
 			$file = $this->getPath( (string)$id );
-			$value = time() + (int)$expires . "\n" . \serialize( $value );
+			$value = $expires . "\n" . \serialize( $value );
 
 			$fp = @fopen( $file, 'wb+' );
 			if( $fp )

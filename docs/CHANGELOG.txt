@@ -3,6 +3,8 @@ Change log
 
 1. Version History
 
+May 15, 2013 - Retiring changelog, use Git to track changes
+
 version 6.4.22 - 05.13.13
 	- fixed bug in FileTranslator where not caching
 	- fixed bug in FileTranslator where not comparing the correct language
