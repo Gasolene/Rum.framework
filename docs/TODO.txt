@@ -2,19 +2,14 @@ TODO
 ====
 
 	[Due in 6.5.1]
-	Compress assets (one time manually?)
-	compress CSS files into a single file
-	don't pass uri every Rum. request
-:
-rem images from css
-form->reset()
+	combine css/js theme files into a single file
 
 Plugins
 =======
 
 
-	[Due in 6.5.1]
-	- JQuery
+	[Due in 6.5.2]
+	- JQuery integration
 
 Components (BOD)
 ==========
