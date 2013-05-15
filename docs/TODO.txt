@@ -6,7 +6,6 @@ TODO
 	compress CSS files into a single file
 	don't pass uri every Rum. request
 :
-langs.xml -> default form fail message?
 rem images from css
 form->reset()
 

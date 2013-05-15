@@ -76,7 +76,7 @@
 			}
 			else
 			{
-				\Rum::flash("w:There were some errors with your submission".PHP_EOL."Please correct the following".PHP_EOL."{$err}");
+				\Rum::flash(\Rum::tl('validation_failed'), \System\Base\AppMessageType::Warning());
 			}
 		}
 

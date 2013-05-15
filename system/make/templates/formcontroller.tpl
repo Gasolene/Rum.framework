@@ -88,7 +88,7 @@
 			}
 			else
 			{
-				\Rum::flash("w:There were some errors with your submission".PHP_EOL."Please correct the highlighted fields...");
+				\Rum::flash(\Rum::tl('validation_failed'), \System\Base\AppMessageType::Warning());
 			}
 		}
 
