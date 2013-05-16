@@ -759,7 +759,6 @@
 			$page = $this->getParentByType( '\System\Web\WebControls\Page' );
 			if( $page )
 			{
-				$page->addLink( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . '&asset=/gridview/gridview.css' );
 				$page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/gridview/gridview.js' );
 			}
 		}
