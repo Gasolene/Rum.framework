@@ -20,6 +20,7 @@
 	 * @property string $successMsg Specifies the success message
 	 * @property string $emailFromAddress Specifies the from address of the email message
 	 * @property string $emailSubject Specifies the subject line of the email message
+	 * @property string $emailBody Specifies the body of the email message with template variables {username}, {url}
 	 * @property IMailClient $mailClient Specifies the mail client to send the message with
 	 * @property TextBox $username username control
 	 * @property TextBox $password password control
@@ -84,6 +85,18 @@
 		 * @var string
 		 */
 		protected $emailSubject					= 'Password reset confirmation';
+
+		/**
+		 * Specifies the body when email is sent
+		 * @var string
+		 */
+		protected $emailBody					= "<p>Hi {username},</p>
+<p>You recently requested a new password.</p>
+<p>Please click the link below to complete your new password request:<br />
+<a href=\"{url}\">{url}</a>
+</p>
+<p>The link will remain active for one hour.</p>
+<p>If you did not authorize this request, please ignore this email.</p>";
 
 		/**
 		 * Specifies the mail client for sending
@@ -172,6 +185,10 @@
 			{
 				$this->emailSubject = (string)$value;
 			}
+			elseif( $field === 'emailBody' )
+			{
+				$this->emailBody = (string)$value;
+			}
 			elseif( $field === 'mailClient' )
 			{
 				if($value instanceof \System\Comm\Mail\IMailClient)
@@ -234,6 +251,10 @@
 			elseif( $field === 'emailSubject' )
 			{
 				return $this->emailSubject;
+			}
+			elseif( $field === 'emailBody' )
+			{
+				return $this->emailBody;
 			}
 			elseif( $field === 'mailClient' )
 			{
@@ -398,13 +419,9 @@
 							$mailMessage->to = $ds[$table["emailaddress-field"]];
 							if($this->emailFromAddress)$mailMessage->from = $this->emailFromAddress;
 							$mailMessage->subject = $this->emailSubject;
-							$mailMessage->body = "<p>Hi {$ds[$table["username-field"]]},</p>
-<p>You recently requested a new password.</p>
-<p>Please click the link below to complete your new password request:<br />
-<a href=\"{$url}\">{$url}</a>
-</p>
-<p>The link will remain active for one hour.</p>
-<p>If you did not authorize this request, please ignore this email.</p>";
+							$mailMessage->body = 
+								str_replace('{username}', $ds[$table["username-field"]], 
+								str_replace('{url}', $url, $this->emailBody));
 
 							$this->mailClient->send($mailMessage);
 							$app->messages->add(new \System\Base\AppMessage($this->passwordResetSentMsg, \System\Base\AppMessageType::Info()));
