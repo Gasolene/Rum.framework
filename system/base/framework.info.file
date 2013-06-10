@@ -4,7 +4,7 @@
 	 * @package			PHPRum
 	 * @author			darnell.shinbine
 	 * @copyright		Copyright (c) 2013
-     * @version         6.5.0-beta-1.05
+     * @version         6.5.0-beta-1.06
 	 */
 	namespace System\Base;
 
@@ -24,25 +24,25 @@
      * framework revision number
      * @var string
      */
-	const FRAMEWORK_BUILD_REVISION = '0-beta-1.05';
+	const FRAMEWORK_BUILD_REVISION = '0-beta-1.06';
 
     /**
      * build number
      * @var string
      */
-	const FRAMEWORK_BUILD_NUMBER = '201305161657';
+	const FRAMEWORK_BUILD_NUMBER = '201306101240';
 
     /**
      * build date
      * @var string
      */
-	const FRAMEWORK_BUILD_TIME = '16 May 13';
+	const FRAMEWORK_BUILD_TIME = '10 Jun 13';
 
     /**
      * build time
      * @var string
      */
-	const FRAMEWORK_BUILD_DATE = '16:57:16 MDT';
+	const FRAMEWORK_BUILD_DATE = '12:40:36 MDT';
 
     /**
      * framework authors
@@ -54,11 +54,11 @@
      * framework version string
      * @var string
      */
-	const FRAMEWORK_VERSION_STRING = '6.5.0-beta-1.05 (Build 201305161657)';
+	const FRAMEWORK_VERSION_STRING = '6.5.0-beta-1.06 (Build 201306101240)';
 
     /**
      * framework date string
      * @var string
      */
-	const FRAMEWORK_DATE_STRING = 'last build on 16 May 13 at 16:57:16 MDT';
+	const FRAMEWORK_DATE_STRING = 'last build on 10 Jun 13 at 12:40:36 MDT';
 ?>
