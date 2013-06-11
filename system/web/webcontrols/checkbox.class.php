@@ -112,6 +112,22 @@
 
 
 		/**
+		 * called when control is loaded
+		 *
+		 * @return bool			true if successfull
+		 */
+		protected function onLoad()
+		{
+			parent::onLoad();
+
+			if( $this->getParentByType( '\System\Web\WebControls\Form' ))
+			{
+				$this->getParentByType( '\System\Web\WebControls\Form' )->addParameter( $this->getHTMLControlId() . '__post', '1' );
+			}
+		}
+
+
+		/**
 		 * process the HTTP request array
 		 *
 		 * @return void
@@ -124,7 +140,7 @@
 				{
 					$this->submitted = true;
 				}
-				else
+				elseif( isset( $request[$this->getHTMLControlId() . '__post'] ))
 				{
 					$this->submitted = true;
 
@@ -141,6 +157,8 @@
 					else {
 						$this->value = false;
 					}
+
+					unset( $request[$this->getHTMLControlId() . '__post'] );
 				}
 			}
 
