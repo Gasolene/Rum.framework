@@ -60,6 +60,8 @@
 
 				if( $status->authenticated() )
 				{
+					Authentication::$identity = $username;
+
 					if(self::$logLevel>=AuthenticationLogLevel::AllEvents())
 					{
 						\Rum::log("User `{$username}` logged in from IP {$_SERVER["REMOTE_ADDR"]}", 'security');
