@@ -509,6 +509,9 @@
 				$form->appendAttribute( 'onsubmit', $this->_onsubmit );
 			}
 
+			// public to check if form has been submitted
+			$this->parameters[$this->getHTMLControlId() . '__submit'] = '1';
+
 			// send session id as http var
 			if( \System\Web\WebApplicationBase::getInstance()->config->cookielessSession ) {
 				$this->parameters['PHPSESSID'] = session_id();
@@ -604,15 +607,27 @@
 		 */
 		protected function onRequest( array &$request )
 		{
-			if( $this->honeyPot )
+			if( isset( $request[ $this->getHTMLControlId() . '__submit'] ))
 			{
-				if( isset( $request[GOTCHAFIELD] )?$request[GOTCHAFIELD]:false )
+				if( $this->honeyPot )
 				{
-					\System\Base\ApplicationBase::getInstance()->logger->log( 'spam submission attack detected from IP ' . $_SERVER['REMOTE_ADDR'], 'security' );
+					if( isset( $request[GOTCHAFIELD] )?!$request[GOTCHAFIELD]:false )
+					{
+						$this->submitted = true;
+					}
+					else
+					{
+						\System\Base\ApplicationBase::getInstance()->logger->log( 'spam submission attack detected from IP ' . $_SERVER['REMOTE_ADDR'], 'security' );
+					}
 				}
-			}
+				else
+				{
+					$this->submitted = true;
+				}
 
-			if( $this->autoFocus && isset( $this->controls[0] ))
+				unset( $request[ $this->getHTMLControlId() . '__submit'] );
+			}
+			elseif( $this->autoFocus && isset( $this->controls[0] ))
 			{
 				// auto focus first control
 				$childControl = $this->controls[0];
@@ -629,15 +644,16 @@
 		 */
 		protected function onPost( array &$request )
 		{
-			$this->submitted = true;
-
-			if( $this->ajaxPostBack )
+			if( $this->submitted )
 			{
-				$this->events->raise(new \System\Web\Events\FormAjaxPostEvent(), $this, $request);
-			}
-			else
-			{
-				$this->events->raise(new \System\Web\Events\FormPostEvent(), $this, $request);
+				if( $this->ajaxPostBack )
+				{
+					$this->events->raise(new \System\Web\Events\FormAjaxPostEvent(), $this, $request);
+				}
+				else
+				{
+					$this->events->raise(new \System\Web\Events\FormPostEvent(), $this, $request);
+				}
 			}
 		}
 
