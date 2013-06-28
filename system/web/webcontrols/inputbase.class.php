@@ -338,7 +338,8 @@
 							$controlToFocus = $this;
 						}
 						$fail = true;
-						$errMsg .= $validator->errorMessage . PHP_EOL;
+						if($errMsg) $errMsg .= ", ";
+						$errMsg .= $validator->errorMessage;
 					}
 				}
 			}
@@ -373,7 +374,6 @@
 				$this->validate($errMsg);
 			}
 
-			$errMsg = nl2br($errMsg);
 			return "<span id=\"{$this->getHTMLControlId()}__err\" class=\"err_msg\" style=\"".(!$errMsg?'display:none;':'')."\"><span>{$errMsg}</span></span>";
 		}
 
