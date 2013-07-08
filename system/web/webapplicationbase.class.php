@@ -955,7 +955,7 @@
 							$path = __PLUGINS_PATH__ . '/' . urlencode($request["id"]);
 						}
 
-						$offset = 60 * 60 * 24 * 365; // 1 year
+						$offset = 31536000; // 1 year
 
 						$content = file_get_contents($path . '/assets/' . $asset);
 

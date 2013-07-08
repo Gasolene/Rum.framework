@@ -1482,7 +1482,7 @@
 			$a->setAttribute('class', 'prev');
 			if( $this->page > 1 )
 			{
-				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.($this->sortOrder?'desc':'asc' )));
+				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder=='asc'));
 			}
 			else
 			{
@@ -1509,7 +1509,7 @@
 				if( $this->page <> $page )
 				{
 					$a = new \System\XML\DomObject( 'a' );
-					$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$page.'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.($this->sortOrder?'desc':'asc' )));
+					$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$page.'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 					$a->nodeValue .= $page;
 					$a->setAttribute( 'class', 'page' );
 					$span->addChild( $a );
@@ -1529,7 +1529,7 @@
 			$a->setAttribute('class', 'next');
 			if(( $this->page * $this->pageSize ) < $this->_data->count && $this->pageSize )
 			{
-				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.($this->sortOrder?'desc':'asc' )));
+				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
 			else
 			{
