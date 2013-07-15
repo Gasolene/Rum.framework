@@ -167,11 +167,6 @@
 					$fields .= "\n\t\t\t'{$columnSchema->name}' => 'binary'";
 					continue;
 				}
-				elseif( $columnSchema->blob )
-				{
-					$fields .= "\n\t\t\t'{$columnSchema->name}' => 'blob'";
-					continue;
-				}
 				else
 				{
 					$fields .= "\n\t\t\t'{$columnSchema->name}' => 'string'";
@@ -185,7 +180,7 @@
 			{
 				$rule = '';
 				if($rules)$rules.=',';
-				if($columnSchema->notNull && !$columnSchema->boolean && !$columnSchema->blob)
+				if($columnSchema->notNull && !$columnSchema->boolean && !$columnSchema->binary)
 				{
 					$rule .= ($rule?',':'')."'required'";
 				}

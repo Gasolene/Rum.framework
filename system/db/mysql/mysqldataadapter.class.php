@@ -189,7 +189,6 @@
 							'foreignKey' => false,
 							'unique' => (bool) $meta->unique_key,
 							'numeric' => (bool) $meta->numeric,
-							'blob' => (bool) $meta->blob,
 							'string' => \mysql_field_type($result, $i) === 'string',
 							'integer' => \mysql_field_type($result, $i) === 'int',
 							'real' => \mysql_field_type($result, $i) === 'real',
@@ -266,7 +265,6 @@
 						'foreignKey' => false,
 						'unique' => (bool) $meta->unique_key,
 						'numeric' => (bool) $meta->numeric,
-						'blob' => (bool) $meta->blob,
 						'string' => \mysql_field_type($columns, $i) === 'string',
 						'integer' => \mysql_field_type($columns, $i) === 'int',
 						'real' => \mysql_field_type($columns, $i) === 'real',
@@ -330,10 +328,6 @@
 				elseif($columnSchema->datetime)
 				{
 					$type = "DATETIME";
-				}
-				elseif($columnSchema->blob)
-				{
-					$type = "MEDIUMBLOB";
 				}
 				else
 				{

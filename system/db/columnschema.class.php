@@ -30,7 +30,6 @@
 	 * @property bool $date specifies whether column is date string
 	 * @property bool $time specifies whether column is time string
 	 * @property bool $datetime specifies whether column is a date/time string
-	 * @property bool $blob specifies whether column is a blob
 	 * @property bool $binary specifies whether column is binary
 	 *
 	 * @package			PHPRum
@@ -152,12 +151,6 @@
 		 * @var bool
 		 */
 		private $datetime				= false;
-
-		/**
-		 * specifies whether field is a blob
-		 * @var bool
-		 */
-		private $blob					= false;
 
 		/**
 		 * specifies whether field is binary

@@ -1583,7 +1583,7 @@
 						{
 							$this->addColumn( new GridViewColumn( $field->name, ucwords( str_replace( '_', ' ', $field->name )), "%{$field->name}%?'Yes':'No'" ));
 						}
-						elseif( $field->blob )
+						elseif( $field->binary )
 						{
 							continue;
 						}

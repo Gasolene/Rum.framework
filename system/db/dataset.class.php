@@ -1297,9 +1297,6 @@
 				$xmlFieldBoolean = new \System\XML\XMLEntity( 'boolean' );
 				$xmlFieldBoolean->value = $field->boolean?'true':'false';
 
-				$xmlFieldBlob = new \System\XML\XMLEntity( 'blob' );
-				$xmlFieldBlob->value = $field->blob?'true':'false';
-
 				$xmlFieldPrimaryKey = new \System\XML\XMLEntity( 'primaryKey' );
 				$xmlFieldPrimaryKey->value = $field->primaryKey?'true':'false';
 
@@ -1312,7 +1309,6 @@
 				$xmlField->addChild( $xmlFieldNumeric );
 				$xmlField->addChild( $xmlFieldDateTime );
 				$xmlField->addChild( $xmlFieldBoolean );
-				$xmlField->addChild( $xmlFieldBlob );
 				$xmlField->addChild( $xmlFieldPrimaryKey );
 				$xmlField->addChild( $xmlFieldAutoIncrement );
 

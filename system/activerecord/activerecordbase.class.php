@@ -708,7 +708,7 @@
 							{
 								if( !$fcolumnSchema->numeric &&
 									!$fcolumnSchema->boolean &&
-									!$fcolumnSchema->blob &&
+									!$fcolumnSchema->binary &&
 									!$fcolumnSchema->primaryKey )
 								{
 									break;
@@ -1917,11 +1917,6 @@
 								$this->fields[$columnSchema->name] = 'binary';
 								continue;
 							}
-							elseif( $columnSchema->blob )
-							{
-								$this->fields[$columnSchema->name] = 'blob';
-								continue;
-							}
 							else
 							{
 								$this->fields[$columnSchema->name] = 'string';
@@ -1935,7 +1930,7 @@
 						foreach($tableSchema->columnSchemas as $columnSchema)
 						{
 							$rules = array();
-							if($columnSchema->notNull && !$columnSchema->boolean && !$columnSchema->blob)
+							if($columnSchema->notNull && !$columnSchema->boolean && !$columnSchema->binary)
 							{
 								$rules[] = 'required';
 							}

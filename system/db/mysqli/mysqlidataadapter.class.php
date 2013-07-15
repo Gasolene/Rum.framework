@@ -278,10 +278,6 @@
 				{
 					$type = "DATETIME";
 				}
-				elseif($columnSchema->blob)
-				{
-					$type = "MEDIUMBLOB";
-				}
 				else
 				{
 					$type = "VARCHAR({$columnSchema->length}) CHARACTER SET {$this->charset} COLLATE {$this->collation}";
@@ -547,8 +543,7 @@
 				'multipleKey' => $meta->flags & 16384,
 				'foreignKey' => FALSE,
 				'unique' => $meta->flags & 4,
-				'numeric' => $meta->flags & 32768,
-				'blob' => $meta->flags & 16,
+				'numeric' => $meta->type === MYSQLI_TYPE_INT24 || $meta->type === MYSQLI_TYPE_LONG || $meta->type === MYSQLI_TYPE_LONGLONG || $meta->type === MYSQLI_TYPE_BIT || $meta->type === MYSQLI_TYPE_TINY || $meta->type === MYSQLI_TYPE_DECIMAL || $meta->type === MYSQLI_TYPE_DOUBLE || $meta->type === MYSQLI_TYPE_FLOAT || $meta->type === MYSQLI_TYPE_NEWDECIMAL,
 				'string' => $meta->type === MYSQLI_TYPE_STRING || $meta->type === MYSQLI_TYPE_VAR_STRING,
 				'integer' => $meta->type === MYSQLI_TYPE_INT24 || $meta->type === MYSQLI_TYPE_LONG || $meta->type === MYSQLI_TYPE_LONGLONG || $meta->type === MYSQLI_TYPE_BIT || $meta->type === MYSQLI_TYPE_TINY,
 				'real' => $meta->type === MYSQLI_TYPE_DECIMAL || $meta->type === MYSQLI_TYPE_DOUBLE || $meta->type === MYSQLI_TYPE_FLOAT || $meta->type === MYSQLI_TYPE_NEWDECIMAL,
