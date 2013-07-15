@@ -6,7 +6,6 @@
 	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\DB\MySQL;
-	use \System\DB\TransactionBase;
 
 
 	/**
@@ -16,33 +15,7 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	final class MySQLTransaction extends TransactionBase
+	final class MySQLTransaction extends \System\DB\MySQLi\MySQLiTransaction
 	{
-		/**
-		 * Begins a transaction
-		 */
-		protected function beginTransaction()
-		{
-			$this->dataAdapter->execute( 'SET autocommit=0' );
-			$this->dataAdapter->execute( 'START TRANSACTION' );
-		}
-
-
-		/**
-		 * Implements a rollback
-		 */
-		protected function rollbackTransaction()
-		{
-			$this->dataAdapter->execute( 'ROLLBACK' );
-		}
-
-
-		/**
-		 * Implements a commit
-		 */
-		protected function commitTransaction()
-		{
-			$this->dataAdapter->execute( 'COMMIT' );
-		}
 	}
 ?>
