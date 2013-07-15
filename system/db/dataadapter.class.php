@@ -201,7 +201,7 @@
 					include_once __SYSTEM_PATH__ . '/db/mysqli/mysqlidataadapter' . __CLASS_EXTENSION__;
 					$da = new MySQLi\MySQLiDataAdapter( $args );
 				}
-				/* MSSQL adapter * /
+				/* MSSQL adapter */
 				elseif( $adapter === 'mssql' ) {
 					include_once __SYSTEM_PATH__ . '/db/mssql/mssqldataadapter' . __CLASS_EXTENSION__;
 					$da = new MSSQL\MSSQLDataAdapter( $args );
