@@ -149,7 +149,7 @@
 		 *
 		 * @return void
 		 */
-		public static function build()
+		public static function rebuild()
 		{
 			$app = ApplicationBase::getInstance();
 			if($app instanceof \System\Web\WebApplicationBase)

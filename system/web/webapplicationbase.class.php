@@ -980,7 +980,7 @@ console.log('".(str_replace("\n", '', str_replace("\r", '', $content)))."');
 						if($request->get["id"]=="build")
 						{
 							$title = "Rebuilding application source files: ";
-							\System\Base\Build::build();
+							\System\Base\Build::rebuild();
 						}
 						$build = ob_get_clean();
 
