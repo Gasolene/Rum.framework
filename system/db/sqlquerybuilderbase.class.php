@@ -447,7 +447,7 @@ where';
 				if( strlen( $whereClause ) === 0 ) {
 					$whereClause = '
 where
-	0=0';
+	0';
 				}
 			}
 

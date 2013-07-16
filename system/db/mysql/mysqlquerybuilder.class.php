@@ -6,6 +6,7 @@
 	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\DB\MySQL;
+	use \System\DB\SQLQueryBuilderBase;
 
 
 	/**
@@ -17,7 +18,24 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	final class MySQLQueryBuilder extends \System\DB\MySQLi\MySQLiQueryBuilder
+	final class MySQLQueryBuilder extends SQLQueryBuilderBase
 	{
+		/**
+		 * object opening delimiter
+		 * @var string
+		**/
+		protected $objectOpeningDelimiter = "`";
+
+		/**
+		 * object closing delimiter
+		 * @var string
+		**/
+		protected $objectClosingDelimiter = "`";
+
+		/**
+		 * string delimiter
+		 * @var string
+		**/
+		protected $stringDelimiter = "'";
 	}
 ?>

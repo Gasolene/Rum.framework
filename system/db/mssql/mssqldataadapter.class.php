@@ -387,7 +387,6 @@
 		 */
 		public function escapeString( $unescaped_string )
 		{
-			//return addslashes($unescaped_string);
 			if(is_numeric($unescaped_string)) {
 				return $unescaped_string;
 			}
