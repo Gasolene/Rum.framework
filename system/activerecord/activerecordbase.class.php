@@ -699,21 +699,21 @@
 							$mapping['relationship'] == RelationshipType::BelongsTo()->__toString() )
 						{
 							$class = $mapping['type'];
-							$activeRecord2 = $class::create();
+//							$activeRecord2 = $class::create();
 							$ds = $class::all();
 							$label = \substr( strrchr( $mapping['type'], '\\'), 1 );
-							$ftableSchema = $schema->seek($activeRecord2->table);
-
-							foreach( $ftableSchema->columnSchemas as $fcolumnSchema )
-							{
-								if( !$fcolumnSchema->numeric &&
-									!$fcolumnSchema->boolean &&
-									!$fcolumnSchema->binary &&
-									!$fcolumnSchema->primaryKey )
-								{
-									break;
-								}
-							}
+//							$ftableSchema = $schema->seek($activeRecord2->table);
+//
+//							foreach( $ftableSchema->columnSchemas as $fcolumnSchema )
+//							{
+//								if( !$fcolumnSchema->numeric &&
+//									!$fcolumnSchema->boolean &&
+//									!$fcolumnSchema->blob &&
+//									!$fcolumnSchema->primaryKey )
+//								{
+//									break;
+//								}
+//							}
 
 							$control->textField = $fcolumnSchema->name;
 							$control->valueField = $mapping["columnRef"];
@@ -1912,9 +1912,9 @@
 								$this->fields[$columnSchema->name] = 'numeric';
 								continue;
 							}
-							elseif( $columnSchema->binary )
+							elseif( $columnSchema->blob )
 							{
-								$this->fields[$columnSchema->name] = 'binary';
+								$this->fields[$columnSchema->name] = 'blob';
 								continue;
 							}
 							else
@@ -1930,10 +1930,10 @@
 						foreach($tableSchema->columnSchemas as $columnSchema)
 						{
 							$rules = array();
-							if($columnSchema->notNull && !$columnSchema->boolean && !$columnSchema->binary)
-							{
-								$rules[] = 'required';
-							}
+//							if($columnSchema->notNull && !$columnSchema->boolean && !$columnSchema->binary)
+//							{
+//								$rules[] = 'required';
+//							}
 							if($columnSchema->datetime || $columnSchema->date || $columnSchema->time)
 							{
 								$rules[] = 'datetime';

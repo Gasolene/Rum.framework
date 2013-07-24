@@ -2,20 +2,15 @@ TODO
 ====
 
 	[Due in 6.5.1]
-	combine css/js theme files into a single file
+	- PDODataADapter
+	- JQuery integration
+	- combine css/js theme files into a single file
 
 Plugins
 =======
 
-	[Due in 6.5.2]
-	- JQuery integration
-
 Components (BOD)
 ==========
-
-	[Due in 6.5.1]
-	- PDODataADapter
-	- MSSQLDataAdapter
 
 CONTROLS (BOD)
 ========
