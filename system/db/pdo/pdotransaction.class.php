@@ -2,7 +2,7 @@
 	/**
 	 * @license			see /docs/license.txt
 	 * @package			PHPRum
-	 * @author			Tahsin Zulkarnine
+	 * @author			Darnell Shinbine
 	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\DB\PDO;

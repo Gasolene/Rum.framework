@@ -87,6 +87,18 @@
 
 
 		/**
+		 * Constructor
+		 * 
+		 * @param string $objectOpeningDelimiter
+		 * @param string $objectClosingDelimiter
+		 * @param string $stringDelimiter
+		 */
+		protected function x__construct($objectOpeningDelimiter = '', $objectClosingDelimiter = '', $stringDelimiter = '') {
+			//$this->objectOpeningDelimiter = '';
+		}
+
+
+		/**
 		 * add column
 		 *
 		 * @return void
