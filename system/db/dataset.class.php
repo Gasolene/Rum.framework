@@ -1300,9 +1300,6 @@
 				$xmlFieldPrimaryKey = new \System\XML\XMLEntity( 'primaryKey' );
 				$xmlFieldPrimaryKey->value = $field->primaryKey?'true':'false';
 
-				$xmlFieldAutoIncrement = new \System\XML\XMLEntity( 'autoIncrement' );
-				$xmlFieldAutoIncrement->value = $field->autoIncrement?'true':'false';
-
 				$xmlField->addChild( $xmlFieldName );
 				$xmlField->addChild( $xmlFieldLength );
 				$xmlField->addChild( $xmlFieldType );
@@ -1310,7 +1307,6 @@
 				$xmlField->addChild( $xmlFieldDateTime );
 				$xmlField->addChild( $xmlFieldBoolean );
 				$xmlField->addChild( $xmlFieldPrimaryKey );
-				$xmlField->addChild( $xmlFieldAutoIncrement );
 
 				$xmlFields->addChild( $xmlField );
 			}

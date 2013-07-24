@@ -17,7 +17,6 @@
 	 * @property int $length column length
 	 * @property bool $notNull specifies whether column is not null
 	 * @property bool $primaryKey specifies whether column is a primary key
-	 * @property bool $multipleKey specifies whether column is a multiple key
 	 * @property bool $foreignKey specifies whether column is a foriegn key
 	 * @property bool $autoIncrement specifies whether column is auto incrementing
 	 * @property bool $unique specifies whether column is unique
@@ -26,11 +25,10 @@
 	 * @property bool $integer specifies whether column is an integer
 	 * @property bool $real specifies whether column is a double
 	 * @property bool $boolean specifies whether column is true/false
-	 * @property bool $year specifies whether column is year string
+	 * @property bool $blob specifies whether column is a blob
 	 * @property bool $date specifies whether column is date string
 	 * @property bool $time specifies whether column is time string
 	 * @property bool $datetime specifies whether column is a date/time string
-	 * @property bool $binary specifies whether column is binary
 	 *
 	 * @package			PHPRum
 	 * @subpackage		DB
@@ -73,12 +71,6 @@
 		 * @var bool
 		 */
 		private $primaryKey				= false;
-
-		/**
-		 * specifies whether field is part of a composite key
-		 * @var bool
-		 */
-		private $multipleKey			= false;
 
 		/**
 		 * specifies whether field is primary key
@@ -129,10 +121,10 @@
 		private $boolean				= false;
 
 		/**
-		 * specifies whether field is year string
+		 * specifies whether field is a blob
 		 * @var bool
 		 */
-		private $year					= false;
+		private $blob					= false;
 
 		/**
 		 * specifies whether field is date string
@@ -151,12 +143,6 @@
 		 * @var bool
 		 */
 		private $datetime				= false;
-
-		/**
-		 * specifies whether field is binary
-		 * @var bool
-		 */
-		private $binary					= false;
 
 
 		/**
