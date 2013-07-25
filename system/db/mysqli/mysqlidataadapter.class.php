@@ -85,7 +85,7 @@
 		{
 			if( $this->link )
 			{
-				if( mysqli_close( $this->link ))
+				if( \mysqli_close( $this->link ))
 				{
 					$this->link = null;
 					return true;
@@ -261,10 +261,6 @@
 				elseif($columnSchema->boolean)
 				{
 					$type = "TINYINT(1)";
-				}
-				elseif($columnSchema->year)
-				{
-					$type = "YEAR";
 				}
 				elseif($columnSchema->date)
 				{
@@ -459,11 +455,11 @@
 		/**
 		 * creats a QueryBuilder object
 		 *
-		 * @return MySQLQueryBuilder
+		 * @return SQLQueryBuilder
 		 */
 		public function queryBuilder()
 		{
-			return new MySQLiQueryBuilder($this);
+			return new \System\DB\SQLQueryBuilder($this);
 		}
 
 

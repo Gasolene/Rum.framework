@@ -17,25 +17,25 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	abstract class SQLQueryBuilderBase extends QueryBuilderBase
+	class SQLQueryBuilder extends QueryBuilderBase
 	{
 		/**
 		 * object opening delimiter
 		 * @var string
 		**/
-		protected $objectOpeningDelimiter = "`";
+		protected $objectOpeningDelimiter	= "`";
 
 		/**
 		 * object closing delimiter
 		 * @var string
 		**/
-		protected $objectClosingDelimiter = "`";
+		protected $objectClosingDelimiter	= "`";
 
 		/**
 		 * string delimiter
 		 * @var string
 		**/
-		protected $stringDelimiter = "'";
+		protected $stringDelimiter	= "'";
 
 		/**
 		 * array of select columns
@@ -89,12 +89,18 @@
 		/**
 		 * Constructor
 		 * 
-		 * @param string $objectOpeningDelimiter
-		 * @param string $objectClosingDelimiter
-		 * @param string $stringDelimiter
+		 * @param DataAdapter	$dataAdapter	instance of a DataAdapter
+		 * @param string $objectOpeningDelimiter object opening delimiter
+		 * @param string $objectClosingDelimiter object closing delimiter
+		 * @param string $stringDelimiter string delimiter
 		 */
-		protected function x__construct($objectOpeningDelimiter = '', $objectClosingDelimiter = '', $stringDelimiter = '') {
-			//$this->objectOpeningDelimiter = '';
+		public function __construct(DataAdapter &$dataAdapter, $objectOpeningDelimiter = null, $objectClosingDelimiter = null, $stringDelimiter = null)
+		{
+			parent::__construct($dataAdapter);
+
+			if($objectOpeningDelimiter) $this->objectOpeningDelimiter = $objectOpeningDelimiter;
+			if($objectClosingDelimiter) $this->objectClosingDelimiter = $objectClosingDelimiter;
+			if($stringDelimiter) $this->stringDelimiter = $stringDelimiter;
 		}
 
 

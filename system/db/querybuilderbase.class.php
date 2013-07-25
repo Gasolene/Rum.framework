@@ -44,7 +44,7 @@
 		 * @param  DataAdapter	$dataAdapter	instance of a DataAdapter
 		 * @return void
 		 */
-		final public function __construct( DataAdapter &$dataAdapter )
+		public function __construct( DataAdapter &$dataAdapter )
 		{
 			$this->dataAdapter =& $dataAdapter;
 		}

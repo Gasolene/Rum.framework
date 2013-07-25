@@ -6,7 +6,6 @@
 	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\DB\MySQL;
-	use \System\DB\TransactionBase;
 
 
 	/**
@@ -16,7 +15,7 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine 
 	 */
-	final class MSSQLTransaction extends TransactionBase
+	final class MSSQLTransaction extends \System\DB\TransactionBase
 	{
 		/**
 		 * Begins a transaction

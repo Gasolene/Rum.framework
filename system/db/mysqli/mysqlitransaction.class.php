@@ -6,7 +6,6 @@
 	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\DB\MySQLi;
-	use \System\DB\TransactionBase;
 
 
 	/**
@@ -16,7 +15,7 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	final class MySQLiTransaction extends TransactionBase
+	final class MySQLiTransaction extends \System\DB\TransactionBase
 	{
 		/**
 		 * Begins a transaction

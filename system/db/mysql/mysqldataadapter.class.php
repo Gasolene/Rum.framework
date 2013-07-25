@@ -185,20 +185,18 @@
 							'length' => \mysql_field_len($result, $i),
 							'notNull' => (bool) $meta->not_null,
 							'primaryKey' => (bool) $meta->primary_key,
-							'multipleKey' => (bool) $meta->multiple_key,
 							'foreignKey' => false,
 							'unique' => (bool) $meta->unique_key,
 							'numeric' => (bool) $meta->numeric,
 							'string' => \mysql_field_type($result, $i) === 'string',
 							'integer' => \mysql_field_type($result, $i) === 'int',
 							'real' => \mysql_field_type($result, $i) === 'real',
-							'year' => \mysql_field_type($result, $i) === 'year',
 							'date' => \mysql_field_type($result, $i) === 'date',
 							'time' => \mysql_field_type($result, $i) === 'time',
 							'datetime' => \mysql_field_type($result, $i) === 'datetime',
 							'boolean' => \mysql_field_len($result, $i) === 1 && \mysql_field_type($result, $i) === 'int',
 							'autoIncrement' => \strpos( mysql_field_flags($result, $i), 'auto_increment' ) !== false,
-							'binary' => \strpos( mysql_field_flags($result, $i), 'binary' ) !== false));
+							'blob' => \strpos( mysql_field_flags($result, $i), 'binary' ) !== false));
 					}
 
 					$rows = array();
@@ -312,10 +310,6 @@
 				elseif($columnSchema->boolean)
 				{
 					$type = "TINYINT(1)";
-				}
-				elseif($columnSchema->year)
-				{
-					$type = "YEAR";
 				}
 				elseif($columnSchema->date)
 				{
@@ -510,11 +504,11 @@
 		/**
 		 * creats a QueryBuilder object
 		 *
-		 * @return MySQLQueryBuilder
+		 * @return SQLQueryBuilder
 		 */
 		public function queryBuilder()
 		{
-			return new MySQLQueryBuilder($this);
+			return new \System\DB\SQLQueryBuilder($this);
 		}
 
 
