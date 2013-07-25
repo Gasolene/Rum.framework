@@ -260,10 +260,6 @@
 				{
 					$type = "TINYINT(1)";
 				}
-				elseif($columnSchema->year)
-				{
-					$type = "YEAR";
-				}
 				elseif($columnSchema->date)
 				{
 					$type = "DATE";
@@ -525,7 +521,7 @@
 		 */
 		public function escapeString( $unescaped_string )
 		{
-			return $this->pdo->quote( $unescaped_string );
+			return $this->pdo->prepare( $unescaped_string )->queryString;
 		}
 
 
@@ -537,12 +533,12 @@
 		private function getColumnSchema($meta)
 		{
 			$flags = $meta['flags'];
-			$type = $this->_translateNativeType($meta['native_type']);
+			$type = $this->_translateNativeType(isset($meta['native_type'])?$meta['native_type']:'');
 
 			return new \System\DB\ColumnSchema(array(
 				'name' => $meta['name'],
 				'table' => $meta['table'],
-				'type' => (string)$meta['native_type'],
+				'type' => isset($meta['native_type'])?$meta['native_type']:'',
 				'length' => $meta['len'],
 				'notNull' => in_array('not_null', $flags)===true,
 				'primaryKey' => in_array('primary_key', $flags)===true,
@@ -583,7 +579,8 @@
 				'FLOAT' => 'real',
 				'NEWDECIMAL' => 'real',
 				'DECIMAL' => 'real',
-				'TIMESTAMP' => 'int'
+				'TIMESTAMP' => 'int',
+				'' => ''
 			);
 
 			return $types[$type];

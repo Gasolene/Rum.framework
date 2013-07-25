@@ -6,7 +6,6 @@
 	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\DB\PDO;
-	use System\DB\SQLQueryBuilderBase;
 
 
 	/**
@@ -18,7 +17,7 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	final class PDOQueryBuilder extends SQLQueryBuilderBase
+	final class PDOQueryBuilder extends \System\DB\SQLQueryBuilder
 	{
 		/**
 		 * object opening delimiter
