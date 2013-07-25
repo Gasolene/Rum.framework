@@ -166,13 +166,13 @@
 			<param name="src" value="${hello_world.path}" />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
-
+<!--
 		<antcall target="_export.package">
 			<param name="dest" value="${output.blog}" />
 			<param name="src" value="${blog.path}" />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
-
+-->
 		<!-- export plugins -->
 		<antcall target="_export.plugin.package">
 			<param name="plugin" value="calendar" />
