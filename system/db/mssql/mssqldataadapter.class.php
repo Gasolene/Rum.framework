@@ -200,7 +200,6 @@
 					$mssql_type[-151]						= 'UDT';
 					$mssql_type[-152]						= 'XML';
 
-					
 					/*
 					 * create field objects
 					 *
@@ -214,7 +213,7 @@
 
 					// set table property
 					$ds->setTable($this->getTableFromSQL( $source ));
-					$fieldMeta = sqlsrv_field_metadata( $result );
+					$fieldMeta = \sqlsrv_field_metadata( $result );
 
 					for( $i=0; $i < $colcount; $i++ )
 					{
@@ -227,7 +226,6 @@
 							'length' =>  intval($fieldMeta[$i]["Size"])==0?intval($fieldMeta[$i]["Precision"]):intval($fieldMeta[$i]["Size"]),
 							'notNull' => (bool)  ( !$fieldMeta[$i]["Nullable"] ),
 							'primaryKey' => (bool) $field['primaryKey'],
-							'multipleKey' => false,
 							'foreignKey' => false,
 							'unique' => (bool) $field['unique'],
 							'numeric' => (bool) (( $fieldMeta[$i]["Type"] === -7 ) ||
@@ -258,13 +256,12 @@
 														( $fieldMeta[$i]["Type"] === 3 ) ||
 														( $fieldMeta[$i]["Type"] === 6 ) ||
 														( $fieldMeta[$i]["Type"] === 7 )),
-							'year' => '',
 							'date' => (bool)  ( $fieldMeta[$i]["Type"] === 91 ),
 							'time' => (bool)  ( $fieldMeta[$i]["Type"] === -154 ),
 							'datetime' => (bool)  ( $fieldMeta[$i]["Type"] === 93 ),
 							'boolean' => (bool)  ( $fieldMeta[$i]["Type"] === -7 ),
 							'autoIncrement' => $field['autoIncrement'],
-							'binary' => (bool) (( $fieldMeta[$i]["Type"] === -2 ) ||
+							'blob' => (bool) (( $fieldMeta[$i]["Type"] === -2 ) ||
 														( $fieldMeta[$i]["Type"] === -3 ))
 							));
 
@@ -381,7 +378,6 @@
 							'length' =>  intval($fieldMeta[$i]["Size"])==0?intval($fieldMeta[$i]["Precision"]):intval($fieldMeta[$i]["Size"]),
 							'notNull' => (bool)  ( !$fieldMeta[$i]["Nullable"] ),
 							'primaryKey' => (bool) $field['primaryKey'],
-							'multipleKey' => false,
 							'foreignKey' => false,
 							'unique' => (bool) $field['unique'],
 							'numeric' => (bool) (( $fieldMeta[$i]["Type"] === -7 ) ||
@@ -411,13 +407,12 @@
 														( $fieldMeta[$i]["Type"] === 3 ) ||
 														( $fieldMeta[$i]["Type"] === 6 ) ||
 														( $fieldMeta[$i]["Type"] === 7 )),
-							'year' => '',
 							'date' => (bool)  ( $fieldMeta[$i]["Type"] === 91 ),
 							'time' => (bool)  ( $fieldMeta[$i]["Type"] === -154 ),
 							'datetime' => (bool)  ( $fieldMeta[$i]["Type"] === 93 ),
 							'boolean' => (bool)  ( $fieldMeta[$i]["Type"] === -7 ),
 							'autoIncrement' => $field['autoIncrement'],
-							'binary' => (bool) (( $fieldMeta[$i]["Type"] === -2 ) ||
+							'blob' => (bool) (( $fieldMeta[$i]["Type"] === -2 ) ||
 														( $fieldMeta[$i]["Type"] === -3 ))
 							));
 

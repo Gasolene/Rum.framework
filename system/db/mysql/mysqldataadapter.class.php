@@ -189,7 +189,7 @@
 							'unique' => (bool) $meta->unique_key,
 							'numeric' => (bool) $meta->numeric,
 							'string' => \mysql_field_type($result, $i) === 'string',
-							'integer' => \mysql_field_type($result, $i) === 'int',
+							'integer' => \mysql_field_type( $result, $i ) === 'int',
 							'real' => \mysql_field_type($result, $i) === 'real',
 							'date' => \mysql_field_type($result, $i) === 'date',
 							'time' => \mysql_field_type($result, $i) === 'time',
@@ -259,20 +259,18 @@
 						'length' => \mysql_field_len($columns, $i),
 						'notNull' => (bool) $meta->not_null,
 						'primaryKey' => (bool) $meta->primary_key,
-						'multipleKey' => (bool) $meta->multiple_key,
 						'foreignKey' => false,
 						'unique' => (bool) $meta->unique_key,
 						'numeric' => (bool) $meta->numeric,
 						'string' => \mysql_field_type($columns, $i) === 'string',
-						'integer' => \mysql_field_type($columns, $i) === 'int',
+						'integer' => \mysql_field_type($columns, $i ) === 'int',
 						'real' => \mysql_field_type($columns, $i) === 'real',
-						'year' => \mysql_field_type($columns, $i) === 'year',
 						'date' => \mysql_field_type($columns, $i) === 'date',
 						'time' => \mysql_field_type($columns, $i) === 'time',
 						'datetime' => \mysql_field_type($columns, $i) === 'datetime',
 						'boolean' => \mysql_field_len($columns, $i) === 1 && \mysql_field_type( $columns, $i ) === 'int',
 						'autoIncrement' => \strpos( mysql_field_flags($columns, $i), 'auto_increment' ) !== false,
-						'binary' => \strpos( mysql_field_flags($columns, $i), 'binary' ) !== false));
+						'blob' => \strpos( mysql_field_flags($columns, $i), 'binary' ) !== false));
 
 					$i++;
 				}

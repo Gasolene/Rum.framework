@@ -544,10 +544,10 @@
 				'primaryKey' => in_array('primary_key', $flags)===true,
 				'foreignKey' => false, // PDO does not provide this
 				'unique' => false, // PDO does not provide this
-				'numeric' => $type=='int' || $type=='real',
+				'numeric' => ($meta['len']==1 && !$type) || $type=='int' || $type=='real',
 				'blob' => $type=='blob',
 				'string' => $type=='string',
-				'integer' => $type=='int',
+				'integer' => ($meta['len']==1 && !$type) || $type=='int',
 				'real' => $type=='real',
 				'date' => $type=='date',
 				'time' => $type=='time',
