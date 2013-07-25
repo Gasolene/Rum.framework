@@ -1,12 +1,16 @@
 TODO
 ====
 
-	[Due in 6.5.1]
+	[Due in 6.5.0-RC]
 	- PDODataADapter
+	- make migration v
+
+	[Due in 6.5.1]
 	- JQuery integration
 	- combine css/js theme files into a single file
+	- test migrations
 
-Plugins
+PLUGINS
 =======
 
 Components (BOD)
