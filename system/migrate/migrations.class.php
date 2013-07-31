@@ -63,22 +63,27 @@
 
 			//$transaction = \System\Base\ApplicationBase::getInstance()->dataAdapter->beginTransaction();
 
-                        foreach(\array_reverse($this->getMigrations()) as $migration)
+			$next = false;
+			foreach(\array_reverse($this->getMigrations()) as $migration)
 			{
 				if( $migration->version <= $this->getCurrentVersion() &&
 					$migration->version > $toVersion)
 				{
 					echo "Downgrading from version {$migration->version}".PHP_EOL;
 					$migration->down();
+					$next = true;
+					continue;
 				}
-				if( $migration->version <= $this->getCurrentVersion() &&
-					$migration->version >= $toVersion)
+
+				if($next)
 				{
+					$next = false;
 					$this->setVersion($migration->version);
+					break;
 				}
 			}
 
-			if($toVersion==0)
+			if($toVersion==0 || $next)
 			{
 				$this->setVersion(0);
 			}
