@@ -1132,7 +1132,7 @@ No building is needed or allowed in a production environment.</p>
 				//\System\Web\HTTPResponse::write( "<a onclick=\"PHPRumDebug.launchFrame('".__PROTOCOL__ . '://' . __HOST__ . \System\Web\WebApplicationBase::getInstance()->getPageURI('dev', array('id'=>'build','nostyle'=>'1'))."');\">Rebuild source</a> | " );
 				//\System\Web\HTTPResponse::write( "<a onclick=\"PHPRumDebug.launchFrame('".__PROTOCOL__ . '://' . __HOST__ . \System\Web\WebApplicationBase::getInstance()->getPageURI('dev', array('id'=>'run_all','nostyle'=>'1'))."');\">Run all tests</a> | " );
 				\System\Web\HTTPResponse::write( "<a href=\"#\">Tools</a> | " );
-				\System\Web\HTTPResponse::write( "<span><strong>Execution time:</strong> " . number_format($elapsed*100, 2) . "ms</span>" );
+				\System\Web\HTTPResponse::write( "<span><strong>Execution time:</strong> " . number_format($elapsed*1000, 2) . "ms</span>" );
 				\System\Web\HTTPResponse::write( "<span style=\"float: right;\">" );
 				\System\Web\HTTPResponse::write( "<span>Running in debug mode</span> | " );
 				\System\Web\HTTPResponse::write( "<span><strong>Framework version:</strong> ".\System\Base\FRAMEWORK_VERSION_STRING . "</span>" );
