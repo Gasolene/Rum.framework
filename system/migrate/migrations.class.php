@@ -70,9 +70,19 @@
 					$migration->version > $toVersion)
 				{
 					echo "Downgrading from version {$migration->version}".PHP_EOL;
-					$migration->down();
-					$next = true;
-					continue;
+					try
+					{
+						$migration->down();
+
+						$this->setVersion($migration->version);
+						$next = true;
+						continue;
+					}
+					catch(\Exception $e)
+					{
+						$this->setVersion($migration->version);
+						throw new \Exception($e->getMessage(), $e->getCode());
+					}
 				}
 
 				if($next)
