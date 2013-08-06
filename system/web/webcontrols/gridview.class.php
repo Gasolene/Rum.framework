@@ -623,8 +623,6 @@
 
 				$this->_data->page( $this->page );
 
-				$cssStyle='';
-
 				// loop through each item (record)
 				while( !$this->_data->eof() && $this->_data->page() === $this->page )
 				{
@@ -1076,8 +1074,6 @@
 				$tr->addChild( $th );
 			}
 
-			$showFilters = false;
-
 			// loop through each column
 			foreach( $this->columns as $column )
 			{
@@ -1107,7 +1103,7 @@
 							if(isset($this->filterValues[$column["DataField"]]))
 							{
 								$values = $this->filterValues[$column["DataField"]];
-								$keys = array_keys($this->filterValues[$column["DataField"]]);
+								//$keys = array_keys($this->filterValues[$column["DataField"]]);
 
 								$select = new \System\XML\DomObject( 'select' );
 								$select->setAttribute('name', $this->getHTMLControlId().'__filter_value');
@@ -1435,6 +1431,7 @@
 
 				if( $column['Footer-Text'] ) {
 					$html = $column['Footer-Text'];
+					$footerText = '';
 					if(false === eval("\$footerText ={$html};")) {
 						throw new \System\Base\InvalidOperationException("Could not run expression in GridView on column `".$column["DataField"]."`: \$html = " . ($html) . ';');
 					}
