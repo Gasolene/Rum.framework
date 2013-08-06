@@ -1019,11 +1019,13 @@
 
 					// generate sort URL
 					if(( $this->sortBy === $column['DataField'] ) && $this->sortOrder=='asc' ) {
-						$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__sort_by='.rawurlencode($column['DataField']).'&'.$this->getHTMLControlId().'__sort_order=desc' ));
+						$order = "desc";
 					}
 					else {
-						$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__sort_by='.rawurlencode($column['DataField']).'&'.$this->getHTMLControlId().'__sort_order=asc' ));
+						$order = "asc";
 					}
+
+					$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__sort_by='.rawurlencode($column['DataField']).'&'.$this->getHTMLControlId().'__sort_order='.$order));
 
 					// add link node to column
 					$th->addChild( $a );
