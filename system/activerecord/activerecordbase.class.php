@@ -663,9 +663,7 @@
 		 */
 		static public function form( $controlId )
 		{
-			$cache_id = 'form:'.\System\Base\ApplicationBase::getInstance()->currentPage.'_'.$controlId;
 			$activeRecord = self::create();
-
 			$legend = \substr( strrchr( self::getClass(), '\\'), 1 );
 
 			$form = new \System\Web\WebControls\Form( $controlId );
@@ -699,21 +697,21 @@
 							$mapping['relationship'] == RelationshipType::BelongsTo()->__toString() )
 						{
 							$class = $mapping['type'];
-//							$activeRecord2 = $class::create();
+							$activeRecord2 = $class::create();
 							$ds = $class::all();
 							$label = \substr( strrchr( $mapping['type'], '\\'), 1 );
-//							$ftableSchema = $schema->seek($activeRecord2->table);
-//
-//							foreach( $ftableSchema->columnSchemas as $fcolumnSchema )
-//							{
-//								if( !$fcolumnSchema->numeric &&
-//									!$fcolumnSchema->boolean &&
-//									!$fcolumnSchema->blob &&
-//									!$fcolumnSchema->primaryKey )
-//								{
-//									break;
-//								}
-//							}
+							$ftableSchema = $schema->seek($activeRecord2->table);
+
+							foreach( $ftableSchema->columnSchemas as $fcolumnSchema )
+							{
+								if( !$fcolumnSchema->numeric &&
+									!$fcolumnSchema->boolean &&
+									!$fcolumnSchema->blob &&
+									!$fcolumnSchema->primaryKey )
+								{
+									break;
+								}
+							}
 
 							$control->textField = $fcolumnSchema->name;
 							$control->valueField = $mapping["columnRef"];
