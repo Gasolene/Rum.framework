@@ -559,28 +559,6 @@
 				 *
 				 **********************************************************************/
 
-				// filter results
-				if( $this->filters ) {
-					$filter_event = new \System\Web\Events\GridViewFilterEvent();
-
-					if($this->events->contains( $filter_event )) {
-						$this->events->raise( $filter_event, $this );
-					}
-					else {
-						// filter DataSet
-						foreach( $this->filters as $column=>$value) {
-							if(strlen($value)>0) {
-								if(isset($this->filterValues[$column])) {
-									$this->_data->filter( $column, '=', $value, true );
-								}
-								else {
-									$this->_data->filter( $column, 'contains', $value, true );
-								}
-							}
-						}
-					}
-				}
-
 				// sort results
 				if( $this->sortBy && $this->canSort && !$this->canChangeOrder) {
 					$sort_event = new \System\Web\Events\GridViewSortEvent();
@@ -828,7 +806,33 @@
 				unset( $request[$this->getHTMLControlId().'__filter_name'] );
 			}
 
-			// order DataSet
+			// filter results
+			if( $this->filters ) {
+				$filter_event = new \System\Web\Events\GridViewFilterEvent();
+
+				if($this->events->contains( $filter_event )) {
+					$this->events->raise( $filter_event, $this );
+				}
+				else {
+					// filter DataSet
+					foreach( $this->filters as $column=>$value) {
+						if(strlen($value)>0) {
+							if(isset($this->filterValues[$column])) {
+								$this->_data->filter( $column, '=', $value, true );
+							}
+							else {
+								$this->_data->filter( $column, 'contains', $value, true );
+							}
+						}
+					}
+
+					if($this->ajaxPostBack) {
+						$this->updateAjax();
+					}
+				}
+			}
+
+			// order results
 			if( $this->canChangeOrder && $this->orderByField && $this->moveOrder ) {
 				if( !$this->_data ) {
 					throw new \System\Base\InvalidOperationException("no valid DataSet object");
@@ -877,15 +881,10 @@
 							$this->_data->update();
 						}
 					}
-				}
 
-				if(!$this->ajaxPostBack)
-				{
-					\System\Web\WebApplicationBase::getInstance()->setForwardPage('', $request);
-				}
-				else
-				{
-					$this->updateAjax();
+					if($this->ajaxPostBack) {
+						$this->updateAjax();
+					}
 				}
 			}
 		}
