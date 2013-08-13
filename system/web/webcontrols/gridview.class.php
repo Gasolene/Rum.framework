@@ -572,44 +572,6 @@
 				 *
 				 **********************************************************************/
 
-				// filter results
-				if( $this->filters ) {
-					$filter_event = new \System\Web\Events\GridViewFilterEvent();
-
-					if($this->events->contains( $filter_event )) {
-						$this->events->raise( $filter_event, $this );
-					}
-					else {
-						// filter DataSet
-						foreach( $this->filters as $column=>$value) {
-							if(strlen($value)>0) {
-								if(isset($this->filterValues[$column])) {
-									$this->_data->filter( $column, '=', $value, true );
-								}
-								else {
-									$this->_data->filter( $column, 'contains', $value, true );
-								}
-							}
-						}
-					}
-				}
-
-				// sort results
-				if( $this->sortBy && $this->canSort && !$this->canChangeOrder) {
-					$sort_event = new \System\Web\Events\GridViewSortEvent();
-
-					if($this->events->contains( $sort_event )) {
-						$this->events->raise( $sort_event, $this );
-					}
-					else {
-						// sort DataSet
-						$this->_data->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
-					}
-				}
-				elseif($this->canChangeOrder) {
-					$this->_data->sort( $this->orderByField, false, true );
-				}
-
 				// validate grid page
 				$this->_data->pageSize = $this->pageSize;
 				if( $this->page > $this->_data->pageCount() ) {
@@ -838,7 +800,53 @@
 				unset( $request[$this->getHTMLControlId().'__filter_name'] );
 			}
 
-			// order DataSet
+			// filter results
+			if( $this->filters ) {
+				$filter_event = new \System\Web\Events\GridViewFilterEvent();
+
+				if($this->events->contains( $filter_event )) {
+					$this->events->raise( $filter_event, $this );
+				}
+				else {
+					// filter DataSet
+					foreach( $this->filters as $column=>$value) {
+						if(strlen($value)>0) {
+							if(isset($this->filterValues[$column])) {
+								$this->_data->filter( $column, '=', $value, true );
+							}
+							else {
+								$this->_data->filter( $column, 'contains', $value, true );
+							}
+						}
+					}
+
+					if($this->ajaxPostBack) {
+						$this->updateAjax();
+					}
+				}
+			}
+
+			// sort results
+			if( $this->sortBy && $this->canSort && !$this->canChangeOrder) {
+				$sort_event = new \System\Web\Events\GridViewSortEvent();
+
+				if($this->events->contains( $sort_event )) {
+					$this->events->raise( $sort_event, $this );
+				}
+				else {
+					// sort DataSet
+					$this->_data->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
+
+					if($this->ajaxPostBack) {
+						$this->updateAjax();
+					}
+				}
+			}
+			elseif($this->canChangeOrder) {
+				$this->_data->sort( $this->orderByField, false, true );
+			}
+
+			// order results
 			if( $this->canChangeOrder && $this->orderByField && $this->moveOrder ) {
 				if( !$this->_data ) {
 					throw new \System\Base\InvalidOperationException("no valid DataSet object");
@@ -887,15 +895,10 @@
 							$this->_data->update();
 						}
 					}
-				}
 
-				if(!$this->ajaxPostBack)
-				{
-					\System\Web\WebApplicationBase::getInstance()->setForwardPage('', $request);
-				}
-				else
-				{
-					$this->updateAjax();
+					if($this->ajaxPostBack) {
+						$this->updateAjax();
+					}
 				}
 			}
 		}
