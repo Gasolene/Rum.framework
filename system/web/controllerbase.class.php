@@ -22,7 +22,7 @@
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
 	 */
-	abstract class ControllerBase
+	abstract class ControllerBase extends \System\Base\Object
 	{
 		/**
 		 * Specifies the controller id
@@ -54,12 +54,6 @@
 		 */
 		protected $denyRoles			= array();
 
-		/**
-		 * event collection
-		 * @var EventCollection
-		 */
-		protected $events				= null;
-
 
 		/**
 		 * Constructor
@@ -81,8 +75,6 @@
 				HTTPResponse::redirect($url);
 			}
 
-			// Eveng handling
-			$this->events = new \System\Base\EventCollection();
 			$this->onLoad();
 		}
 
@@ -112,13 +104,9 @@
 			{
 				return $this->denyRoles;
 			}
-			elseif( $field === 'events' )
-			{
-				return $this->events;
-			}
 			else
 			{
-				throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
+				return parent::__get($field);
 			}
 		}
 

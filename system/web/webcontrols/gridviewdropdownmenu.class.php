@@ -45,13 +45,14 @@
 		/**
 		 * get item text
 		 *
-		 * @param string $dataField
-		 * @param string $parameter
-		 * @param string $params
+		 * @param string $dataField datafield of the current row
+		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getItemText($dataField, $parameter, $params)
+		protected function getItemText($dataField, $parameter)
 		{
+			$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'";
+
 			if($this->ajaxPostBack)
 			{
 				$params .= "&{$parameter}=\'+this.value+\'";
@@ -77,6 +78,48 @@
 					$key = htmlentities($key, ENT_QUOTES);
 
 					$html .= "<option value=\"{$value}\" '.(%{$dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
+				}
+				$html .= '</select>\'';
+
+				return $html;
+			}
+		}
+
+		/**
+		 * get footer text
+		 *
+		 * @param string $parameter parameter to send
+		 * @return string
+		 */
+		protected function getFooterText($parameter)
+		{
+			$params = $this->getRequestData();
+
+			if($this->ajaxPostBack)
+			{
+				$params .= "&{$parameter}=\'+this.value+\'";
+
+				$html = '\'<select class="listbox" onchange="Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');">';
+				foreach($this->items as $key=>$value)
+				{
+					$value = htmlentities($value, ENT_QUOTES);
+					$key = htmlentities($key, ENT_QUOTES);
+
+					$html .= "<option>{$key}</option>";
+				}
+				$html .= '</select>\'';
+
+				return $html;
+			}
+			else
+			{
+				$html = '\'<select class="listbox">';
+				foreach($this->items as $key=>$value)
+				{
+					$value = htmlentities($value, ENT_QUOTES);
+					$key = htmlentities($key, ENT_QUOTES);
+
+					$html .= "<option>{$key}</option>";
 				}
 				$html .= '</select>\'';
 

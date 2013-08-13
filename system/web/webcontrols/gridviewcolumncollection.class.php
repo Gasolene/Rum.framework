@@ -19,6 +19,33 @@
 	final class GridViewColumnCollection extends CollectionBase
 	{
 		/**
+		 * sets object property
+		 *
+		 * @param  string	$field		name of field
+		 * @param  mixed	$value		value of field
+		 * @return void					string of variables
+		 * @ignore
+		 */
+		public function __set( $field, $value )
+		{
+			if( $field === 'ajaxPostBack' )
+			{
+				foreach($this->items as $item)
+				{
+					if($item instanceof GridViewControlBase)
+					{
+						$item->ajaxPostBack = (bool)$value;
+					}
+				}
+			}
+			else
+			{
+				return parent::__get($field);
+			}
+		}
+
+
+		/**
 		 * implement ArrayAccess methods
 		 * @ignore
 		 */

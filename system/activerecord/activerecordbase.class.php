@@ -664,11 +664,9 @@
 		static public function form( $controlId )
 		{
 			$activeRecord = self::create();
-			$legend = \substr( strrchr( self::getClass(), '\\'), 1 );
 
 			$form = new \System\Web\WebControls\Form( $controlId );
 			$form->add( new \System\Web\WebControls\Fieldset( 'fieldset' ));
-			$form->fieldset->legend = \ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $legend, $legend ));
 
 			$schema = $activeRecord->dataSet->dataAdapter->getSchema();
 
@@ -753,8 +751,6 @@
 			}
 			*/
 
-			$form->add( new \System\Web\WebControls\Button('submit'));
-
 			// implement rules
 			foreach( $activeRecord->rules as $field => $rules )
 			{
@@ -821,6 +817,118 @@
 			}
 
 			return $form;
+		}
+
+
+		/**
+		 * static method to return a GridView object
+		 *
+		 * @param  string		$controlId		form id
+		 * @return GridView
+		 */
+		static public function gridview( $controlId )
+		{
+			$activeRecord = self::create();
+			$class = get_class($activeRecord);
+			$pkey = $activeRecord->pkey;
+
+			$gridView = new \System\Web\WebControls\GridView( $controlId );
+			$schema = $activeRecord->dataSet->dataAdapter->getSchema();
+
+			// create controls
+			foreach( $activeRecord->fields as $field => $type )
+			{
+				$column = null;
+				$header = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
+				$param = $field;
+
+				if(isset(self::$field_mappings[$type]))
+				{
+					// create references
+					if($type === 'ref')
+					{
+						$options = array();
+						foreach( $activeRecord->relationships as $mapping )
+						{
+							// belongs_to
+							if( $mapping['columnKey'] === $field &&
+								$mapping['relationship'] == RelationshipType::BelongsTo()->__toString() )
+							{
+								$class = $mapping['type'];
+								$ds = $class::all();
+								$activeRecord2 = $class::create();
+								$ftableSchema = $schema->seek($activeRecord2->table);
+
+								foreach( $ftableSchema->columnSchemas as $fcolumnSchema )
+								{
+									if( !$fcolumnSchema->numeric &&
+										!$fcolumnSchema->boolean &&
+										!$fcolumnSchema->blob &&
+										!$fcolumnSchema->primaryKey )
+									{
+										break;
+									}
+								}
+
+								foreach($ds->rows as $row)
+								{
+									$options[$row[$fcolumnSchema->name]] = $row[$mapping["columnRef"]];
+								}
+
+								continue;
+							}
+						}
+
+						$column = new \System\Web\WebControls\GridViewDropDownMenu($field, $activeRecord->pkey, $options, $param, $header);
+						$gridView->setFilterValues($field, $options);
+					}
+					else if($type === 'boolean')
+					{
+						$column = new \System\Web\WebControls\GridViewCheckBox($field, $activeRecord->pkey, $param, $header);
+						$gridView->setFilterValues($field, array('Yes'=>true, 'No'=>false));
+					}
+					else
+					{
+						$column = new \System\Web\WebControls\GridViewTextBox($field, $activeRecord->pkey, $param, $header);
+					}
+
+					// Create the change event
+//					$eventHandler = function ($sender, $args) use ($pkey, $param, $field, $class, $controlId) {
+//
+//						$entity = $class::findById($args[$pkey]);
+//
+//						if($entity)
+//						{
+//							$entity[$field] = $args[$param];
+//							$entity->save();
+//
+//							if(\Rum::app()->requestHandler->isAjaxPostBack)
+//							{
+//								\Rum::app()->requestHandler->page->{$controlId}->refreshDataSource();
+//								\Rum::app()->requestHandler->page->{$controlId}->updateAjax();
+//							}
+//						}
+//						else {
+//							throw new \System\Base\InvalidOperationException("Could not write to entity object");
+//						}
+//					};
+
+					// Bind event handler method to the page controller
+					// \Rum::app()->requestHandler->attachFunction("on{$field}Post", $eventHandler);
+
+					// attach the event to the event listener
+//					$column->events->registerEventHandler(new \System\Web\Events\GridViewColumnPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . "on{$field}Post"));
+//					$column->events->registerEventHandler(new \System\Web\Events\GridViewColumnAjaxPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . "on{$field}Post"));
+				}
+				else
+				{
+					throw new \System\Base\InvalidOperationException("No field mapping assigned to `{$type}`");
+				}
+
+				$gridView->columns->add($column);
+			}
+
+			return $gridView;
 		}
 
 

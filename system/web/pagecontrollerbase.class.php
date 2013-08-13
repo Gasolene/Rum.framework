@@ -60,23 +60,7 @@
 		 */
 		final public function __get( $field )
 		{
-			if( $field === 'controllerId' )
-			{
-				return (string)$this->controllerId;
-			}
-			elseif( $field === 'outputCache' )
-			{
-				return (int)$this->outputCache;
-			}
-			elseif( $field === 'allowRoles' )
-			{
-				return $this->allowRoles;
-			}
-			elseif( $field === 'denyRoles' )
-			{
-				return $this->denyRoles;
-			}
-			elseif( $field === 'isPostBack' )
+			if( $field === 'isPostBack' )
 			{
 				return (bool)$this->isPostBack;
 			}
@@ -92,10 +76,6 @@
 			{
 				return $this->theme;
 			}
-			elseif( $field === 'events' )
-			{
-				return $this->events;
-			}
 			else
 			{
 				if( $this->page )
@@ -106,15 +86,9 @@
 					{
 						return $control;
 					}
-					else
-					{
-						throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
-					}
 				}
-				else
-				{
-					throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
-				}
+
+				return parent::__get($field);
 			}
 		}
 

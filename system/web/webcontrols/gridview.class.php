@@ -14,7 +14,6 @@
 	 * @property string $caption
 	 * @property int $pageSize
 	 * @property int $page
-	 * @property int $filterGroupSize
 	 * @property bool $canSort
 	 * @property bool $canChangeOrder
 	 * @property bool $showFilters
@@ -65,12 +64,6 @@
 		 * @var int
 		 */
 		protected $page						= 1;
-
-		/**
-		 * Number of records to display in dropdown filter, Default is 10
-		 * @var int
-		 */
-		protected $filterGroupSize			= 10;
 
 		/**
 		 * Specifies if table is sortable, Default is true
@@ -269,9 +262,6 @@
 			elseif( $field === 'pageSize' ) {
 				return $this->pageSize;
 			}
-			elseif( $field === 'filterGroupSize' ) {
-				return $this->filterGroupSize;
-			}
 			elseif( $field === 'canSort' ) {
 				return $this->canSort;
 			}
@@ -375,9 +365,6 @@
 			}
 			elseif( $field === 'page' ) {
 				$this->page = (int)$value;
-			}
-			elseif( $field === 'filterGroupSize' ) {
-				$this->filterGroupSize = (int)$value;
 			}
 			elseif( $field === 'canSort' ) {
 				$this->canSort = (bool)$value;
@@ -607,7 +594,14 @@
 					}
 				}
 				elseif($this->canChangeOrder) {
-					$this->_data->sort( $this->orderByField, false, true );
+					$reorder_event = new \System\Web\Events\GridViewReorderEvent();
+
+					if($this->events->contains( $reorder_event )) {
+						$this->events->raise( $reorder_event, $this );
+					}
+					else {
+						$this->_data->sort( $this->orderByField, false, true );
+					}
 				}
 
 				// validate grid page

@@ -45,12 +45,6 @@
 		protected $escapeOutput				= true;
 
 		/**
-		 * params
-		 * @var string
-		 */
-		private $_params					= '';
-
-		/**
 		 * post back
 		 * @var bool
 		 */
@@ -75,7 +69,7 @@
 		 */
 		public function __construct( $dataField, $pkey, $parameter='', $headerText='', $footerText='', $className='' )
 		{
-			$this->parameter=$parameter?$parameter:str_replace(" ","_",$dataField);
+			$this->parameter = $parameter?$parameter:str_replace(" ","_",$dataField);
 			$this->pkey = $pkey;
 
 			parent::__construct( $dataField, $headerText, '', $footerText, $className );
@@ -172,8 +166,6 @@
 		{
 			if( $this->_handlePostBack )
 			{
-				$args = $request;
-
 				if($this->ajaxPostBack && \Rum::app()->requestHandler->isAjaxPostBack)
 				{
 					$this->events->raise(new \System\Web\Events\GridViewColumnAjaxPostEvent(), $this, $this->_args);
@@ -194,8 +186,8 @@
 		 */
 		public function onRender()
 		{
-			$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'";
-			$this->itemText = $this->getItemText($this->dataField, $this->parameter, $params);
+			$this->itemText = $this->getItemText($this->dataField, $this->parameter);
+			$this->footerText = $this->getFooterText($this->parameter);
 		}
 
 
@@ -221,11 +213,19 @@
 		/**
 		 * get item text
 		 *
-		 * @param string $dataField
-		 * @param string $parameter
-		 * @param string $params
+		 * @param string $dataField datafield of the current row
+		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		abstract protected function getItemText($dataField, $parameter, $params);
+		abstract protected function getItemText($dataField, $parameter);
+
+
+		/**
+		 * get footer text
+		 *
+		 * @param string $parameter parameter to send
+		 * @return string
+		 */
+		abstract protected function getFooterText($parameter);
 	}
 ?>
