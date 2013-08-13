@@ -559,29 +559,6 @@
 				 *
 				 **********************************************************************/
 
-				// sort results
-				if( $this->sortBy && $this->canSort && !$this->canChangeOrder) {
-					$sort_event = new \System\Web\Events\GridViewSortEvent();
-
-					if($this->events->contains( $sort_event )) {
-						$this->events->raise( $sort_event, $this );
-					}
-					else {
-						// sort DataSet
-						$this->_data->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
-					}
-				}
-				elseif($this->canChangeOrder) {
-					$reorder_event = new \System\Web\Events\GridViewReorderEvent();
-
-					if($this->events->contains( $reorder_event )) {
-						$this->events->raise( $reorder_event, $this );
-					}
-					else {
-						$this->_data->sort( $this->orderByField, false, true );
-					}
-				}
-
 				// validate grid page
 				$this->_data->pageSize = $this->pageSize;
 				if( $this->page > $this->_data->pageCount() ) {
@@ -832,16 +809,29 @@
 				}
 			}
 
+			// sort results
+			if( $this->sortBy && $this->canSort && !$this->canChangeOrder) {
+				$sort_event = new \System\Web\Events\GridViewSortEvent();
+
+				if($this->events->contains( $sort_event )) {
+					$this->events->raise( $sort_event, $this );
+				}
+				else {
+					// sort DataSet
+					$this->_data->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
+
+					if($this->ajaxPostBack) {
+						$this->updateAjax();
+					}
+				}
+			}
+
 			// order results
 			if( $this->canChangeOrder && $this->orderByField && $this->moveOrder ) {
-				if( !$this->_data ) {
-					throw new \System\Base\InvalidOperationException("no valid DataSet object");
-				}
+				$order_event = new \System\Web\Events\GridViewChangeOrderEvent();
 
-				$event = new \System\Web\Events\GridViewChangeOrderEvent();
-
-				if($this->events->contains( $event )) {
-					$this->events->raise( $event, $this );
+				if($this->events->contains( $order_event )) {
+					$this->events->raise( $order_event, $this );
 				}
 				else {
 					// order DataSet
