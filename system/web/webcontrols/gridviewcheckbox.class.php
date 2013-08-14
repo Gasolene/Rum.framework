@@ -26,37 +26,36 @@
 		 */
 		protected function getItemText($dataField, $parameter)
 		{
-			$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'";
-
 			if($this->ajaxPostBack)
 			{
-				$params .= "&{$parameter}=\'+this.checked+\'";
-				return '\'<input type="checkbox" value="'.$parameter.'" \'.(%'.$dataField.'%?\'checked="checked"\':\'\').\' class="checkbox" onchange="Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');" />\'';
+				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"{$parameter}\" '.(%{$dataField}%?'checked=\"checked\"':'').' class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return '\'<input type="checkbox" value="'.$parameter.'" \'.(%'.$dataField.'%?\'checked="checked"\':\'\').\' class="checkbox" />\'';
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"{$parameter}\" '.(%{$dataField}%?'checked=\"checked\"':'').' class=\"textbox\" />'";
 			}
 		}
 
 		/**
 		 * get footer text
 		 *
+		 * @param string $dataField datafield of the current row
 		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getFooterText($parameter)
+		protected function getFooterText($dataField, $parameter)
 		{
-			$params = $this->getRequestData();
-
 			if($this->ajaxPostBack)
 			{
-				$params .= "&{$parameter}=\'+this.checked+\'";
-				return '\'<input type="checkbox" class="checkbox" onchange="Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');" />\'';
+				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
+				return "'<input name=\"{$parameter}\" type=\"text\" value=\"{$parameter}\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return '\'<input type="checkbox" class="checkbox" />\'';
+				return "'<input name=\"{$parameter}\" type=\"text\" value=\"{$parameter}\" class=\"textbox\" />'";
 			}
 		}
 	}

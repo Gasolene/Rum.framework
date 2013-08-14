@@ -21,13 +21,12 @@
 	 * @property WebControlBase $parent parent control
 	 * @property DataSet $dataSource Reference to data-source
 	 * @property mixed $value Control value
-	 * @property EventCollection $events event collection
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
 	 */
-	abstract class WebControlBase
+	abstract class WebControlBase extends \System\Base\Object
 	{
 		/**
 		 * specifies whether the server control persists its view state, Default is false
@@ -72,12 +71,6 @@
 		protected $dataSource			= null;
 
 		/**
-		 * event collection
-		 * @var EventCollection
-		 */
-		protected $events				= null;
-
-		/**
 		 * Id of the control
 		 * @var string
 		 */
@@ -110,7 +103,6 @@
 			// set collections
 			$this->controls = new WebControlCollection( $this );
 			$this->attributes = new WebControlAttributeCollection(array('class'=>''));
-			$this->events = new \System\Base\EventCollection();
 
 			// set ajax handlers
 			$this->ajaxCallback	= $_SERVER['PHP_SELF'];
@@ -122,8 +114,6 @@
 			$this->events->add(new \System\Web\Events\WebControlCreateEvent());
 			$this->events->add(new \System\Web\Events\WebControlInitEvent());
 			$this->events->add(new \System\Web\Events\WebControlLoadEvent());
-			//$this->events->add(new \System\Web\Events\WebControlRequestEvent());
-			//$this->events->add(new \System\Web\Events\WebControlPostEvent());
 			$this->events->add(new \System\Web\Events\WebControlPreRenderEvent());
 
 			$onCreateMethod = 'on'.ucwords($this->controlId).'Create';
@@ -192,10 +182,6 @@
 			{
 				return $this->dataSource;
 			}
-			elseif( $field === 'events' )
-			{
-				return $this->events;
-			}
 			else
 			{
 				$control = $this->findControl($field);
@@ -205,7 +191,7 @@
 				}
 				else
 				{
-					throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
+					return parent::__get($field);
 				}
 			}
 		}
@@ -257,7 +243,7 @@
 			}
 			else
 			{
-				throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
+				parent::__set($field, $value);
 			}
 		}
 

@@ -51,13 +51,12 @@
 		 */
 		protected function getItemText($dataField, $parameter)
 		{
-			$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'";
-
 			if($this->ajaxPostBack)
 			{
-				$params .= "&{$parameter}=\'+this.value+\'";
+				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
 
-				$html = '\'<select class="listbox" onchange="Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');">';
+				$html = "'<select name=\"{$parameter}_'.%{$this->pkey}%.'\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);
@@ -71,7 +70,7 @@
 			}
 			else
 			{
-				$html = '\'<select class="listbox">';
+				$html = "'<select name=\"{$parameter}_'.%{$this->pkey}%.'\" class=\"listbox\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);
@@ -88,18 +87,18 @@
 		/**
 		 * get footer text
 		 *
+		 * @param string $dataField datafield of the current row
 		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getFooterText($parameter)
+		protected function getFooterText($dataField, $parameter)
 		{
-			$params = $this->getRequestData();
-
 			if($this->ajaxPostBack)
 			{
-				$params .= "&{$parameter}=\'+this.value+\'";
+				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
 
-				$html = '\'<select class="listbox" onchange="Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');">';
+				$html = "'<select name=\"{$parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);
@@ -113,7 +112,7 @@
 			}
 			else
 			{
-				$html = '\'<select class="listbox">';
+				$html = "'<select name=\"{$parameter}\" class=\"listbox\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);

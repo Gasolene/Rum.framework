@@ -27,7 +27,7 @@
 	 * @subpackage		Web
 	 *
 	 */
-	class GridViewColumn implements \ArrayAccess
+	class GridViewColumn extends \System\Base\Object implements \ArrayAccess
 	{
 		/**
 		 * datefield
@@ -58,12 +58,6 @@
 		 * @var string
 		 */
 		protected $className			= '';
-
-		/**
-		 * event collection
-		 * @var EventCollection
-		 */
-		protected $events				= null;
 
 		/**
 		 * specifies whether column can be filtered
@@ -111,8 +105,6 @@
 			$this->itemText = (string) $itemText;
 			$this->footerText = (string) $footerText;
 			$this->className = (string) $className;
-
-			$this->events = new \System\Base\EventCollection();
 		}
 
 
@@ -139,9 +131,6 @@
 			elseif( $field === 'className' ) {
 				return $this->className;
 			}
-			elseif( $field === 'events' ) {
-				return $this->events;
-			}
 			elseif( $field === 'canFilter' ) {
 				return $this->canFilter;
 			}
@@ -158,7 +147,7 @@
 				return $this->ondblclick;
 			}
 			else {
-				throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
+				return parent::__get($field);
 			}
 		}
 
@@ -203,7 +192,7 @@
 				$this->ondblclick = (string)$value;
 			}
 			else {
-				throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
+				parent::__set($field, $value);
 			}
 		}
 

@@ -205,7 +205,7 @@
 					}
 					/* MySQLi improved adapter */
 					elseif( $adapter === 'mysqli' ) {
-						include_once __SYSTEM_PATH__ . '/db/mysqli/mysqlidataadapter' . __CLASS_EXTENSION__;
+						include_once __SYSTEM_PATH__ . '/db/mysqli/mysqlidataadapter' . __CLASS_EXTENSION__;						
 						$da = new MySQLi\MySQLiDataAdapter( $args );
 					}
 					/* MSSQL adapter */

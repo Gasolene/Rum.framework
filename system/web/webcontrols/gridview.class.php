@@ -245,6 +245,16 @@
 			parent::__construct( $controlId );
 
 			$this->columns = new GridViewColumnCollection();
+
+			// event handling
+			$this->events->add(new \System\Web\Events\GridViewPostEvent());
+
+			// default events
+			$onPostMethod = 'on' . ucwords( $this->controlId ) . 'Post';
+			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $onPostMethod))
+			{
+				$this->events->registerEventHandler(new \System\Web\Events\GridViewPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onPostMethod));
+			}
 		}
 
 
@@ -888,6 +898,7 @@
 		 */
 		protected function onPost( array &$request )
 		{
+			$this->events->raise(new \System\Web\Events\GridViewPostEvent(), $this, $request);
 			$this->columns->onPost( $request );
 		}
 

@@ -134,35 +134,36 @@
 		 */
 		protected function getItemText($dataField, $parameter)
 		{
-			$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
-
 			if( $this->ajaxPostBack )
 			{
-				return '\'<input type="button" title="'.$this->itemButtonName.'" value="'.$this->itemButtonName.'" class="button" onclick="'.($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'').'Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');" />\'';
+				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
+				return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"'.%{$dataField}%.'\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\''.$this->escape($params).'\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation))).'\\\')){return false;}':'')."Rum.sendSync(\\'".\System\Web\WebApplicationBase::getInstance()->config->uri."\\', \\'".$this->escape($this->getRequestData())."\', \\'POST\\');\" />'";
+				return "'<input name=\"{$parameter}\" type=\"submit\" title=\"{$this->itemButtonName}\" value=\"'.%{$dataField}%.'\" class=\"button\" />'";
 			}
 		}
 
 		/**
 		 * get footer text
 		 *
+		 * @param string $dataField datafield of the current row
 		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getFooterText($parameter)
+		protected function getFooterText($dataField, $parameter)
 		{
-			$params = $this->getRequestData();
-
 			if( $this->ajaxPostBack )
 			{
-				return '\'<input type="button" title="'.$this->footerButtonName.'" value="'.$this->footerButtonName.'" class="button" onclick="Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');" />\'';
+				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$params = $this->getRequestData() . "&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
+				return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\''.$this->escape($params).'\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" class=\"button\" onclick=\"Rum.sendSync(\\'".\System\Web\WebApplicationBase::getInstance()->config->uri."\\', \\'".$this->escape($params)."\', \\'POST\\');\" />'";
+				return "'<input name=\"{$parameter}\" type=\"submit\" title=\"{$this->footerButtonName}\" class=\"button\" />'";
 			}
 		}
 	}

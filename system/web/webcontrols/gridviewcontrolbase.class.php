@@ -152,6 +152,7 @@
 				$this->_handlePostBack = true;
 				$this->_args = $request;
 				unset( $request[$this->parameter] );
+				unset( $request[$this->pkey] );
 			}
 		}
 
@@ -187,7 +188,7 @@
 		public function onRender()
 		{
 			$this->itemText = $this->getItemText($this->dataField, $this->parameter);
-			$this->footerText = $this->getFooterText($this->parameter);
+			$this->footerText = $this->getFooterText($this->dataField, $this->parameter);
 		}
 
 
@@ -224,8 +225,9 @@
 		 * get footer text
 		 *
 		 * @param string $parameter parameter to send
+		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		abstract protected function getFooterText($parameter);
+		abstract protected function getFooterText($dataField, $parameter);
 	}
 ?>

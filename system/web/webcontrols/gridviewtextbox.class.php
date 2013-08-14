@@ -18,12 +18,6 @@
 	class GridViewTextBox extends GridViewControlBase
 	{
 		/**
-		 * size
-		 * @var int
-		 */
-		protected $size = 30;
-
-		/**
 		 * get item text
 		 *
 		 * @param string $dataField datafield of the current row
@@ -32,38 +26,36 @@
 		 */
 		protected function getItemText($dataField, $parameter)
 		{
-			$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'";
-
 			if($this->ajaxPostBack)
 			{
-				$this->footerText = 'XXX';
-				$params .= "&{$parameter}=\'+this.value+\'";
-				return '\'<input type="text" size="'.$this->size.'" value="\'.%'.$dataField.'%.\'" class="textbox" onchange="Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');" />\'';
+				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return '\'<input type="text" value="\'.%'.$dataField.'%.\'" class="textbox" />\'';
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" />'";
 			}
 		}
 
 		/**
 		 * get footer text
 		 *
+		 * @param string $dataField datafield of the current row
 		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getFooterText($parameter)
+		protected function getFooterText($dataField, $parameter)
 		{
-			$params = $this->getRequestData();
-
 			if($this->ajaxPostBack)
 			{
-				$params .= "&{$parameter}=\'+this.value+\'";
-				return '\'<input type="text" size="'.$this->size.'" class="textbox" onchange="Rum.evalAsync(\\\''.\System\Web\WebApplicationBase::getInstance()->config->uri.'/\\\',\\\''.$this->escape($params).'\\\',\\\'POST\\\');" />\'';
+				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
+				return "'<input name=\"{$parameter}\" type=\"text\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return '\'<input type="text" class="textbox" />\'';
+				return "'<input name=\"{$parameter}\" type=\"text\" class=\"textbox\" />'";
 			}
 		}
 	}
