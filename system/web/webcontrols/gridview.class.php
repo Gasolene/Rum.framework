@@ -492,6 +492,148 @@
 
 
 		/**
+		 * insert row in DataSet
+		 *
+		 * @return void
+		 */
+		public function insertRow()
+		{
+			$request = \System\Web\HTTPRequest::$request;
+
+			if( $this->dataSource )
+			{
+				$pkey = '';
+				foreach($this->dataSource->fieldMeta as $meta)
+				{
+					if($meta->primaryKey)
+					{
+						$pkey = $meta->name;
+						break;
+					}
+				}
+
+				if($pkey)
+				{
+					$this->dataSource[$pkey] = null;
+					foreach($this->dataSource->fields as $field)
+					{
+						if(isset($request[str_replace(' ', '_', $field).'_null']))
+						{
+							$this->dataSource[$field] = $request[str_replace(' ', '_', $field).'_null'];
+						}
+					}
+					$this->dataSource->insert();
+				}
+				else
+				{
+					throw new \System\Base\InvalidOperationException("GridView::dataSource contains no primary key");
+				}
+			}
+			else
+			{
+				throw new \System\Base\InvalidOperationException("GridView::insertRow() called with null dataSource");
+			}
+		}
+
+
+		/**
+		 * update row in DataSet
+		 *
+		 * @param string $id entity id (primary key value) of the current row
+		 * @return void
+		 */
+		public function updateRow($id)
+		{
+			$request = \System\Web\HTTPRequest::$request;
+
+			if( $this->dataSource )
+			{
+				$pkey = '';
+				foreach($this->dataSource->fieldMeta as $meta)
+				{
+					if($meta->primaryKey)
+					{
+						$pkey = $meta->name;
+						break;
+					}
+				}
+
+				if($pkey)
+				{
+					if($this->dataSource->seek($pkey, $id))
+					{
+						foreach($this->dataSource->fields as $field)
+						{
+							if(isset($request[str_replace(' ', '_', $field).'_'.$id]))
+							{
+								$this->dataSource[$field] = $request[str_replace(' ', '_', $field).'_'.$id];
+							}
+						}
+						$this->dataSource->update();
+					}
+					else
+					{
+						throw new \System\Base\InvalidOperationException("GridView::dataSource contains no record with primary key `{$id}`");
+					}
+				}
+				else
+				{
+					throw new \System\Base\InvalidOperationException("GridView::dataSource contains no primary key");
+				}
+			}
+			else
+			{
+				throw new \System\Base\InvalidOperationException("GridView::updateRow() called with null dataSource");
+			}
+		}
+
+
+		/**
+		 * delete row in DataSet
+		 *
+		 * @param string $id entity id (primary key value) of the current row
+		 * @return void
+		 */
+		public function deleteRow($id)
+		{
+			$request = \System\Web\HTTPRequest::$request;
+
+			if( $this->dataSource )
+			{
+				$pkey = '';
+				foreach($this->dataSource->fieldMeta as $meta)
+				{
+					if($meta->primaryKey)
+					{
+						$pkey = $meta->name;
+						break;
+					}
+				}
+
+				if($pkey)
+				{
+					if($this->dataSource->seek($pkey, $id))
+					{
+						$this->dataSource->delete();
+					}
+					else
+					{
+						throw new \System\Base\InvalidOperationException("GridView::dataSource contains no record with primary key `{$id}`");
+					}
+				}
+				else
+				{
+					throw new \System\Base\InvalidOperationException("GridView::dataSource contains no primary key");
+				}
+			}
+			else
+			{
+				throw new \System\Base\InvalidOperationException("GridView::updateRow() called with null dataSource");
+			}
+		}
+
+
+		/**
 		 * returns a DomObject representing control
 		 *
 		 * @return DomObject
@@ -1082,16 +1224,6 @@
 				{
 					foreach( $this->_data->fieldMeta as $field )
 					{
-						/*
-						$values = array();
-						foreach($this->_data->rows as $row)
-						{
-							$values[$row[$field->name]] = $row[$field->name];
-						}
-
-						$count = count($values);
-						*/
-
 						if($field->name == $column["DataField"])
 						{
 							if(isset($this->filterValues[$column["DataField"]]))
@@ -1150,8 +1282,16 @@
 									$input->setAttribute('value', $this->filters[$column["DataField"]]);
 								}
 
-								$input->setAttribute( 'onchange', "Rum.sendSync('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+this.value);" );
-								$button->setAttribute( 'onclick', "Rum.sendSync('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+Rum.id('".$this->getHTMLControlId().'__filter_value'."').value);" );
+								if($this->ajaxPostBack)
+								{
+									$input->setAttribute( 'onchange', "Rum.sendAsync('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+this.value);" );
+									$button->setAttribute( 'onclick', "Rum.sendAsync('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+Rum.id('".$this->getHTMLControlId().'__filter_value'."').value);" );
+								}
+								else
+								{
+									$input->setAttribute( 'onkeypress', "if(event.keyCode == 13){event.returnValue = false;Rum.sendSync('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+this.value);};" );
+									$button->setAttribute( 'onclick', "Rum.sendSync('".\System\Web\WebApplicationBase::getInstance()->config->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+Rum.id('".$this->getHTMLControlId().'__filter_value'."').value);" );
+								}
 
 								$th->addChild( $input );
 								$th->addChild( $button );

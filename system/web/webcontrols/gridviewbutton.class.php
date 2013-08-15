@@ -46,9 +46,9 @@
 
 		/**
 		 * @param  string		$dataField			field name
-		 * @param  string		$itemButtonName			name of item button
-		 * @param  string		$footerButtonName			name of footer button
-		 * @param  string		$parameter			parameter
+		 * @param  string		$itemButtonName		name of item button
+		 * @param  string		$footerButtonName	name of footer button
+		 * @param  string		$prameter			item parameter
 		 * @param  string		$headerText			header text
 		 * @param  string		$footerText			footer text
 		 * @param  string		$className			column CSS class name
@@ -58,7 +58,7 @@
 		public function __construct( $dataField, $itemButtonName='', $footerButtonName='', $parameter = '', $headerText='', $footerText='', $className='', $confirmation = '' )
 		{
 			$this->itemButtonName = $itemButtonName?$itemButtonName:$dataField;
-			$this->footerButtonName = $footerButtonName?$footerButtonName:$this->itemButtonName;
+			$this->footerButtonName = $footerButtonName;
 			$this->confirmation = $confirmation;
 			$pkey=$dataField;
 
@@ -155,15 +155,18 @@
 		 */
 		protected function getFooterText($dataField, $parameter)
 		{
-			if( $this->ajaxPostBack )
+			if( $this->footerButtonName )
 			{
-				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
-				return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\''.$this->escape($params).'\',\'POST\');\" />'";
-			}
-			else
-			{
-				return "'<input name=\"{$parameter}\" type=\"submit\" title=\"{$this->footerButtonName}\" class=\"button\" />'";
+				if( $this->ajaxPostBack )
+				{
+					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+					$params = $this->getRequestData() . "&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
+					return "'<input name=\"{$parameter}\" value=\"null\" type=\"button\" title=\"{$this->footerButtonName}\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\''.$this->escape($params).'\',\'POST\');\" />'";
+				}
+				else
+				{
+					return "'<input name=\"{$parameter}\" value=\"null\" type=\"submit\" title=\"{$this->footerButtonName}\" class=\"button\" />'";
+				}
 			}
 		}
 	}

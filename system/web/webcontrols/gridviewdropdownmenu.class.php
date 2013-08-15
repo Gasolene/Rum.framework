@@ -98,13 +98,13 @@
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
 
-				$html = "'<select name=\"{$parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+				$html = "'<select name=\"{$parameter}_null\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);
 					$key = htmlentities($key, ENT_QUOTES);
 
-					$html .= "<option>{$key}</option>";
+					$html .= "<option value=\"{$value}\">{$key}</option>";
 				}
 				$html .= '</select>\'';
 
@@ -112,13 +112,13 @@
 			}
 			else
 			{
-				$html = "'<select name=\"{$parameter}\" class=\"listbox\">";
+				$html = "'<select name=\"{$parameter}_null\" class=\"listbox\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);
 					$key = htmlentities($key, ENT_QUOTES);
 
-					$html .= "<option>{$key}</option>";
+					$html .= "<option value=\"{$value}\">{$key}</option>";
 				}
 				$html .= '</select>\'';
 
