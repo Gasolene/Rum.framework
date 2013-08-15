@@ -109,23 +109,6 @@
 
 
 		/**
-		 * handle post events
-		 *
-		 * @param  array	&$request	request data
-		 * @return void
-		 */
-		public function onPost( &$request )
-		{
-			if( isset( $request[$this->parameter] ))
-			{
-				$this->events->raise(new \System\Web\Events\GridViewColumnPostEvent(), $this, $request);
-			}
-
-			parent::onPost( $request );
-		}
-
-
-		/**
 		 * get item text
 		 *
 		 * @param string $dataField datafield of the current row
@@ -137,12 +120,12 @@
 			if( $this->ajaxPostBack )
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
-				return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"'.%{$dataField}%.'\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\''.$this->escape($params).'\',\'POST\');\" />'";
+				$params = $this->getRequestData() . "&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
+				return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"'.%{$dataField}%.'\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}\" type=\"submit\" title=\"{$this->itemButtonName}\" value=\"'.%{$dataField}%.'\" class=\"button\" />'";
+				return "'<input name=\"{$parameter}\" type=\"submit\" title=\"{$this->itemButtonName}\" value=\"'.%{$dataField}%.'\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."\" />'";
 			}
 		}
 
@@ -160,8 +143,8 @@
 				if( $this->ajaxPostBack )
 				{
 					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-					$params = $this->getRequestData() . "&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
-					return "'<input name=\"{$parameter}\" value=\"null\" type=\"button\" title=\"{$this->footerButtonName}\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\''.$this->escape($params).'\',\'POST\');\" />'";
+					$params = $this->getRequestData() . "&{$parameter}=null";
+					return "'<input name=\"{$parameter}\" value=\"null\" type=\"button\" title=\"{$this->footerButtonName}\" class=\"button\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 				}
 				else
 				{
