@@ -28,7 +28,7 @@
 		 * Collection of runtime methods
 		 * @var array
 		 */
-		private $_methods = [];
+		private $_methods = array();
 
 		/**
 		 * attach an method at runtime
