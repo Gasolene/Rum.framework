@@ -93,6 +93,7 @@
 		 */
 		protected function getFooterText($dataField, $parameter)
 		{
+			/*
 			if($this->ajaxPostBack)
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
@@ -110,20 +111,18 @@
 
 				return $html;
 			}
-			else
+			*/
+			$html = "'<select name=\"{$parameter}_null\" class=\"listbox\">";
+			foreach($this->items as $key=>$value)
 			{
-				$html = "'<select name=\"{$parameter}_null\" class=\"listbox\">";
-				foreach($this->items as $key=>$value)
-				{
-					$value = htmlentities($value, ENT_QUOTES);
-					$key = htmlentities($key, ENT_QUOTES);
+				$value = htmlentities($value, ENT_QUOTES);
+				$key = htmlentities($key, ENT_QUOTES);
 
-					$html .= "<option value=\"{$value}\">{$key}</option>";
-				}
-				$html .= '</select>\'';
-
-				return $html;
+				$html .= "<option value=\"{$value}\">{$key}</option>";
 			}
+			$html .= '</select>\'';
+
+			return $html;
 		}
 	}
 ?>

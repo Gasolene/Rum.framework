@@ -47,16 +47,15 @@
 		 */
 		protected function getFooterText($dataField, $parameter)
 		{
+			/*
 			if($this->ajaxPostBack)
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
 				return "'<input name=\"{$parameter}_null\" type=\"checkbox\" value=\"1\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
-			else
-			{
-				return "'<input name=\"{$parameter}_null\" value=\"0\" type=\"hidden\"/><input name=\"{$parameter}_null\" type=\"checkbox\" value=\"1\" class=\"textbox\" />'";
-			}
+			*/
+			return "'<input name=\"{$parameter}_null\" value=\"0\" type=\"hidden\"/><input name=\"{$parameter}_null\" type=\"checkbox\" value=\"1\" class=\"textbox\" />'";
 		}
 	}
 ?>
