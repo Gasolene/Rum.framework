@@ -54,6 +54,25 @@
 		);
 
 		/**
+		 * Contains field mappings
+		 * @var array
+		 */
+		static protected $column_mappings = array(
+			'binary' => 'System\Web\WebControls\GridViewColumn',
+			'blob' => 'System\Web\WebControls\GridViewColumn',
+			'boolean' => 'System\Web\WebControls\GridViewCheckBox',
+			'date' => 'System\Web\WebControls\GridViewTextBox',
+			'datetime' => 'System\Web\WebControls\GridViewTextBox',
+			'enum' => 'System\Web\WebControls\GridViewDropDownMenu',
+			'integer' => 'System\Web\WebControls\GridViewTextBox',
+			'numeric' => 'System\Web\WebControls\GridViewTextBox',
+			'real' => 'System\Web\WebControls\GridViewTextBox',
+			'ref' => 'System\Web\WebControls\GridViewDropDownMenu',
+			'string' => 'System\Web\WebControls\GridViewTextBox',
+			'time' => 'System\Web\WebControls\GridViewTextBox',
+		);
+
+		/**
 		 * Contains rule mappings
 		 * @var array
 		 */
@@ -342,6 +361,19 @@
 		final static public function registerFieldType($field, $type)
 		{
 			self::$field_mappings[$field] = $type;
+		}
+
+
+		/**
+		 * register new column type
+		 *
+		 * @param  string $field field type
+		 * @param  string $type path to control
+		 * @return void
+		 */
+		final static public function registerColumnType($field, $type)
+		{
+			self::$column_mappings[$field] = $type;
 		}
 
 
