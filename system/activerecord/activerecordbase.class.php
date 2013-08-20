@@ -720,6 +720,35 @@
 						}
 					}
 				}
+				// create list
+				else if($type === 'enum')
+				{
+					$options = array();
+					foreach( $activeRecord->rules[$field] as $rule )
+					{
+						$type = \strstr($rule, '(', true);
+						if($type === 'enum')
+						{
+							$type = \strstr($rule, '(', true);
+							if(!$type)
+							{
+								$type = $rule;
+							}
+							$params = \strstr($rule, '(');
+							if(!$params)
+							{
+								$params = '()';
+							}
+							eval("\$options = {$params};");
+
+							foreach($options as $key=>$value) {
+								$control->items->add($key, $value);
+							}
+
+							continue 2;
+						}
+					}
+				}
 			}
 
 			/**
@@ -882,6 +911,39 @@
 						$column = new \System\Web\WebControls\GridViewDropDownMenu($field, $activeRecord->pkey, $options, $param, $header);
 						$gridView->setFilterValues($field, $options);
 					}
+					// create selection list
+					if($type === 'enum')
+					{
+						$options = array();
+						foreach( $activeRecord->rules[$field] as $rule )
+						{
+							$type = \strstr($rule, '(', true);
+							if($type === 'enum')
+							{
+								$type = \strstr($rule, '(', true);
+								if(!$type)
+								{
+									$type = $rule;
+								}
+								$params = \strstr($rule, '(');
+								if(!$params)
+								{
+									$params = '()';
+								}
+								eval("\$options = {$params};");
+							}
+						}
+
+						$column = new \System\Web\WebControls\GridViewDropDownMenu($field, $activeRecord->pkey, $options, $param, $header);
+						$gridView->setFilterValues($field, $options);
+					}
+					/*
+					else if($type === 'date')
+					{
+						$column = new \System\Web\WebControls\GridViewDateSelector($field, $activeRecord->pkey, $param, $header);
+						$gridView->setFilterValues($field, array('Yes'=>true, 'No'=>false));
+					}
+					*/
 					else if($type === 'boolean')
 					{
 						$column = new \System\Web\WebControls\GridViewCheckBox($field, $activeRecord->pkey, $param, $header);
