@@ -51,6 +51,7 @@
 		public function __construct( $controlId, $default = null )
 		{
 			parent::__construct( $controlId, $default );
+			trigger_error("DateSelector is deprecated, use Date instead", E_USER_DEPRECATED);
 
 			$this->yearMin = (int) date( 'Y', time() ) - 90;
 			$this->yearMax = (int) date( 'Y', time() ) + 6;

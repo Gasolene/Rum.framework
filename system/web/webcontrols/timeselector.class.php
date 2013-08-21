@@ -29,6 +29,19 @@
 
 
 		/**
+		 * Constructor
+		 *
+		 * @return void
+		 * @access public
+		 */
+		public function __construct( $controlId, $default = null )
+		{
+			parent::__construct( $controlId, $default );
+			trigger_error("TimeSelector is deprecated, use Time instead", E_USER_DEPRECATED);
+		}
+
+
+		/**
 		 * gets object property
 		 *
 		 * @param  string	$field		name of field

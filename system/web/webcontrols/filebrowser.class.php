@@ -26,6 +26,7 @@
 		public function __construct( $controlId )
 		{
 			parent::__construct( $controlId, '' );
+			trigger_error("FileBrowser is deprecated, use File instead", E_USER_DEPRECATED);
 		}
 
 

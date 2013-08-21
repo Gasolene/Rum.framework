@@ -15,21 +15,8 @@
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
 	 */
-	class TextArea extends TextBox
+	class TextArea extends Text
 	{
-		/**
-		 * Specifies that number of rows in multiline textbox, default is 5
-		 * @var int
-		 */
-		protected $rows						= 5;
-
-		/**
-		 * Specifies that number of columns in multiline textbox, default is 60
-		 * @var int
-		 */
-		protected $cols						= 60;
-
-
 		/**
 		 * returns a DomObject representing control
 		 *
@@ -40,11 +27,8 @@
 			$textarea = $this->createDomObject( 'textarea' );
 			$textarea->setAttribute( 'name', $this->getHTMLControlId() );
 			$textarea->setAttribute( 'id', $this->getHTMLControlId() );
-			$textarea->appendAttribute( 'class', ' textbox' );
-			$textarea->setAttribute( 'cols', $this->cols );
-			$textarea->setAttribute( 'rows', $this->rows );
+			$textarea->appendAttribute( 'class', ' textarea' );
 			$textarea->setAttribute( 'title', $this->tooltip );
-			if(!$this->mask) $textarea->nodeValue = $this->value;
 
 			if( $this->submitted && !$this->validate() )
 			{

@@ -107,8 +107,7 @@
 		 */
 		public function getDomObject()
 		{
-			$span = $this->createDomObject('span');
-			$span->appendAttribute( 'class', ' label' );
+			$span = $this->createDomObject('label');
 			$span->nodeValue = $this->text;
 
 			if( !$this->visible )

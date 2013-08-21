@@ -153,6 +153,7 @@
 		 */
 		public function getDomObject()
 		{
+			trigger_error("TextBox is deprecated, use Text", E_USER_DEPRECATED);
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'size', $this->size );
 			$input->appendAttribute( 'class', ' textbox' );
