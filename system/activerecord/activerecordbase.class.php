@@ -909,7 +909,7 @@
 						}
 
 						$column = new \System\Web\WebControls\GridViewDropDownMenu($field, $activeRecord->pkey, $options, $param, $header);
-						$gridView->setFilterValues($field, $options);
+						$column->filter = new \System\Web\WebControls\GridViewListFilter($options);
 					}
 					// create selection list
 					if($type === 'enum')
@@ -935,23 +935,23 @@
 						}
 
 						$column = new \System\Web\WebControls\GridViewDropDownMenu($field, $activeRecord->pkey, $options, $param, $header);
-						$gridView->setFilterValues($field, $options);
+						$column->filter = new \System\Web\WebControls\GridViewStringFilter();
 					}
 					/*
 					else if($type === 'date')
 					{
 						$column = new \System\Web\WebControls\GridViewDateSelector($field, $activeRecord->pkey, $param, $header);
-						$gridView->setFilterValues($field, array('Yes'=>true, 'No'=>false));
 					}
 					*/
 					else if($type === 'boolean')
 					{
 						$column = new \System\Web\WebControls\GridViewCheckBox($field, $activeRecord->pkey, $param, $header);
-						$gridView->setFilterValues($field, array('Yes'=>true, 'No'=>false));
+						$column->filter = new \System\Web\WebControls\GridViewBooleanFilter();
 					}
 					else
 					{
 						$column = new \System\Web\WebControls\GridViewTextBox($field, $activeRecord->pkey, $param, $header);
+						$column->filter = new \System\Web\WebControls\GridViewStringFilter();
 					}
 
 					// Create the change event
