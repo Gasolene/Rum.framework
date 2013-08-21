@@ -37,8 +37,10 @@
 		 */
 		public function __construct( $dataField, $pkey, array $values, $parameter='', $headerText='', $footerText='', $className='' )
 		{
-			$this->items = $values;
 			parent::__construct( $dataField, $pkey, $parameter, $headerText, $footerText, $className );
+			trigger_error("GridViewDropDownMenu is deprecated, use GridViewDropDownList instead", E_USER_DEPRECATED);
+
+			$this->items = $values;
 		}
 
 

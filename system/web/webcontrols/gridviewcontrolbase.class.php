@@ -69,10 +69,10 @@
 		 */
 		public function __construct( $dataField, $pkey, $parameter='', $headerText='', $footerText='', $className='' )
 		{
+			parent::__construct( $dataField, $headerText, '', $footerText, $className );
+
 			$this->parameter = $parameter?$parameter:str_replace(" ","_",$dataField);
 			$this->pkey = $pkey;
-
-			parent::__construct( $dataField, $headerText, '', $footerText, $className );
 
 			$ajaxPostEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxPost';
 			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $ajaxPostEvent))

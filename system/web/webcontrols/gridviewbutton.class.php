@@ -20,12 +20,6 @@
 	class GridViewButton extends GridViewControlBase
 	{
 		/**
-		 * specifies whether column can be filtered
-		 * @var bool
-		 */
-		protected $canFilter				= false;
-
-		/**
 		 * confirmation message
 		 * @var string
 		 */
@@ -47,22 +41,21 @@
 		/**
 		 * @param  string		$dataField			field name
 		 * @param  string		$itemButtonName		name of item button
-		 * @param  string		$footerButtonName	name of footer button
 		 * @param  string		$prameter			item parameter
+		 * @param  string		$confirmation		confirmation text on button click
 		 * @param  string		$headerText			header text
 		 * @param  string		$footerText			footer text
 		 * @param  string		$className			column CSS class name
-		 * @param  string		$confirmation		confirmation text on button click
+		 * @param  string		$footerButtonName	name of footer button
 		 * @return void
 		 */
-		public function __construct( $dataField, $itemButtonName='', $footerButtonName='', $parameter = '', $headerText='', $footerText='', $className='', $confirmation = '' )
+		public function __construct( $dataField, $itemButtonName='', $parameter = '', $confirmation = '', $headerText='', $footerText='', $className='', $footerButtonName='' )
 		{
+			parent::__construct($dataField, $dataField, $parameter, $headerText, $footerText, $className);
+
 			$this->itemButtonName = $itemButtonName?$itemButtonName:$dataField;
 			$this->footerButtonName = $footerButtonName;
 			$this->confirmation = $confirmation;
-			$pkey=$dataField;
-
-			parent::__construct($dataField, $pkey, $parameter, $headerText, $footerText, $className);
 
 			$postEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Click';
 			$this->events->add(new \System\Web\Events\GridViewColumnPostEvent());

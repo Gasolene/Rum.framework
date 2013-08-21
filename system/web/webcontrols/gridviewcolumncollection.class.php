@@ -137,11 +137,11 @@
 		 *
 		 * @return void
 		 */
-		final public function onLoad()
+		final public function load()
 		{
 			foreach($this->items as $column)
 			{
-				$column->onLoad();
+				$column->load();
 			}
 		}
 
@@ -152,11 +152,11 @@
 		 * @param  array	&$request	request data
 		 * @return void
 		 */
-		final public function onRequest( &$request )
+		final public function requestProcessor( &$request )
 		{
 			foreach($this->items as $column)
 			{
-				$column->onRequest( $request );
+				$column->requestProcessor( $request );
 			}
 		}
 
@@ -167,25 +167,11 @@
 		 * @param  array	&$request	request data
 		 * @return void
 		 */
-		final public function onPost( &$request )
+		final public function handlePostEvents( &$request )
 		{
 			foreach($this->items as $column)
 			{
-				$column->onPost( $request );
-			}
-		}
-
-
-		/**
-		 * handle render events
-		 *
-		 * @return void
-		 */
-		final public function onRender()
-		{
-			foreach($this->items as $column)
-			{
-				$column->onRender();
+				$column->handlePostEvents( $request );
 			}
 		}
 

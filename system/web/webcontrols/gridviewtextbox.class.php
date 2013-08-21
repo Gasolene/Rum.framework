@@ -26,6 +26,8 @@
 		 */
 		protected function getItemText($dataField, $parameter)
 		{
+			trigger_error("GridViewTextBox is deprecated, use GridViewText instead", E_USER_DEPRECATED);
+
 			if($this->ajaxPostBack)
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;

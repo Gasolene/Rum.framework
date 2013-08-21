@@ -17,11 +17,7 @@
 	 * @property string $footerText footer text
 	 * @property string $className class name
 	 * @property EventCollection $events event collection
-	 * @property bool $canFilter specifies whether column can be filtered
-	 * @property string $onmouseover
-	 * @property string $onmouseout
-	 * @property string $onclick
-	 * @property string $ondblclick
+	 * @property GridViewFilter $filter specifies the column filter
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -60,34 +56,16 @@
 		protected $className			= '';
 
 		/**
-		 * specifies whether column can be filtered
-		 * @var bool
+		 * specifies the column filter
+		 * @var GridViewFilterBase
 		 */
-		protected $canFilter			= true;
+		protected $filter				= null;
 
 		/**
-		 * specifies the action to take on mouseover events
-		 * @var string
-		 */
-		protected $onmouseover				= '';
-
-		/**
-		 * specifies the action to take on onmouseout events
-		 * @var string
-		 */
-		protected $onmouseout				= '';
-
-		/**
-		 * specifies the action to take on click events
-		 * @var string
-		 */
-		protected $onclick					= '';
-
-		/**
-		 * specifies the action to take on double click events
-		 * @var string
-		 */
-		protected $ondblclick				= '';
+		 * specifies the filter values (for a key/value list)
+		 * @var array
+		 * /
+		protected $filterValues			= array();
 
 
 		/**
@@ -131,20 +109,8 @@
 			elseif( $field === 'className' ) {
 				return $this->className;
 			}
-			elseif( $field === 'canFilter' ) {
-				return $this->canFilter;
-			}
-			elseif( $field === 'onmouseover' ) {
-				return $this->onmouseover;
-			}
-			elseif( $field === 'onmouseout' ) {
-				return $this->onmouseout;
-			}
-			elseif( $field === 'onclick' ) {
-				return $this->onclick;
-			}
-			elseif( $field === 'ondblclick' ) {
-				return $this->ondblclick;
+			elseif( $field === 'filter' ) {
+				return $this->filter;
 			}
 			else {
 				return parent::__get($field);
@@ -176,20 +142,13 @@
 			elseif( $field === 'className' ) {
 				$this->className = (string) $value;
 			}
-			elseif( $field === 'canFilter' ) {
-				$this->canFilter = (bool) $value;
-			}
-			elseif( $field === 'onmouseover' ) {
-				$this->onmouseover = (string)$value;
-			}
-			elseif( $field === 'onmouseout' ) {
-				$this->onmouseout = (string)$value;
-			}
-			elseif( $field === 'onclick' ) {
-				$this->onclick = (string)$value;
-			}
-			elseif( $field === 'ondblclick' ) {
-				$this->ondblclick = (string)$value;
+			elseif( $field === 'filter' ) {
+				if($value instanceof GridViewFilterBase) {
+					$this->filter = $value;
+				}
+				else {
+					throw new \System\Base\BadMemberCallException("GridViewColumn::filterType must be type GridViewFilterType");
+				}
 			}
 			else {
 				parent::__set($field, $value);
@@ -262,20 +221,40 @@
 
 
 		/**
-		 * handle load events
-		 *
-		 * @return void
-		 */
-		public function onLoad() {}
-
-
-		/**
-		 * handle request events
+		 * called when all controls are loaded
 		 *
 		 * @param  array	&$request	request data
 		 * @return void
 		 */
-		public function onRequest( &$request ) {}
+		final public function load()
+		{
+			$this->onLoad();
+		}
+
+
+		/**
+		 * read view state from session
+		 *
+		 * @param  array	&$viewState	session data
+		 *
+		 * @return void
+		 */
+		final public function loadViewState( array &$viewState )
+		{
+			$this->onLoadViewState( $viewState );
+		}
+
+
+		/**
+		 * process the HTTP request array
+		 *
+		 * @param  array	&$request	request data
+		 * @return void
+		 */
+		final public function requestProcessor( array &$request )
+		{
+			$this->onRequest( $request );
+		}
 
 
 		/**
@@ -284,15 +263,67 @@
 		 * @param  array	&$request	request data
 		 * @return void
 		 */
-		public function onPost( &$request ) {}
+		final public function handlePostEvents( array &$request )
+		{
+			$this->onPost( $request );
+		}
 
 
 		/**
-		 * handle render events
+		 * write view state to session
+		 *
+		 * @param  array	&$viewState	session data
+		 * @return void
+		 */
+		final public function saveViewState( array &$viewState )
+		{
+			$this->onSaveViewState( $viewState );
+		}
+
+
+		/**
+		 * Event called when view state is loaded
+		 *
+		 * @param  array	&$viewState	session data
+		 * @return void
+		 */
+		protected function onLoadViewState( array &$viewState ) {}
+
+
+		/**
+		 * handle load events
 		 *
 		 * @return void
 		 */
-		public function onRender() {}
+		protected function onLoad() {}
+
+
+		/**
+		 * handle request events
+		 *
+		 * @param  array	&$request	request data
+		 * @return void
+		 */
+		protected function onRequest( &$request ) {}
+
+
+		/**
+		 * handle post events
+		 *
+		 * @param  array	&$request	request data
+		 * @return void
+		 */
+		protected function onPost( &$request ) {}
+
+
+		/**
+		 * Event called when view state is written
+		 *
+		 * @param  array	&$viewState	session data
+		 *
+		 * @return void
+		 */
+		protected function onSaveViewState( array &$viewState ) {}
 
 
 		/**
