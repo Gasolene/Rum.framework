@@ -31,6 +31,15 @@
 		private $_methods = array();
 
 		/**
+		 * factory
+		 * allocates a new object
+		 */
+		static public function create() {
+			$class = get_called_class();
+			return new $class();
+		}
+
+		/**
 		 * attach an method at runtime
 		 * 
 		 * @param string $name
