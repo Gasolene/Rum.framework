@@ -29,7 +29,7 @@
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
 	 */
-	abstract class ApplicationBase
+	abstract class ApplicationBase extends Object
 	{
 		/**
 		 * Specifies the application id
@@ -56,16 +56,22 @@
 		private $cache						= null;
 
 		/**
-		 * Contains an instance of the logger object
+		 * Contains an instance of a logger object
 		 * @var LoggerBase
 		 */
 		private $logger						= null;
 
 		/**
-		 * Contains an instance of the translator object
+		 * Contains an instance of a translator object
 		 * @var TranslatorBase
 		 */
 		private $translator					= null;
+
+		/**
+		 * Contains an instance of a mail client object
+		 * @var \System\Comm\Mail\IMailClient
+		 */
+		private $mailClient					= null;
 
 		/**
 		 * Specifies the language
