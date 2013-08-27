@@ -668,8 +668,6 @@
 			$form = new \System\Web\WebControls\Form( $controlId );
 			$form->add( new \System\Web\WebControls\Fieldset( 'fieldset' ));
 
-			$schema = $activeRecord->dataSet->dataAdapter->getSchema();
-
 			// create controls
 			foreach( $activeRecord->fields as $field => $type )
 			{
@@ -695,23 +693,10 @@
 							$mapping['relationship'] == RelationshipType::BelongsTo()->__toString() )
 						{
 							$class = $mapping['type'];
-							$activeRecord2 = $class::create();
 							$ds = $class::all();
 							$label = \substr( strrchr( $mapping['type'], '\\'), 1 );
-							$ftableSchema = $schema->seek($activeRecord2->table);
 
-							foreach( $ftableSchema->columnSchemas as $fcolumnSchema )
-							{
-								if( !$fcolumnSchema->numeric &&
-									!$fcolumnSchema->boolean &&
-									!$fcolumnSchema->blob &&
-									!$fcolumnSchema->primaryKey )
-								{
-									break;
-								}
-							}
-
-							$control->textField = $fcolumnSchema->name;
+							$control->textField = $mapping["columnRef"];
 							$control->valueField = $mapping["columnRef"];
 							$control->dataSource = $ds;
 							$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $label, $label ));
@@ -859,10 +844,8 @@
 		{
 			$activeRecord = self::create();
 			$class = get_class($activeRecord);
-			$pkey = $activeRecord->pkey;
 
 			$gridView = new \System\Web\WebControls\GridView( $controlId );
-			$schema = $activeRecord->dataSet->dataAdapter->getSchema();
 
 			// create controls
 			foreach( $activeRecord->fields as $field => $type )
@@ -885,34 +868,21 @@
 							{
 								$class = $mapping['type'];
 								$ds = $class::all();
-								$activeRecord2 = $class::create();
-								$ftableSchema = $schema->seek($activeRecord2->table);
-
-								foreach( $ftableSchema->columnSchemas as $fcolumnSchema )
-								{
-									if( !$fcolumnSchema->numeric &&
-										!$fcolumnSchema->boolean &&
-										!$fcolumnSchema->blob &&
-										!$fcolumnSchema->primaryKey )
-									{
-										break;
-									}
-								}
 
 								foreach($ds->rows as $row)
 								{
-									$options[$row[$fcolumnSchema->name]] = $row[$mapping["columnRef"]];
+									$options[$row[$mapping["columnRef"]]] = $row[$mapping["columnRef"]];
 								}
 
 								continue;
 							}
 						}
 
-						$column = new \System\Web\WebControls\GridViewDropDownMenu($field, $activeRecord->pkey, $options, $param, $header);
-						$column->filter = new \System\Web\WebControls\GridViewListFilter($options);
+						$column = new \System\Web\WebControls\GridViewDropDownList($field, $activeRecord->pkey, $options, $param, $header);
+						$column->setFilter(new \System\Web\WebControls\GridViewListFilter($options));
 					}
 					// create selection list
-					if($type === 'enum')
+					else if($type === 'enum')
 					{
 						$options = array();
 						foreach( $activeRecord->rules[$field] as $rule )
@@ -934,24 +904,23 @@
 							}
 						}
 
-						$column = new \System\Web\WebControls\GridViewDropDownMenu($field, $activeRecord->pkey, $options, $param, $header);
-						$column->filter = new \System\Web\WebControls\GridViewStringFilter();
+						$column = new \System\Web\WebControls\GridViewDropDownList($field, $activeRecord->pkey, $options, $param, $header);
+						$column->setFilter(new \System\Web\WebControls\GridViewListFilter($options));
 					}
-					/*
 					else if($type === 'date')
 					{
-						$column = new \System\Web\WebControls\GridViewDateSelector($field, $activeRecord->pkey, $param, $header);
+						$column = new \System\Web\WebControls\GridViewDate($field, $activeRecord->pkey, $param, $header);
+						$column->setFilter(new \System\Web\WebControls\GridViewDateRangeFilter());
 					}
-					*/
 					else if($type === 'boolean')
 					{
 						$column = new \System\Web\WebControls\GridViewCheckBox($field, $activeRecord->pkey, $param, $header);
-						$column->filter = new \System\Web\WebControls\GridViewBooleanFilter();
+						$column->setFilter(new \System\Web\WebControls\GridViewBooleanFilter());
 					}
 					else
 					{
-						$column = new \System\Web\WebControls\GridViewTextBox($field, $activeRecord->pkey, $param, $header);
-						$column->filter = new \System\Web\WebControls\GridViewStringFilter();
+						$column = new \System\Web\WebControls\GridViewText($field, $activeRecord->pkey, $param, $header);
+						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
 					}
 
 					// Create the change event
