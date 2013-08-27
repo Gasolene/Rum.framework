@@ -176,8 +176,8 @@
 
 			http_request.open(method, url, true);
 			http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			http_request.setRequestHeader("Content-length", params.length);
-			http_request.setRequestHeader("Connection", "close");
+			//http_request.setRequestHeader("Content-length", params.length);
+			//http_request.setRequestHeader("Connection", "close");
 			http_request.send( params );
 		};
 
