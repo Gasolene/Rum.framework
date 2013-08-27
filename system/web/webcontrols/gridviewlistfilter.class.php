@@ -9,18 +9,34 @@
 
 
 	/**
-	 * Represents a GridView string filter
+	 * Represents a GridView list filter
 	 *
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
 	 */
-	class GridViewStringFilter extends GridViewFilterBase
+	class GridViewListFilter extends GridViewFilterBase
 	{
 		/**
 		 * filter value
 		 * @var string
 		 */
 		protected $value;
+
+		/**
+		 * values
+		 * @var array
+		 */
+		protected $values = array();
+
+
+		/**
+		 * constructor
+		 */
+		public function __construct(array $values = array())
+		{
+			$this->values = $values;
+		}
+
 
 		/**
 		 * read view state from session
@@ -34,8 +50,6 @@
 			if( isset( $viewState["f_{$this->column->dataField}"] ))
 			{
 				$this->value = $viewState["f_{$this->column->dataField}"];
-//dmp($this->value.'XXXYYY',0);
-//dmp($this->column->dataField,0);
 			}
 		}
 
@@ -52,8 +66,11 @@
 
 			if(isset($request[$HTMLControlId . '__filter_value']))
 			{
-				$this->value = $request[$HTMLControlId . '__filter_value'];
-				unset($request[$HTMLControlId . '__filter_value']);
+				if($request[$HTMLControlId . '__filter_value'])
+				{
+					$this->value = $request[$HTMLControlId . '__filter_value'];
+					unset($request[$HTMLControlId . '__filter_value']);
+				}
 			}
 		}
 
@@ -80,7 +97,7 @@
 		{
 			if($this->value)
 			{
-				$ds->filter($this->column->dataField, 'contains', $this->value, true );
+				$ds->filter($this->column->dataField, '=', $this->value, true );
 			}
 		}
 
@@ -94,25 +111,40 @@
 		public function getDomObject($requestString)
 		{
 			$HTMLControlId = $this->getHTMLControlId();
-
 			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 
-			$input = new \System\XML\DomObject('input');
-			$input->setAttribute('type', 'text');
-			$input->setAttribute('name', "{$HTMLControlId}__filter_value");
-			$input->setAttribute('value', $this->value);
+			$select = new \System\XML\DomObject( 'select' );
+			$select->setAttribute('name', "{$HTMLControlId}__filter_value");
+			$option = new \System\XML\DomObject( 'option' );
+			$option->setAttribute('value', '');
+			$option->nodeValue = '';
+			$select->addChild($option);
+
+			// get values
+			foreach($this->values as $key=>$value)
+			{
+				$option = new \System\XML\DomObject( 'option' );
+				$option->setAttribute('value', $value);
+				$option->nodeValue = $key;
+
+				if(strtolower($this->value)==strtolower($value))
+				{
+					$option->setAttribute('selected', 'selected');
+				}
+
+				$select->addChild($option);
+			}
 
 			if($this->column->ajaxPostBack && 0) // TODO: fix
 			{
-				$input->setAttribute( 'onchange',                                                 "Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
-				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);};" );
+				$select->setAttribute( 'onchange', "Rum.evalAsync('{$uri}', '{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
 			}
 			else
 			{
-				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);};" );
+				$select->setAttribute( 'onchange', "Rum.sendSync('{$uri}', '{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
 			}
 
-			return $input;
+			return $select;
 		}
 	}
 ?>

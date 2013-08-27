@@ -19,6 +19,26 @@
 	final class GridViewColumnCollection extends CollectionBase
 	{
 		/**
+		 * GridView
+		 * @var GridView
+		 */
+		protected $gridView;
+
+
+		/**
+		 * Constructor
+		 * 
+		 * @param  mixed	$collection		can be CollectionBase or array used to initialize Collection
+		 * @return void
+		 */
+		public function __construct(GridView &$gridView, $collection = null )
+		{
+			parent::__construct($collection);
+			$this->gridView = &$gridView;
+		}
+
+
+		/**
 		 * sets object property
 		 *
 		 * @param  string	$field		name of field
@@ -55,6 +75,7 @@
 			{
 				if( $item instanceof GridViewColumn )
 				{
+					$item->setGridView($this->gridView);
 					$this->items[$index] = $item;
 				}
 				else
@@ -86,6 +107,7 @@
 				{
 					if( $this->items[$i]->dataField==$datafield )
 					{
+						$item->setGridView($this->gridView);
 						$new_items[] = $item;
 					}
 					$new_items[] = $this->items[$i];
@@ -110,6 +132,7 @@
 		{
 			if( $item instanceof GridViewColumn )
 			{
+				$item->setGridView($this->gridView);
 				array_push( $this->items, $item );
 			}
 			else
@@ -162,6 +185,21 @@
 
 
 		/**
+		 * filter DataSet
+		 *
+		 * @param  DataSet	&$ds		DataSet
+		 * @return void
+		 */
+		final public function filterDataSet(\System\DB\DataSet &$ds )
+		{
+			foreach($this->items as $column)
+			{
+				$column->filterDataSet($ds);
+			}
+		}
+
+
+		/**
 		 * handle post events
 		 *
 		 * @param  array	&$request	request data
@@ -172,6 +210,20 @@
 			foreach($this->items as $column)
 			{
 				$column->handlePostEvents( $request );
+			}
+		}
+
+
+		/**
+		 * handle render events
+		 *
+		 * @return void
+		 */
+		final public function render()
+		{
+			foreach($this->items as $column)
+			{
+				$column->render();
 			}
 		}
 

@@ -16,6 +16,7 @@
 	 * @property string $itemText item text (templating allowed)
 	 * @property string $footerText footer text
 	 * @property string $className class name
+	 * @property GridView $gridView instance of the GridView
 	 * @property EventCollection $events event collection
 	 * @property GridViewFilter $filter specifies the column filter
 	 *
@@ -60,6 +61,18 @@
 		 * @var GridViewFilterBase
 		 */
 		protected $filter				= null;
+
+		/**
+		 * instance of the GridView object
+		 * @var GridView
+		 */
+		protected $gridView				= null;
+
+		/**
+		 * set when viewState loaded
+		 * @var bool
+		 */
+		private $_loaded				= false;
 
 		/**
 		 * specifies the filter values (for a key/value list)
@@ -112,6 +125,9 @@
 			elseif( $field === 'filter' ) {
 				return $this->filter;
 			}
+			elseif( $field === 'gridView' ) {
+				return $this->gridView;
+			}
 			else {
 				return parent::__get($field);
 			}
@@ -141,14 +157,6 @@
 			}
 			elseif( $field === 'className' ) {
 				$this->className = (string) $value;
-			}
-			elseif( $field === 'filter' ) {
-				if($value instanceof GridViewFilterBase) {
-					$this->filter = $value;
-				}
-				else {
-					throw new \System\Base\BadMemberCallException("GridViewColumn::filterType must be type GridViewFilterType");
-				}
 			}
 			else {
 				parent::__set($field, $value);
@@ -221,6 +229,45 @@
 
 
 		/**
+		 * set GridView
+		 *
+		 * @param  GridViewFilterBase	&$filter	Instance of a GridViewFilterBase
+		 * @return void
+		 */
+		final public function setGridView(GridView &$gridView)
+		{
+			if(!$this->_loaded)
+			{
+				$this->gridView = &$gridView;
+			}
+			else
+			{
+				throw new \System\Base\InvalidOperationException("Cannot set GridView after column is loaded");
+			}
+		}
+
+
+		/**
+		 * set filter
+		 *
+		 * @param  GridViewFilterBase	&$filter	Instance of a GridViewFilterBase
+		 * @return void
+		 */
+		final public function setFilter(GridViewFilterBase &$filter)
+		{
+			if(!$this->_loaded)
+			{
+				$this->filter = $filter;
+				$this->filter->setColumn($this);
+			}
+			else
+			{
+				throw new \System\Base\InvalidOperationException("Cannot add filter after column is loaded");
+			}
+		}
+
+
+		/**
 		 * called when all controls are loaded
 		 *
 		 * @param  array	&$request	request data
@@ -228,6 +275,7 @@
 		 */
 		final public function load()
 		{
+			$this->_loaded = true;
 			$this->onLoad();
 		}
 
@@ -242,6 +290,9 @@
 		final public function loadViewState( array &$viewState )
 		{
 			$this->onLoadViewState( $viewState );
+			if($this->filter) {
+				$this->filter->loadViewState($viewState);
+			}
 		}
 
 
@@ -254,6 +305,9 @@
 		final public function requestProcessor( array &$request )
 		{
 			$this->onRequest( $request );
+			if($this->filter) {
+				$this->filter->requestProcessor($request);
+			}
 		}
 
 
@@ -270,6 +324,40 @@
 
 
 		/**
+		 * filter DataSet
+		 *
+		 * @param  DataSet	&$ds		DataSet
+		 * @param  array	&$request	reqeust data
+		 * @return void
+		 */
+		final public function filterDataSet(\System\DB\DataSet &$ds)
+		{
+			if($this->filter)
+			{
+				$this->filter->filterDataSet($ds);
+			}
+		}
+
+
+		/**
+		 * get filter TextNode
+		 *
+		 * @return DomObject
+		 */
+		final public function getFilterDomObject()
+		{
+			if($this->filter)
+			{
+				return $this->filter->getDomObject($this->getRequestData());
+			}
+			else
+			{
+				return new \System\XML\DomObject();
+			}
+		}
+
+
+		/**
 		 * write view state to session
 		 *
 		 * @param  array	&$viewState	session data
@@ -278,6 +366,20 @@
 		final public function saveViewState( array &$viewState )
 		{
 			$this->onSaveViewState( $viewState );
+			if($this->filter) {
+				$this->filter->saveViewState($viewState);
+			}
+		}
+
+
+		/**
+		 * handle render events
+		 *
+		 * @return void
+		 */
+		final public function render()
+		{
+			$this->onRender();
 		}
 
 
@@ -314,6 +416,14 @@
 		 * @return void
 		 */
 		protected function onPost( &$request ) {}
+
+
+		/**
+		 * handle render events
+		 *
+		 * @return void
+		 */
+		protected function onRender() {}
 
 
 		/**

@@ -210,7 +210,7 @@
 		{
 			parent::__construct( $controlId );
 
-			$this->columns = new GridViewColumnCollection();
+			$this->columns = new GridViewColumnCollection($this);
 
 			// event handling
 			$this->events->add(new \System\Web\Events\GridViewPostEvent());
@@ -569,8 +569,11 @@
 		 */
 		public function getDomObject()
 		{
+			$this->applyFilterAndSort();
+			$this->columns->render();
+
 			// get data
-			if( !$this->_data ) {
+			if( !$this->dataSource ) {
 				throw new \System\Base\InvalidOperationException("no valid DataSet object");
 			}
 
@@ -588,11 +591,11 @@
 			$caption->nodeValue .= $this->caption;
 
 			// check for valid datasource
-			if( $this->_data )
+			if( $this->dataSource )
 			{
 				// display all
 				if( $this->pageSize === 0 ) {
-					$this->pageSize = $this->_data->count;
+					$this->pageSize = $this->dataSource->count;
 					$this->showPageNumber = FALSE;
 				}
 
@@ -639,28 +642,28 @@
 				 **********************************************************************/
 
 				// validate grid page
-				$this->_data->pageSize = $this->pageSize;
-				if( $this->page > $this->_data->pageCount() ) {
+				$this->dataSource->pageSize = $this->pageSize;
+				if( $this->page > $this->dataSource->pageCount() ) {
 					// if page is beyond DataSet, set to last page
-					$this->page = $this->_data->pageCount();
+					$this->page = $this->dataSource->pageCount();
 				}
 				elseif( $this->page < 1 ) {
 					// if page is before DataSet, set to first page
 					$this->page = 1;
 				}
 
-				$this->_data->page( $this->page );
+				$this->dataSource->page( $this->page );
 
 				// loop through each item (record)
-				while( !$this->_data->eof() && $this->_data->page() === $this->page )
+				while( !$this->dataSource->eof() && $this->dataSource->page() === $this->page )
 				{
-					$tr = $this->getRowBody( $this->_data );
+					$tr = $this->getRowBody( $this->dataSource );
 
 					// add row to tbody
 					$tbody->addChild( $tr );
 
 					// move record pointer
-					$this->_data->next();
+					$this->dataSource->next();
 				}
 
 				/**********************************************************************
@@ -673,7 +676,7 @@
 				 * Footer
 				 */
 				if( $this->showFooter ) {
-					$tr = $this->getRowFooter( $this->_data );
+					$tr = $this->getRowFooter( $this->dataSource );
 					$tr->setAttribute( 'class', 'footer' );
 
 					$tfoot->addChild( $tr );
@@ -683,12 +686,12 @@
 				 * RecordNavigation
 				 */
 				if( $this->showPageNumber ) {
-					$tr = $this->getPagination( $this->_data );
+					$tr = $this->getPagination( $this->dataSource );
 					$tfoot->addChild( $tr );
 				}
 
 				// empty table
-				if( !$this->_data->count ) {
+				if( !$this->dataSource->count ) {
 					$tr = new \System\XML\DomObject( 'tr' );
 					$td = new \System\XML\DomObject( 'td' );
 
@@ -736,7 +739,6 @@
 				if( isset( $viewState['p'] ) &&
 					isset( $viewState['sb'] ) &&
 					isset( $viewState['so'] ) &&
-					isset( $viewState['f'] ) &&
 					isset( $viewState['s'] ))
 				{
 					$this->page = (int) $viewState['p'];
@@ -763,8 +765,6 @@
 		{
 			if( $this->dataSource instanceof \System\DB\DataSet )
 			{
-				$this->_data = clone $this->dataSource;
-
 				if( $this->autoGenerateColumns || $this->columns->count === 0 )
 				{
 					$this->_generateColumns();
@@ -866,10 +866,10 @@
 //					foreach( $this->filters as $column=>$value) {
 //						if(strlen($value)>0) {
 //							if(isset($this->filterValues[$column])) {
-//								$this->_data->filter( $column, '=', $value, true );
+//								$this->dataSource->filter( $column, '=', $value, true );
 //							}
 //							else {
-//								$this->_data->filter( $column, 'contains', $value, true );
+//								$this->dataSource->filter( $column, 'contains', $value, true );
 //							}
 //						}
 //					}
@@ -880,22 +880,7 @@
 //				}
 //			}
 
-			// sort results
-			if( $this->sortBy && $this->canSort) {
-				$sort_event = new \System\Web\Events\GridViewSortEvent();
-
-				if($this->events->contains( $sort_event )) {
-					$this->events->raise( $sort_event, $this );
-				}
-				else {
-					// sort DataSet
-					$this->_data->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
-
-					if($this->ajaxPostBack) {
-						$this->updateAjax();
-					}
-				}
-			}
+			// update
 		}
 
 
@@ -908,7 +893,8 @@
 		protected function onPost( array &$request )
 		{
 			$this->events->raise(new \System\Web\Events\GridViewPostEvent(), $this, $request);
-			$this->columns->onPost( $request );
+			$this->columns->handlePostEvents( $request );
+			$this->applyFilterAndSort();
 		}
 
 
@@ -1030,7 +1016,7 @@
 						$order = "asc";
 					}
 
-					$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__sort_by='.rawurlencode($column['DataField']).'&'.$this->getHTMLControlId().'__sort_order='.$order));
+					$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__sort_by='.($column['DataField']).'&'.$this->getHTMLControlId().'__sort_order='.$order));
 
 					// add link node to column
 					$th->addChild( $a );
@@ -1093,7 +1079,7 @@
 				// column is filterable
 				if( $column->filter )
 				{
-					$th->addChild( $column->filter->getTextNode() );
+					$th->addChild($column->getFilterDomObject($this->getHTMLControlId()));
 				}
 
 					/**
@@ -1446,18 +1432,18 @@
 			$span->addChild( $a );
 
 			// page jump
-			$count = $this->_data->count;
+			$count = $this->dataSource->count;
 			for( $page=1; $this->pageSize && (( $page * $this->pageSize ) - $this->pageSize ) < $count; $page++ )
 			{
 				$start = ((( $page * $this->pageSize ) - $this->pageSize ) + 1 );
 
-				if( $page * $this->pageSize < $this->_data->count )
+				if( $page * $this->pageSize < $this->dataSource->count )
 				{
 					$end = ( $page * $this->pageSize );
 				}
 				else
 				{
-					$end = $this->_data->count;
+					$end = $this->dataSource->count;
 				}
 
 				// page select
@@ -1482,7 +1468,7 @@
 			$a = new \System\XML\DomObject( 'a' );
 			$a->nodeValue .= 'next';
 			$a->setAttribute('class', 'next');
-			if(( $this->page * $this->pageSize ) < $this->_data->count && $this->pageSize )
+			if(( $this->page * $this->pageSize ) < $this->dataSource->count && $this->pageSize )
 			{
 				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
@@ -1496,21 +1482,21 @@
 
 			// get page info
 			$start = ((( $this->page * $this->pageSize ) - $this->pageSize ) + 1 );
-			if( !$this->_data->count ) $start = 0;
+			if( !$this->dataSource->count ) $start = 0;
 
 			$end = 0;
-			if( $this->page * $this->pageSize < $this->_data->count )
+			if( $this->page * $this->pageSize < $this->dataSource->count )
 			{
 				$end = ( $this->page * $this->pageSize );
 			}
 			else
 			{
-				$end = $this->_data->count;
+				$end = $this->dataSource->count;
 			}
 
 			$span = new \System\XML\DomObject( 'span' );
 			$span->setAttribute('class', 'summary');
-			$span->nodeValue .= "showing $start to $end of " . $this->_data->count;
+			$span->nodeValue .= "showing $start to $end of " . $this->dataSource->count;
 
 			$td->addChild( $span );
 			$tr->addChild( $td );
@@ -1526,11 +1512,11 @@
 		 */
 		private function _generateColumns()
 		{
-			if( $this->_data )
+			if( $this->dataSource )
 			{
 				$this->columns = new GridViewColumnCollection();
 
-				foreach( $this->_data->fieldMeta as $field )
+				foreach( $this->dataSource->fieldMeta as $field )
 				{
 					if( !$field->primaryKey || $this->showPrimaryKey )
 					{
@@ -1546,6 +1532,33 @@
 						{
 							$this->addColumn( new GridViewColumn( $field->name, ucwords( str_replace( '_', ' ', $field->name ))));
 						}
+					}
+				}
+			}
+		}
+
+
+		/**
+		 * apply filter and sort
+		 */
+		private function applyFilterAndSort()
+		{
+			// filter results
+			$this->columns->filterDataSet( $this->dataSource );
+
+			// sort results
+			if( $this->sortBy && $this->canSort) {
+				$sort_event = new \System\Web\Events\GridViewSortEvent();
+
+				if($this->events->contains( $sort_event )) {
+					$this->events->raise( $sort_event, $this );
+				}
+				else {
+					// sort DataSet
+					$this->dataSource->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
+
+					if($this->ajaxPostBack) {
+						$this->updateAjax();
 					}
 				}
 			}

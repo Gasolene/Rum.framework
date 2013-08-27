@@ -30,11 +30,11 @@
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" onkeypress=\"if(event.keyCode==13){blur();event.returnValue=false;}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" />'";
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" onkeypress=\"if(event.keyCode==13){event.returnValue=false;}\" />'";
 			}
 		}
 
@@ -55,7 +55,7 @@
 				return "'<input name=\"{$parameter}_null\" type=\"text\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			*/
-			return "'<input name=\"{$parameter}_null\" type=\"text\" class=\"textbox\" />'";
+			return "'<input name=\"{$parameter}_null\" type=\"text\" class=\"textbox\" onkeypress=\"if(event.keyCode==13){event.returnValue=false;}\" />'";
 		}
 	}
 ?>

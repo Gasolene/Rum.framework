@@ -29,7 +29,7 @@
 			if($this->ajaxPostBack)
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
+				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+(this.checked?1:0)+\'";
 				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"checkbox\" value=\"1\" '.(%{$dataField}%?'checked=\"checked\"':'').' class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
