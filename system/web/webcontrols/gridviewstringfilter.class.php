@@ -23,6 +23,12 @@
 		protected $value;
 
 		/**
+		 * specifies control tool tip
+		 * @var string
+		 */
+		protected $tooltip					= 'Enter a string and press enter';
+
+		/**
 		 * read view state from session
 		 *
 		 * @param  array	&$viewState	session data
@@ -34,8 +40,6 @@
 			if( isset( $viewState["f_{$this->column->dataField}"] ))
 			{
 				$this->value = $viewState["f_{$this->column->dataField}"];
-//dmp($this->value.'XXXYYY',0);
-//dmp($this->column->dataField,0);
 			}
 		}
 
@@ -71,6 +75,17 @@
 
 
 		/**
+		 * reset filter
+		 *
+		 * @return void
+		 */
+		public function resetFilter()
+		{
+			$this->value = "";
+		}
+
+
+		/**
 		 * filter DataSet
 		 *
 		 * @param  DataSet	&$ds		DataSet
@@ -101,6 +116,7 @@
 			$input->setAttribute('type', 'text');
 			$input->setAttribute('name', "{$HTMLControlId}__filter_value");
 			$input->setAttribute('value', $this->value);
+			$input->setAttribute('title', $this->tooltip);
 
 			if($this->column->ajaxPostBack && 0) // TODO: fix
 			{

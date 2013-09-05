@@ -185,6 +185,20 @@
 
 
 		/**
+		 * reset filters
+		 *
+		 * @return void
+		 */
+		final public function resetFilters()
+		{
+			foreach($this->items as $column)
+			{
+				$column->resetFilter();
+			}
+		}
+
+
+		/**
 		 * filter DataSet
 		 *
 		 * @param  DataSet	&$ds		DataSet

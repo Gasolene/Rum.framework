@@ -28,11 +28,28 @@
 		 */
 		protected $values = array();
 
+		/**
+		 * specifies control tool tip
+		 * @var string
+		 */
+		protected $tooltip					= 'Select an option';
+
 
 		/**
 		 * constructor
 		 */
 		public function __construct(array $values = array())
+		{
+			$this->setValues($values);
+		}
+
+
+		/**
+		 * set column
+		 * @param array $values array of values
+		 * @return void
+		 */
+		final public function setValues(array $values)
 		{
 			$this->values = $values;
 		}
@@ -66,11 +83,8 @@
 
 			if(isset($request[$HTMLControlId . '__filter_value']))
 			{
-				if($request[$HTMLControlId . '__filter_value'])
-				{
-					$this->value = $request[$HTMLControlId . '__filter_value'];
-					unset($request[$HTMLControlId . '__filter_value']);
-				}
+				$this->value = $request[$HTMLControlId . '__filter_value'];
+				unset($request[$HTMLControlId . '__filter_value']);
 			}
 		}
 
@@ -84,6 +98,17 @@
 		public function saveViewState( array &$viewState )
 		{
 			$viewState["f_{$this->column->dataField}"] = $this->value;
+		}
+
+
+		/**
+		 * reset filter
+		 *
+		 * @return void
+		 */
+		public function resetFilter()
+		{
+			$this->value = "";
 		}
 
 
@@ -115,6 +140,7 @@
 
 			$select = new \System\XML\DomObject( 'select' );
 			$select->setAttribute('name', "{$HTMLControlId}__filter_value");
+			$select->setAttribute('title', $this->tooltip);
 			$option = new \System\XML\DomObject( 'option' );
 			$option->setAttribute('value', '');
 			$option->nodeValue = '';

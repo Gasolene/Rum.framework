@@ -11,6 +11,8 @@
 	/**
 	 * Represents a GridView DropDownList
 	 * 
+	 * @property ListItemCollection $items Collection of list items
+	 * 
 	 * @package			PHPRum
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
@@ -18,8 +20,8 @@
 	class GridViewDropDownList extends GridViewControlBase
 	{
 		/**
-		 * items
-		 * @var array
+		 * collection of list items
+		 * @var ListItemCollection
 		 */
 		protected $items;
 
@@ -39,7 +41,24 @@
 		{
 			parent::__construct( $dataField, $pkey, $parameter, $headerText, $footerText, $className );
 
-			$this->items = $values;
+			$this->items = new ListItemCollection($values);
+		}
+
+
+		/**
+		 * gets object property
+		 *
+		 * @param  string	$field		name of field
+		 * @return string				string of variables
+		 * @ignore
+		 */
+		public function __get( $field ) {
+			if( $field === 'items' ) {
+				return $this->items;
+			}
+			else {
+				return parent::__get($field);
+			}
 		}
 
 
@@ -55,7 +74,7 @@
 			if($this->ajaxPostBack)
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
+				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
 
 				$html = "'<select name=\"{$parameter}_'.%{$this->pkey}%.'\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)

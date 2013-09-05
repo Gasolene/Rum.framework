@@ -10,11 +10,13 @@
 
 	/**
 	 * Represents a GridView filter
+	 * 
+	 * @property string $tooltip Specifies control tooltip
 	 *
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
 	 */
-	abstract class GridViewFilterBase
+	abstract class GridViewFilterBase extends \System\Base\Object
 	{
 		/**
 		 * column
@@ -23,9 +25,50 @@
 		protected $column;
 
 		/**
+		 * specifies control tool tip
+		 * @var string
+		 */
+		protected $tooltip					= '';
+
+		/**
 		 * Constructor
 		 */
 		public function __construct() {}
+
+
+		/**
+		 * gets object property
+		 *
+		 * @param  string	$field		name of field
+		 * @return string				string of variables
+		 * @ignore
+		 */
+		public function __get( $field ) {
+			if( $field === 'tooltip' ) {
+				return $this->tooltip;
+			}
+			else {
+				return parent::__get($field);
+			}
+		}
+
+
+		/**
+		 * sets object property
+		 *
+		 * @param  string	$field		name of field
+		 * @param  mixed	$value		value of field
+		 * @return mixed
+		 * @ignore
+		 */
+		public function __set( $field, $value ) {
+			if( $field === 'tooltip' ) {
+				$this->tooltip = (string)$value;
+			}
+			else {
+				parent::__set( $field, $value );
+			}
+		}
 
 		/**
 		 * set column
@@ -64,6 +107,14 @@
 		 * @return void
 		 */
 		abstract public function saveViewState( array &$viewState );
+
+
+		/**
+		 * reset filter
+		 *
+		 * @return void
+		 */
+		abstract public function resetFilter();
 
 
 		/**

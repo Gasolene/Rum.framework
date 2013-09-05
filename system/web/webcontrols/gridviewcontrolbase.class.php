@@ -11,8 +11,11 @@
 	/**
 	 * Represents a GridView control
 	 *
+	 * @property string $parameter specifies the request parameter
+	 * @property string $pkey specifies the primary key field
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $escapeOutput Specifies whether to escape the output
+	 * @property string $tooltip Specifies control tooltip
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -21,13 +24,13 @@
 	abstract class GridViewControlBase extends GridViewColumn
 	{
 		/**
-		 * event request parameter
+		 * request parameter
 		 * @var string
 		 */
 		protected $parameter				= '';
 
 		/**
-		 * primary key
+		 * primary key field
 		 * @var string
 		 */
 		protected $pkey						= '';
@@ -43,6 +46,12 @@
 		 * @var bool
 		 */
 		protected $escapeOutput				= true;
+
+		/**
+		 * specifies control tool tip
+		 * @var string
+		 */
+		protected $tooltip					= '';
 
 		/**
 		 * post back
@@ -65,14 +74,16 @@
 		 * @param  string		$headerText			header text
 		 * @param  string		$footerText			footer text
 		 * @param  string		$className			css class name
+		 * @param  string		$tooltip			toolstip
 		 * @return void
 		 */
-		public function __construct( $dataField, $pkey, $parameter='', $headerText='', $footerText='', $className='' )
+		public function __construct( $dataField, $pkey, $parameter='', $headerText='', $footerText='', $className='', $tooltip='' )
 		{
 			parent::__construct( $dataField, $headerText, '', $footerText, $className );
 
 			$this->parameter = $parameter?$parameter:str_replace(" ","_",$dataField);
 			$this->pkey = $pkey;
+			$this->tooltip = $tooltip;
 
 			$ajaxPostEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxPost';
 			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $ajaxPostEvent))
@@ -106,11 +117,20 @@
 		 * @ignore
 		 */
 		public function __get( $field ) {
-			if( $field === 'ajaxPostBack' ) {
+			if( $field === 'parameter' ) {
+				return $this->parameter;
+			}
+			elseif( $field === 'pkey' ) {
+				return $this->pkey;
+			}
+			elseif( $field === 'ajaxPostBack' ) {
 				return $this->ajaxPostBack;
 			}
 			elseif( $field === 'escapeOutput' ) {
 				return $this->escapeOutput;
+			}
+			elseif( $field === 'tooltip' ) {
+				return $this->tooltip;
 			}
 			else {
 				return parent::__get($field);
@@ -127,11 +147,20 @@
 		 * @ignore
 		 */
 		public function __set( $field, $value ) {
-			if( $field === 'ajaxPostBack' ) {
+			if( $field === 'parameter' ) {
+				$this->parameter = (string)$value;
+			}
+			elseif( $field === 'pkey' ) {
+				$this->pkey = (string)$value;
+			}
+			elseif( $field === 'ajaxPostBack' ) {
 				$this->ajaxPostBack = (bool)$value;
 			}
 			elseif( $field === 'escapeOutput' ) {
 				$this->escapeOutput = (bool)$value;
+			}
+			elseif( $field === 'tooltip' ) {
+				$this->tooltip = (string)$value;
 			}
 			else {
 				parent::__set( $field, $value );
@@ -147,12 +176,13 @@
 		 */
 		public function onRequest( &$request )
 		{
-			if( isset( $request[$this->parameter] ))
+			if( isset( $request[$this->formatParameter($this->parameter)] ))
 			{
 				$this->_handlePostBack = true;
-				$this->_args = $request;
-				unset( $request[$this->parameter] );
-				unset( $request[$this->pkey] );
+				$this->_args[$this->parameter] = $request[$this->formatParameter($this->parameter)];
+				$this->_args[$this->pkey] = $request[$this->formatParameter($this->pkey)];
+				unset( $request[$this->formatParameter($this->parameter)] );
+				unset( $request[$this->formatParameter($this->pkey)] );
 			}
 		}
 
@@ -187,8 +217,27 @@
 		 */
 		public function onRender()
 		{
-			$this->itemText = $this->getItemText($this->dataField, $this->parameter);
-			$this->footerText = $this->getFooterText($this->dataField, $this->parameter);
+			$this->itemText = $this->getItemText($this->dataField, $this->formatParameter($this->parameter));
+			$this->footerText = $this->getFooterText($this->dataField, $this->formatParameter($this->parameter));
+		}
+
+
+		/**
+		 * format parameter
+		 * 
+		 * @param string $parameter parameter to format
+		 * @return string
+		 */
+		final protected function formatParameter( $parameter )
+		{
+			$parameter = str_replace( ' ', '_', (string)$parameter );
+			$parameter = str_replace( '\'', '_', $parameter );
+			$parameter = str_replace( '"', '_', $parameter );
+			$parameter = str_replace( '/', '_', $parameter );
+			$parameter = str_replace( '\\', '_', $parameter );
+			$parameter = str_replace( '.', '_', $parameter );
+
+			return $parameter;
 		}
 
 

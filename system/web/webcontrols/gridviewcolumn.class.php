@@ -324,6 +324,20 @@
 
 
 		/**
+		 * reset filter
+		 *
+		 * @return void
+		 */
+		final public function resetFilter()
+		{
+			if($this->filter)
+			{
+				$this->filter->resetFilter();
+			}
+		}
+
+
+		/**
 		 * filter DataSet
 		 *
 		 * @param  DataSet	&$ds		DataSet

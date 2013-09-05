@@ -28,6 +28,12 @@
 		 */
 		protected $endDate;
 
+		/**
+		 * specifies control tool tip
+		 * @var string
+		 */
+		protected $tooltip					= 'Enter a date range';
+
 
 		/**
 		 * read view state from session
@@ -86,6 +92,18 @@
 
 
 		/**
+		 * reset filter
+		 *
+		 * @return void
+		 */
+		public function resetFilter()
+		{
+			$this->startDate = "";
+			$this->endDate = "";
+		}
+
+
+		/**
 		 * filter DataSet
 		 *
 		 * @param  DataSet	&$ds		DataSet
@@ -121,11 +139,13 @@
 			$date_start->setAttribute('type', 'date');
 			$date_start->setAttribute('name', "{$HTMLControlId}__filter_startdate");
 			$date_start->setAttribute('value', $this->startDate);
+			$date_start->setAttribute('title', $this->tooltip);
 
 			$date_end = new \System\XML\DomObject('input');
 			$date_end->setAttribute('type', 'date');
 			$date_end->setAttribute('name', "{$HTMLControlId}__filter_enddate");
 			$date_end->setAttribute('value', $this->endDate);
+			$date_end->setAttribute('title', $this->tooltip);
 
 			if($this->column->ajaxPostBack && 0) // TODO: fix
 			{

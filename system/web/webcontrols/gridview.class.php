@@ -563,6 +563,44 @@
 
 
 		/**
+		 * reset filters
+		 * @return void
+		 */
+		public function resetFilters()
+		{
+			$this->columns->resetFilters();
+		}
+
+
+		/**
+		 * apply filter and sort
+		 * @return void
+		 */
+		public function applyFilterAndSort()
+		{
+			// filter results
+			$this->columns->filterDataSet( $this->dataSource );
+
+			// sort results
+			if( $this->sortBy && $this->canSort) {
+				$sort_event = new \System\Web\Events\GridViewSortEvent();
+
+				if($this->events->contains( $sort_event )) {
+					$this->events->raise( $sort_event, $this );
+				}
+				else {
+					// sort DataSet
+					$this->dataSource->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
+
+					if($this->ajaxPostBack) {
+						$this->updateAjax();
+					}
+				}
+			}
+		}
+
+
+		/**
 		 * returns a DomObject representing control
 		 *
 		 * @return DomObject
@@ -1423,7 +1461,7 @@
 			$a->setAttribute('class', 'prev');
 			if( $this->page > 1 )
 			{
-				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder=='asc'));
+				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
 			else
 			{
@@ -1532,33 +1570,6 @@
 						{
 							$this->addColumn( new GridViewColumn( $field->name, ucwords( str_replace( '_', ' ', $field->name ))));
 						}
-					}
-				}
-			}
-		}
-
-
-		/**
-		 * apply filter and sort
-		 */
-		private function applyFilterAndSort()
-		{
-			// filter results
-			$this->columns->filterDataSet( $this->dataSource );
-
-			// sort results
-			if( $this->sortBy && $this->canSort) {
-				$sort_event = new \System\Web\Events\GridViewSortEvent();
-
-				if($this->events->contains( $sort_event )) {
-					$this->events->raise( $sort_event, $this );
-				}
-				else {
-					// sort DataSet
-					$this->dataSource->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
-
-					if($this->ajaxPostBack) {
-						$this->updateAjax();
 					}
 				}
 			}

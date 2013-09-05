@@ -22,6 +22,12 @@
 		 */
 		protected $value;
 
+		/**
+		 * specifies control tool tip
+		 * @var string
+		 */
+		protected $tooltip					= 'Select a option from the list';
+
 
 		/**
 		 * read view state from session
@@ -73,6 +79,17 @@
 
 
 		/**
+		 * reset filter
+		 *
+		 * @return void
+		 */
+		public function resetFilter()
+		{
+			$this->value = "";
+		}
+
+
+		/**
 		 * filter DataSet
 		 *
 		 * @param  DataSet	&$ds		DataSet
@@ -100,6 +117,7 @@
 
 			$select = new \System\XML\DomObject( 'select' );
 			$select->setAttribute('name', "{$HTMLControlId}__filter_value");
+			$select->setAttribute('title', $this->tooltip);
 			$option = new \System\XML\DomObject( 'option' );
 			$option->setAttribute('value', '');
 			$option->nodeValue = '';

@@ -15,7 +15,7 @@
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
 	 */
-	class GridViewDate extends GridViewControlBase
+	class GridViewTime extends GridViewControlBase
 	{
 		/**
 		 * get item text
@@ -30,11 +30,11 @@
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"date\" value=\"'.%{$dataField}%.'\" class=\"date\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"time\" value=\"'.%{$dataField}%.'\" class=\"time\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"date\" value=\"'.%{$dataField}%.'\" class=\"date\" />'";
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"time\" value=\"'.%{$dataField}%.'\" class=\"time\" />'";
 			}
 		}
 
@@ -47,7 +47,7 @@
 		 */
 		protected function getFooterText($dataField, $parameter)
 		{
-			return "'<input name=\"{$parameter}_null\" type=\"date\" class=\"date\" />'";
+			return "'<input name=\"{$parameter}_null\" type=\"time\" class=\"time\" />'";
 		}
 	}
 ?>
