@@ -599,22 +599,18 @@
 				$dl->addChild($dd);
 			}
 
+			$dt = new \System\XML\DomObject('dt');
+			$dd = new \System\XML\DomObject('dd');
+			$dd->addChild($this->login->getDomObject());
+			$dd->addChild($this->send_email->getDomObject());
+			$dd->addChild($this->reset_password->getDomObject());
+			$dl->addChild($dt);
+			$dl->addChild($dd);
+
 			$fieldset->addChild($dl);
-
-			$div = new \System\XML\DomObject('div');
-			$div->setAttribute('class', 'buttons');
-			$div->addChild($this->login->getDomObject());
-			$div->addChild($this->send_email->getDomObject());
-			$div->addChild($this->reset_password->getDomObject());
-
 			$form->innerHtml .= $fieldset->fetch();
-			$form->innerHtml .= $div->fetch();
 
 			return $form;
-
-			$dom = parent::getDomObject();
-			$dom->appendAttribute( 'class', ' loginform' );
-			return $dom;
 		}
 	}
 ?>
