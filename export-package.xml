@@ -5,9 +5,9 @@
 
 	<!-- config -->
 	<property name="build.name"					value="Rum" />
-	<property name="build.version.number"		value="6.6" />
-	<property name="build.zip.exension"			value="6_6" />
-	<property name="build.revision.number"		value="0-beta-1.00" />
+	<property name="build.version.number"		value="6.5" />
+	<property name="build.zip.exension"			value="6_5" />
+	<property name="build.revision.number"		value="0-beta-1.10" />
 	<property name="authors"					value="darnell.shinbine" />
 
 	<property name="output.install"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_release" />
@@ -160,13 +160,13 @@
 			<param name="src" value="." />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
-
+<!--
 		<antcall target="_export.package">
 			<param name="dest" value="${output.hello_world}" />
 			<param name="src" value="${hello_world.path}" />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
-<!--
+
 		<antcall target="_export.package">
 			<param name="dest" value="${output.blog}" />
 			<param name="src" value="${blog.path}" />
