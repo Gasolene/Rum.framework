@@ -52,6 +52,19 @@
 
 
 		/**
+		 * Constructor
+		 *
+		 * @param   string		$controllerId	Controller Id
+		 * @return  void
+		 * /
+		final public function __construct( $controllerId )
+		{
+			parent::__construct($controllerId);
+			$this->events->add(new Events\TimerEvent());
+		}
+
+
+		/**
 		 * gets object property
 		 *
 		 * @param  string	$field		name of field
@@ -113,6 +126,12 @@
 		 */
 		public function getView( \System\Web\HTTPRequest &$request )
 		{
+//			$method = 'onTimer';
+//			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $method))
+//			{
+//				$this->events->registerEventHandler(new \System\Web\Events\TimerEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $method));
+//			}
+
 			$this->theme = $this->theme?$this->theme:\System\Web\WebApplicationBase::getInstance()->config->defaultTheme;
 
 			if(\System\Web\WebApplicationBase::getInstance()->config->viewStateMethod == 'cookies')

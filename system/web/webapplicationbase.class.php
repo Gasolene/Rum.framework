@@ -80,13 +80,13 @@
 
 		/**
 		 * Contains the Session object
-		 * @var session
+		 * @var Session
 		 */
 		private $session					= null;
 
 		/**
 		 * Contains the HTTPRequest object
-		 * @var session
+		 * @var HTTPRequest
 		 */
 		private $request					= null;
 
