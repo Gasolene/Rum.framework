@@ -176,13 +176,18 @@
 		 */
 		public function onRequest( &$request )
 		{
-			if( isset( $request[$this->formatParameter($this->parameter)] ))
+			$parameter = $this->formatParameter($this->parameter);
+			if( isset( $request[$parameter] ))
 			{
+				$pkey = $this->formatParameter($this->pkey);
+
 				$this->_handlePostBack = true;
-				$this->_args[$this->parameter] = $request[$this->formatParameter($this->parameter)];
-				$this->_args[$this->pkey] = $request[$this->formatParameter($this->pkey)];
-				unset( $request[$this->formatParameter($this->parameter)] );
-				unset( $request[$this->formatParameter($this->pkey)] );
+				$this->_args[$this->parameter] = $request[$parameter];
+				unset( $request[$parameter] );
+				if(isset($request[$pkey])) {
+					$this->_args[$this->pkey] = $request[$pkey];
+					unset($request[$pkey]);
+				}
 			}
 		}
 
