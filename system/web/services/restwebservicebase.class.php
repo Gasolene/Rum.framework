@@ -212,7 +212,7 @@
 					if(is_array($v)) {
 							$data .= ($indent?"\r\n":'').$this->xml_encode($v, $indent, ($i+1)).($indent?str_repeat("\t", $i):'');
 					} else {
-							$data .= htmlentities($v);
+							$data .= \Rum::escape($v);
 					}
 					$data .= '</'.$k.'>'.($indent?"\r\n":'');
 			}
