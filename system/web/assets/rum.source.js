@@ -203,7 +203,8 @@
 		 */
 		this.documentLoaded = function(formElement, iframeID) {
 
-			var frameElement = document.getElementById(iframeID);
+                        //changed frameElement to allow IE10 to work was var frameElement = document.getElementById(iframeID);
+			var frameElement = (!document.getElementById(iframeID))?"":document.getElementById(iframeID);
 			var documentElement = null;
 
 			if (frameElement.contentDocument) {
@@ -211,7 +212,9 @@
 			} else if (frameElement.contentWindow) {
 				documentElement = frameElement.contentWindow.document;
 			} else {
-				documentElement = window.frames[iframeID].document;
+                                return;
+                                //removed below to make this work in IE10
+				//documentElement = window.frames[iframeID].document;
 			}
 
 			if (documentElement.location.href == "about:blank") {
