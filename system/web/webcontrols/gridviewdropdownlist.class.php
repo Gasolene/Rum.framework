@@ -79,8 +79,8 @@
 				$html = "'<select name=\"{$parameter}_'.%{$this->pkey}%.'\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
-					$value = htmlentities($value, ENT_QUOTES);
-					$key = htmlentities($key, ENT_QUOTES);
+					$value = \Rum::escape($value, ENT_QUOTES);
+					$key = \Rum::escape($key, ENT_QUOTES);
 
 					$html .= "<option value=\"{$value}\" '.(%{$dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
 				}
@@ -93,8 +93,8 @@
 				$html = "'<select name=\"{$parameter}_'.%{$this->pkey}%.'\" class=\"listbox\">";
 				foreach($this->items as $key=>$value)
 				{
-					$value = htmlentities($value, ENT_QUOTES);
-					$key = htmlentities($key, ENT_QUOTES);
+					$value = \Rum::escape($value, ENT_QUOTES);
+					$key = \Rum::escape($key, ENT_QUOTES);
 
 					$html .= "<option value=\"{$value}\" '.(%{$dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
 				}
@@ -122,8 +122,8 @@
 				$html = "'<select name=\"{$parameter}_null\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
-					$value = htmlentities($value, ENT_QUOTES);
-					$key = htmlentities($key, ENT_QUOTES);
+					$value = \Rum::escape($value, ENT_QUOTES);
+					$key = \Rum::escape($key, ENT_QUOTES);
 
 					$html .= "<option value=\"{$value}\">{$key}</option>";
 				}
@@ -135,8 +135,8 @@
 			$html = "'<select name=\"{$parameter}_null\" class=\"listbox\">";
 			foreach($this->items as $key=>$value)
 			{
-				$value = htmlentities($value, ENT_QUOTES);
-				$key = htmlentities($key, ENT_QUOTES);
+				$value = \Rum::escape($value, ENT_QUOTES);
+				$key = \Rum::escape($key, ENT_QUOTES);
 
 				$html .= "<option value=\"{$value}\">{$key}</option>";
 			}
