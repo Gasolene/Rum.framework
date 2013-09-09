@@ -117,6 +117,7 @@
 			$input->setAttribute('name', "{$HTMLControlId}__filter_value");
 			$input->setAttribute('value', $this->value);
 			$input->setAttribute('title', $this->tooltip);
+			$input->setAttribute('class', 'stringfilter');
 
 			if($this->column->ajaxPostBack && 0) // TODO: fix
 			{
