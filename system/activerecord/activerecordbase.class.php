@@ -765,6 +765,8 @@
 			}
 			*/
 
+			$form->add( new \System\Web\WebControls\Button('submit'));
+
 			// implement rules
 			foreach( $activeRecord->rules as $field => $rules )
 			{
