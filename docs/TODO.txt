@@ -1,9 +1,16 @@
 TODO
 ====
 
-	[Due in 6.5.1]
+	[Due in 6.6]
+	- Column ctors should be identical
+		- ActiveRecord column mapping
+	- Form::render() no fieldset, buttons div
+	- remove ActiveRecordBase::form() submit button
+
+	[Due in 6.6.1]
 	- combine css/js theme files into a single file
 	- migration tests
+	- User Preferences
 
 PLUGINS
 =======
