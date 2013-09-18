@@ -68,12 +68,16 @@
 			if(isset($request[$HTMLControlId . '__filter_startdate']))
 			{
 				$this->startDate = $request[$HTMLControlId . '__filter_startdate'];
-				unset($request[$HTMLControlId . '__filter_startdate']);
+//				unset($request[$HTMLControlId . '__filter_startdate']);
 			}
 			if(isset($request[$HTMLControlId . '__filter_enddate']))
 			{
 				$this->endDate = $request[$HTMLControlId . '__filter_enddate'];
-				unset($request[$HTMLControlId . '__filter_enddate']);
+//				unset($request[$HTMLControlId . '__filter_enddate']);
+			}
+
+			if($this->column->gridView->ajaxPostBack) {
+				$this->column->gridView->updateAjax();
 			}
 		}
 
@@ -149,7 +153,7 @@
 			$date_end->setAttribute('title', $this->tooltip);
 			$date_end->setAttribute('class', 'daterangefilter');
 
-			if($this->column->ajaxPostBack && 0) // TODO: fix
+			if($this->column->gridView->ajaxPostBack)
 			{
 				$date_start->setAttribute( 'onchange', "Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_startdate='+this.value);" );
 				$date_end->setAttribute(   'onchange', "Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_enddate='+this.value);" );

@@ -57,7 +57,11 @@
 			if(isset($request[$HTMLControlId . '__filter_value']))
 			{
 				$this->value = $request[$HTMLControlId . '__filter_value'];
-				unset($request[$HTMLControlId . '__filter_value']);
+//				unset($request[$HTMLControlId . '__filter_value']);
+
+				if($this->column->gridView->ajaxPostBack) {
+					$this->column->gridView->updateAjax();
+				}
 			}
 		}
 
@@ -119,7 +123,7 @@
 			$input->setAttribute('title', $this->tooltip);
 			$input->setAttribute('class', 'stringfilter');
 
-			if($this->column->ajaxPostBack && 0) // TODO: fix
+			if($this->column->gridView->ajaxPostBack)
 			{
 				$input->setAttribute( 'onchange',                                                 "Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
 				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);};" );

@@ -199,6 +199,12 @@
 		 */
 		private $_data						= null;
 
+		/**
+		 * @deprecated
+		 * @ignore
+		 */
+		private $__filterValues				= array();
+
 
 		/**
 		 * sets the controlId and prepares the control attributes
@@ -571,12 +577,7 @@
 		final public function setFilterValues($field, array $values)
 		{
 			trigger_error("GridView::setFilterValues() is deprecated, use GridViewColumn::setFilter() instead", E_USER_DEPRECATED);
-			$col = $this->columns->findColumn($field);
-			if($col) {
-				if($col->filter instanceof GridViewListFilter) {
-					$col->filter->setValues($values);
-				}
-			}
+			$this->__filterValues[$field] = $values;
 		}
 
 
@@ -840,6 +841,27 @@
 		 */
 		protected function onLoad()
 		{
+			// Backgwards compatibilty code - remove in Version 6.6
+			if($this->showFilters) {
+				$nofilters = true;
+				foreach( $this->columns as $column ) {
+					if($column->filter) {
+						$nofilters = false;
+					}
+				}
+				if($nofilters) {
+					foreach( $this->columns as $column ) {
+						if(isset($this->__filterValues[$column->dataField])) {
+							$column->setFilter(new GridViewListFilter($this->__filterValues[$column->dataField]));
+						}
+						else {
+							$column->setFilter(new GridViewStringFilter());
+						}
+					}
+				}
+			}
+			// End Backwards compatibilty code
+
 			$this->columns->load();
 
 			$page = $this->getParentByType( '\System\Web\WebControls\Page' );
@@ -936,7 +958,7 @@
 //				}
 //			}
 
-			// update
+			$this->applyFilterAndSort();
 		}
 
 
@@ -950,7 +972,6 @@
 		{
 			$this->events->raise(new \System\Web\Events\GridViewPostEvent(), $this, $request);
 			$this->columns->handlePostEvents( $request );
-			$this->applyFilterAndSort();
 		}
 
 

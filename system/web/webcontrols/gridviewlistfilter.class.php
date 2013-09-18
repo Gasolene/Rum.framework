@@ -84,7 +84,11 @@
 			if(isset($request[$HTMLControlId . '__filter_value']))
 			{
 				$this->value = $request[$HTMLControlId . '__filter_value'];
-				unset($request[$HTMLControlId . '__filter_value']);
+//				unset($request[$HTMLControlId . '__filter_value']);
+
+				if($this->column->gridView->ajaxPostBack) {
+					$this->column->gridView->updateAjax();
+				}
 			}
 		}
 
@@ -162,7 +166,7 @@
 				$select->addChild($option);
 			}
 
-			if($this->column->ajaxPostBack && 0) // TODO: fix
+			if($this->column->gridView->ajaxPostBack)
 			{
 				$select->setAttribute( 'onchange', "Rum.evalAsync('{$uri}', '{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
 			}
