@@ -1552,7 +1552,7 @@
 		{
 			if( $this->dataSource )
 			{
-				$this->columns = new GridViewColumnCollection();
+				$this->columns = new GridViewColumnCollection($this);
 
 				foreach( $this->dataSource->fieldMeta as $field )
 				{
