@@ -113,13 +113,28 @@
 		 */
 		protected function getFooterText($dataField, $parameter)
 		{
-			/*
-			if($this->ajaxPostBack)
+			if( !$this->footerText )
 			{
-				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
+				/*
+				if($this->ajaxPostBack)
+				{
+					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+					$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
 
-				$html = "'<select name=\"{$parameter}_null\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+					$html = "'<select name=\"{$parameter}_null\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+					foreach($this->items as $key=>$value)
+					{
+						$value = \Rum::escape($value, ENT_QUOTES);
+						$key = \Rum::escape($key, ENT_QUOTES);
+
+						$html .= "<option value=\"{$value}\">{$key}</option>";
+					}
+					$html .= '</select>\'';
+
+					return $html;
+				}
+				*/
+				$html = "'<select name=\"{$parameter}_null\" class=\"listbox\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = \Rum::escape($value, ENT_QUOTES);
@@ -131,18 +146,10 @@
 
 				return $html;
 			}
-			*/
-			$html = "'<select name=\"{$parameter}_null\" class=\"listbox\">";
-			foreach($this->items as $key=>$value)
+			else
 			{
-				$value = \Rum::escape($value, ENT_QUOTES);
-				$key = \Rum::escape($key, ENT_QUOTES);
-
-				$html .= "<option value=\"{$value}\">{$key}</option>";
+				return $this->footerText;
 			}
-			$html .= '</select>\'';
-
-			return $html;
 		}
 	}
 ?>
