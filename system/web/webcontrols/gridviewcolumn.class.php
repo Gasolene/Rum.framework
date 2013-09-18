@@ -128,6 +128,10 @@
 			elseif( $field === 'gridView' ) {
 				return $this->gridView;
 			}
+			elseif( $field === 'canFilter' ) {
+				trigger_error("GridViewColumn::canFilter is deprecated", E_USER_DEPRECATED);
+				return true;
+			}
 			elseif( $field === 'ondblclick' ) {
 				trigger_error("GridViewColumn::ondblclick is deprecated", E_USER_DEPRECATED);
 			}
@@ -163,6 +167,9 @@
 			}
 			elseif( $field === 'ondblclick' ) {
 				trigger_error("GridViewColumn::ondblclick is deprecated", E_USER_DEPRECATED);
+			}
+			elseif( $field === 'canFilter' ) {
+				trigger_error("GridViewColumn::canFilter is deprecated", E_USER_DEPRECATED);
 			}
 			else {
 				parent::__set($field, $value);
