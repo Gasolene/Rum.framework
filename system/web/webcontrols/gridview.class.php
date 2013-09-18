@@ -563,6 +563,24 @@
 
 
 		/**
+		 * set filter values
+		 *
+		 * @param  array &$filter	Instance of a GridViewFilterBase
+		 * @return void
+		 */
+		final public function setFilterValues($field, array $values)
+		{
+			trigger_error("GridView::setFilterValues() is deprecated, use GridViewColumn::setFilter() instead", E_USER_DEPRECATED);
+			$col = $this->columns->findColumn($field);
+			if($col) {
+				if($col->filter instanceof GridViewListFilter) {
+					$col->filter->setValues($values);
+				}
+			}
+		}
+
+
+		/**
 		 * reset filters
 		 * @return void
 		 */
