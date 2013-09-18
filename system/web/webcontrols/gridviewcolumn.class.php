@@ -128,6 +128,9 @@
 			elseif( $field === 'gridView' ) {
 				return $this->gridView;
 			}
+			elseif( $field === 'ondblclick' ) {
+				trigger_error("GridViewColumn::ondblclick is deprecated", E_USER_DEPRECATED);
+			}
 			else {
 				return parent::__get($field);
 			}
@@ -157,6 +160,9 @@
 			}
 			elseif( $field === 'className' ) {
 				$this->className = (string) $value;
+			}
+			elseif( $field === 'ondblclick' ) {
+				trigger_error("GridViewColumn::ondblclick is deprecated", E_USER_DEPRECATED);
 			}
 			else {
 				parent::__set($field, $value);
