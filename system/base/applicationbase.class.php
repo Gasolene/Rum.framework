@@ -117,12 +117,6 @@
 		private $running					= false;
 
 		/**
-		 * event collection
-		 * @var EventCollection
-		 */
-		protected $events					= null;
-
-		/**
 		 * Instance of the application
 		 * @var ApplicationBase
 		 */
@@ -147,7 +141,6 @@
 			$this->timer = new \System\Utils\Timer(true);
 
 			// Event handling
-			$this->events = new EventCollection();
 			$this->events->add(new Events\ApplicationRunEvent());
 
 			$onRunMethod = 'on'.ucwords($this->id).'Run';
@@ -206,11 +199,8 @@
 			elseif( $field === 'charset' ) {
 				return $this->charset;
 			}
-			elseif( $field === 'events' ) {
-				return $this->events;
-			}
 			else {
-				throw new BadMemberCallException("call to undefined property $field in ".get_class($this));
+				return parent::__get($field);
 			}
 		}
 
