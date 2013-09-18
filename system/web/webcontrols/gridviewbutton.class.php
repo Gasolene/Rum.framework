@@ -131,18 +131,25 @@
 		 */
 		protected function getFooterText($dataField, $parameter)
 		{
-			if( $this->footerButtonName )
+			if( !$this->footerText )
 			{
-				if( $this->ajaxPostBack )
+				if( $this->footerButtonName )
 				{
-					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-					$params = $this->getRequestData() . "&{$parameter}=null";
-					return "'<input name=\"{$parameter}\" value=\"null\" type=\"button\" title=\"{$this->footerButtonName}\" class=\"button\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+					if( $this->ajaxPostBack )
+					{
+						$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+						$params = $this->getRequestData() . "&{$parameter}=null";
+						return "'<input name=\"{$parameter}\" value=\"null\" type=\"button\" title=\"{$this->footerButtonName}\" class=\"button\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+					}
+					else
+					{
+						return "'<input name=\"{$parameter}\" value=\"null\" type=\"submit\" title=\"{$this->footerButtonName}\" class=\"button\" />'";
+					}
 				}
-				else
-				{
-					return "'<input name=\"{$parameter}\" value=\"null\" type=\"submit\" title=\"{$this->footerButtonName}\" class=\"button\" />'";
-				}
+			}
+			else
+			{
+				return $this->footerText;
 			}
 		}
 	}
