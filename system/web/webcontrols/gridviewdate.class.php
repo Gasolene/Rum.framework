@@ -47,7 +47,14 @@
 		 */
 		protected function getFooterText($dataField, $parameter)
 		{
-			return "'<input name=\"{$parameter}_null\" type=\"date\" class=\"date\" />'";
+			if( !$this->footerText )
+			{
+				return "'<input name=\"{$parameter}_null\" type=\"date\" class=\"date\" />'";
+			}
+			else
+			{
+				return $this->footerText;
+			}
 		}
 	}
 ?>

@@ -49,15 +49,21 @@
 		 */
 		protected function getFooterText($dataField, $parameter)
 		{
-			/*
-			if($this->ajaxPostBack)
+			if( !$this->footerText )
 			{
-				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
-				return "'<input name=\"{$parameter}_null\" type=\"text\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				/*
+				if($this->ajaxPostBack)
+				{
+					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+					$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
+					return "'<input name=\"{$parameter}_null\" type=\"text\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				}
+				*/
+				return "'<input name=\"{$parameter}_null\" type=\"text\" class=\"textbox\" />'";			}
+			else
+			{
+				return $this->footerText;
 			}
-			*/
-			return "'<input name=\"{$parameter}_null\" type=\"text\" class=\"textbox\" />'";
 		}
 	}
 ?>

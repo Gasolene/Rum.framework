@@ -30,11 +30,11 @@
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+(this.checked?1:0)+\'";
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"checkbox\" value=\"1\" '.(%{$dataField}%?'checked=\"checked\"':'').' class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"checkbox\" value=\"1\" '.(%{$dataField}%?'checked=\"checked\"':'').' class=\"checkbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" value=\"0\" type=\"hidden\"/><input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"checkbox\" value=\"1\" '.(%{$dataField}%?'checked=\"checked\"':'').' class=\"textbox\" />'";
+				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" value=\"0\" type=\"hidden\"/><input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"checkbox\" value=\"1\" '.(%{$dataField}%?'checked=\"checked\"':'').' class=\"checkbox\" />'";
 			}
 		}
 
@@ -47,15 +47,22 @@
 		 */
 		protected function getFooterText($dataField, $parameter)
 		{
-			/*
-			if($this->ajaxPostBack)
+			if( !$this->footerText )
 			{
-				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
-				return "'<input name=\"{$parameter}_null\" type=\"checkbox\" value=\"1\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				/*
+				if($this->ajaxPostBack)
+				{
+					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+					$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
+					return "'<input name=\"{$parameter}_null\" type=\"checkbox\" value=\"1\" class=\"checkbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				}
+				*/
+				return "'<input name=\"{$parameter}_null\" value=\"0\" type=\"hidden\"/><input name=\"{$parameter}_null\" type=\"checkbox\" value=\"1\" class=\"checkbox\" />'";
 			}
-			*/
-			return "'<input name=\"{$parameter}_null\" value=\"0\" type=\"hidden\"/><input name=\"{$parameter}_null\" type=\"checkbox\" value=\"1\" class=\"textbox\" />'";
+			else
+			{
+				return $this->footerText;
+			}
 		}
 	}
 ?>
