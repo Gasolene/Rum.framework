@@ -106,6 +106,15 @@
 			if( $field === 'onload' ) {
 				return $this->onload;
 			}
+			elseif( $field === 'submit' )
+			{
+				if(null===$this->findControl('submit')) {
+					throw new \System\Base\InvalidOperationException("ActiveRecordBase::form()->submit is no longer generated");
+				}
+				else {
+					return $this->findControl('submit');
+				}
+			}
 			else {
 				return parent::__get( $field );
 			}

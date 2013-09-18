@@ -266,6 +266,19 @@
 			{
 				return $this->submitted;
 			}
+			elseif( $field === 'submit' )
+			{
+				if(null===$this->findControl('submit')) {
+					trigger_error("ActiveRecordBase::form()->submit is deprecated, no longer generates a submit button", E_USER_DEPRECATED);
+					try {
+						$this->add(new Button('submit'));
+					}
+					catch(\Exception $e) {
+						throw new \System\Base\InvalidOperationException("ActiveRecordBase::form()->submit is no longer generated");
+					}
+				}
+				return $this->findControl('submit');
+			}
 			else
 			{
 				return parent::__get($field);
@@ -281,14 +294,15 @@
 		 */
 		final public function add( WebControlBase $control )
 		{
-			if( $control instanceof InputBase || $control instanceof Fieldset )
-			{
-				return parent::addControl($control);
-			}
-			else
-			{
-				throw new \System\Base\InvalidArgumentException("Argument 1 passed to ".get_class($this)."::add() must be an object of type InputBase or Fieldset");
-			}
+			return parent::addControl($control);
+//			if( $control instanceof InputBase || $control instanceof Fieldset )
+//			{
+//				return parent::addControl($control);
+//			}
+//			else
+//			{
+//				throw new \System\Base\InvalidArgumentException("Argument 1 passed to ".get_class($this)."::add() must be an object of type InputBase or Fieldset");
+//			}
 		}
 
 

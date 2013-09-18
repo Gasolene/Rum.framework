@@ -91,19 +91,8 @@
 
 				if( $index !== false )
 				{
-					if( isset( $type ))
-					{
-						if( strlen( $mapping['type'] ) > strlen( $type ))
-						{
-							$type = $mapping['type'];
-							$pos  = $index;
-						}
-					}
-					else
-					{
-						$type = $mapping['type'];
-						$pos  = $index;
-					}
+					$type = $mapping['type'];
+					$pos  = $index;
 				}
 			}
 
@@ -765,7 +754,8 @@
 			}
 			*/
 
-			$form->add( new \System\Web\WebControls\Button('submit'));
+			// Rem auto generated button
+			//$form->add( new \System\Web\WebControls\Button('submit'));
 
 			// implement rules
 			foreach( $activeRecord->rules as $field => $rules )
@@ -1094,7 +1084,7 @@
 						}
 					}
 				}
-				throw new \System\Base\InvalidOperationException(get_class($activeRecord)." has no relationship to ".get_class($this));
+				throw new \System\Base\InvalidOperationException(get_class($this)." has no relationship to ".get_class($this));
 			}
 			else
 			{
@@ -1127,9 +1117,9 @@
 								$query->where( $mapping['table'], $mapping['columnKey'], '=', $this[$this->pkey] );
 								$query->where( $mapping['table'], $mapping['columnRef'], '=', $activeRecord[$activeRecord->pkey] );
 
-								$ds = $this->dataSet->dataAdapter->openDataSet( $query->getQuery() );
+								$dsA = $this->dataSet->dataAdapter->openDataSet( $query->getQuery() );
 
-								if( $ds->count ) {
+								if( $dsA->count ) {
 									throw new \System\Base\InvalidOperationException("association already exists");
 								}
 
@@ -2124,7 +2114,6 @@
 			 * parse all the tables and map relationships "on the fly"
 			 */
 			$pkeys = array();
-			$tables = array();
 
 			// loop through tables in database
 			foreach( $schema->tableSchemas as $ftableSchema )
