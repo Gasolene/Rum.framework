@@ -73,12 +73,6 @@
 		private $warnings					= array();
 
 		/**
-		 * Contains an array of trace statements
-		 * @var array
-		 */
-		private $trace						= array();
-
-		/**
 		 * Contains the Session object
 		 * @var Session
 		 */
@@ -374,17 +368,6 @@
 
 
 		/**
-		 * Trace a variable
-		 *
-		 * @return  void
-		 */
-		final public function trace($var)
-		{
-			$this->trace[] = $var;
-		}
-
-
-		/**
 		 * return all controllers
 		 *
 		 * @param   string		$path		initial path
@@ -439,7 +422,6 @@
 				if( isset( $this->session[$this->applicationId.'_debug_warnings'] ))
 				{
 					$this->warnings = array_merge( $this->warnings, unserialize( $this->session[$this->applicationId.'_debug_warnings'] ));
-					$this->trace = array_merge( $this->trace, unserialize( $this->session[$this->applicationId.'_debug_trace'] ));
 				}
 			}
 		}
@@ -459,7 +441,6 @@
 			if( $this->debug )
 			{
 				$this->session[$this->applicationId.'_debug_warnings'] = serialize( $this->warnings );
-				$this->session[$this->applicationId.'_debug_trace'] = serialize( $this->trace );
 			}
 		}
 
@@ -1119,7 +1100,7 @@ No building is needed or allowed in a production environment.</p>
 
 				// dump app stats
 				\System\Web\HTTPResponse::write( "<div id=\"debug_toolbar\">" );
-				if( sizeof( $this->warnings ) > 0 )
+				if( sizeof( $this->warnings ) > 0 || sizeof( $this->trace ) > 0 )
 				{
 					\System\Web\HTTPResponse::write( "<a class=\"debug_open\" href=\"#\" onclick=\"PHPRumDebug.debugOpen()\"><span>Open debug panel</span> <strong>(".sizeof( $this->warnings ).")</strong></a> | " );
 				}
@@ -1129,8 +1110,6 @@ No building is needed or allowed in a production environment.</p>
 				}
 				\System\Web\HTTPResponse::write( "<a href=\"".__PROTOCOL__ . '://' . __HOST__ . \System\Web\WebApplicationBase::getInstance()->getPageURI('dev', array('id'=>'clean'))."\">Rebuild source</a> | " );
 				\System\Web\HTTPResponse::write( "<a href=\"".__PROTOCOL__ . '://' . __HOST__ . \System\Web\WebApplicationBase::getInstance()->getPageURI('dev', array('id'=>'run_all'))."\">Run all tests</a> | " );
-				//\System\Web\HTTPResponse::write( "<a onclick=\"PHPRumDebug.launchFrame('".__PROTOCOL__ . '://' . __HOST__ . \System\Web\WebApplicationBase::getInstance()->getPageURI('dev', array('id'=>'build','nostyle'=>'1'))."');\">Rebuild source</a> | " );
-				//\System\Web\HTTPResponse::write( "<a onclick=\"PHPRumDebug.launchFrame('".__PROTOCOL__ . '://' . __HOST__ . \System\Web\WebApplicationBase::getInstance()->getPageURI('dev', array('id'=>'run_all','nostyle'=>'1'))."');\">Run all tests</a> | " );
 				\System\Web\HTTPResponse::write( "<a href=\"#\">Tools</a> | " );
 				\System\Web\HTTPResponse::write( "<span><strong>Execution time:</strong> " . number_format($elapsed*1000, 2) . "ms</span>" );
 				\System\Web\HTTPResponse::write( "<span style=\"float: right;\">" );
@@ -1187,7 +1166,6 @@ No building is needed or allowed in a production environment.</p>
 					}
 					\System\Web\HTTPResponse::write( "</pre>" );
 				}
-				$this->trace = array();
 
 				// dump warnings
 				if( sizeof( $this->warnings ) > 0 )

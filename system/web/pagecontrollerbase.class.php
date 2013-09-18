@@ -319,6 +319,14 @@
 					\System\Web\WebApplicationBase::getInstance()->clearForwardPage();
 				}
 
+				if(\System\Web\WebApplicationBase::getInstance()->trace)
+				{
+					foreach(\System\Web\WebApplicationBase::getInstance()->trace as $trace)
+					{
+						$this->page->loadAjaxJScriptBuffer("console.log('".\str_replace("\n", '', \str_replace("\r", '', \nl2br(\addslashes($trace))))."');");
+					}
+				}
+
 				// replace output with ajax buffer output
 				$page = new \System\Web\WebControls\View('buffer');
 				$page->addHeader('content-type:text/plain');

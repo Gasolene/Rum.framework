@@ -23,6 +23,7 @@
 	 * @property   string $charset Specifies the character set
 	 * @property   DataAdapter $dataAdapter Reference to the DataAdapter
 	 * @property   bool $debug Specifies whether the application is in debug mode
+	 * @property   array $trace Contains an array of trace statements
 	 * @property   Timer $timer Reference to the app Timer
 	 * @property   EventCollection $events event collection
 	 *
@@ -96,6 +97,12 @@
 		 * @var bool
 		 */
 		private $debug						= false;
+
+		/**
+		 * Contains an array of trace statements
+		 * @var array
+		 */
+		private $trace						= array();
 
 		/**
 		 * Contains the app execution start time in microseconds
@@ -186,6 +193,9 @@
 			}
 			elseif( $field === 'debug' ) {
 				return $this->debug;
+			}
+			elseif( $field === 'trace' ) {
+				return $this->trace;
 			}
 			elseif( $field === 'timer' ) {
 				return $this->timer;
@@ -388,6 +398,17 @@
 			{
 				throw new \Exception( 'The Application has not been initialized' );
 			}
+		}
+
+
+		/**
+		 * trace
+		 *
+		 * @return  void
+		 */
+		final public function trace($var)
+		{
+			$this->trace[] = $var;
 		}
 
 
