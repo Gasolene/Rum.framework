@@ -212,7 +212,7 @@
 		 *
 		 * @return string SQL query
 		 */
-		public function getQuery() {
+		public function getStatementAsString() {
 
 			// select
 			if( $this->statement === 'select' ) {

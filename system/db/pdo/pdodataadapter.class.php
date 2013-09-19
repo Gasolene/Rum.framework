@@ -202,7 +202,7 @@
 				$query = $this->queryBuilder()->select()->from($table[0]);
 				$query->empty = true;
 
-				$columns = $this->runQuery( $query->getQuery() );
+				$columns = $this->runQuery( $query->getStatementAsString() );
 
 				if( $columns )
 				{

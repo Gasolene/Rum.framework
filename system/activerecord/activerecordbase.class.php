@@ -1117,7 +1117,7 @@
 								$query->where( $mapping['table'], $mapping['columnKey'], '=', $this[$this->pkey] );
 								$query->where( $mapping['table'], $mapping['columnRef'], '=', $activeRecord[$activeRecord->pkey] );
 
-								$dsA = $this->dataSet->dataAdapter->openDataSet( $query->getQuery() );
+								$dsA = $this->dataSet->dataAdapter->openDataSet( $query->getStatementAsString() );
 
 								if( $dsA->count ) {
 									throw new \System\Base\InvalidOperationException("association already exists");
@@ -1241,7 +1241,7 @@
 						$query->from  ( $mapping['table'] );
 						$query->where ( $mapping['table'], $mapping['columnKey'], '=', $this[$this->pkey] );
 
-						$this->dataSet->dataAdapter->execute( $query->getQuery() );
+						$this->dataSet->dataAdapter->execute( $query->getStatementAsString() );
 						return;
 					}
 					if( $mapping['relationship'] == RelationshipType::HasMany()->__toString() )
@@ -1251,7 +1251,7 @@
 						$query->set   ( $mapping['table'], $mapping['columnRef'], null );
 						$query->where ( $mapping['table'], $mapping['columnRef'], '=', $this[$mapping['columnKey']] );
 
-						$this->dataSet->dataAdapter->execute( $query->getQuery() );
+						$this->dataSet->dataAdapter->execute( $query->getStatementAsString() );
 						return;
 					}
 				}
@@ -1315,7 +1315,7 @@
 						$query->from  ( $mapping['table'] );
 						$query->where ( $mapping['table'], $mapping['columnRef'], '=', $this[$mapping['columnKey']] );
 
-						$this->dataSet->dataAdapter->execute( $query->getQuery() );
+						$this->dataSet->dataAdapter->execute( $query->getStatementAsString() );
 						return;
 					}
 				}
@@ -1667,7 +1667,7 @@
 				throw new \System\Base\InvalidOperationException("AppServlet::dataAdapter is null");
 			}
 
-			$activeRecord->dataSet = $da->openDataSet( $query->getQuery() );
+			$activeRecord->dataSet = $da->openDataSet( $query->getStatementAsString() );
 
 			// set args
 			foreach( $args as $key => $value )

@@ -17,7 +17,7 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	abstract class QueryBuilderBase
+	abstract class QueryBuilderBase extends StatementBase
 	{
 		/**
 		 * statement
@@ -30,24 +30,6 @@
 		 * @var bool
 		**/
 		protected $empty			= false;
-
-		/**
-		 * Contains a reference to a DataAdapter object
-		 * @var DataAdapter
-		**/
-		protected $dataAdapter		= null;
-
-
-		/**
-		 * Constructor
-		 *
-		 * @param  DataAdapter	$dataAdapter	instance of a DataAdapter
-		 * @return void
-		 */
-		public function __construct( DataAdapter &$dataAdapter )
-		{
-			$this->dataAdapter =& $dataAdapter;
-		}
 
 
 		/**
@@ -62,7 +44,7 @@
 				return $this->empty;
 			}
 			else {
-				throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
+				return parent::__get($field);
 			}
 		}
 
@@ -80,40 +62,9 @@
 				$this->empty = (bool) $value;
 			}
 			else {
-				throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
+				parent::__set($field, $value);
 			}
 		}
-
-
-		/**
-		 * run query
-		 *
-		 * @return void
-		 */
-		final public function runQuery()
-		{
-			$this->dataAdapter->execute($this->getQuery());
-		}
-
-
-		/**
-		 * open a DataSet
-		 *
-		 * @param  DataSetType	$lock_type	lock type as constant of DataSetType::OpenDynamic(), DataSetType::OpenStatic(), or DataSetType::OpenReadonly()
-		 * @return DataSet
-		 */
-		final public function openDataSet(DataSetType $lock_type = null)
-		{
-			return $this->dataAdapter->openDataSet($this->getQuery(), $lock_type);
-		}
-
-
-		/**
-		 * get query
-		 *
-		 * @return string
-		 */
-		abstract public function getQuery();
 
 
 		/**
