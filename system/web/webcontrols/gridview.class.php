@@ -626,7 +626,6 @@
 		 */
 		public function getDomObject()
 		{
-			$this->applyFilterAndSort();
 			$this->columns->render();
 
 			// get data
