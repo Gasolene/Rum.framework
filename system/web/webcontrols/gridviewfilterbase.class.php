@@ -19,6 +19,12 @@
 	abstract class GridViewFilterBase extends \System\Base\Object
 	{
 		/**
+		 * Specifies whether the data has been submitted
+		 * @var bool
+		 */
+		protected $submitted				= false;
+
+		/**
 		 * column
 		 * @var GridViewColumn
 		 */

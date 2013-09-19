@@ -56,12 +56,9 @@
 
 			if(isset($request[$HTMLControlId . '__filter_value']))
 			{
+				$this->submitted = true;
 				$this->value = $request[$HTMLControlId . '__filter_value'];
 //				unset($request[$HTMLControlId . '__filter_value']);
-
-				if($this->column->gridView->ajaxPostBack) {
-					$this->column->gridView->updateAjax();
-				}
 			}
 		}
 
@@ -85,6 +82,7 @@
 		 */
 		public function resetFilter()
 		{
+			$this->submitted = true;
 			$this->value = "";
 		}
 
@@ -97,9 +95,12 @@
 		 */
 		public function filterDataSet(\System\DB\DataSet &$ds)
 		{
-			if($this->value)
-			{
+			if($this->value) {
 				$ds->filter($this->column->dataField, 'contains', $this->value, true );
+			}
+
+			if($this->submitted == true && $this->column->gridView->ajaxPostBack) {
+				$this->column->gridView->updateAjax();
 			}
 		}
 
@@ -117,7 +118,7 @@
 			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 
 			$input = new \System\XML\DomObject('input');
-			$input->setAttribute('type', 'text');
+			$input->setAttribute('type', 'search');
 			$input->setAttribute('name', "{$HTMLControlId}__filter_value");
 			$input->setAttribute('value', $this->value);
 			$input->setAttribute('title', $this->tooltip);
@@ -125,12 +126,13 @@
 
 			if($this->column->gridView->ajaxPostBack)
 			{
-				$input->setAttribute( 'onchange',                                                 "Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
-				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);};" );
+				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
+				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;blur();return false;}" );
 			}
 			else
 			{
-				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);};" );
+				$input->setAttribute( 'onchange', "Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
+				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;blur();return false;}" );
 			}
 
 			return $input;

@@ -67,17 +67,15 @@
 
 			if(isset($request[$HTMLControlId . '__filter_startdate']))
 			{
+				$this->submitted = true;
 				$this->startDate = $request[$HTMLControlId . '__filter_startdate'];
 //				unset($request[$HTMLControlId . '__filter_startdate']);
 			}
 			if(isset($request[$HTMLControlId . '__filter_enddate']))
 			{
+				$this->submitted = true;
 				$this->endDate = $request[$HTMLControlId . '__filter_enddate'];
 //				unset($request[$HTMLControlId . '__filter_enddate']);
-			}
-
-			if($this->column->gridView->ajaxPostBack) {
-				$this->column->gridView->updateAjax();
 			}
 		}
 
@@ -102,6 +100,7 @@
 		 */
 		public function resetFilter()
 		{
+			$this->submitted = true;
 			$this->startDate = "";
 			$this->endDate = "";
 		}
@@ -115,13 +114,14 @@
 		 */
 		public function filterDataSet(\System\DB\DataSet &$ds)
 		{
-			if($this->endDate)
-			{
+			if($this->endDate) {
 				$ds->filter($this->column->dataField, '<=', $this->endDate );
 			}
-			if($this->startDate)
-			{
+			if($this->startDate) {
 				$ds->filter($this->column->dataField, '>=', $this->startDate );
+			}
+			if($this->submitted == true && $this->column->gridView->ajaxPostBack) {
+				$this->column->gridView->updateAjax();
 			}
 		}
 

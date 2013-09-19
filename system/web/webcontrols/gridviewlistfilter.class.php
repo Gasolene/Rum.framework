@@ -83,12 +83,9 @@
 
 			if(isset($request[$HTMLControlId . '__filter_value']))
 			{
+				$this->submitted = true;
 				$this->value = $request[$HTMLControlId . '__filter_value'];
 //				unset($request[$HTMLControlId . '__filter_value']);
-
-				if($this->column->gridView->ajaxPostBack) {
-					$this->column->gridView->updateAjax();
-				}
 			}
 		}
 
@@ -112,6 +109,7 @@
 		 */
 		public function resetFilter()
 		{
+			$this->submitted = true;
 			$this->value = "";
 		}
 
@@ -124,9 +122,12 @@
 		 */
 		public function filterDataSet(\System\DB\DataSet &$ds)
 		{
-			if($this->value)
-			{
+			if($this->value) {
 				$ds->filter($this->column->dataField, '=', $this->value, true );
+			}
+
+			if($this->submitted == true && $this->column->gridView->ajaxPostBack) {
+				$this->column->gridView->updateAjax();
 			}
 		}
 
