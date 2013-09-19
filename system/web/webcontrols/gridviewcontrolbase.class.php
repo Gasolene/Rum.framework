@@ -85,25 +85,21 @@
 			$this->pkey = $pkey;
 			$this->tooltip = $tooltip;
 
-			$ajaxPostEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxPost';
-			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $ajaxPostEvent))
-			{
-				$this->ajaxPostBack = true;
-			}
-
 			// event handling
 			$this->events->add(new \System\Web\Events\GridViewColumnPostEvent());
 			$this->events->add(new \System\Web\Events\GridViewColumnAjaxPostEvent());
 
 			// default events
 			$postEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Post';
+			$ajaxPostEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxPost';
+
 			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $postEvent))
 			{
 				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $postEvent));
 			}
-
-			if($this->ajaxPostBack)
+			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $ajaxPostEvent))
 			{
+				$this->ajaxPostBack = true;
 				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnAjaxPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $ajaxPostEvent));
 			}
 		}
