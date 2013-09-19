@@ -57,11 +57,28 @@
 			$this->footerButtonName = $footerButtonName;
 			$this->confirmation = $confirmation;
 
-			$postEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Click';
-			$this->events->add(new \System\Web\Events\GridViewColumnPostEvent());
+			$clickEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Click';
+			$AjaxClickEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxClick';
+			$postEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Post';
+			$AjaxPostEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxPost';
+
+			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $clickEvent))
+			{
+				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $clickEvent));
+			}
+			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $AjaxClickEvent))
+			{
+				$this->ajaxPostBack = true;
+				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnAjaxPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $AjaxClickEvent));
+			}
 			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $postEvent))
 			{
 				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $postEvent));
+			}
+			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $AjaxPostEvent))
+			{
+				$this->ajaxPostBack = true;
+				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnAjaxPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $AjaxPostEvent));
 			}
 		}
 
