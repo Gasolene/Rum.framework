@@ -22,9 +22,9 @@
 	 * @property string $emailSubject Specifies the subject line of the email message
 	 * @property string $emailBody Specifies the body of the email message with template variables {username}, {url}
 	 * @property IMailClient $mailClient Specifies the mail client to send the message with
-	 * @property TextBox $username username control
-	 * @property TextBox $password password control
-	 * @property TextBox $new_password new password control when reseting password
+	 * @property Text $username username control
+	 * @property Text $password password control
+	 * @property Text $new_password new password control when reseting password
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -289,17 +289,17 @@
 			parent::onInit();
 
 			$this->legend = "Login";
-			$this->add( new TextBox( 'username' ));
-			$this->add( new TextBox( 'password' ));
+			$this->add( new Text( 'username' ));
+			$this->add( new Text( 'password' ));
 			$this->add( new CheckBox( 'permanent' ));
 			$this->add( new Button( 'login', 'Login' ));
 			$this->add( new HyperLink( 'forgot_password', 'Forgot password', $this->getQueryString('?forgot_password=true') ));
 
-			$this->add( new TextBox( 'email' ));
+			$this->add( new Text( 'email' ));
 			$this->add( new Button( 'send_email', 'Reset password' ));
 
-			$this->add( new TextBox( 'new_password' ));
-			$this->add( new TextBox( 'confirm_password' ));
+			$this->add( new Text( 'new_password' ));
+			$this->add( new Text( 'confirm_password' ));
 			$this->add( new Button( 'reset_password', 'Reset password' ));
 
 			$this->getControl( 'username' )->label = 'User name';
