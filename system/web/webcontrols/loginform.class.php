@@ -290,7 +290,7 @@
 
 			$this->legend = "Login";
 			$this->add( new Text( 'username' ));
-			$this->add( new Text( 'password' ));
+			$this->add( new Password( 'password' ));
 			$this->add( new CheckBox( 'permanent' ));
 			$this->add( new Button( 'login', 'Login' ));
 			$this->add( new HyperLink( 'forgot_password', 'Forgot password', $this->getQueryString('?forgot_password=true') ));
@@ -298,13 +298,12 @@
 			$this->add( new Text( 'email' ));
 			$this->add( new Button( 'send_email', 'Reset password' ));
 
-			$this->add( new Text( 'new_password' ));
-			$this->add( new Text( 'confirm_password' ));
+			$this->add( new Password( 'new_password' ));
+			$this->add( new Password( 'confirm_password' ));
 			$this->add( new Button( 'reset_password', 'Reset password' ));
 
 			$this->getControl( 'username' )->label = 'User name';
 			$this->getControl( 'password' )->label = 'Password';
-			$this->getControl( 'password' )->mask = true;
 			$this->getControl( 'password' )->enableViewState = false;
 			$this->getControl( 'permanent' )->label = 'Remember me';
 			$this->getControl( 'forgot_password' )->visible = false;
@@ -315,11 +314,9 @@
 			$this->getControl( 'send_email' )->visible = false;
 
 			$this->getControl( 'new_password' )->visible = false;
-			$this->getControl( 'new_password' )->mask = true;
 			$this->getControl( 'new_password' )->enableViewState = false;
 			$this->getControl( 'new_password' )->label = 'New password';
 			$this->getControl( 'confirm_password' )->visible = false;
-			$this->getControl( 'confirm_password' )->mask = true;
 			$this->getControl( 'confirm_password' )->enableViewState = false;
 			$this->getControl( 'confirm_password' )->label = 'Confirm your password';
 			$this->getControl( 'reset_password' )->visible = false;
