@@ -306,17 +306,12 @@
 					{
 						$this->page->loadAjaxJScriptBuffer("Rum.flash( '".\str_replace("\n", '', \str_replace("\r", '', \nl2br(\addslashes($msg->message))))."', '".\strtolower($msg->type)."');");
 					}
-
-					\System\Web\WebApplicationBase::getInstance()->messages->removeAll();
 				}
 
 				if(\System\Web\WebApplicationBase::getInstance()->forwardURI)
 				{
 					$url = \System\Web\WebApplicationBase::getInstance()->getPageURI( \System\Web\WebApplicationBase::getInstance()->forwardURI, \System\Web\WebApplicationBase::getInstance()->forwardParams );
 					$this->page->loadAjaxJScriptBuffer("Rum.forward('".$url."');");
-
-					// clear forward
-					\System\Web\WebApplicationBase::getInstance()->clearForwardPage();
 				}
 
 				if(\System\Web\WebApplicationBase::getInstance()->trace)
