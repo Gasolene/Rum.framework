@@ -9,7 +9,7 @@
 
 
 	/**
-	 * Represents a TextBox Control
+	 * Represents a Text Control
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
