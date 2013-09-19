@@ -57,14 +57,11 @@
 
 			if(isset($request[$HTMLControlId . '__filter_value']))
 			{
+				$this->submitted = true;
 				if($request[$HTMLControlId . '__filter_value'])
 				{
 					$this->value = $request[$HTMLControlId . '__filter_value'];
 //					unset($request[$HTMLControlId . '__filter_value']);
-				}
-
-				if($this->column->gridView->ajaxPostBack) {
-					$this->column->gridView->updateAjax();
 				}
 			}
 		}
@@ -89,6 +86,7 @@
 		 */
 		public function resetFilter()
 		{
+			$this->submitted = true;
 			$this->value = "";
 		}
 
@@ -101,9 +99,12 @@
 		 */
 		public function filterDataSet(\System\DB\DataSet &$ds )
 		{
-			if($this->value)
-			{
-				$ds->filter($this->column->dataField, '=', $this->value );
+			if($this->value) {
+				$ds->filter($this->column->dataField, '=', $this->value=='true'?1:0 );
+			}
+
+			if($this->submitted == true && $this->column->gridView->ajaxPostBack) {
+				$this->column->gridView->updateAjax();
 			}
 		}
 
@@ -129,13 +130,13 @@
 			$select->addChild($option);
 
 			// get values
-			foreach(array('yes'=>true, 'no'=>false) as $key=>$value)
+			foreach(array('yes'=>'true', 'no'=>'false') as $key=>$value)
 			{
 				$option = new \System\XML\DomObject( 'option' );
 				$option->setAttribute('value', $value);
 				$option->nodeValue = $key;
 
-				if(strtolower($this->value)==strtolower($value))
+				if($this->value==$value)
 				{
 					$option->setAttribute('selected', 'selected');
 				}
