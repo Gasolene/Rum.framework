@@ -131,8 +131,8 @@
 			}
 			else
 			{
-				$input->setAttribute( 'onchange', "Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
-				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;blur();return false;}" );
+				$input->setAttribute( 'onchange', "if(this.value==''){Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);}" );
+				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;blur();Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);return false;}" );
 			}
 
 			return $input;
