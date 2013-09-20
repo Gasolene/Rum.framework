@@ -59,8 +59,6 @@
 
 			$clickEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Click';
 			$AjaxClickEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxClick';
-			$postEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Post';
-			$AjaxPostEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxPost';
 
 			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $clickEvent))
 			{
@@ -70,15 +68,6 @@
 			{
 				$this->ajaxPostBack = true;
 				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnAjaxPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $AjaxClickEvent));
-			}
-			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $postEvent))
-			{
-				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $postEvent));
-			}
-			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $AjaxPostEvent))
-			{
-				$this->ajaxPostBack = true;
-				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnAjaxPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $AjaxPostEvent));
 			}
 		}
 
@@ -129,9 +118,9 @@
 		{
 			if( $this->ajaxPostBack )
 			{
+				$params = $this->getRequestData() . "&{$dataField}='.\\rawurlencode(%{$dataField}%).'&{$parameter}={$this->itemButtonName}";
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$parameter}='.\\rawurlencode(%{$dataField}%).'";
-				return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"'.%{$dataField}%.'\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" class=\"button\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
@@ -152,16 +141,13 @@
 			{
 				if( $this->footerButtonName )
 				{
-					if( $this->ajaxPostBack )
-					{
-						$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-						$params = $this->getRequestData() . "&{$parameter}=null";
-						return "'<input name=\"{$parameter}\" value=\"null\" type=\"button\" title=\"{$this->footerButtonName}\" class=\"button\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
-					}
-					else
-					{
-						return "'<input name=\"{$parameter}\" value=\"null\" type=\"submit\" title=\"{$this->footerButtonName}\" class=\"button\" />'";
-					}
+//					if( $this->ajaxPostBack )
+//					{
+//						$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+//						$params = $this->getRequestData() . "&{$parameter}=null";
+//						return "'<input name=\"{$parameter}\" value=\"null\" type=\"button\" title=\"{$this->footerButtonName}\" class=\"button\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+//					}
+					return "'<input name=\"{$parameter}\" value=\"null\" type=\"submit\" title=\"{$this->footerButtonName}\" class=\"button\" />'";
 				}
 			}
 			else
