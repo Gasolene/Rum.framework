@@ -904,8 +904,6 @@
 			// loop through request variables
 			for( $i=0, $count=count( $vars ); $i < $count; $i++ )
 			{
-				if( substr( $vars[$i], 0, strlen( $this->getHTMLControlId().'_' )) != $this->getHTMLControlId().'_' )
-				{
 					$data = '';
 					if( is_array( \System\Web\HTTPRequest::$request[$vars[$i]] ))
 					{
@@ -934,7 +932,6 @@
 					{
 						$queryString .= $data;
 					}
-				}
 			}
 
 			return $queryString;
