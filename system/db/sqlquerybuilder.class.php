@@ -17,7 +17,7 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	class SQLQueryBuilder extends QueryBuilderBase
+	class SQLQueryBuilder extends SQLStatement
 	{
 		/**
 		 * object opening delimiter
@@ -36,6 +36,18 @@
 		 * @var string
 		**/
 		protected $stringDelimiter	= "'";
+
+		/**
+		 * main clause
+		 * @var string
+		**/
+		protected $mainClause		= '';
+
+		/**
+		 * specifies whether to return empty resultset
+		 * @var bool
+		**/
+		protected $empty			= false;
 
 		/**
 		 * array of select columns
@@ -101,6 +113,286 @@
 			if($objectOpeningDelimiter) $this->objectOpeningDelimiter = $objectOpeningDelimiter;
 			if($objectClosingDelimiter) $this->objectClosingDelimiter = $objectClosingDelimiter;
 			if($stringDelimiter) $this->stringDelimiter = $stringDelimiter;
+		}
+
+
+		/**
+		 * returns an object property
+		 *
+		 * @param  string	$field		name of the field
+		 * @return bool					true on success
+		 * @ignore
+		 */
+		final public function __get( $field ) {
+			if( $field === 'empty' ) {
+				return $this->empty;
+			}
+			else {
+				return parent::__get($field);
+			}
+		}
+
+
+		/**
+		 * sets an object property
+		 *
+		 * @param  string	$field		name of the field
+		 * @param  mixed	$value		value of the field
+		 * @return bool					true on success
+		 * @ignore
+		 */
+		final public function __set( $field, $value ) {
+			if( $field === 'empty' ) {
+				$this->empty = (bool) $value;
+			}
+			else {
+				parent::__set($field, $value);
+			}
+		}
+
+
+		/**
+		 * impliments `select` statement
+		 *
+		 * @param  string		$table			table name
+		 * @param  string		$column			column name
+		 * @param  string		$alias			column alias
+		 * @return QueryBuilder
+		 */
+		final public function select( $table = '*', $column = '*', $alias = '' ) {
+			$this->setMainClause( 'select' );
+			$this->addColumn( $table, $column, $alias );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `insert into` statement
+		 *
+		 * @param  string		$table			table name
+		 * @param  array		$columns		array of columns
+		 * @return QueryBuilder
+		 */
+		final public function insertInto( $table, array $columns ) {
+			$this->setMainClause( 'insert' );
+			$this->addTable( $table );
+			foreach( $columns as $columnname ) {
+				$this->addColumn( $table, $columnname );
+			}
+			return $this;
+		}
+
+
+		/**
+		 * impliments `update` statement
+		 *
+		 * @param  string		$table			table name
+		 * @return QueryBuilder
+		 */
+		final public function update( $table ) {
+			$this->setMainClause( 'update' );
+			$this->addTable( $table );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `truncate` statement
+		 *
+		 * @param  string		$table			table name
+		 * @return QueryBuilder
+		 */
+		final public function truncate($table) {
+			$this->setMainClause( 'truncate' );
+			$this->addTable( $table, $table );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `delete` statement
+		 *
+		 * @return QueryBuilder
+		 */
+		final public function delete() {
+			$this->setMainClause( 'delete' );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `from` statement
+		 *
+		 * @param  string		$table			table name
+		 * @param  string		$alias			table alias
+		 * @return QueryBuilder
+		 */
+		final public function from( $table, $alias = '' ) {
+			$this->checkMainClause( 'select', 'delete' );
+			$this->addTable( $table, $alias );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `values` statement
+		 *
+		 * @param  array		$values			array of column values
+		 * @return QueryBuilder
+		 */
+		final public function values( array $values ) {
+			$this->checkMainClause( 'insert' );
+			foreach( $values as $value ) {
+				$this->addValue( $value );
+			}
+			return $this;
+		}
+
+
+		/**
+		 * impliments `set` statement
+		 *
+		 * @param  string		$table			table name
+		 * @param  string		$column			column name
+		 * @param  string		$value			column value
+		 * @return QueryBuilder
+		 */
+		final public function set( $table, $column, $value ) {
+			$this->checkMainClause( 'update' );
+			$this->addColumn( $table, $column );
+			$this->addValue ( $value );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `set` statement
+		 *
+		 * @param  string		$table			table name
+		 * @param  array		$columns		column names
+		 * @param  array		$values			values
+		 * @return QueryBuilder
+		 */
+		final public function setColumns( $table, array $columns, array $values ) {
+			$this->checkMainClause( 'update' );
+			foreach( $columns as $column ) {
+				$this->addColumn( $table, $column );
+			}
+			foreach( $values as $value ) {
+				$this->addValue( $value );
+			}
+			return $this;
+		}
+
+
+		/**
+		 * impliments `inner join` statement
+		 *
+		 * @param  string		$lefttable			left table name
+		 * @param  string		$leftcolumn			left column name
+		 * @param  string		$righttable			right table name
+		 * @param  string		$rightcolumn		right column name
+		 * @param  string		$alias				left table alias
+		 * @return QueryBuilder
+		 */
+		final public function innerJoin( $lefttable, $leftcolumn, $righttable, $rightcolumn, $alias = '' ) {
+			$this->checkMainClause( 'select', 'delete' );
+			$this->addJoin( 'inner', $lefttable, $leftcolumn, $righttable, $rightcolumn, $alias );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `left join` statement
+		 *
+		 * @param  string		$lefttable			left table name
+		 * @param  string		$leftcolumn			left column name
+		 * @param  string		$righttable			right table name
+		 * @param  string		$rightcolumn		right column name
+		 * @param  string		$alias				left table alias
+		 * @return QueryBuilder
+		 */
+		final public function leftJoin( $lefttable, $leftcolumn, $righttable, $rightcolumn, $alias = '' ) {
+			$this->checkMainClause( 'select', 'delete' );
+			$this->addJoin( 'left', $lefttable, $leftcolumn, $righttable, $rightcolumn, $alias );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `right join` statement
+		 *
+		 * @param  string		$lefttable			left table name
+		 * @param  string		$leftcolumn			left column name
+		 * @param  string		$righttable			right table name
+		 * @param  string		$rightcolumn		right column name
+		 * @param  string		$alias				left table alias
+		 * @return QueryBuilder
+		 */
+		final public function rightJoin( $lefttable, $leftcolumn, $righttable, $rightcolumn, $alias = '' ) {
+			$this->checkMainClause( 'select', 'delete' );
+			$this->addJoin( 'right', $lefttable, $leftcolumn, $righttable, $rightcolumn, $alias );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `where` statement
+		 *
+		 * @param  string		$table			table name
+		 * @param  string		$column			column name
+		 * @param  string		$operand		operation to perform
+		 * @param  string		$value			column value
+		 * @return QueryBuilder
+		 */
+		final public function where( $table, $column, $operand, $value ) {
+			$this->checkMainClause( 'select', 'update', 'delete' );
+			$this->addWhereClause( $table, $column, $operand, $value );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `order by` statement
+		 *
+		 * @param  string		$table			table name
+		 * @param  string		$column			column name
+		 * @param  string		$direction		order by direction
+		 * @return QueryBuilder
+		 */
+		final public function orderBy( $table, $column, $direction = 'asc' ) {
+			$this->checkMainClause( 'select' );
+			$this->addOrderByClause( $table, $column, $direction );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `having` statement
+		 *
+		 * @param  string		$column			column name
+		 * @param  string		$operand		operation to perform
+		 * @param  string		$value			column value
+		 * @return QueryBuilder
+		 */
+		final public function having( $column, $operand, $value ) {
+			$this->checkMainClause( 'select', 'update', 'delete' );
+			$this->addHavingClause( $column, $operand, $value );
+			return $this;
+		}
+
+
+		/**
+		 * impliments `group by` statement
+		 *
+		 * @param  string		$table			table name
+		 * @param  string		$column			column name
+		 * @return QueryBuilder
+		 */
+		final public function groupBy( $table, $column ) {
+			$this->checkMainClause( 'select' );
+			$this->addGroupByClause( $table, $column );
+			return $this;
 		}
 
 
@@ -208,14 +500,55 @@
 
 
 		/**
+		 * check statement
+		 *
+		 * @return bool
+		 */
+		private function checkMainClause( $statement1, $statement2 = '', $statement3 = '', $statement4 = '' ) {
+			if( $this->mainClause ) {
+
+				if( $this->mainClause === (string) $statement1 ) {
+					return true;
+				}
+				elseif( $this->mainClause === (string) $statement2 ) {
+					return true;
+				}
+				elseif( $this->mainClause === (string) $statement3 ) {
+					return true;
+				}
+				elseif( $this->mainClause === (string) $statement4 ) {
+					return true;
+				}
+			}
+
+			throw new QueryException("unexpected clause in `{$this->mainClause}` statement");
+		}
+
+
+		/**
+		 * set statement
+		 *
+		 * @return bool
+		 */
+		private function setMainClause( $statement ) {
+			if( !$this->mainClause || $this->mainClause === (string) $statement ) {
+				$this->mainClause = (string) $statement;
+				return;
+			}
+
+			throw new QueryException( 'unexpected statement `' . (string) $statement . '` on `' . $this->mainClause . '` statement' );
+		}
+
+
+		/**
 		 * get SQL query
 		 *
 		 * @return string SQL query
 		 */
-		public function getStatementAsString() {
+		public function getPreparedStatement() {
 
 			// select
-			if( $this->statement === 'select' ) {
+			if( $this->mainClause === 'select' ) {
 				$sql = 'select';
 
 				// columns
@@ -265,7 +598,7 @@
 			}
 
 			// insert
-			elseif( $this->statement === 'insert' ) {
+			elseif( $this->mainClause === 'insert' ) {
 				$sql = 'insert';
 
 				$tables = $this->tables;
@@ -327,7 +660,7 @@
 			}
 
 			// update
-			elseif( $this->statement === 'update' ) {
+			elseif( $this->mainClause === 'update' ) {
 				$sql = 'update';
 
 				$tables = $this->tables;
@@ -374,7 +707,7 @@
 			}
 
 			// delete
-			elseif( $this->statement === 'delete' ) {
+			elseif( $this->mainClause === 'delete' ) {
 				$sql = 'delete';
 
 				// from
@@ -394,7 +727,7 @@
 			}
 
 			// delete
-			elseif( $this->statement === 'truncate' ) {
+			elseif( $this->mainClause === 'truncate' ) {
 				$sql = 'truncate';
 
 				// from
@@ -527,7 +860,8 @@ having';
 
 			$sql .= isset( $havingClause )?$havingClause:'';
 
-			return $sql;
+			$this->prepare($sql);
+			return parent::getPreparedStatement();
 		}
 	}
 ?>

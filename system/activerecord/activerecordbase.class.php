@@ -580,6 +580,7 @@
 		 */
 		static public function findAll( array $args = array() )
 		{
+			trigger_error("ActiveRecord::findAll(args) is deprecated, use ::all instead", E_USER_DEPRECATED);
 			return ActiveRecordBase::findAllByType( self::getClass(), $args );
 		}
 
@@ -617,6 +618,22 @@
 		static public function all( array $args = array() )
 		{
 			return ActiveRecordBase::allByType( self::getClass(), $args );
+		}
+
+
+		/**
+		 * static method to return a filtered DataSet of this type
+		 * 
+		 * @param  array		$columns	array of column names to return
+		 * @param  array		$filter		associative array of column names and values to filter
+		 * @param  array		$sort_by	array of column names to sort by
+		 * @param  int			$offset		number of records to offset
+		 * @param  int			$limit		resultset limit
+		 * @return DataSet
+		 */
+		static public function filter( array $columns = array(), array $filter = array(), array $sort_by = array(), $offset = 0, $limit = 0 )
+		{
+			return ActiveRecordBase::filterByType( self::getClass(), $columns, $filter, $sort_by, $offset, $limit );
 		}
 
 
@@ -863,7 +880,7 @@
 
 								foreach($ds->rows as $row)
 								{
-									$options[$row[$mapping["columnRef"]]] = $row[$mapping["columnRef"]];
+									$options[$row[$mapping["columnRef"]]] = $row;
 								}
 
 								continue;
@@ -1117,7 +1134,7 @@
 								$query->where( $mapping['table'], $mapping['columnKey'], '=', $this[$this->pkey] );
 								$query->where( $mapping['table'], $mapping['columnRef'], '=', $activeRecord[$activeRecord->pkey] );
 
-								$dsA = $this->dataSet->dataAdapter->openDataSet( $query->getStatementAsString() );
+								$dsA = $this->dataSet->dataAdapter->openDataSet( $query->getPreparedStatement() );
 
 								if( $dsA->count ) {
 									throw new \System\Base\InvalidOperationException("association already exists");
@@ -1241,7 +1258,7 @@
 						$query->from  ( $mapping['table'] );
 						$query->where ( $mapping['table'], $mapping['columnKey'], '=', $this[$this->pkey] );
 
-						$this->dataSet->dataAdapter->execute( $query->getStatementAsString() );
+						$this->dataSet->dataAdapter->execute( $query->getPreparedStatement() );
 						return;
 					}
 					if( $mapping['relationship'] == RelationshipType::HasMany()->__toString() )
@@ -1251,7 +1268,7 @@
 						$query->set   ( $mapping['table'], $mapping['columnRef'], null );
 						$query->where ( $mapping['table'], $mapping['columnRef'], '=', $this[$mapping['columnKey']] );
 
-						$this->dataSet->dataAdapter->execute( $query->getStatementAsString() );
+						$this->dataSet->dataAdapter->execute( $query->getPreparedStatement() );
 						return;
 					}
 				}
@@ -1315,7 +1332,7 @@
 						$query->from  ( $mapping['table'] );
 						$query->where ( $mapping['table'], $mapping['columnRef'], '=', $this[$mapping['columnKey']] );
 
-						$this->dataSet->dataAdapter->execute( $query->getStatementAsString() );
+						$this->dataSet->dataAdapter->execute( $query->getPreparedStatement() );
 						return;
 					}
 				}
@@ -1667,7 +1684,7 @@
 				throw new \System\Base\InvalidOperationException("AppServlet::dataAdapter is null");
 			}
 
-			$activeRecord->dataSet = $da->openDataSet( $query->getStatementAsString() );
+			$activeRecord->dataSet = $da->openDataSet( $query->getPreparedStatement() );
 
 			// set args
 			foreach( $args as $key => $value )
@@ -1785,6 +1802,49 @@
 		 */
 		static private function allByType( $type, array $args = array() )
 		{
+			$activeRecord = new $type();
+
+			// build query
+			$query = \System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
+			->select( '*' )
+			->from( $activeRecord->table );
+
+			// filter
+			foreach( $args as $key => $value )
+			{
+				$field = explode('.', $key);
+				if(count($field)==2) {
+					$query->where( $field[0], $field[1], '=', $value );
+				}
+				else {
+					$query->where( $activeRecord->table, $key, '=', $value );
+				}
+			}
+
+			// sort
+			if( $activeRecord->pkey )
+			{
+				$query->orderBy( $activeRecord->table, $activeRecord->pkey );
+			}
+
+			return $query->openDataSet();
+		}
+
+
+		/**
+		 * static method to return a filtered DataSet by type
+		 * 
+		 * @param  string		$type		object type
+		 * @param  array			$columns	array of column names to return
+		 * @param  array			$filter		associative array of column names and values to filter
+		 * @param  array			$sort_by	array of column names to sort by
+		 * @param  int			$offset		number of records to offset
+		 * @param  int			$limit		resultset limit
+		 * @return DataSet
+		 */
+		static private function filterByType( $type, array $columns = array(), array $filter = array(), array $sort_by = array(), $offset = 0, $limit = 0 )
+		{
+			throw new \System\Base\MethodNotImplementedException();
 			$activeRecord = new $type();
 
 			// build query
