@@ -11,17 +11,14 @@
 	/**
 	 * Represents a GridView list filter
 	 *
+	 * @property string $textField Specifies name of value text in datasource
+	 * @property string $valueField Specifies name of value field in datasource
+	 * 
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
 	 */
 	class GridViewListFilter extends GridViewFilterBase
 	{
-		/**
-		 * filter value
-		 * @var string
-		 */
-		protected $value;
-
 		/**
 		 * values
 		 * @var array
@@ -34,6 +31,18 @@
 		 */
 		protected $tooltip					= 'Select an option';
 
+		/**
+		 * Specifies name of text field in datasource
+		 * @var string
+		 */
+		protected $textField			= '';
+
+		/**
+		 * Specifies name of value field in datasource
+		 * @var string
+		 */
+		protected $valueField			= '';
+
 
 		/**
 		 * constructor
@@ -45,6 +54,47 @@
 
 
 		/**
+		 * gets object property
+		 *
+		 * @param  string	$field		name of field
+		 * @return string				string of variables
+		 * @ignore
+		 */
+		public function __get( $field ) {
+			if( $field === 'textField' ) {
+				return $this->textField;
+			}
+			elseif( $field === 'valueField' ) {
+				return $this->valueField;
+			}
+			else {
+				return parent::__get($field);
+			}
+		}
+
+
+		/**
+		 * sets object property
+		 *
+		 * @param  string	$field		name of field
+		 * @param  mixed	$value		value of field
+		 * @return mixed
+		 * @ignore
+		 */
+		public function __set( $field, $value ) {
+			if( $field === 'textField' ) {
+				$this->textField = (string)$value;
+			}
+			elseif( $field === 'valueField' ) {
+				$this->valueField = (string)$value;
+			}
+			else {
+				parent::__set( $field, $value );
+			}
+		}
+
+
+		/**
 		 * set column
 		 * @param array $values array of values
 		 * @return void
@@ -52,22 +102,6 @@
 		final public function setValues(array $values)
 		{
 			$this->values = $values;
-		}
-
-
-		/**
-		 * read view state from session
-		 *
-		 * @param  array	&$viewState	session data
-		 *
-		 * @return void
-		 */
-		public function loadViewState( array &$viewState )
-		{
-			if( isset( $viewState["f_{$this->column->dataField}"] ))
-			{
-				$this->value = $viewState["f_{$this->column->dataField}"];
-			}
 		}
 
 
@@ -91,30 +125,6 @@
 
 
 		/**
-		 * write view state to session
-		 *
-		 * @param  array	&$viewState	session data
-		 * @return void
-		 */
-		public function saveViewState( array &$viewState )
-		{
-			$viewState["f_{$this->column->dataField}"] = $this->value;
-		}
-
-
-		/**
-		 * reset filter
-		 *
-		 * @return void
-		 */
-		public function resetFilter()
-		{
-			$this->submitted = true;
-			$this->value = "";
-		}
-
-
-		/**
 		 * filter DataSet
 		 *
 		 * @param  DataSet	&$ds		DataSet
@@ -124,10 +134,6 @@
 		{
 			if($this->value) {
 				$ds->filter($this->column->dataField, '=', $this->value, true );
-			}
-
-			if($this->submitted == true && $this->column->gridView->ajaxPostBack) {
-				$this->column->gridView->updateAjax();
 			}
 		}
 
@@ -155,6 +161,10 @@
 			// get values
 			foreach($this->values as $key=>$value)
 			{
+				if(is_array($value)) {
+					$key = $value[$this->textField];
+					$value = $value[$this->valueField];
+				}
 				$option = new \System\XML\DomObject( 'option' );
 				$option->setAttribute('value', $value);
 				$option->nodeValue = $key;
