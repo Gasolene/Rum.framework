@@ -17,31 +17,10 @@
 	class GridViewStringFilter extends GridViewFilterBase
 	{
 		/**
-		 * filter value
-		 * @var string
-		 */
-		protected $value;
-
-		/**
 		 * specifies control tool tip
 		 * @var string
 		 */
 		protected $tooltip					= 'Enter a string and press enter';
-
-		/**
-		 * read view state from session
-		 *
-		 * @param  array	&$viewState	session data
-		 *
-		 * @return void
-		 */
-		public function loadViewState( array &$viewState )
-		{
-			if( isset( $viewState["f_{$this->column->dataField}"] ))
-			{
-				$this->value = $viewState["f_{$this->column->dataField}"];
-			}
-		}
 
 
 		/**
@@ -64,30 +43,6 @@
 
 
 		/**
-		 * write view state to session
-		 *
-		 * @param  array	&$viewState	session data
-		 * @return void
-		 */
-		public function saveViewState( array &$viewState )
-		{
-			$viewState["f_{$this->column->dataField}"] = $this->value;
-		}
-
-
-		/**
-		 * reset filter
-		 *
-		 * @return void
-		 */
-		public function resetFilter()
-		{
-			$this->submitted = true;
-			$this->value = "";
-		}
-
-
-		/**
 		 * filter DataSet
 		 *
 		 * @param  DataSet	&$ds		DataSet
@@ -97,10 +52,6 @@
 		{
 			if($this->value) {
 				$ds->filter($this->column->dataField, 'contains', $this->value, true );
-			}
-
-			if($this->submitted == true && $this->column->gridView->ajaxPostBack) {
-				$this->column->gridView->updateAjax();
 			}
 		}
 
@@ -127,7 +78,7 @@
 			if($this->column->gridView->ajaxPostBack)
 			{
 				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
-				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;blur();return false;}" );
+				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);return false;}" );
 			}
 			else
 			{

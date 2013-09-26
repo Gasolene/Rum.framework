@@ -17,32 +17,10 @@
 	class GridViewBooleanFilter extends GridViewFilterBase
 	{
 		/**
-		 * filter value
-		 * @var string
-		 */
-		protected $value;
-
-		/**
 		 * specifies control tool tip
 		 * @var string
 		 */
 		protected $tooltip					= 'Select a option from the list';
-
-
-		/**
-		 * read view state from session
-		 *
-		 * @param  array	&$viewState	session data
-		 *
-		 * @return void
-		 */
-		public function loadViewState( array &$viewState )
-		{
-			if( isset( $viewState["'f_{$this->column->dataField}"] ))
-			{
-				$this->value = $viewState["f_{$this->column->dataField}"];
-			}
-		}
 
 
 		/**
@@ -68,30 +46,6 @@
 
 
 		/**
-		 * write view state to session
-		 *
-		 * @param  array	&$viewState	session data
-		 * @return void
-		 */
-		public function saveViewState( array &$viewState )
-		{
-			$viewState["f_{$this->column->dataField}"] = $this->value;
-		}
-
-
-		/**
-		 * reset filter
-		 *
-		 * @return void
-		 */
-		public function resetFilter()
-		{
-			$this->submitted = true;
-			$this->value = "";
-		}
-
-
-		/**
 		 * filter DataSet
 		 *
 		 * @param  DataSet	&$ds		DataSet
@@ -101,10 +55,6 @@
 		{
 			if($this->value) {
 				$ds->filter($this->column->dataField, '=', $this->value=='true'?1:0 );
-			}
-
-			if($this->submitted == true && $this->column->gridView->ajaxPostBack) {
-				$this->column->gridView->updateAjax();
 			}
 		}
 

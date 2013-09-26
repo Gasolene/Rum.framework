@@ -19,6 +19,12 @@
 	abstract class GridViewFilterBase extends \System\Base\Object
 	{
 		/**
+		 * filter value
+		 * @var string
+		 */
+		protected $value;
+
+		/**
 		 * Specifies whether the data has been submitted
 		 * @var bool
 		 */
@@ -52,6 +58,9 @@
 		public function __get( $field ) {
 			if( $field === 'tooltip' ) {
 				return $this->tooltip;
+			}
+			elseif( $field === 'submitted' ) {
+				return $this->submitted;
 			}
 			else {
 				return parent::__get($field);
@@ -94,7 +103,13 @@
 		 *
 		 * @return void
 		 */
-		abstract public function loadViewState( array &$viewState );
+		public function loadViewState( array &$viewState )
+		{
+			if( isset( $viewState["f_{$this->column->dataField}"] ))
+			{
+				$this->value = $viewState["f_{$this->column->dataField}"];
+			}
+		}
 
 
 		/**
@@ -112,7 +127,10 @@
 		 * @param  array	&$viewState	session data
 		 * @return void
 		 */
-		abstract public function saveViewState( array &$viewState );
+		public function saveViewState( array &$viewState )
+		{
+			$viewState["f_{$this->column->dataField}"] = $this->value;
+		}
 
 
 		/**
@@ -120,14 +138,28 @@
 		 *
 		 * @return void
 		 */
-		abstract public function resetFilter();
+		public function resetFilter()
+		{
+			$this->submitted = true;
+			$this->value = "";
+		}
+
+
+		/**
+		 * return filter value
+		 *
+		 * @return string
+		 */
+		public function getValue()
+		{
+			return $this->value;
+		}
 
 
 		/**
 		 * filter DataSet
 		 *
 		 * @param  DataSet	&$ds		DataSet
-		 * @param  array	&$request	reqeust data
 		 * @return void
 		 */
 		abstract public function filterDataSet(\System\DB\DataSet &$ds );
