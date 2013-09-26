@@ -11,6 +11,8 @@
 	/**
 	 * Represents a GridView DropDownList
 	 * 
+	 * @property string $textField Specifies name of value text in datasource
+	 * @property string $valueField Specifies name of value field in datasource
 	 * @property ListItemCollection $items Collection of list items
 	 * 
 	 * @package			PHPRum
@@ -24,6 +26,18 @@
 		 * @var ListItemCollection
 		 */
 		protected $items;
+
+		/**
+		 * Specifies name of text field in datasource
+		 * @var string
+		 */
+		protected $textField			= '';
+
+		/**
+		 * Specifies name of value field in datasource
+		 * @var string
+		 */
+		protected $valueField			= '';
 
 
 		/**
@@ -53,11 +67,38 @@
 		 * @ignore
 		 */
 		public function __get( $field ) {
-			if( $field === 'items' ) {
+			if( $field === 'textField' ) {
+				return $this->textField;
+			}
+			elseif( $field === 'valueField' ) {
+				return $this->valueField;
+			}
+			elseif( $field === 'items' ) {
 				return $this->items;
 			}
 			else {
 				return parent::__get($field);
+			}
+		}
+
+
+		/**
+		 * sets object property
+		 *
+		 * @param  string	$field		name of field
+		 * @param  mixed	$value		value of field
+		 * @return mixed
+		 * @ignore
+		 */
+		public function __set( $field, $value ) {
+			if( $field === 'textField' ) {
+				$this->textField = (string)$value;
+			}
+			elseif( $field === 'valueField' ) {
+				$this->valueField = (string)$value;
+			}
+			else {
+				parent::__set( $field, $value );
 			}
 		}
 
@@ -79,6 +120,10 @@
 				$html = "'<select name=\"{$parameter}_'.%{$this->pkey}%.'\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
+					if(is_array($value)) {
+						$key = $value[$this->textField];
+						$value = $value[$this->valueField];
+					}
 					$value = \Rum::escape($value, ENT_QUOTES);
 					$key = \Rum::escape($key, ENT_QUOTES);
 
@@ -93,6 +138,10 @@
 				$html = "'<select name=\"{$parameter}_'.%{$this->pkey}%.'\" class=\"listbox\">";
 				foreach($this->items as $key=>$value)
 				{
+					if(is_array($value)) {
+						$key = $value[$this->textField];
+						$value = $value[$this->valueField];
+					}
 					$value = \Rum::escape($value, ENT_QUOTES);
 					$key = \Rum::escape($key, ENT_QUOTES);
 
