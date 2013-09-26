@@ -35,6 +35,7 @@
 	 * @property string $onclick
 	 * @property string $ondblclick
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
+	 * @property bool $updateRowsOnly specifies whether to update rows only, or the entire table on updateAjax()
 	 *
 	 * @version			2.0
 	 * @package			PHPRum
@@ -194,6 +195,12 @@
 		protected $ajaxPostBack				= false;
 
 		/**
+		 * Specifies whether to update rows only, or the entire table on updateAjax()
+		 * @var bool
+		 */
+		protected $updateRowsOnly			= true;
+
+		/**
 		 * contains bound DataSet
 		 * @var DataSet
 		 */
@@ -307,6 +314,22 @@
 			elseif( $field === 'ajaxPostBack' ) {
 				return $this->ajaxPostBack;
 			}
+			elseif( $field === 'updateRowsOnly' ) {
+				return $this->updateRowsOnly;
+			}
+			elseif( $field === 'filters' ) {
+				trigger_error("GridView::filters is deprecated, use GridView::getFilters() instead", E_USER_DEPRECATED);
+				$filters = array();
+				foreach($this->columns as $column) {
+					if( $column->filter ) {
+						$value = $column->filter->getValue();
+						if( $value ) {
+							$filters[$column->dataField] = $value;
+						}
+					}
+				}
+				return $filters;
+			}
 			else
 			{
 				$result = parent::__get( $field );
@@ -395,6 +418,9 @@
 			}
 			elseif( $field === 'ajaxPostBack' ) {
 				$this->ajaxPostBack = (bool)$value;
+			}
+			elseif( $field === 'updateRowsOnly' ) {
+				$this->updateRowsOnly = (bool)$value;
 			}
 			else {
 				parent::__set($field,$value);
@@ -597,8 +623,25 @@
 		 */
 		public function applyFilterAndSort()
 		{
+			if( !$this->dataSource ) {
+				throw new \System\Base\InvalidOperationException("GridView must have a valid data source before rendering");
+			}
+
+			$update = false;
+
 			// filter results
-			$this->columns->filterDataSet( $this->dataSource );
+			$filter_event = new \System\Web\Events\GridViewFilterEvent();
+			if($this->events->contains( $filter_event )) {
+				$this->events->raise( $filter_event, $this );
+			}
+			else {
+				// filter DataSet
+				$this->columns->filterDataSet( $this->dataSource );
+
+				if($this->ajaxPostBack) {
+					$update = true;
+				}
+			}
 
 			// sort results
 			if( $this->sortBy && $this->canSort) {
@@ -612,9 +655,13 @@
 					$this->dataSource->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
 
 					if($this->ajaxPostBack) {
-						$this->updateAjax();
+						$update = true;
 					}
 				}
+			}
+
+			if($update) {
+				$this->updateAjax();
 			}
 		}
 
@@ -628,9 +675,8 @@
 		{
 			$this->columns->render();
 
-			// get data
 			if( !$this->dataSource ) {
-				throw new \System\Base\InvalidOperationException("no valid DataSet object");
+				throw new \System\Base\InvalidOperationException("GridView must have a valid data source before rendering");
 			}
 
 			// create table Dom
@@ -646,137 +692,130 @@
 
 			$caption->nodeValue .= $this->caption;
 
-			// check for valid datasource
-			if( $this->dataSource )
-			{
-				// display all
-				if( $this->pageSize === 0 ) {
-					$this->pageSize = $this->dataSource->count;
-					$this->showPageNumber = FALSE;
-				}
+			// display all
+			if( $this->pageSize === 0 ) {
+				$this->pageSize = $this->dataSource->count;
+				$this->showPageNumber = FALSE;
+			}
 
 
 
-				/*
-				 * begin
-				 */
+			/*
+			 * begin
+			 */
 
 
 
-				/**********************************************************************
-				 *
-				 * <thead>
-				 *
-				 **********************************************************************/
+			/**********************************************************************
+			 *
+			 * <thead>
+			 *
+			 **********************************************************************/
 
-				/**
-				 * Header
-				 */
-				if( $this->showHeader ) {
-					$tr = $this->getRowHeader();
+			/**
+			 * Header
+			 */
+			if( $this->showHeader ) {
+				$tr = $this->getRowHeader();
 
-					// add thead to table
+				// add thead to table
+				$thead->addChild( $tr );
+			}
+
+			/**
+			 * Filters
+			 */
+			if( $this->showFilters ) {
+				$tr = $this->getRowFilter();
+
+				// add thead to table
+				if(count($tr->children)>0) {
 					$thead->addChild( $tr );
 				}
-
-				/**
-				 * Filters
-				 */
-				if( $this->showFilters ) {
-					$tr = $this->getRowFilter();
-
-					// add thead to table
-					if(count($tr->children)>0) {
-						$thead->addChild( $tr );
-					}
-				}
-
-				/**********************************************************************
-				 *
-				 * <tbody>
-				 *
-				 **********************************************************************/
-
-				// validate grid page
-				$this->dataSource->pageSize = $this->pageSize;
-				if( $this->page > $this->dataSource->pageCount() ) {
-					// if page is beyond DataSet, set to last page
-					$this->page = $this->dataSource->pageCount();
-				}
-				elseif( $this->page < 1 ) {
-					// if page is before DataSet, set to first page
-					$this->page = 1;
-				}
-
-				$this->dataSource->page( $this->page );
-
-				// loop through each item (record)
-				while( !$this->dataSource->eof() && $this->dataSource->page() === $this->page )
-				{
-					$tr = $this->getRowBody( $this->dataSource );
-
-					// add row to tbody
-					$tbody->addChild( $tr );
-
-					// move record pointer
-					$this->dataSource->next();
-				}
-
-				/**********************************************************************
-				 *
-				 * <tfoot>
-				 *
-				 **********************************************************************/
-
-				/**
-				 * Footer
-				 */
-				if( $this->showFooter ) {
-					$tr = $this->getRowFooter( $this->dataSource );
-					$tr->setAttribute( 'class', 'footer' );
-
-					$tfoot->addChild( $tr );
-				}
-
-				/**
-				 * RecordNavigation
-				 */
-				if( $this->showPageNumber ) {
-					$tr = $this->getPagination( $this->dataSource );
-					$tfoot->addChild( $tr );
-				}
-
-				// empty table
-				if( !$this->dataSource->count ) {
-					$tr = new \System\XML\DomObject( 'tr' );
-					$td = new \System\XML\DomObject( 'td' );
-
-					// list item
-					if( $this->valueField && $this->showList ) {
-						$td->setAttribute( 'colspan', sizeof( $this->columns ) + 1 );
-					}
-					else {
-						$td->setAttribute( 'colspan', sizeof( $this->columns ));
-					}
-
-					$tr->addChild( $td );
-					$tbody->addChild( $tr );
-				}
-
-				/*
-				 * end
-				 */
-
-				if( $this->caption )				$table->addChild( $caption );
-				if( $this->showFilters ||
-					$this->showHeader )				$table->addChild( $thead );
-				if( $this->showPageNumber ||
-					$this->showFooter )				$table->addChild( $tfoot );
-													$table->addChild( $tbody );
 			}
-			else {
-				throw new \System\Base\InvalidOperationException("no valid DataSet object");
+
+			/**********************************************************************
+			 *
+			 * <tbody>
+			 *
+			 **********************************************************************/
+
+			// validate grid page
+			$this->dataSource->pageSize = $this->pageSize;
+			if( $this->page > $this->dataSource->pageCount() ) {
+				// if page is beyond DataSet, set to last page
+				$this->page = $this->dataSource->pageCount();
 			}
+			elseif( $this->page < 1 ) {
+				// if page is before DataSet, set to first page
+				$this->page = 1;
+			}
+
+			$this->dataSource->page( $this->page );
+
+			// loop through each item (record)
+			while( !$this->dataSource->eof() && $this->dataSource->page() === $this->page )
+			{
+				$tr = $this->getRowBody( $this->dataSource );
+
+				// add row to tbody
+				$tbody->addChild( $tr );
+
+				// move record pointer
+				$this->dataSource->next();
+			}
+
+			/**********************************************************************
+			 *
+			 * <tfoot>
+			 *
+			 **********************************************************************/
+
+			/**
+			 * Footer
+			 */
+			if( $this->showFooter ) {
+				$tr = $this->getRowFooter( $this->dataSource );
+				$tr->setAttribute( 'class', 'footer' );
+
+				$tfoot->addChild( $tr );
+			}
+
+			/**
+			 * RecordNavigation
+			 */
+			if( $this->showPageNumber ) {
+				$tr = $this->getPagination( $this->dataSource );
+				$tfoot->addChild( $tr );
+			}
+
+			// empty table
+			if( !$this->dataSource->count ) {
+				$tr = new \System\XML\DomObject( 'tr' );
+				$td = new \System\XML\DomObject( 'td' );
+
+				// list item
+				if( $this->valueField && $this->showList ) {
+					$td->setAttribute( 'colspan', sizeof( $this->columns ) + 1 );
+				}
+				else {
+					$td->setAttribute( 'colspan', sizeof( $this->columns ));
+				}
+
+				$tr->addChild( $td );
+				$tbody->addChild( $tr );
+			}
+
+			/*
+			 * end
+			 */
+
+			if( $this->caption )				$table->addChild( $caption );
+			if( $this->showFilters ||
+				$this->showHeader )				$table->addChild( $thead );
+			if( $this->showPageNumber ||
+				$this->showFooter )				$table->addChild( $tfoot );
+												$table->addChild( $tbody );
 
 			return $table;
 		}
@@ -956,8 +995,6 @@
 //					}
 //				}
 //			}
-
-			$this->applyFilterAndSort();
 		}
 
 
@@ -971,6 +1008,17 @@
 		{
 			$this->events->raise(new \System\Web\Events\GridViewPostEvent(), $this, $request);
 			$this->columns->handlePostEvents( $request );
+		}
+
+
+		/**
+		 * handle post events
+		 *
+		 * @return void
+		 */
+		protected function onPreRender()
+		{
+			$this->applyFilterAndSort();
 		}
 
 
@@ -1004,14 +1052,25 @@
 		 */
 		protected function onUpdateAjax()
 		{
-			// update entire table
+			// Update only tbody element
 			$page = $this->getParentByType('\System\Web\WebControls\Page');
 
-			$page->loadAjaxJScriptBuffer('table1 = Rum.id(\''.$this->getHTMLControlId().'\');');
-			$page->loadAjaxJScriptBuffer('table2 = document.createElement(\'div\');');
-			$page->loadAjaxJScriptBuffer('table2.innerHTML = \''.\addslashes(str_replace("\n", '', str_replace("\r", '', $this->fetch()))).'\';');
-			$page->loadAjaxJScriptBuffer('table1.parentNode.insertBefore(table2, table1);');
-			$page->loadAjaxJScriptBuffer('table1.parentNode.removeChild(table1);');
+			if($this->updateRowsOnly) {
+				$page->loadAjaxJScriptBuffer('var tbody1 = Rum.id(\''.$this->getHTMLControlId().'\').getElementsByTagName(\'tbody\')[0];');
+				$page->loadAjaxJScriptBuffer('var tbody2 = document.createElement(\'tbody\');');
+				$page->loadAjaxJScriptBuffer('tbody2.innerHTML = \''.\addslashes(str_replace("\n", '', str_replace("\r", '', str_replace("<tbody>", '', str_replace("</tbody>", '', $this->getDomObject()->tbody->fetch()))))).'\';');
+				$page->loadAjaxJScriptBuffer('tbody1.parentNode.insertBefore(tbody2, tbody1);');
+				$page->loadAjaxJScriptBuffer('tbody1.parentNode.removeChild(tbody1);');
+			}
+			else {
+				// KLUDGE!
+				// TODO: fix bug where adding new element field each update
+				$page->loadAjaxJScriptBuffer('table1 = Rum.id(\''.$this->getHTMLControlId().'\');');
+				$page->loadAjaxJScriptBuffer('table2 = document.createElement(\'div\');');
+				$page->loadAjaxJScriptBuffer('table2.innerHTML = \''.\addslashes(str_replace("\n", '', str_replace("\r", '', $this->fetch()))).'\';');
+				$page->loadAjaxJScriptBuffer('table1.parentNode.insertBefore(table2, table1);');
+				$page->loadAjaxJScriptBuffer('table1.parentNode.removeChild(table1);');
+			}
 		}
 
 
