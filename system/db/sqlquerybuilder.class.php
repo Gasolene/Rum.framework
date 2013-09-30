@@ -541,11 +541,12 @@
 
 
 		/**
-		 * get SQL query
+		 * get prepared SQL statement as string
 		 *
-		 * @return string SQL query
+		 * @param  array	$parameters	array of parameters to bind
+		 * @return string
 		 */
-		public function getPreparedStatement() {
+		public function getPreparedStatement(array $parameters = array()) {
 
 			// select
 			if( $this->mainClause === 'select' ) {
@@ -861,7 +862,7 @@ having';
 			$sql .= isset( $havingClause )?$havingClause:'';
 
 			$this->prepare($sql);
-			return parent::getPreparedStatement();
+			return parent::getPreparedStatement($parameters);
 		}
 	}
 ?>
