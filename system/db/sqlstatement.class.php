@@ -160,7 +160,7 @@
 		 * @ignore
 		 */
 		final public function runQuery() {
-			trigger_error("SQLStatement::runQuery() is deprecated, use SQLStatement::execute() instead");
+			//trigger_error("SQLStatement::runQuery() is deprecated, use SQLStatement::execute() instead");
 			$this->execute();
 		}
 
