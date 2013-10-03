@@ -140,7 +140,6 @@
 		 */
 		public function resetFilter()
 		{
-			$this->submitted = true;
 			$this->value = "";
 		}
 

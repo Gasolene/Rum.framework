@@ -33,12 +33,6 @@
 	abstract class InputBase extends WebControlBase
 	{
 		/**
-		 * specifies whether the server control persists its view state, Default is true
-		 * @var bool
-		 */
-		protected $enableViewState			= false;
-
-		/**
 		 * specifies the id of the default html control
 		 * @var string
 		 */
