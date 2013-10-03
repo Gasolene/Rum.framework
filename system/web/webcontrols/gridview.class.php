@@ -15,6 +15,7 @@
 	 * @property int $pageSize
 	 * @property int $page
 	 * @property bool $canSort
+	 * @property bool $canFilter
 	 * @property bool $showFilters
 	 * @property bool $showHeader
 	 * @property bool $showFooter
@@ -67,6 +68,12 @@
 		 * @var bool
 		 */
 		protected $canSort					= true;
+
+		/**
+		 * Specifies if table is filterable, Default is true
+		 * @var bool
+		 */
+		protected $canFilter				= true;
 
 		/**
 		 * Specifies if table order can be changed, Default is false
@@ -254,6 +261,9 @@
 			elseif( $field === 'canSort' ) {
 				return $this->canSort;
 			}
+			elseif( $field === 'canFilter' ) {
+				return $this->canFilter;
+			}
 			elseif( $field === 'showFilters' ) {
 				return $this->showFilters;
 			}
@@ -358,6 +368,9 @@
 			}
 			elseif( $field === 'canSort' ) {
 				$this->canSort = (bool)$value;
+			}
+			elseif( $field === 'canFilter' ) {
+				$this->canFilter = (bool)$value;
 			}
 			elseif( $field === 'canChangeOrder' ) {
 				$this->canChangeOrder = (bool)$value;
@@ -634,7 +647,7 @@
 			if($this->events->contains( $filter_event )) {
 				$this->events->raise( $filter_event, $this );
 			}
-			else {
+			elseif($this->canFilter) {
 				// filter DataSet
 				$this->columns->filterDataSet( $this->dataSource );
 
@@ -660,7 +673,7 @@
 				}
 			}
 
-			if($update) {
+			if($update && \Rum::requestHandler()->isAjaxPostBack) {
 				$this->updateAjax();
 			}
 		}
