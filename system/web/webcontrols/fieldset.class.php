@@ -116,6 +116,21 @@
 
 
 		/**
+		 * Event called on ajax callback
+		 *
+		 * @return void
+		 */
+		protected function onUpdateAjax()
+		{
+			// loop through input controls
+			foreach( $this->controls as $childControl )
+			{
+				$childControl->updateAjax();
+			}
+		}
+
+
+		/**
 		 * sets focus to the control
 		 *
 		 * @return bool			True if changed

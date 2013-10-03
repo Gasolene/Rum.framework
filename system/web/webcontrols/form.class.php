@@ -688,6 +688,21 @@
 
 
 		/**
+		 * Event called on ajax callback
+		 *
+		 * @return void
+		 */
+		protected function onUpdateAjax()
+		{
+			// loop through input controls
+			foreach( $this->controls as $childControl )
+			{
+				$childControl->updateAjax();
+			}
+		}
+
+
+		/**
 		 * set postback state on all child controls
 		 *
 		 * @param  bool $ajaxPostBack postback state
