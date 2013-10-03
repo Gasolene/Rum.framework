@@ -202,5 +202,16 @@
 
 			parent::onRequest( $request );
 		}
+
+
+		/**
+		 * Event called on ajax callback
+		 *
+		 * @return void
+		 */
+		protected function onUpdateAjax()
+		{
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').value='$this->text';");
+		}
 	}
 ?>
