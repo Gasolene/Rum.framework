@@ -166,6 +166,7 @@
 			{
 				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$this->getHTMLControlId()}').options.add(new Option('{$key}', '{$value}'));");
 			}
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("document.getElementById('{$this->getHTMLControlId()}').value='{$this->value}';");
 		}
 	}
 ?>
