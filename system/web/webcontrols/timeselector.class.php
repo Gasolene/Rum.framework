@@ -337,5 +337,16 @@
 
 			return $editRegion;
 		}
+
+
+		/**
+		 * Event called on ajax callback
+		 *
+		 * @return void
+		 */
+		protected function onUpdateAjax()
+		{
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("console.log('TimeSelector has no update ajax implementation');");
+		}
 	}
 ?>
