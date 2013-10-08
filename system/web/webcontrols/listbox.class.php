@@ -165,6 +165,7 @@
 			{
 				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').options.add(new Option('{$key}', '{$value}'));");
 			}
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').value='{$this->value}';");
 		}
 	}
 ?>
