@@ -186,6 +186,10 @@
 				$html = "'<select name=\"{$parameter}_null\" class=\"listbox\">";
 				foreach($this->items as $key=>$value)
 				{
+					if(is_array($value)) {
+						$key = $value[$this->textField];
+						$value = $value[$this->valueField];
+					}
 					$value = \Rum::escape($value, ENT_QUOTES);
 					$key = \Rum::escape($key, ENT_QUOTES);
 
