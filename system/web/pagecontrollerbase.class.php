@@ -258,13 +258,6 @@
 
 
 			/**
-			 * onPreRender event
-			 * update all components with data from the request
-			**/
-			$this->page->preRender();
-
-
-			/**
 			 * Save Viewstate
 			 * save the state of all components in a persistant layer
 			**/

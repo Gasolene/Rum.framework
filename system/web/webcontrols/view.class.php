@@ -355,6 +355,9 @@
 		 */
 		public function render( array $args = array() )
 		{
+			// Do pre render stuff
+			$this->preRender();
+
 			// lock object
 			$this->_locked = true;
 
