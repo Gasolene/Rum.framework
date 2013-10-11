@@ -12,7 +12,6 @@
 	 * Provides base functionality for Input Controls
 	 *
 	 * @property string $defaultHTMLControlId Specifies the id of the default html control
-	 * @property string $dataField Name of the data field in the datasource
 	 * @property bool $autoPostBack Specifies whether form will perform postback on change, Default is false
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $ajaxValidation specifies whether to perform ajax validation, Default is false
@@ -21,7 +20,6 @@
 	 * @property string $label Specifies control label
 	 * @property string $tooltip Specifies control tooltip
 	 * @property int $tabIndex Specifies the tab order if the control
-	 * @property string $value Gets or sets value of control
 	 * @property bool $submitted Specifies whether the data has been submitted
 	 * @property bool $changed Specifies whether the data has been changed
 	 * @property array $validators Array of validators
@@ -30,20 +28,8 @@
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
 	 */
-	abstract class InputBase extends WebControlBase
+	abstract class InputBase extends DataFieldControlBase
 	{
-		/**
-		 * specifies the id of the default html control
-		 * @var string
-		 */
-		protected $defaultHTMLControlId		= "";
-
-		/**
-		 * Name of the data field in the datasource
-		 * @var string
-		 */
-		protected $dataField				= '';
-
 		/**
 		 * Specifies whether form will submit postback on change, Default is false
 		 * @var bool
@@ -75,12 +61,6 @@
 		protected $disabled					= false;
 
 		/**
-		 * Specifies control label
-		 * @var string
-		 */
-		protected $label					= '';
-
-		/**
 		 * specifies control tool tip
 		 * @var string
 		 */
@@ -91,12 +71,6 @@
 		 * @var int
 		 */
 		protected $tabIndex					= 0;
-
-		/**
-		 * Gets or sets value of control
-		 * @var string
-		 */
-		protected $value					= null;
 
 		/**
 		 * Specifies whether the data has been submitted
@@ -117,10 +91,15 @@
 		protected $validators				= null;
 
 		/**
-		 * instance of the Form object
-		 * @var Form
+		 * Specifies control label
+		 * @ignore
 		 */
-		private $_form						= null;
+		protected $label					= '';
+		/**
+		 * specifies the id of the default html control
+		 * @ignore
+		 */
+		protected $defaultHTMLControlId		= "";
 
 
 		/**
@@ -135,11 +114,9 @@
 		 */
 		public function __construct( $controlId, $default = null )
 		{
-			parent::__construct( $controlId );
+			parent::__construct( $controlId, $default );
 
-			$this->value       = $default;
-			$this->label       = str_replace( '_', ' ', \ucwords( $controlId ));
-			$this->dataField   = $controlId;
+			$this->label       = str_replace( '_', ' ', \ucwords( $controlId )); // Deprecated
 			$this->validators  = new \System\Validators\ValidatorCollection($this);
 
 			// event handling
@@ -185,10 +162,8 @@
 		 */
 		public function __get( $field ) {
 			if( $field === 'defaultHTMLControlId' ) {
+				trigger_error("InputBase::label is deprecated", E_USER_DEPRECATED);
 				return $this->defaultHTMLControlId;
-			}
-			elseif( $field === 'dataField' ) {
-				return $this->dataField;
 			}
 			elseif( $field === 'onPost' ) {
 				return $this->onPost;
@@ -220,9 +195,6 @@
 			elseif( $field === 'tabIndex' ) {
 				return $this->tabIndex;
 			}
-			elseif( $field === 'value' ) {
-				return $this->value;
-			}
 			elseif( $field === 'submitted' ) {
 				return $this->submitted;
 			}
@@ -247,10 +219,7 @@
 		 * @ignore
 		 */
 		public function __set( $field, $value ) {
-			if( $field === 'dataField' ) {
-				$this->dataField = (string)$value;
-			}
-			elseif( $field === 'onPost' ) {
+			if( $field === 'onPost' ) {
 				$this->onPost = (string)$value;
 			}
 			elseif( $field === 'onChange' ) {
@@ -272,6 +241,7 @@
 				$this->disabled = (bool)$value;
 			}
 			elseif( $field === 'label' ) {
+				trigger_error("InputBase::label is deprecated", E_USER_DEPRECATED);
 				$this->label = (string)$value;
 			}
 			elseif( $field === 'tooltip' ) {
@@ -279,9 +249,6 @@
 			}
 			elseif( $field === 'tabIndex' ) {
 				$this->tabIndex = (int)$value;
-			}
-			elseif( $field === 'value' ) {
-				$this->value = $value;
 			}
 			else {
 				parent::__set( $field, $value );
@@ -384,39 +351,6 @@
 
 
 		/**
-		 * update data source with Control value
-		 *
-		 * @param  \ArrayAccess $ds data source to fill
-		 * @return void
-		 */
-		final public function fillDataSource( \ArrayAccess &$ds )
-		{
-			if( isset( $ds[$this->dataField] ))
-			{
-				$ds[$this->dataField] = $this->value;
-			}
-		}
-
-
-		/**
-		 * update Control value with data from the data source
-		 *
-		 * @param  \ArrayAccess $ds data source to read
-		 * @return void
-		 */
-		final public function readDataSource( \ArrayAccess &$ds )
-		{
-			if( isset( $ds[$this->dataField] ))
-			{
-				if(!is_null($ds[$this->dataField]))
-				{
-					$this->value = $ds[$this->dataField];
-				}
-			}
-		}
-
-
-		/**
 		 * returns an input DomObject representing control
 		 *
 		 * @return DomObject
@@ -481,21 +415,6 @@
 
 
 		/**
-		 * bind control to datasource
-		 * gets record from dataobject and sets the control value to datafield value
-		 *
-		 * @return bool			true if successfull
-		 */
-		protected function onDataBind()
-		{
-			if( isset( $this->dataSource[$this->dataField] ))
-			{
-				$this->value = $this->dataSource[$this->dataField];
-			}
-		}
-
-
-		/**
 		 * called when control is initiated
 		 *
 		 * @return void
@@ -503,17 +422,6 @@
 		protected function onInit()
 		{
 			$this->defaultHTMLControlId = $this->getHTMLControlId();
-		}
-
-
-		/**
-		 * called when control is loaded
-		 *
-		 * @return void
-		 */
-		protected function onLoad()
-		{
-			$this->_form = $this->getParentByType( '\System\Web\WebControls\Form' );
 		}
 
 
