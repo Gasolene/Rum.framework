@@ -96,6 +96,23 @@
 
 		/**
 		 * set column
+		 * @param GridViewColumn $column column
+		 * @return void
+		 */
+		final public function setColumn(GridViewColumn &$column)
+		{
+			parent::setColumn($column);
+
+			if(!$this->textField && $this->valueField && $column instanceof GridViewDropDownList)
+			{
+				$this->textField = $column->textField;
+				$this->valueField = $column->valueField;
+			}
+		}
+
+
+		/**
+		 * set column
 		 * @param array $values array of values
 		 * @return void
 		 */
