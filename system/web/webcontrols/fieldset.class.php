@@ -17,6 +17,7 @@
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
+	 * @ignore
 	 *
 	 */
 	class Fieldset extends WebControlBase
@@ -37,6 +38,8 @@
 		 */
 		public function __construct( $controlId )
 		{
+			trigger_error("Fieldset is deprecated", E_USER_DEPRECATED);
+
 			parent::__construct( $controlId );
 
 			$this->legend = $controlId;

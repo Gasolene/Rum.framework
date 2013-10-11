@@ -295,14 +295,6 @@
 		final public function add( WebControlBase $control )
 		{
 			return parent::addControl($control);
-//			if( $control instanceof InputBase || $control instanceof Fieldset )
-//			{
-//				return parent::addControl($control);
-//			}
-//			else
-//			{
-//				throw new \System\Base\InvalidArgumentException("Argument 1 passed to ".get_class($this)."::add() must be an object of type InputBase or Fieldset");
-//			}
 		}
 
 
@@ -331,7 +323,10 @@
 				// loop through child controls
 				foreach( $this->controls as $childControl )
 				{
-					$childControl->fillDataSource( $this->dataSource );
+					if( $childControl instanceof DataFieldControlBase )
+					{
+						$childControl->fillDataSource( $this->dataSource );
+					}
 				}
 
 				if( $this->dataSource instanceof \System\DB\DataSet )
@@ -368,9 +363,12 @@
 			$valid = true;
 			for($i = 0; $i < $this->controls->count; $i++)
 			{
-				if( !$this->controls[$i]->validate( $errMsg, $controlToFocus ))
+				if( $this->controls[$i] instanceof InputBase )
 				{
-					$valid = false;
+					if( !$this->controls[$i]->validate( $errMsg, $controlToFocus ))
+					{
+						$valid = false;
+					}
 				}
 			}
 
@@ -427,6 +425,8 @@
 		 */
 		public function getDomObject()
 		{
+			trigger_error("Form::render() is deprecated", E_USER_DEPRECATED);
+
 			$form = $this->getFormDomObject();
 			$buttons = array();
 			$fieldset = '';
@@ -644,8 +644,11 @@
 			elseif( $this->autoFocus && isset( $this->controls[0] ))
 			{
 				// auto focus first control
-				$childControl = $this->controls[0];
-				$childControl->focus();
+				if( $this->controls[0] instanceof InputBase) // KLUDGE: Clean in case not first control
+				{
+					$childControl = $this->controls[0];
+					$childControl->focus();
+				}
 			}
 		}
 
@@ -682,7 +685,10 @@
 			// loop through input controls
 			foreach( $this->controls as $childControl )
 			{
-				$childControl->readDataSource( $this->dataSource );
+				if( $childControl instanceof DataFieldControlBase )
+				{
+					$childControl->readDataSource( $this->dataSource );
+				}
 			}
 		}
 
@@ -713,7 +719,10 @@
 			$this->ajaxPostBack = (bool)$ajaxPostBack;
 			foreach( $this->controls as $childControl )
 			{
-				$childControl->ajaxPostBack = (bool)$ajaxPostBack;
+				if( $childControl instanceof InputBase )
+				{
+					$childControl->ajaxPostBack = (bool)$ajaxPostBack;
+				}
 			}
 		}
 
@@ -729,7 +738,10 @@
 			$this->ajaxValidation = (bool)$ajaxValidation;
 			foreach( $this->controls as $childControl )
 			{
-				$childControl->ajaxValidation = (bool)$ajaxValidation;
+				if( $childControl instanceof InputBase )
+				{
+					$childControl->ajaxValidation = (bool)$ajaxValidation;
+				}
 			}
 		}
 	}
