@@ -300,7 +300,7 @@
 						$this->page->loadAjaxJScriptBuffer("Rum.flash( '".\str_replace("\n", '', \str_replace("\r", '', \addslashes($msg->message)))."', '".\strtolower($msg->type)."');");
 					}
 
-					\System\Web\WebApplicationBase::getInstance()->messages->removeAll();
+					//\System\Web\WebApplicationBase::getInstance()->messages->removeAll();
 				}
 
 				if(\System\Web\WebApplicationBase::getInstance()->forwardURI)
