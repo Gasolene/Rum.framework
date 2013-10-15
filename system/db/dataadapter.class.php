@@ -337,12 +337,29 @@
 		/**
 		 * Executes a query procedure on the current connection
 		 *
-		 * @param  string		$query		query to execute
+		 * @param  string	$query	SQL statement
 		 * @return void
 		 */
 		final public function execute( $query )
 		{
 			$this->runQuery((string)$query);
+		}
+
+
+		/**
+		 * prepare an SQL statement
+		 * Creates a prepared statement bound to parameters specified by the @symbol
+		 * e.g. SELECT * FROM `table` WHERE user=@user
+		 *
+		 * @param  string	$statement	SQL statement
+		 * @param  array	$parameters	array of parameters to bind
+		 * @return SQLStatement
+		 */
+		public function prepare($statement, array $parameters = array())
+		{
+			$sqlStatement = new SQLStatement($this);
+			$sqlStatement->prepare($statement, $parameters);
+			return $sqlStatement;
 		}
 
 

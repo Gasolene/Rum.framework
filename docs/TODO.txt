@@ -4,10 +4,11 @@ TODO
 	[Due in 6.6]
 	- Column ctors should be identical
 		- ActiveRecord column mapping
-	- Form::render() no fieldset, buttons div
-	- remove ActiveRecordBase::form() submit button
+		- ActiveRecord filter mapping??
+	- Rem classes from WebControls
+	- Rem focus from WebControls
 
-	[Due in 6.6.1]
+	[Features]
 	- combine css/js theme files into a single file
 	- migration tests
 	- User Preferences
