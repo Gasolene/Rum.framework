@@ -290,6 +290,9 @@
 		{
 			$this->_loaded = true;
 			$this->onLoad();
+			if($this->filter) {
+				$this->filter->load();
+			}
 		}
 
 

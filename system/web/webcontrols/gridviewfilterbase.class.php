@@ -97,6 +97,14 @@
 
 
 		/**
+		 * handle load events
+		 *
+		 * @return void
+		 */
+		protected function onLoad() {}
+
+
+		/**
 		 * read view state from session
 		 *
 		 * @param  array	&$viewState	session data
@@ -109,6 +117,18 @@
 			{
 				$this->value = $viewState["f_{$this->column->dataField}"];
 			}
+		}
+
+
+		/**
+		 * called when all controls are loaded
+		 *
+		 * @param  array	&$request	request data
+		 * @return void
+		 */
+		final public function load()
+		{
+			$this->onLoad();
 		}
 
 

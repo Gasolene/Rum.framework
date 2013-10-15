@@ -95,18 +95,24 @@
 
 
 		/**
-		 * set column
-		 * @param GridViewColumn $column column
+		 * handle load events
+		 *
 		 * @return void
 		 */
-		final public function setColumn(GridViewColumn &$column)
+		protected function onLoad()
 		{
-			parent::setColumn($column);
-
-			if(!$this->textField && $this->valueField && $column instanceof GridViewDropDownList)
+			if(!$this->textField && !$this->valueField)
 			{
-				$this->textField = $column->textField;
-				$this->valueField = $column->valueField;
+				if($this->column instanceof GridViewDropDownList)
+				{
+					$this->textField = $this->column->textField;
+					$this->valueField = $this->column->valueField;
+				}
+				else
+				{
+					$this->textField = $this->column->dataField;
+					$this->valueField = $this->column->dataField;
+				}
 			}
 		}
 

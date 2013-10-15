@@ -56,6 +56,8 @@
 			parent::__construct( $dataField, $pkey, $parameter, $headerText, $footerText, $className );
 
 			$this->items = new ListItemCollection($values);
+			$this->textField = $dataField;
+			$this->valueField = $dataField;
 		}
 
 
