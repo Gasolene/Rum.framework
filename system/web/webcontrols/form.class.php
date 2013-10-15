@@ -289,7 +289,7 @@
 		/**
 		 * adds child control to collection
 		 *
-		 * @param  InputBase		&$control		instance of an InputBase
+		 * @param  DataFieldControlBase		&$control		instance of an DataFieldControlBase
 		 * @return void
 		 */
 		final public function add( WebControlBase $control )
@@ -323,7 +323,7 @@
 				// loop through child controls
 				foreach( $this->controls as $childControl )
 				{
-					if( $childControl instanceof DataFieldControlBase )
+					if( $childControl instanceof DataFieldControlBase || $childControl instanceof Fieldset ) // TODO: Rem backwards compatability code
 					{
 						$childControl->fillDataSource( $this->dataSource );
 					}
@@ -363,7 +363,7 @@
 			$valid = true;
 			for($i = 0; $i < $this->controls->count; $i++)
 			{
-				if( $this->controls[$i] instanceof InputBase )
+				if( $this->controls[$i] instanceof InputBase || $this->controls[$i] instanceof Fieldset ) // TODO: Rem backwards compatability code
 				{
 					if( !$this->controls[$i]->validate( $errMsg, $controlToFocus ))
 					{
@@ -644,7 +644,8 @@
 			elseif( $this->autoFocus && isset( $this->controls[0] ))
 			{
 				// auto focus first control
-				if( $this->controls[0] instanceof InputBase) // KLUDGE: Clean in case not first control
+				// TODO: rem backwards code
+				if( $this->controls[0] instanceof InputBase || $this->controls[0] instanceof Fieldset ) // KLUDGE: Clean in case not first control
 				{
 					$childControl = $this->controls[0];
 					$childControl->focus();
