@@ -39,18 +39,20 @@
 		 * @var array
 		 */
 		static protected $field_mappings = array(
-			'binary' => 'System\Web\WebControls\FileBrowser',
+			'binary' => 'System\Web\WebControls\File',
 			'blob' => 'System\Web\WebControls\TextArea',
 			'boolean' => 'System\Web\WebControls\CheckBox',
-			'date' => 'System\Web\WebControls\DateSelector',
-			'datetime' => 'System\Web\WebControls\DateTimeSelector',
+			'date' => 'System\Web\WebControls\Date',
+			'datetime' => 'System\Web\WebControls\DateTime',
+			'email' => 'System\Web\WebControls\Email',
 			'enum' => 'System\Web\WebControls\DropDownList',
-			'integer' => 'System\Web\WebControls\TextBox',
-			'numeric' => 'System\Web\WebControls\TextBox',
-			'real' => 'System\Web\WebControls\TextBox',
+			'integer' => 'System\Web\WebControls\Text',
+			'numeric' => 'System\Web\WebControls\Text',
+			'real' => 'System\Web\WebControls\Text',
 			'ref' => 'System\Web\WebControls\DropDownList',
-			'string' => 'System\Web\WebControls\TextBox',
-			'time' => 'System\Web\WebControls\TimeSelector'
+			'string' => 'System\Web\WebControls\Text',
+			'tel' => 'System\Web\WebControls\Tel',
+			'time' => 'System\Web\WebControls\Time'
 		);
 
 		/**
@@ -63,12 +65,14 @@
 			'boolean' => 'System\Web\WebControls\GridViewCheckBox',
 			'date' => 'System\Web\WebControls\GridViewTextBox',
 			'datetime' => 'System\Web\WebControls\GridViewTextBox',
+			'email' => 'System\Web\WebControls\GridViewTextBox',
 			'enum' => 'System\Web\WebControls\GridViewDropDownMenu',
 			'integer' => 'System\Web\WebControls\GridViewTextBox',
 			'numeric' => 'System\Web\WebControls\GridViewTextBox',
 			'real' => 'System\Web\WebControls\GridViewTextBox',
 			'ref' => 'System\Web\WebControls\GridViewDropDownMenu',
 			'string' => 'System\Web\WebControls\GridViewTextBox',
+			'tel' => 'System\Web\WebControls\GridViewTextBox',
 			'time' => 'System\Web\WebControls\GridViewTextBox',
 		);
 
