@@ -101,7 +101,7 @@
 		 * @param  InputBase		&$control		instance of an InputBase
 		 * @return void
 		 */
-		final public function add( InputBase $control )
+		final public function add( DataFieldControlBase $control )
 		{
 			return parent::addControl($control);
 		}

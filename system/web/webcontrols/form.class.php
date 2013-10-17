@@ -686,7 +686,7 @@
 			// loop through input controls
 			foreach( $this->controls as $childControl )
 			{
-				if( $childControl instanceof DataFieldControlBase )
+				if( $childControl instanceof DataFieldControlBase || $childControl instanceof Fieldset ) // TODO: Remove backwards compatibility code
 				{
 					$childControl->readDataSource( $this->dataSource );
 				}
