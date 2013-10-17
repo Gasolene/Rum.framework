@@ -20,7 +20,7 @@
 		 * specifies control tool tip
 		 * @var string
 		 */
-		protected $tooltip					= 'Enter a date range';
+		protected $tooltip					= 'Select a date range';
 
 
 		/**

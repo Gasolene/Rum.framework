@@ -81,6 +81,26 @@
 		/**
 		 * this.to send a xmlhttp request.
 		 */
+		this.getParams = function( element ) {
+			var params = '';
+			var inputs = element.getElementsByTagName('input');
+			var selects = element.getElementsByTagName('select');
+			for (x=0;x<inputs.length;x++) {
+				if(params) params = params + '&';
+				params = params + inputs[x].getAttribute('name') + '=' + inputs[x].getAttribute('value');
+			}
+			for (x=0;x<selects.length;x++) {
+				if(params) params = params + '&';
+				params = params + selects[x].getAttribute('name') + '=' + selects[x].getAttribute('value');
+			}
+			alert(params);
+			return params;
+		}
+
+
+		/**
+		 * this.to send a xmlhttp request.
+		 */
 		this.sendAsync = function( url, params, method ) {
 
 			http_request = this.createXMLHttpRequest();

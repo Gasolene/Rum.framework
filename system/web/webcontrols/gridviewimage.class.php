@@ -9,7 +9,7 @@
 
 
 	/**
-	 * Represents a GridView image
+	 * Represents a GridView Image
 	 * 
 	 * @package			PHPRum
 	 * @subpackage		Web

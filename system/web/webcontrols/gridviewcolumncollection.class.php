@@ -254,7 +254,7 @@
 			{
 				if( $this->items[$i]->dataField == $dataField )
 				{
-					$this->items[$i];
+					return $this->items[$i];
 				}
 			}
 			return null;

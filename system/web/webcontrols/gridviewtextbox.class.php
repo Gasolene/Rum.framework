@@ -32,11 +32,11 @@
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input name=\"{$parameter}\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" />'";
+				return "'<input name=\"{$parameter}\" type=\"text\" value=\"'.%{$dataField}%.'\" class=\"textbox\" />'";
 			}
 		}
 
@@ -56,10 +56,10 @@
 				{
 					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 					$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
-					return "'<input name=\"{$parameter}_null\" type=\"text\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+					return "'<input name=\"{$parameter}\" type=\"text\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 				}
 				*/
-				return "'<input name=\"{$parameter}_null\" type=\"text\" class=\"textbox\" />'";			}
+				return "'<input name=\"{$parameter}\" type=\"text\" class=\"textbox\" />'";			}
 			else
 			{
 				return $this->footerText;

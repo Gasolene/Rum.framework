@@ -30,11 +30,11 @@
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"date\" value=\"'.%{$dataField}%.'\" class=\"date\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input name=\"{$parameter}\" type=\"date\" value=\"'.%{$dataField}%.'\" class=\"date\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"date\" value=\"'.%{$dataField}%.'\" class=\"date\" />'";
+				return "'<input name=\"{$parameter}\" type=\"date\" value=\"'.%{$dataField}%.'\" class=\"date\" />'";
 			}
 		}
 
@@ -49,7 +49,7 @@
 		{
 			if( !$this->footerText )
 			{
-				return "'<input name=\"{$parameter}_null\" type=\"date\" class=\"date\" />'";
+				return "'<input name=\"{$parameter}\" type=\"date\" class=\"date\" />'";
 			}
 			else
 			{

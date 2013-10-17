@@ -9,7 +9,7 @@
 
 
 	/**
-	 * Represents a GridView Date
+	 * Represents a GridView DateTime
 	 * 
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -30,11 +30,11 @@
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"datetime\" value=\"'.%{$dataField}%.'\" class=\"datetime\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input name=\"{$parameter}\" type=\"datetime\" value=\"'.%{$dataField}%.'\" class=\"datetime\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}_'.%{$this->pkey}%.'\" type=\"datetime\" value=\"'.%{$dataField}%.'\" class=\"datetime\" />'";
+				return "'<input name=\"{$parameter}\" type=\"datetime\" value=\"'.%{$dataField}%.'\" class=\"datetime\" />'";
 			}
 		}
 
@@ -49,7 +49,7 @@
 		{
 			if( !$this->footerText )
 			{
-				return "'<input name=\"{$parameter}_null\" type=\"datetime\" class=\"datetime\" />'";
+				return "'<input name=\"{$parameter}\" type=\"datetime\" class=\"datetime\" />'";
 			}
 			else
 			{

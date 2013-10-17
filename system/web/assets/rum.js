@@ -1,1 +1,466 @@
-var Rum=new function(){var asyncParam="",validationTimeout=10,validationReady=!0;this.init=function(e,t){asyncParam=e,validationTimeout=t},this.id=function(e){return document.getElementById(e)},this.flash=function(e,t){if(this.id("messages")){var s=document.createElement("a"),i=document.createElement("li"),a=document.createTextNode(e);i.setAttribute("class",t),s.appendChild(document.createTextNode(" dismiss")),s.setAttribute("class","dismiss"),s.setAttribute("title","Dismiss"),addListener(s,"click",function(){i.style.display="none"}),i.appendChild(a),i.appendChild(s),this.id("messages").appendChild(i)}},this.unflashAll=function(){if(this.id("messages")){var e=this.id("messages").childNodes;for(i=0;i<e.length;i++)e[i].parentNode.removeChild(e[i])}},this.forward=function(e){location.href=e},this.sendAsync=function(e,t,s){http_request=this.createXMLHttpRequest(),this.sendAsyncWithCallback(http_request,e,t,s)},this.sendSync=function(e,t,s){if(null==s&&(s="GET"),null==t&&(t=""),"GET"==s.toUpperCase()&&t)e=e.indexOf("?")>-1?e+"&"+t:e+"?"+t,t="",location.href=e;else{t=t.split("&");var i=document.createElement("form");i.action=e+"/",i.method="POST",i.style.display="none";for(var a=0;a<t.length;a++){param=t[a].split("=");var o=document.createElement("input");o.setAttribute("name",param[0]),o.setAttribute("value",param[1]),i.appendChild(o)}document.body.appendChild(i),i.submit()}},this.submit=function(e){var t=evalFormResponse;return createFrame(e,t),!0},this.sendAsyncWithCallback=function(http_request,url,params,method,callback){null==method&&(method="GET"),params?params+="&"+asyncParam+"=1":params="?"+asyncParam+"=1","GET"==method.toUpperCase()&&params&&(url=url.indexOf("?")>-1?url+"&"+params:url+"?"+params,params=""),null!=callback&&eval("http_request.onreadystatechange="+callback),http_request.open(method,url,!0),http_request.setRequestHeader("Content-type","application/x-www-form-urlencoded"),http_request.send(params)},this.evalAsync=function(e,t,s){http_request=this.createXMLHttpRequest(),null===http_request&&console.log("browser does not support HTTP Request");var i=function(){evalHttpResponse(http_request)};this.sendAsyncWithCallback(http_request,e,t,s,i)},this.documentLoaded=function(e,t){var s=document.getElementById(t)?document.getElementById(t):"",i=null;if(s.contentDocument)i=s.contentDocument;else{if(!s.contentWindow)return;i=s.contentWindow.document}"about:blank"!=i.location.href&&s.completeCallback(e,i.body.textContent)},this.assert=function(e,t){this.id(e)&&(-1===this.id(e).className.indexOf(" invalid")&&(this.id(e).className=this.id(e).className+" invalid"),setText(this.id(e+"__err"),t)),this.reset()},this.clear=function(e){this.id(e)&&(this.id(e+"__err")&&(this.id(e+"__err").style.display="none"),this.id(e).className=this.id(e).className.replace(" invalid","")),this.reset()},this.reset=function(){validationReady=!1,window.setTimeout("setValidationReady()",validationTimeout)},this.isReady=function(e){return hasText(this.id(e))?validationReady:!1},this.createXMLHttpRequest=function(){if(window.XMLHttpRequest)http_request=new XMLHttpRequest,http_request.overrideMimeType&&http_request.overrideMimeType("text/html");else if(window.ActiveXObject)try{http_request=new ActiveXObject("Msxml2.XMLHTTP")}catch(e){try{http_request=new ActiveXObject("Microsoft.XMLHTTP")}catch(e){}}return http_request?http_request:(alert("Cannot create XMLHTTP instance"),!1)},setValidationReady=function(){validationReady=!0},getHttpResponse=function(e){if(e&&4==e.readyState){if(200==e.status)return response=e.responseText;throw"Problem retrieving XML data"}},evalHttpResponse=function(http_request){eval(getHttpResponse(http_request))},evalFormResponse=function(formElement,response){eval(response),formElement.removeChild(Rum.id(formElement.getAttribute("id")+"__async")),formElement.setAttribute("target","")},createFrame=function(e,t){var s="f"+Math.floor(99999*Math.random()),i=document.createElement("DIV"),a=document.getElementById(e.getAttribute("id")+"__async_postback");a&&a.parentNode.removeChild(a),i.id=e.getAttribute("id")+"__async_postback",i.innerHTML='<iframe style="display:none" src="about:blank" id="'+s+'" name="'+s+'" onload="Rum.documentLoaded(Rum.id(\''+e.getAttribute("id")+"'), '"+s+"'); return true;\"></iframe>",document.body.appendChild(i);var o=document.getElementById(s);o.completeCallback=t;var r=document.createElement("input");r.setAttribute("type","hidden"),r.setAttribute("name",asyncParam),r.setAttribute("value","1"),r.setAttribute("id",e.getAttribute("id")+"__async"),e.appendChild(r),e.setAttribute("target",s)},setText=function(e,t){if(e){if(e.hasChildNodes())for(;e.childNodes.length>=1;)e.removeChild(e.firstChild);var s=document.createElement("span");t.length>0?(s.appendChild(document.createTextNode(t)),e.style.display="block"):(s.appendChild(document.createTextNode("")),e.style.display="none"),e.appendChild(s)}},hasText=function(e){return e&&e.hasChildNodes()&&e.childNodes.length>=1&&e.childNodes[0].textContent.length>0?!0:null},addListener=function(e,t,s){e.addEventListener?e.addEventListener(t,s,!1):e.attachEvent?e.attachEvent("on"+t,s):e["on"+t]=s}};
+
+
+	/**
+	 * Initialize namespace
+	 */
+	var Rum = new function() {
+
+		/**
+		 * Specifies the asyncronous request parameter
+		 */
+		var asyncParam = '';
+
+		/**
+		 * Specifies the validation timeout
+		 */
+		var validationTimeout = 10;
+
+		/**
+		 * Specifies whether a asyncronous validation attempt is ready
+		 */
+		var validationReady = true;
+
+		/**
+		 * Function to get a XMLDom object
+		 */
+		this.init = function(param, timeout) {
+			asyncParam = param;
+			validationTimeout = timeout;
+		};
+
+		/**
+		 * Function to get a XMLDom object
+		 */
+		this.id = function(id) {
+			return document.getElementById(id);
+		};
+
+
+		/**
+		 * Function to flash a new message
+		 */
+		this.flash = function(message, type) {
+			if(this.id('messages')) {
+				var a = document.createElement('a');
+				var li = document.createElement('li');
+				var text = document.createTextNode(message);
+				li.setAttribute('class', type);
+				a.appendChild(document.createTextNode(' dismiss'));
+				a.setAttribute('class', 'dismiss');
+				a.setAttribute('title', 'Dismiss');
+				addListener(a, 'click', function(){li.style.display='none';});
+				li.appendChild(text);
+				li.appendChild(a);
+				this.id('messages').appendChild(li);
+			}
+		};
+
+
+		/**
+		 * this.to clear all flash messages
+		 */
+		this.unflashAll = function() {
+			if(this.id('messages')) {
+				var messages = this.id('messages').childNodes;
+				for(i=0;i<messages.length;i++)
+				{
+					messages[i].parentNode.removeChild(messages[i]);
+				}
+			}
+		};
+
+
+		/**
+		 * this.to forward
+		 */
+		this.forward = function(url) {
+			location.href=url;
+		};
+
+
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.getParams = function( element ) {
+			var params = '';
+			var inputs = element.getElementsByTagName('input');
+			var selects = element.getElementsByTagName('select');
+			for (x=0;x<inputs.length;x++) {
+				if(params) params = params + '&';
+				params = params + inputs[x].getAttribute('name') + '=' + inputs[x].getAttribute('value');
+			}
+			for (x=0;x<selects.length;x++) {
+				if(params) params = params + '&';
+				params = params + selects[x].getAttribute('name') + '=' + selects[x].getAttribute('value');
+			}
+			alert(params);
+			return params;
+		}
+
+
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.sendAsync = function( url, params, method ) {
+
+			http_request = this.createXMLHttpRequest();
+			this.sendAsyncWithCallback(http_request, url, params, method);
+		}
+
+
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.sendSync = function( url, params, method ) {
+
+			if (method == null){
+				method = 'GET';
+			}
+			if (params == null){
+				params = '';
+			}
+
+			if (method.toUpperCase() == 'GET' && params){
+				if( url.indexOf( '?' ) > -1 ) {
+					url = url + '&' + params;
+				}
+				else {
+					url = url + '?' + params;
+				}
+				params = '';
+
+				location.href = url;
+			}
+			else
+			{
+				params = params.split('&');
+				var temp=document.createElement("form");
+				temp.action=url+'/';
+				temp.method="POST";
+				temp.style.display="none";
+				for(var x = 0; x < params.length; x++)
+				{
+					param = params[x].split('=');
+					var input=document.createElement("input");
+					input.setAttribute('name', param[0]);
+					input.setAttribute('value', param[1]);
+					temp.appendChild(input);
+				}
+
+				document.body.appendChild(temp);
+				temp.submit();
+			}
+		};
+
+
+		/**
+		 * this.to submit html forms
+		 */
+		this.submit = function(formElement) {
+
+			var callback = evalFormResponse;
+			createFrame(formElement, callback);
+			return true;
+		};
+
+
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.sendAsyncWithCallback = function( http_request, url, params, method, callback ) {
+
+			if (method == null){
+				method = 'GET';
+			}
+
+			if(params) {
+				params += '&'+asyncParam+'=1';
+			}
+			else {
+				params = '?'+asyncParam+'=1';
+			}
+
+			if (method.toUpperCase() == 'GET' && params){
+				if( url.indexOf( '?' ) > -1 ) {
+					url = url + '&' + params;
+				}
+				else {
+					url = url + '?' + params;
+				}
+				params = '';
+			}
+
+			if (callback != null){
+				eval( 'http_request.onreadystatechange=' + callback );
+			}
+
+			http_request.open(method, url, true);
+			http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			//http_request.setRequestHeader("Content-length", params.length);
+			//http_request.setRequestHeader("Connection", "close");
+			http_request.send( params );
+		};
+
+
+		/**
+		 * this.to send a xmlhttp request.
+		 */
+		this.evalAsync = function( url, params, method ) {
+
+			http_request = this.createXMLHttpRequest();
+
+                        if(http_request === null) {
+                            console.log('browser does not support HTTP Request');
+                        }
+
+			var callback = function() { evalHttpResponse( http_request ); };
+			this.sendAsyncWithCallback(http_request, url, params, method, callback);
+		};
+
+
+		/**
+		 * this.to reset validation timer
+		 */
+		this.documentLoaded = function(formElement, iframeID) {
+
+                        //changed frameElement to allow IE10 to work was var frameElement = document.getElementById(iframeID);
+			var frameElement = (!document.getElementById(iframeID))?"":document.getElementById(iframeID);
+			var documentElement = null;
+
+			if (frameElement.contentDocument) {
+				documentElement = frameElement.contentDocument;
+			} else if (frameElement.contentWindow) {
+				documentElement = frameElement.contentWindow.document;
+			} else {
+                                return;
+                                //removed below to make this work in IE10
+				//documentElement = window.frames[iframeID].document;
+			}
+
+			if (documentElement.location.href == "about:blank") {
+				return;
+			}
+			//if (typeof(frameElement.completeCallback) == 'this.function =') {
+				frameElement.completeCallback(formElement, documentElement.body.textContent);
+			//}
+		};
+
+
+		/**
+		 * Funciton to assert a Validation Message
+		 */
+		this.assert = function(id, msg) {
+			if(this.id(id)) {
+				if(this.id(id).className.indexOf(" invalid") === -1) {
+					this.id(id).className = this.id(id).className + " invalid";
+				}
+				setText(this.id(id+"__err"), msg);
+			}
+			this.reset();
+		};
+
+
+		/**
+		 * Funciton to clear Validation Message
+		 */
+		this.clear = function( id ) {
+			if(this.id(id)) {
+				if(this.id(id+"__err")) {
+					this.id(id+"__err").style.display = "none";
+				}
+				this.id(id).className = this.id(id).className.replace(" invalid", "");
+			}
+			this.reset();
+		};
+
+
+		/**
+		 * this.to reset validation timer
+		 */
+		this.reset  = function() {
+			validationReady = false;
+			window.setTimeout('setValidationReady()', validationTimeout);
+		};
+
+
+		/**
+		 * this.to specify whether an asyncronous Validation attempt is ready
+		 */
+		this.isReady = function( id ) {
+			if(hasText(this.id(id))) {
+				return validationReady;
+			}
+			return false;
+		};
+
+
+		/**
+		 * Function to get a xmlhttp object.
+		 * @ignore
+		 */
+		this.createXMLHttpRequest = function() {
+			if (window.XMLHttpRequest) { // Mozilla, Safari,...
+				http_request = new XMLHttpRequest();
+
+				if (http_request.overrideMimeType) {
+					// set type accordingly to anticipated content type
+					// http_request.overrideMimeType('text/xml');
+					http_request.overrideMimeType('text/html');
+				}
+			} else if (window.ActiveXObject) { // IE
+				try {
+					http_request = new ActiveXObject("Msxml2.XMLHTTP");
+				} catch (e) {
+					try {
+						http_request = new ActiveXObject("Microsoft.XMLHTTP");
+					} catch (e) {}
+				}
+			}
+
+			if (!http_request) {
+				alert('Cannot create XMLHTTP instance');
+				return false;
+			}
+
+			return http_request;
+		};
+
+
+		/**
+		 * this.to set the Validation Ready flag
+		 */
+		setValidationReady = function() {
+			validationReady = true;
+		};
+
+
+		/**
+		 * this.to receive HTTP response
+		 */
+		getHttpResponse = function( http_request ) {
+
+			// if xmlhttp shows "loaded"
+			if (http_request) {
+				// if xmlhttp shows "loaded"
+				if (http_request.readyState==4) {
+					// if status "OK"
+					if (http_request.status==200) {
+						// get response
+						response = http_request.responseText;
+						return response;
+					}
+					else {
+						throw "Problem retrieving XML data";
+					}
+				}
+			}
+		};
+
+
+		/**
+		 * this.to parse HTTP response
+		 */
+		evalHttpResponse = function( http_request ) {
+			eval(getHttpResponse(http_request));
+		};
+
+
+		/**
+		 * this.to set the validation ready flag
+		 */
+		evalFormResponse = function(formElement, response) {
+			eval(response);
+			formElement.removeChild(Rum.id(formElement.getAttribute('id')+'__async'));
+			formElement.setAttribute('target', '');
+		};
+
+
+		/**
+		 * this.to create frame element
+		 */
+		createFrame = function(formElement, callback) {
+
+			var frameName = 'f' + Math.floor(Math.random() * 99999);
+			var divElement = document.createElement('DIV');
+			var iFrameElement = document.getElementById(formElement.getAttribute('id') + '__async_postback');
+
+			if(iFrameElement) {
+				iFrameElement.parentNode.removeChild(iFrameElement);
+			}
+
+			divElement.id = formElement.getAttribute('id') + '__async_postback'
+			divElement.innerHTML = '<iframe style="display:none" src="about:blank" id="'+frameName+'" name="'+frameName+'" onload="Rum.documentLoaded(Rum.id(\''+formElement.getAttribute('id')+'\'), \''+frameName+'\'); return true;"></iframe>';
+
+			document.body.appendChild(divElement);
+
+			var frameElement = document.getElementById(frameName);
+			//if (callback && typeof(callback) == 'this.function =') {
+				frameElement.completeCallback = callback;
+			//}
+
+			var input = document.createElement("input");
+			input.setAttribute("type", "hidden");
+			input.setAttribute("name", asyncParam);
+			input.setAttribute("value", "1");
+			input.setAttribute("id", formElement.getAttribute('id') + "__async");
+			formElement.appendChild(input);
+
+			formElement.setAttribute('target', frameName);
+		};
+
+
+		/**
+		 * this.to set text of an element
+		 */
+		setText = function( element, text, status ) {
+
+			if ( element ) {
+				if ( element.hasChildNodes() ) {
+					while ( element.childNodes.length >= 1 ) {
+						element.removeChild( element.firstChild );
+					}
+				}
+				var span = document.createElement('span');
+
+				if(text.length>0) {
+					span.appendChild(document.createTextNode(text));
+					element.style.display = 'block';
+				}
+				else {
+					span.appendChild(document.createTextNode(''));
+					element.style.display = 'none';
+				}
+
+				element.appendChild(span);
+			}
+		};
+
+
+		/**
+		 * this.to return if element contains text
+		 */
+		hasText = function( element ) {
+			if ( element ) {
+				if ( element.hasChildNodes() ) {
+					if ( element.childNodes.length >= 1 ) {
+						if(element.childNodes[0].textContent.length>0) {
+							return true;
+						}
+					}
+				}
+			}
+			return null;
+		};
+
+		addListener = function(element, eventName, handler) {
+		  if (element.addEventListener) {
+			element.addEventListener(eventName, handler, false);
+		  }
+		  else if (element.attachEvent) {
+			element.attachEvent('on' + eventName, handler);
+		  }
+		  else {
+			element['on' + eventName] = handler;
+		  }
+		}
+	};
