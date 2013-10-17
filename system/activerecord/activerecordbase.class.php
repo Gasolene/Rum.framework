@@ -703,7 +703,7 @@
 							$label = \substr( strrchr( $mapping['type'], '\\'), 1 );
 
 							$control->textField = $mapping["columnRef"];
-							$control->valueField = $mapping["columnRef"];
+							$control->valueField = $mapping["columnKey"];
 							$control->dataSource = $ds;
 							$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $label, $label ));
 
@@ -888,6 +888,8 @@
 						}
 
 						$column = new \System\Web\WebControls\GridViewDropDownList($field, $activeRecord->pkey, $options, $param, $header);
+						$column->textField = $mapping["columnRef"];
+						$column->valueField = $mapping["columnKey"];
 						$column->setFilter(new \System\Web\WebControls\GridViewListFilter($options));
 					}
 					// create selection list
