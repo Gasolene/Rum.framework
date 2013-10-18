@@ -720,7 +720,7 @@
 			$this->ajaxPostBack = (bool)$ajaxPostBack;
 			foreach( $this->controls as $childControl )
 			{
-				if( $childControl instanceof InputBase )
+				if( $childControl instanceof InputBase || $childControl instanceof Fieldset ) // TODO: rem backwards compatability
 				{
 					$childControl->ajaxPostBack = (bool)$ajaxPostBack;
 				}
@@ -739,7 +739,7 @@
 			$this->ajaxValidation = (bool)$ajaxValidation;
 			foreach( $this->controls as $childControl )
 			{
-				if( $childControl instanceof InputBase )
+				if( $childControl instanceof InputBase || $childControl instanceof Fieldset ) // TODO: rem backwards compatability
 				{
 					$childControl->ajaxValidation = (bool)$ajaxValidation;
 				}
