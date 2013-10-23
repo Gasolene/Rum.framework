@@ -890,7 +890,7 @@
 									$options[$row[$mapping["columnRef"]]] = $row;
 								}
 
-								continue;
+								break;
 							}
 						}
 
