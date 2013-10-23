@@ -93,7 +93,6 @@
 				if(params) params = params + '&';
 				params = params + selects[x].getAttribute('name') + '=' + selects[x].getAttribute('value');
 			}
-			alert(params);
 			return params;
 		}
 
