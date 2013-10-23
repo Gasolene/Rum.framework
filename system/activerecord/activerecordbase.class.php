@@ -44,6 +44,12 @@
 		protected $pkey				= '';
 
 		/**
+		 * Specifies the sort key
+		 * @var string
+		**/
+		protected $sortKey			= '';
+
+		/**
 		 * Specifies table relationships
 		 * @var array
 		**/
@@ -63,6 +69,7 @@
 		 */
 		final protected function __construct()
 		{
+			if(!$this->sortKey) $this->sortKey = $this->pkey;
 			$this->init();
 		}
 
@@ -702,7 +709,7 @@
 							$ds = $class::all();
 							$label = \substr( strrchr( $mapping['type'], '\\'), 1 );
 
-							$control->textField = $mapping["columnRef"];
+							$control->textField = isset($mapping["columnText"])?$mapping["columnText"]:$mapping["columnRef"];
 							$control->valueField = $mapping["columnKey"];
 							$control->dataSource = $ds;
 							$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $label, $label ));
@@ -889,6 +896,7 @@
 
 						$column = new \System\Web\WebControls\GridViewDropDownList($field, $activeRecord->pkey, $options, $param, $header);
 						$column->textField = $mapping["columnRef"];
+						$column->textField = isset($mapping["columnText"])?$mapping["columnText"]:$mapping["columnRef"];
 						$column->valueField = $mapping["columnKey"];
 						$column->setFilter(new \System\Web\WebControls\GridViewListFilter($options));
 					}
@@ -1824,9 +1832,9 @@
 			}
 
 			// sort
-			if( $activeRecord->pkey )
+			if( $activeRecord->sortKey )
 			{
-				$query->orderBy( $activeRecord->table, $activeRecord->pkey );
+				$query->orderBy( $activeRecord->table, $activeRecord->sortKey );
 			}
 
 			return $query->openDataSet();
@@ -1846,16 +1854,25 @@
 		 */
 		static private function filterByType( $type, array $columns = array(), array $filter = array(), array $sort_by = array(), $offset = 0, $limit = 0 )
 		{
-			throw new \System\Base\MethodNotImplementedException();
+			// TODO: rem backwards compatibility code
+			if((bool)count(array_filter(array_keys($columns), 'is_string')) && !$filter && !$sort_by && !$offset && ~$limit) {
+				$filter = $columns;
+				$columns = array();
+			}
+
+			if(!$sort_by) {
+				$sort_by = array($this->sortKey);
+			}
+
 			$activeRecord = new $type();
 
 			// build query
 			$query = \System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
-			->select( '*' )
+			->select( $columns )
 			->from( $activeRecord->table );
 
 			// filter
-			foreach( $args as $key => $value )
+			foreach( $filter as $key => $value )
 			{
 				$field = explode('.', $key);
 				if(count($field)==2) {
@@ -1867,9 +1884,19 @@
 			}
 
 			// sort
-			if( $activeRecord->pkey )
+			foreach( $sort_by as $key )
 			{
-				$query->orderBy( $activeRecord->table, $activeRecord->pkey );
+				$field = explode('.', $key);
+				if(count($field)==2) {
+					$query->orderBy( $field[0], $field[1] );
+				}
+				else {
+					$query->orderBy( $activeRecord->table, $key );
+				}
+			}
+
+			if((int)$limit>0) {
+//				$query->limit($limit); // TODO: implement
 			}
 
 			return $query->openDataSet();
