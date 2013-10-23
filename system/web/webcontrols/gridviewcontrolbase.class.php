@@ -179,10 +179,10 @@
 
 				$this->_handlePostBack = true;
 				$this->_args[$this->parameter] = $request[$parameter];
-				unset( $request[$parameter] );
+//				unset( $request[$parameter] );
 				if(isset($request[$pkey])) {
 					$this->_args[$this->pkey] = $request[$pkey];
-					unset($request[$pkey]);
+//					unset($request[$pkey]);
 				}
 			}
 		}
