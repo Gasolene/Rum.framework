@@ -116,7 +116,7 @@
 		 */
 		protected function getItemText($dataField, $parameter)
 		{
-			$params = $this->getRequestData() . "&{$dataField}='.\\rawurlencode(%{$dataField}%).'";
+			$params = $this->getRequestData() . "&{$dataField}='.\\rawurlencode(%{$dataField}%).'&{$parameter}={$this->itemButtonName}";
 			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 
 			if( $this->ajaxPostBack )
