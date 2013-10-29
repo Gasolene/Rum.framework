@@ -18,7 +18,6 @@
 	 * @property bool $readonly Specifies whether control is readonly
 	 * @property bool $disabled Specifies whether the control is disabled
 	 * @property string $tooltip Specifies control tooltip
-	 * @property int $tabIndex Specifies the tab order if the control
 	 * @property bool $submitted Specifies whether the data has been submitted
 	 * @property bool $changed Specifies whether the data has been changed
 	 * @property array $validators Array of validators
@@ -71,12 +70,6 @@
 		 * @var string
 		 */
 		protected $tooltip					= '';
-
-		/**
-		 * Specifies the tab order if the control
-		 * @var int
-		 */
-		protected $tabIndex					= 0;
 
 		/**
 		 * Specifies whether the data has been submitted
@@ -205,7 +198,8 @@
 				return $this->tooltip;
 			}
 			elseif( $field === 'tabIndex' ) {
-				return $this->tabIndex;
+				trigger_error("InputBase::tabIndex is deprecated", E_USER_DEPRECATED);
+				return 0;
 			}
 			elseif( $field === 'submitted' ) {
 				return $this->submitted;
@@ -265,7 +259,7 @@
 				$this->tooltip = (string)$value;
 			}
 			elseif( $field === 'tabIndex' ) {
-				$this->tabIndex = (int)$value;
+				trigger_error("InputBase::tabIndex is deprecated", E_USER_DEPRECATED);
 			}
 			else {
 				parent::__set( $field, $value );
