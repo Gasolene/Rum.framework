@@ -120,7 +120,7 @@
 		{
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'value', $this->text );
-			$input->appendAttribute( 'class', ' button' );
+//			$input->appendAttribute( 'class', ' button' );
 
 			if( $this->src )
 			{

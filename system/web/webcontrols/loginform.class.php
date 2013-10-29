@@ -516,7 +516,7 @@
 		public function getDomObject()
 		{
 			$form = $this->getFormDomObject();
-			$form->appendAttribute( 'class', ' loginform' );
+//			$form->appendAttribute( 'class', ' loginform' );
 			$fieldset = new \System\XML\DomObject('fieldset');
 			$legend = new \System\XML\DomObject('legend');
 			$legend->innerHtml = '<span>' . $this->legend . '</span>';

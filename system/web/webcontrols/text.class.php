@@ -123,7 +123,7 @@
 		public function getDomObject()
 		{
 			$input = $this->getInputDomObject();
-			$input->appendAttribute( 'class', ' text' );
+//			$input->appendAttribute( 'class', ' text' );
 
 			if(!is_null($this->value))
 			{

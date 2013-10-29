@@ -147,7 +147,7 @@
 			if( $this->rootNode )
 			{
 				$rootNode = $this->createDomObject( 'ul' );
-				$rootNode->appendAttribute( 'class', ' treeview' );
+//				$rootNode->appendAttribute( 'class', ' treeview' );
 
 				if( $this->showRoot )
 				{

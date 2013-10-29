@@ -27,7 +27,7 @@
 			$textarea = $this->createDomObject( 'textarea' );
 			$textarea->setAttribute( 'name', $this->getHTMLControlId() );
 			$textarea->setAttribute( 'id', $this->getHTMLControlId() );
-			$textarea->appendAttribute( 'class', ' textarea' );
+//			$textarea->appendAttribute( 'class', ' textarea' );
 			$textarea->setAttribute( 'title', $this->tooltip );
 
 			if( $this->submitted && !$this->validate() )

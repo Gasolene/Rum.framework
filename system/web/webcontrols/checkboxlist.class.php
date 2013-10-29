@@ -28,12 +28,13 @@
 		 * returns a DomObject representing control
 		 *
 		 * @return DomObject
-		 */
+		 * /
 		public function getDomObject()
 		{
 			$dom = parent::getDomObject();
-			$dom->appendAttribute( 'class', ' checkbuttonlist' );
+//			$dom->appendAttribute( 'class', ' checkbuttonlist' );
 			return $dom;
 		}
+		*/
 	}
 ?>

@@ -73,7 +73,7 @@
 			$select = new \System\XML\DomObject( 'select' );
 			$select->setAttribute('name', "{$HTMLControlId}__filter_value");
 			$select->setAttribute('title', $this->tooltip);
-			$select->setAttribute('class', 'booleanfilter');
+//			$select->setAttribute('class', 'booleanfilter');
 			$option = new \System\XML\DomObject( 'option' );
 			$option->setAttribute('value', '');
 			$option->nodeValue = '';

@@ -77,7 +77,7 @@
 			$select = $this->createDomObject( 'select' );
 			$select->setAttribute( 'id', $this->getHTMLControlId());
 			$select->setAttribute( 'title', $this->tooltip );
-			$select->appendAttribute( 'class', ' listbox' );
+//			$select->appendAttribute( 'class', ' listbox' );
 			$select->setAttribute( 'size', $this->listSize );
 
 			if( $this->multiple )

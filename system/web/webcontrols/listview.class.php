@@ -113,7 +113,7 @@
 
 			$dom = new \System\XML\DomObject( $element );
 			$dom->setAttribute( 'id', $this->getHTMLControlId() );
-			$dom->appendAttribute( 'class', ' listview' );
+//			$dom->appendAttribute( 'class', ' listview' );
 
 			if(!$this->itemText) $this->itemText = "%{$this->dataField}%";
 			foreach( $this->dataSource->rows as $row )

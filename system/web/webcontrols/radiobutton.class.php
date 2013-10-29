@@ -95,7 +95,7 @@
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'value', $this->value );
 			$input->setAttribute( 'name',  $this->parent->getHTMLControlId() );
-			$input->appendAttribute( 'class', ' radiobutton' );
+//			$input->appendAttribute( 'class', ' radiobutton' );
 
 			if( $this->visible )
 			{

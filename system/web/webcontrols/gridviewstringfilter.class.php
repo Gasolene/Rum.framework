@@ -73,7 +73,7 @@
 			$input->setAttribute('name', "{$HTMLControlId}__filter_value");
 			$input->setAttribute('value', $this->value);
 			$input->setAttribute('title', $this->tooltip);
-			$input->setAttribute('class', 'stringfilter');
+//			$input->setAttribute('class', 'stringfilter');
 
 			if($this->column->gridView->ajaxPostBack)
 			{

@@ -53,7 +53,7 @@
 		public function getDomObject()
 		{
 			$fieldset = $this->createDomObject( 'fieldset' );
-			$fieldset->appendAttribute( 'class', ' radiogroup' );
+//			$fieldset->appendAttribute( 'class', ' radiogroup' );
 			$legend = new \System\XML\DomObject( 'legend' );
 			$legend->innerHtml = $this->label;
 

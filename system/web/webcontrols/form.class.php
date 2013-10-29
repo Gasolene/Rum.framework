@@ -508,7 +508,7 @@
 			$form->setAttribute( 'action', $this->action );
 			$form->setAttribute( 'method', strtolower( $this->method ));
 			$form->setAttribute( 'enctype', $this->encodeType );
-			$form->appendAttribute( 'class', ' form' );
+//			$form->appendAttribute( 'class', ' form' );
 
 			if( $this->_onsubmit )
 			{

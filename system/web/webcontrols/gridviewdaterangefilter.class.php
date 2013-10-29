@@ -83,14 +83,14 @@
 			$date_start->setAttribute('name', "{$HTMLControlId}__filter_startdate");
 			$date_start->setAttribute('value', $this->minValue);
 			$date_start->setAttribute('title', $this->tooltip);
-			$date_start->setAttribute('class', 'daterangefilter');
+//			$date_start->setAttribute('class', 'daterangefilter');
 
 			$date_end = new \System\XML\DomObject('input');
 			$date_end->setAttribute('type', 'date');
 			$date_end->setAttribute('name', "{$HTMLControlId}__filter_enddate");
 			$date_end->setAttribute('value', $this->maxValue);
 			$date_end->setAttribute('title', $this->tooltip);
-			$date_end->setAttribute('class', 'daterangefilter');
+//			$date_end->setAttribute('class', 'daterangefilter');
 
 			if($this->column->gridView->ajaxPostBack)
 			{

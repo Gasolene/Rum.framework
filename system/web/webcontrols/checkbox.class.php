@@ -69,7 +69,7 @@
 		{
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'value', '1' );
-			$input->appendAttribute( 'class', ' checkbox' );
+//			$input->appendAttribute( 'class', ' checkbox' );
 
 			if( $this->value )
 			{

@@ -100,7 +100,7 @@
 		public function getDomObject()
 		{
 			$input = $this->getInputDomObject();
-			$input->appendAttribute( 'class', ' password' );
+//			$input->appendAttribute( 'class', ' password' );
 
 			if( $this->ajaxPostBack || $this->ajaxValidation )
 			{

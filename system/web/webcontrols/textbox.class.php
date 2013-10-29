@@ -61,6 +61,23 @@
 
 
 		/**
+		 * Constructor
+		 *
+		 * The constructor sets attributes based on session data, triggering events, and is responcible for
+		 * formatting the proper request value and garbage handling
+		 *
+		 * @param  string   $controlId	  Control Id
+		 * @param  string   $default		Default value
+		 * @return void
+		 */
+		public function __construct( $controlId, $default = null )
+		{
+			trigger_error("TextBox is deprecated, use Text instead", E_USER_DEPRECATED);
+			parent::__construct( $controlId, $default );
+		}
+
+
+		/**
 		 * gets object property
 		 *
 		 * @param  string	$field		name of field
