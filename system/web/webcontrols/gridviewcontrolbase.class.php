@@ -175,15 +175,14 @@
 			$parameter = $this->formatParameter($this->parameter);
 			if( isset( $request[$parameter] ))
 			{
-				$pkey = $this->formatParameter($this->pkey);
+//				$pkey = $this->formatParameter($this->pkey);
 
 				$this->_handlePostBack = true;
-				$this->_args[$this->parameter] = $request[$parameter];
+				$this->_args = $request;
 //				unset( $request[$parameter] );
-				if(isset($request[$pkey])) {
-					$this->_args[$this->pkey] = $request[$pkey];
+//				if(isset($request[$pkey])) {
 //					unset($request[$pkey]);
-				}
+//				}
 			}
 		}
 
