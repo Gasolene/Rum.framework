@@ -91,6 +91,9 @@
 			elseif( $field === 'mask' ) {
 				return $this->mask;
 			}
+			elseif( $field === 'watermark' ) {
+				return $this->placeholder;
+			}
 			elseif( $field === 'maxLength' ) {
 				return $this->maxLength;
 			}
@@ -120,6 +123,10 @@
 		public function __set( $field, $value ) {
 			if( $field === 'size' ) {
 				$this->size = (int)$value;
+			}
+			elseif( $field === 'watermark' ) {
+				trigger_error("Text::watermark is deprecated, use Text::placeholder instead", E_USER_DEPRECATED);
+				$this->placeholder = (string)$value;
 			}
 			elseif( $field === 'mask' ) {
 				$this->mask = (bool)$value;

@@ -58,6 +58,10 @@
 			if( $field === 'maxLength' ) {
 				return $this->maxLength;
 			}
+			elseif( $field === 'watermark' ) {
+				trigger_error("Text::watermark is deprecated, use Text::placeholder instead", E_USER_DEPRECATED);
+				return $this->placeholder;
+			}
 			elseif( $field === 'disableAutoComplete' ) {
 				return $this->disableAutoComplete;
 			}
@@ -84,6 +88,10 @@
 		public function __set( $field, $value ) {
 			if( $field === 'maxLength' ) {
 				$this->maxLength = (int)$value;
+			}
+			elseif( $field === 'watermark' ) {
+				trigger_error("Text::watermark is deprecated, use Text::placeholder instead", E_USER_DEPRECATED);
+				$this->placeholder = (string)$value;
 			}
 			elseif( $field === 'disableAutoComplete' ) {
 				$this->disableAutoComplete = (bool)$value;

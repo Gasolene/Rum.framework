@@ -2,10 +2,9 @@ TODO
 ====
 
 	[Due in 6.6]
-	- Column ctors should be identical
+	- Column ctors should be identical (requires breaking backwards compatability)
 		- ActiveRecord column mapping
 		- ActiveRecord filter mapping??
-	- Rem classes from WebControls
 
 	[Features]
 	- combine css/js theme files into a single file
