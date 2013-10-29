@@ -895,9 +895,8 @@
 						}
 
 						$column = new \System\Web\WebControls\GridViewDropDownList($field, $activeRecord->pkey, $options, $param, $header);
-						$column->textField = $mapping["columnRef"];
 						$column->textField = isset($mapping["columnText"])?$mapping["columnText"]:$mapping["columnRef"];
-						$column->valueField = $mapping["columnKey"];
+						$column->valueField = $mapping["columnRef"];
 						$column->setFilter(new \System\Web\WebControls\GridViewListFilter($options));
 					}
 					// create selection list
