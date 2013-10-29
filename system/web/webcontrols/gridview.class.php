@@ -491,9 +491,9 @@
 					$this->dataSource[$pkey] = null;
 					foreach($this->dataSource->fields as $field)
 					{
-						if(isset($request[str_replace(' ', '_', $field).'_null']))
+						if(isset($request[str_replace(' ', '_', $field)]))
 						{
-							$this->dataSource[$field] = $request[str_replace(' ', '_', $field).'_null'];
+							$this->dataSource[$field] = $request[str_replace(' ', '_', $field)];
 						}
 					}
 					$this->dataSource->insert();
@@ -538,9 +538,9 @@
 					{
 						foreach($this->dataSource->fields as $field)
 						{
-							if(isset($request[str_replace(' ', '_', $field).'_'.$id]))
+							if(isset($request[str_replace(' ', '_', $field)]))
 							{
-								$this->dataSource[$field] = $request[str_replace(' ', '_', $field).'_'.$id];
+								$this->dataSource[$field] = $request[str_replace(' ', '_', $field)];
 							}
 						}
 						$this->dataSource->update();
