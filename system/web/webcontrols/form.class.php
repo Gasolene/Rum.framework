@@ -23,7 +23,6 @@
 	 * @property string $forward controller to forward to
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback, Default is false
 	 * @property bool $ajaxValidation specifies whether to perform ajax validation, Default is false
-	 * @property bool $autoFocus specifies whether to auto focus
 	 * @property string $honeyPot specifies the content of the honeypot field
 	 * @property string $submitted specifies if form was submitted
 	 * @property RequestParameterCollection $parameters form parameters
@@ -64,12 +63,6 @@
 		 * @var string
 		 */
 		protected $forward				= '';
-
-		/**
-		 * turn on or off auto focusing
-		 * @var bool
-		 */
-		protected $autoFocus			= false;
 
 		/**
 		 * turn on or off ajax post backs
@@ -192,10 +185,11 @@
 			}
 			elseif( $field === 'autoFocus' )
 			{
-				$this->autoFocus = (bool)$value;
+				trigger_error("Form::autoFocus is deprecated, use InputBase::autoFocus instead", E_USER_DEPRECATED);
 			}
 			elseif( $field === 'hiddenField' )
 			{
+				trigger_error("Form::hiddenField is deprecated, use Form::honeyPot instead", E_USER_DEPRECATED);
 				$this->honeyPot = (string)$value;
 			}
 			elseif( $field === 'honeyPot' )
@@ -204,6 +198,7 @@
 			}
 			elseif( $field === 'onPost' )
 			{
+				trigger_error("Form::onPost is deprecated", E_USER_DEPRECATED);
 				$this->onPost = (string)$value;
 			}
 			else
@@ -244,7 +239,8 @@
 			}
 			elseif( $field === 'autoFocus' )
 			{
-				return $this->autoFocus;
+				trigger_error("Form::autoFocus is deprecated, use InputBase::autoFocus instead", E_USER_DEPRECATED);
+				return false;
 			}
 			elseif( $field === 'ajaxPostBack' )
 			{
@@ -260,6 +256,7 @@
 			}
 			elseif( $field === 'onPost' )
 			{
+				trigger_error("Form::onPost is deprecated", E_USER_DEPRECATED);
 				return $this->onPost;
 			}
 			elseif( $field === 'submitted' )
@@ -358,23 +355,18 @@
 		 * @param  string $errMsg error message
 		 * @return bool
 		 */
-		public function validate(&$errMsg = '', InputBase &$controlToFocus = null)
+		public function validate(&$errMsg = '')
 		{
 			$valid = true;
 			for($i = 0; $i < $this->controls->count; $i++)
 			{
 				if( $this->controls[$i] instanceof InputBase || $this->controls[$i] instanceof Fieldset ) // TODO: Rem backwards compatability code
 				{
-					if( !$this->controls[$i]->validate( $errMsg, $controlToFocus ))
+					if( !$this->controls[$i]->validate( $errMsg ))
 					{
 						$valid = false;
 					}
 				}
-			}
-
-			if( $this->autoFocus && !is_null( $controlToFocus ))
-			{
-				$controlToFocus->focus();
 			}
 
 			return $valid;
@@ -640,16 +632,6 @@
 				}
 
 				unset( $request[ $this->getHTMLControlId() . '__submit'] );
-			}
-			elseif( $this->autoFocus && isset( $this->controls[0] ))
-			{
-				// auto focus first control
-				// TODO: rem backwards code
-				if( $this->controls[0] instanceof InputBase || $this->controls[0] instanceof Fieldset ) // KLUDGE: Clean in case not first control
-				{
-					$childControl = $this->controls[0];
-					$childControl->focus();
-				}
 			}
 		}
 

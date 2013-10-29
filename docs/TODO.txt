@@ -6,7 +6,6 @@ TODO
 		- ActiveRecord column mapping
 		- ActiveRecord filter mapping??
 	- Rem classes from WebControls
-	- Rem focus from WebControls
 
 	[Features]
 	- combine css/js theme files into a single file

@@ -91,13 +91,6 @@
 				$input->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'=\'+(this.checked?1:0)+\'&'.$this->getRequestData().'\',\'POST\');' );
 			}
 
-			if( $this->ajaxValidation )
-			{
-				$input->setAttribute( 'onblur', '' );
-				$input->setAttribute( 'onkeyup', '' );
-				$input->setAttribute( 'onfocus', '' );
-			}
-
 			if( $this->visible === false )
 			{
 				$input->setAttribute( 'type', 'hidden' );

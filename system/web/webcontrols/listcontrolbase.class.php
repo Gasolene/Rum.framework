@@ -136,13 +136,13 @@
 		 * @param  string		$errMsg		error message
 		 * @return bool						true if control value is valid
 		 */
-		public function validate(&$errMsg = '', InputBase &$controlToFocus = null)
+		public function validate(&$errMsg = '')
 		{
 			if( $this->multiple )
 			{
 				if( is_array( $this->value ))
 				{
-					return parent::validate($errMsg, $controlToFocus);
+					return parent::validate($errMsg);
 				}
 				else
 				{
@@ -151,7 +151,7 @@
 			}
 			else
 			{
-				return parent::validate($errMsg, $controlToFocus);
+				return parent::validate($errMsg);
 			}
 		}
 

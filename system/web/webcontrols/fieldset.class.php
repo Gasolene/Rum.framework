@@ -154,12 +154,12 @@
 		 * @param  string $errMsg error message
 		 * @return bool
 		 */
-		public function validate(&$errMsg = '', InputBase &$controlToFocus = null)
+		public function validate(&$errMsg = '')
 		{
 			$valid = true;
 			for($i = 0; $i < $this->controls->count; $i++)
 			{
-				if( !$childControl = $this->controls[$i]->validate( $errMsg, $controlToFocus ))
+				if( !$childControl = $this->controls[$i]->validate( $errMsg ))
 				{
 					$valid = false;
 				}

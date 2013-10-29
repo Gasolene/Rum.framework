@@ -11,7 +11,7 @@
 	/**
 	 * Provides base functionality for Input Controls
 	 *
-	 * @property string $defaultHTMLControlId Specifies the id of the default html control
+	 * @property bool $autoFocus specifies whether to auto focus
 	 * @property bool $autoPostBack Specifies whether form will perform postback on change, Default is false
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $ajaxValidation specifies whether to perform ajax validation, Default is false
@@ -23,6 +23,7 @@
 	 * @property bool $submitted Specifies whether the data has been submitted
 	 * @property bool $changed Specifies whether the data has been changed
 	 * @property array $validators Array of validators
+	 * @property string $defaultHTMLControlId Specifies the id of the default html control
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -30,6 +31,12 @@
 	 */
 	abstract class InputBase extends DataFieldControlBase
 	{
+		/**
+		 * turn on or off auto focusing
+		 * @var bool
+		 */
+		protected $autoFocus			= false;
+
 		/**
 		 * Specifies whether form will submit postback on change, Default is false
 		 * @var bool
@@ -166,10 +173,15 @@
 				return $this->defaultHTMLControlId;
 			}
 			elseif( $field === 'onPost' ) {
+				trigger_error("InputBase::onPost is deprecated", E_USER_DEPRECATED);
 				return $this->onPost;
 			}
 			elseif( $field === 'onChange' ) {
+				trigger_error("InputBase::onChange is deprecated", E_USER_DEPRECATED);
 				return $this->onChange;
+			}
+			elseif( $field === 'autoFocus' ) {
+				return $this->autoFocus;
 			}
 			elseif( $field === 'autoPostBack' ) {
 				return $this->autoPostBack;
@@ -220,10 +232,15 @@
 		 */
 		public function __set( $field, $value ) {
 			if( $field === 'onPost' ) {
+				trigger_error("InputBase::onPost is deprecated", E_USER_DEPRECATED);
 				$this->onPost = (string)$value;
 			}
 			elseif( $field === 'onChange' ) {
+				trigger_error("InputBase::onChange is deprecated", E_USER_DEPRECATED);
 				$this->onChange = (string)$value;
+			}
+			elseif( $field === 'autoFocus' ) {
+				$this->autoFocus = (bool)$value;
 			}
 			elseif( $field === 'autoPostBack' ) {
 				$this->autoPostBack = (bool)$value;
@@ -260,9 +277,11 @@
 		 * sets focus to the control
 		 *
 		 * @return bool			True if changed
+		 * @ignore
 		 */
 		final public function focus()
 		{
+			trigger_error("InputBase::focus() is deprecated", E_USER_DEPRECATED);
 			$this->getParentByType( '\System\Web\WebControls\Page' )->onload .= 'Rum.id(\'' . $this->defaultHTMLControlId . '\').focus();';
 		}
 
@@ -285,7 +304,7 @@
 		 * @param  string		$errMsg		error message
 		 * @return bool						true if control value is valid
 		 */
-		public function validate(&$errMsg = '', InputBase &$controlToFocus = null)
+		public function validate(&$errMsg = '')
 		{
 			$fail = false;
 			if(!$this->disabled)
@@ -294,10 +313,6 @@
 				{
 					if(!$validator->validate())
 					{
-						if(is_null($controlToFocus))
-						{
-							$controlToFocus = $this;
-						}
 						$fail = true;
 						if($errMsg) $errMsg .= ", ";
 						$errMsg .= $validator->errorMessage;
@@ -361,6 +376,11 @@
 			$input->setAttribute( 'name', $this->getHTMLControlId() );
 			$input->setAttribute( 'id', $this->getHTMLControlId() );
 			$input->setAttribute( 'title', $this->tooltip );
+
+			if( $this->autoFocus )
+			{
+				$input->setAttribute( 'autofocus', 'autofocus' );
+			}
 
 			if( $this->submitted && !$this->validate() )
 			{
