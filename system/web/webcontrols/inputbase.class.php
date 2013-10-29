@@ -17,7 +17,6 @@
 	 * @property bool $ajaxValidation specifies whether to perform ajax validation, Default is false
 	 * @property bool $readonly Specifies whether control is readonly
 	 * @property bool $disabled Specifies whether the control is disabled
-	 * @property string $label Specifies control label
 	 * @property string $tooltip Specifies control tooltip
 	 * @property int $tabIndex Specifies the tab order if the control
 	 * @property bool $submitted Specifies whether the data has been submitted
@@ -102,6 +101,7 @@
 		 * @ignore
 		 */
 		protected $label					= '';
+
 		/**
 		 * specifies the id of the default html control
 		 * @ignore
