@@ -78,17 +78,37 @@
 
 
 		/**
-		 * update DataSet with Control data
+		 * read view state from session
 		 *
-		 * @param  DataSet $ds DataSet to fill
+		 * @param  array	&$viewState	session array
 		 * @return void
 		 */
-		public function fillDataSet(\System\DB\DataSet &$ds)
+		protected function onLoadViewState( array &$viewState )
 		{
-			if( isset( $ds[$this->dataField] ))
-			{
-				$ds[$this->dataField] = $this->value;
-			}
+			return;
+		}
+
+
+		/**
+		 * write view state to session
+		 *
+		 * @param  array	&$viewState	session array
+		 * @return void
+		 */
+		protected function onSaveViewState( array &$viewState )
+		{
+			return;
+		}
+
+
+		/**
+		 * Event called on ajax callback
+		 *
+		 * @return void
+		 */
+		protected function onUpdateAjax()
+		{
+			return;
 		}
 
 
