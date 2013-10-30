@@ -1579,7 +1579,7 @@
 							$query->leftJoin( $this->table, $mapping['columnKey'], $mapping['table'], $mapping['columnRef'], $joinTable );
 						}
 
-						$query->where( $joinTable, $mapping['columnRef'], '=', $this[$mapping['columnKey']] );
+						$query->where( $joinTable, $mapping['columnKey'], '=', $this[$mapping['columnKey']] );
 
 						return $query->openDataSet();
 					}
