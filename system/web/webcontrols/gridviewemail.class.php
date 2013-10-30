@@ -30,11 +30,11 @@
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
-				return "'<input name=\"{$parameter}\" type=\"email\" value=\"'.%{$dataField}%.'\" class=\"email\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input name=\"{$parameter}\" type=\"email\" value=\"'.%{$dataField}%.'\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}\" type=\"email\" value=\"'.%{$dataField}%.'\" class=\"email\" />'";
+				return "'<input name=\"{$parameter}\" type=\"email\" value=\"'.%{$dataField}%.'\"/>'";
 			}
 		}
 
@@ -49,7 +49,7 @@
 		{
 			if( !$this->footerText )
 			{
-				return "'<input name=\"{$parameter}\" type=\"email\" class=\"email\" />'";
+				return "'<input name=\"{$parameter}\" type=\"email\"/>'";
 			}
 			else
 			{

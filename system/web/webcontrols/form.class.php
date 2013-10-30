@@ -451,7 +451,7 @@
 					}
 
 					// create label
-					$dt .= '<label class="'.($childControl->attributes->contains("class")?$childControl->attributes["class"]:'').'" for="'.$childControl->defaultHTMLControlId.'">' . $childControl->label . '</label>';
+					$dt .= '<label for="'.$childControl->getHTMLControlId().'">' . $childControl->label . '</label>';
 
 					// Get input control
 					$dd .= $childControl->fetch();
@@ -463,7 +463,7 @@
 						$childControl->validate($errMsg);
 					}
 
-					$dd .= $childControl->fetchError();
+					$dd .= $childControl->fetchError(array('class'=>'err_msg'));
 
 					$dl .= $dt . '</dt>';
 					$dl .= $dd . '</dd>';

@@ -119,7 +119,7 @@
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
 
-				$html = "'<select name=\"{$parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+				$html = "'<select name=\"{$parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
 					if(is_array($value)) {
@@ -137,7 +137,7 @@
 			}
 			else
 			{
-				$html = "'<select name=\"{$parameter}\" class=\"listbox\">";
+				$html = "'<select name=\"{$parameter}\">";
 				foreach($this->items as $key=>$value)
 				{
 					if(is_array($value)) {
@@ -172,7 +172,7 @@
 					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 					$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
 
-					$html = "'<select name=\"{$parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+					$html = "'<select name=\"{$parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 					foreach($this->items as $key=>$value)
 					{
 						$value = \Rum::escape($value, ENT_QUOTES);
@@ -185,7 +185,7 @@
 					return $html;
 				}
 				*/
-				$html = "'<select name=\"{$parameter}\" class=\"listbox\">";
+				$html = "'<select name=\"{$parameter}\">";
 				foreach($this->items as $key=>$value)
 				{
 					if(is_array($value)) {

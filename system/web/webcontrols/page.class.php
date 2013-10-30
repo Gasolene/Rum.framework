@@ -59,7 +59,7 @@
 		 * specifies whether object is currently rendering
 		 * @var bool
 		 */
-		private $_rendering			= false;
+		private $_rendering				= false;
 
 		/**
 		 * contains the buffer

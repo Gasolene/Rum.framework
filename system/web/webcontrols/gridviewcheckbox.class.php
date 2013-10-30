@@ -30,11 +30,11 @@
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+(this.checked?1:0)+\'";
-				return "'<input name=\"{$parameter}\" type=\"checkbox\" value=\"1\" '.(%{$dataField}%?'checked=\"checked\"':'').' class=\"checkbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input name=\"{$parameter}\" type=\"checkbox\" value=\"1\" '.(%{$dataField}%?'checked=\"checked\"':'').' onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}\" value=\"0\" type=\"hidden\"/><input name=\"{$parameter}\" type=\"checkbox\" value=\"1\" '.(%{$dataField}%?'checked=\"checked\"':'').' class=\"checkbox\" />'";
+				return "'<input name=\"{$parameter}\" type=\"hidden\" value=\"0\"/><input name=\"{$parameter}\" type=\"checkbox\" value=\"1\" '.(%{$dataField}%?'checked=\"checked\"':'').'/>'";
 			}
 		}
 
@@ -57,7 +57,7 @@
 					return "'<input name=\"{$parameter}\" type=\"checkbox\" value=\"1\" class=\"checkbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 				}
 				*/
-				return "'<input name=\"{$parameter}\" value=\"0\" type=\"hidden\"/><input name=\"{$parameter}\" type=\"checkbox\" value=\"1\" class=\"checkbox\" />'";
+				return "'<input name=\"{$parameter}\" type=\"hidden\" value=\"0\"/><input name=\"{$parameter}\" type=\"checkbox\" value=\"1\"/>'";
 			}
 			else
 			{

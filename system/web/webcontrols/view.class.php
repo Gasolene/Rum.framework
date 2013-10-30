@@ -34,7 +34,7 @@
 		 * specifies charset, default is utf-8
 		 * @var string
 		 */
-		protected $charset					= 'utf-8';
+		protected $charset						= 'utf-8';
 
 		/**
 		 * specifies content cache expiration in seconds, default is 0 (no-cache)

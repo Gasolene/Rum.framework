@@ -344,7 +344,7 @@
 				$this->validate($errMsg);
 			}
 
-			return "<span id=\"{$this->getHTMLControlId()}__err\" class=\"err_msg\" style=\"".(!$errMsg?'display:none;':'')."\"><span>{$errMsg}</span></span>";
+			return "<span id=\"{$this->getHTMLControlId()}__err\" style=\"".(!$errMsg?'display:none;':'')."\"><span>{$errMsg}</span></span>";
 		}
 
 
