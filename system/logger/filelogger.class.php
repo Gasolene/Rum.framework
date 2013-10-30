@@ -124,7 +124,12 @@
 			}
 			else
 			{
-				throw new \System\Utils\DirectoryNotFoundException("Could not open file `{$file}` for output, check that directory " . $this->path . " exists");
+				// Attempt to make the folder
+				\mkdir($this->path);
+				if(!file_exists($this->path))
+				{
+					throw new \System\Utils\DirectoryNotFoundException("Could not open file `{$file}` for output, check that directory " . $this->path . " exists");
+				}
 			}
 		}
 
