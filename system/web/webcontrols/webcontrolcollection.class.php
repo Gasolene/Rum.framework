@@ -106,7 +106,7 @@
 
 				if($index > -1)
 				{
-					unset($this->items[$index]);
+					//unset($this->items[$index]);
 					$this->items[$index] = $item;
 				}
 				else
