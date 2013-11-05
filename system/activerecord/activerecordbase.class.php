@@ -622,9 +622,9 @@
 		 * @param  array		$args		associative array of keys and values
 		 * @return DataSet
 		 */
-		static public function all( array $args = array() )
+		static public function all( array $columns = array(), array $filter = array(), array $sort_by = array(), $offset = 0, $limit = 0 )
 		{
-			return ActiveRecordBase::allByType( self::getClass(), $args );
+			return ActiveRecordBase::allByType( self::getClass(), $columns, $filter, $sort_by, $offset, $limit );
 		}
 
 
@@ -638,10 +638,10 @@
 		 * @param  int			$limit		resultset limit
 		 * @return DataSet
 		 */
-		static public function filter( array $columns = array(), array $filter = array(), array $sort_by = array(), $offset = 0, $limit = 0 )
-		{
-			return ActiveRecordBase::filterByType( self::getClass(), $columns, $filter, $sort_by, $offset, $limit );
-		}
+//		static public function filter( array $columns = array(), array $filter = array(), array $sort_by = array(), $offset = 0, $limit = 0 )
+//		{
+//			return ActiveRecordBase::allByType( self::getClass(), $columns, $filter, $sort_by, $offset, $limit );
+//		}
 
 
 		/**
@@ -1804,54 +1804,16 @@
 
 		/**
 		 * static method to return a DataSet by type
-		 *
-		 * @param  string		$type		object type
-		 * @param  array		$args		filter
-		 * @return DataSet
-		 */
-		static private function allByType( $type, array $args = array() )
-		{
-			$activeRecord = new $type();
-
-			// build query
-			$query = \System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
-			->select( '*' )
-			->from( $activeRecord->table );
-
-			// filter
-			foreach( $args as $key => $value )
-			{
-				$field = explode('.', $key);
-				if(count($field)==2) {
-					$query->where( $field[0], $field[1], '=', $value );
-				}
-				else {
-					$query->where( $activeRecord->table, $key, '=', $value );
-				}
-			}
-
-			// sort
-			if( $activeRecord->sortKey )
-			{
-				$query->orderBy( $activeRecord->table, $activeRecord->sortKey );
-			}
-
-			return $query->openDataSet();
-		}
-
-
-		/**
-		 * static method to return a filtered DataSet by type
 		 * 
 		 * @param  string		$type		object type
-		 * @param  array			$columns	array of column names to return
-		 * @param  array			$filter		associative array of column names and values to filter
-		 * @param  array			$sort_by	array of column names to sort by
+		 * @param  array		$columns	array of column names to return
+		 * @param  array		$filter		associative array of column names and values to filter
+		 * @param  array		$sort_by	array of column names to sort by
 		 * @param  int			$offset		number of records to offset
 		 * @param  int			$limit		resultset limit
 		 * @return DataSet
 		 */
-		static private function filterByType( $type, array $columns = array(), array $filter = array(), array $sort_by = array(), $offset = 0, $limit = 0 )
+		static private function allByType( $type, array $columns = array(), array $filter = array(), array $sort_by = array(), $offset = 0, $limit = 0 )
 		{
 			// TODO: rem backwards compatibility code
 			if((bool)count(array_filter(array_keys($columns), 'is_string')) && !$filter && !$sort_by && !$offset && ~$limit) {
@@ -1859,16 +1821,24 @@
 				$columns = array();
 			}
 
-			if(!$sort_by) {
-				$sort_by = array($this->sortKey);
-			}
-
 			$activeRecord = new $type();
 
 			// build query
-			$query = \System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
-			->select( $columns )
-			->from( $activeRecord->table );
+			$query = \System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()->select();
+
+			// columns
+			foreach( $columns as $column )
+			{
+				$field = explode('.', $column);
+				if(count($field)==2) {
+					$query->column( $field[0], $field[1] );
+				}
+				else {
+					$query->column( $activeRecord->table, $column );
+				}
+			}
+
+			$query->from( $activeRecord->table );
 
 			// filter
 			foreach( $filter as $key => $value )
@@ -1883,15 +1853,22 @@
 			}
 
 			// sort
-			foreach( $sort_by as $key )
+			if($sort_by)
 			{
-				$field = explode('.', $key);
-				if(count($field)==2) {
-					$query->orderBy( $field[0], $field[1] );
+				foreach( $sort_by as $key )
+				{
+					$field = explode('.', $key);
+					if(count($field)==2) {
+						$query->orderBy( $field[0], $field[1] );
+					}
+					else {
+						$query->orderBy( $activeRecord->table, $key );
+					}
 				}
-				else {
-					$query->orderBy( $activeRecord->table, $key );
-				}
+			}
+			elseif($activeRecord->sortKey)
+			{
+				$query->orderBy( $activeRecord->table, $activeRecord->sortKey );
 			}
 
 			if((int)$limit>0) {

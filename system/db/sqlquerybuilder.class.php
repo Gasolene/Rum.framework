@@ -161,8 +161,23 @@
 		 */
 		final public function select( $table = '*', $column = '*', $alias = '' ) {
 			$this->setMainClause( 'select' );
-			$this->addColumn( $table, $column, $alias );
+			if($table) {
+				$this->addColumn( $table, $column, $alias );
+			}
 			return $this;
+		}
+
+
+		/**
+		 * add column
+		 *
+		 * @return void
+		 */
+		final public function column( $table = '*', $column = '*', $alias = '' ) {
+			$this->columns[] = array(
+				  'table'  => (string) $table
+				, 'column' => (string) $column
+				, 'alias'  => $alias?(string)$alias:(string)$column );
 		}
 
 

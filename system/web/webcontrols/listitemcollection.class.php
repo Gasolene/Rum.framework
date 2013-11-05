@@ -19,7 +19,7 @@
 	final class ListItemCollection extends StringDictionary
 	{
 		/**
-		 * Adds a new key/item pair to a Dictionary object if key does not already exist
+		 * Adds a new key/item pair to a Dictionary object
 		 *
 		 * @param  mixed		$key			key
 		 * @param  mixed		$value			value
@@ -28,6 +28,19 @@
 		public function add( $key, $value )
 		{
 			$this->items[$key] = $value;
+		}
+
+
+		/**
+		 * Adds a new key/item pair to the beggining of a Dictionary object
+		 *
+		 * @param  mixed		$key			key
+		 * @param  mixed		$value			value
+		 * @return void
+		 */
+		public function addToBeginning( $key, $value )
+		{
+			$this->items = array_merge($this->items, array($key, $value));
 		}
 
 
