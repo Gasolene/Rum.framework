@@ -91,7 +91,7 @@
 
 		/**
 		 * Specifies control label
-		 * @ignore
+		 * @var string
 		 */
 		protected $label					= '';
 
@@ -162,7 +162,7 @@
 		 */
 		public function __get( $field ) {
 			if( $field === 'defaultHTMLControlId' ) {
-				trigger_error("InputBase::label is deprecated", E_USER_DEPRECATED);
+				trigger_error("InputBase::defaultHTMLControlId is deprecated", E_USER_DEPRECATED);
 				return $this->defaultHTMLControlId;
 			}
 			elseif( $field === 'onPost' ) {
@@ -252,7 +252,6 @@
 				$this->disabled = (bool)$value;
 			}
 			elseif( $field === 'label' ) {
-				trigger_error("InputBase::label is deprecated", E_USER_DEPRECATED);
 				$this->label = (string)$value;
 			}
 			elseif( $field === 'tooltip' ) {
@@ -344,7 +343,14 @@
 				$this->validate($errMsg);
 			}
 
-			return "<span id=\"{$this->getHTMLControlId()}__err\" style=\"".(!$errMsg?'display:none;':'')."\"><span>{$errMsg}</span></span>";
+			$domObject = new \System\XML\DomObject('span');
+			$domObject->setAttribute('id', $this->getHTMLControlId().'__err');
+			if(!$errMsg) {
+				$domObject->setAttribute('style', 'display:none;');
+			}
+			$domObject->innerHtml = "<span>{$errMsg}</span>";
+			return $domObject->fetch($args);
+//			return "<span id=\"{$this->getHTMLControlId()}__err\" style=\"".(!$errMsg?'display:none;':'')."\"><span>{$errMsg}</span></span>";
 		}
 
 
