@@ -44,7 +44,8 @@
 		{
 			parent::__construct( $controlId );
 
-			$this->text = $text?$text:$this->label;
+			$this->text = $text?$text:$controlId;
+			$this->label = '';
 
 			// event handling
 			$this->events->add(new \System\Web\Events\InputPostEvent());
