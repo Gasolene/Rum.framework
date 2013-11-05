@@ -420,7 +420,6 @@
 			trigger_error("Form::render() is deprecated", E_USER_DEPRECATED);
 
 			$form = $this->getFormDomObject();
-			$buttons = array();
 			$fieldset = '';
 			$dl = '';
 
@@ -432,23 +431,22 @@
 				{
 					$form->innerHtml .= $childControl->fetch();
 				}
-				elseif( $childControl instanceof Button )
-				{
-					$buttons[] = $childControl;
-				}
 				else
 				{
 					// create list item
-					if( !$childControl->visible )
-					{
-						$dt = '<dt style="display:none;">';
-						$dd = '<dd style="display:none;">';
-					}
-					else
-					{
-						$dt = '<dt>';
-						$dd = '<dd>';
-					}
+//					if( !$childControl->visible )
+//					{
+//						$dt = '<dt style="display:none;">';
+//						$dd = '<dd style="display:none;">';
+//					}
+//					else
+//					{
+//						$dt = '<dt>';
+//						$dd = '<dd>';
+//					}
+
+					$dt = '<dt>';
+					$dd = '<dd>';
 
 					// create label
 					$dt .= '<label for="'.$childControl->getHTMLControlId().'">' . $childControl->label . '</label>';
@@ -480,14 +478,14 @@
 				$fieldset .= '</fieldset>';
 			}
 
-			$fieldset .= '<div class="buttons">';
-
-			foreach( $buttons as $button )
-			{
-				$fieldset .= $button->fetch();
-			}
-
-			$fieldset .= '</div>';
+//			$fieldset .= '<div class="buttons">';
+//
+//			foreach( $buttons as $button )
+//			{
+//				$fieldset .= $button->fetch();
+//			}
+//
+//			$fieldset .= '</div>';
 
 			$form->innerHtml .= $fieldset;
 
