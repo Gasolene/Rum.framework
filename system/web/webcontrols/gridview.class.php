@@ -31,8 +31,6 @@
 	 * @property string $listName
 	 * @property string $sortBy
 	 * @property string $sortOrder
-	 * @property string $onmouseover
-	 * @property string $onmouseout
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $updateRowsOnly specifies whether to update rows only, or the entire table on updateAjax()
 	 *
@@ -171,25 +169,25 @@
 
 		/**
 		 * specifies the action to take on mouseover events
-		 * @var string
+		 * @ignore
 		 */
 		protected $onmouseover				= '';
 
 		/**
 		 * specifies the action to take on onmouseout events
-		 * @var string
+		 * @ignore
 		 */
 		protected $onmouseout				= '';
 
 		/**
 		 * specifies the action to take on click events
-		 * @var string
+		 * @ignore
 		 */
 		protected $onclick					= '';
 
 		/**
 		 * specifies the action to take on double click events
-		 * @var string
+		 * @ignore
 		 */
 		protected $ondblclick				= '';
 
@@ -309,9 +307,11 @@
 				return $this->sortOrder;
 			}
 			elseif( $field === 'onmouseover' ) {
+				trigger_error("GridView::onmouseover is deprecated, use GridView::render(args) instead", E_USER_DEPRECATED);
 				return $this->onmouseover;
 			}
 			elseif( $field === 'onmouseout' ) {
+				trigger_error("GridView::onmouseout is deprecated, use GridView::render(args) instead", E_USER_DEPRECATED);
 				return $this->onmouseout;
 			}
 			elseif( $field === 'onclick' ) {
