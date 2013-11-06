@@ -418,6 +418,7 @@
 		public function getDomObject()
 		{
 			$form = $this->getFormDomObject();
+			$buttons = array();
 			$fieldset = '';
 			$dl = '';
 
@@ -428,6 +429,10 @@
 				if( $childControl instanceof Fieldset )
 				{
 					$form->innerHtml .= $childControl->fetch();
+				}
+				elseif( $childControl instanceof Button )
+				{
+					$buttons[] = $childControl;
 				}
 				else
 				{
@@ -466,6 +471,17 @@
 				}
 			}
 
+			$dt = '<dt>';
+			$dd = '<dd>';
+
+			foreach( $buttons as $button )
+			{
+				$dd .= $button->fetch();
+			}
+
+			$dl .= $dt . '</dt>';
+			$dl .= $dd . '</dd>';
+
 			if($dl)
 			{
 				$fieldset .= '<fieldset>';
@@ -475,15 +491,6 @@
 				$fieldset .= '</dl>';
 				$fieldset .= '</fieldset>';
 			}
-
-//			$fieldset .= '<div class="buttons">';
-//
-//			foreach( $buttons as $button )
-//			{
-//				$fieldset .= $button->fetch();
-//			}
-//
-//			$fieldset .= '</div>';
 
 			$form->innerHtml .= $fieldset;
 
