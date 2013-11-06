@@ -928,7 +928,17 @@
 					else if($type === 'date')
 					{
 						$column = new \System\Web\WebControls\GridViewDate($field, $activeRecord->pkey, $param, $header);
-						$column->setFilter(new \System\Web\WebControls\GridViewDateRangeFilter());
+						$column->setFilter(new \System\Web\WebControls\GridViewDateFilter());
+					}
+					else if($type === 'time')
+					{
+						$column = new \System\Web\WebControls\GridViewTime($field, $activeRecord->pkey, $param, $header);
+						$column->setFilter(new \System\Web\WebControls\GridViewTimeFilter());
+					}
+					else if($type === 'datetime')
+					{
+						$column = new \System\Web\WebControls\GridViewDateTime($field, $activeRecord->pkey, $param, $header);
+						$column->setFilter(new \System\Web\WebControls\GridViewDateTimeFilter());
 					}
 					else if($type === 'boolean')
 					{
