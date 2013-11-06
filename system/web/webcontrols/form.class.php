@@ -417,8 +417,6 @@
 		 */
 		public function getDomObject()
 		{
-			trigger_error("Form::render() is deprecated", E_USER_DEPRECATED);
-
 			$form = $this->getFormDomObject();
 			$fieldset = '';
 			$dl = '';
