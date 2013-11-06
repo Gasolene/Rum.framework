@@ -323,7 +323,7 @@
 				$this->add(new Password('password'));
 				$this->add(new CheckBox('permanent'));
 				$this->add(new Button('login', \Rum::tl('loginform_login', "Login")));
-				$this->add(new HyperLink('forgot_password', \Rum::tl('loginform_forgot_password', "Forgot password"), $this->getQueryString('?forgot_password=true')));
+				$this->add(new HyperLink('forgot_password', \Rum::tl('loginform_forgot_password', "Forgot password"), $this->getQueryString('forgot_password=true')));
 
 				$this->getControl('username')->label = \Rum::tl('loginform_username', "Username");
 				$this->getControl('password')->label = \Rum::tl('loginform_password', "Password");
