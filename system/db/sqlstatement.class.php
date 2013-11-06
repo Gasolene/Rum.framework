@@ -114,7 +114,10 @@
 
 			$preparedStatement = $this->statement;
 			foreach($this->parameters as $parameter => $value) {
-				if(is_string($value)) {
+				if(strpos($value, '0x' )===0) {
+					$preparedStatement = str_replace("@{$parameter}", $value, $preparedStatement);
+				}
+				elseif(is_string($value)) {
 					$preparedStatement = str_replace("@{$parameter}", '\''.$this->dataAdapter->escapeString($value).'\'', $preparedStatement);
 				}
 				else {
