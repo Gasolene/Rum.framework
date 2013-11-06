@@ -1155,8 +1155,6 @@ No building is needed or allowed in a production environment.</p>
 				// dump trace
 				if( sizeof( $this->trace ) > 0 )
 				{
-					\System\Web\HTTPResponse::write( "<script type=\"text/javascript\">PHPRumDebug.debugOpen()</script>" );
-
 					\System\Web\HTTPResponse::write( "<pre id=\"trace\"><strong>Trace:</strong>\n\n" );
 					$i=0;
 					foreach( $this->trace as $trace )
@@ -1170,8 +1168,6 @@ No building is needed or allowed in a production environment.</p>
 				// dump warnings
 				if( sizeof( $this->warnings ) > 0 )
 				{
-					\System\Web\HTTPResponse::write( "<script type=\"text/javascript\">PHPRumDebug.debugOpen()</script>" );
-
 					$count = sizeof( $this->warnings );
 					if($count > __ERROR_LIMIT__)
 					{
