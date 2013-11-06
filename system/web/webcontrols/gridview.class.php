@@ -231,13 +231,14 @@
 			$this->columns = new GridViewColumnCollection($this);
 
 			// event handling
-			$this->events->add(new \System\Web\Events\GridViewPostEvent());
+			$this->events->add(new \System\Web\Events\PagePostEvent());
 
 			// default events
 			$onPostMethod = 'on' . ucwords( $this->controlId ) . 'Post';
 			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $onPostMethod))
 			{
-				$this->events->registerEventHandler(new \System\Web\Events\GridViewPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onPostMethod));
+				trigger_error("GridViewPostEvent is deprecated, use PageRequestEvent instead", E_USER_DEPRECATED);
+				$this->events->registerEventHandler(new \System\Web\Events\PagePostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onPostMethod));
 			}
 		}
 
@@ -472,7 +473,7 @@
 		 */
 		public function insertRow()
 		{
-			$request = \System\Web\HTTPRequest::$request;
+			$request = \System\Web\HTTPRequest::$post;
 
 			if( $this->dataSource )
 			{
@@ -518,7 +519,7 @@
 		 */
 		public function updateRow($id)
 		{
-			$request = \System\Web\HTTPRequest::$request;
+			$request = \System\Web\HTTPRequest::$post;
 
 			if( $this->dataSource )
 			{
@@ -968,7 +969,7 @@
 		 */
 		protected function onPost( array &$request )
 		{
-			$this->events->raise(new \System\Web\Events\GridViewPostEvent(), $this, $request);
+			$this->events->raise(new \System\Web\Events\PagePostEvent(), $this, $request);
 			$this->columns->handlePostEvents( $request );
 		}
 
@@ -1494,12 +1495,6 @@
 				$tr->addChild( $td );
 			}
 
-			if($this->canChangeOrder)
-			{
-				$td = new \System\XML\DomObject('td');
-				$tr->addChild( $td );
-			}
-
 			return $tr;
 		}
 
@@ -1512,35 +1507,31 @@
 		protected function getPagination( )
 		{
 			$tr = new \System\XML\DomObject( 'tr' );
-			$tr->setAttribute( 'class', 'pagenumbers' );
 
 			$td = new \System\XML\DomObject( 'td' );
 			$inc = 0;
 			if( $this->valueField && $this->showList ) {
 				$inc++;
 			}
-			if($this->canChangeOrder) {
-				$inc++;
-			}
 
 			$td->setAttribute( 'colspan', sizeof( $this->columns ) + $inc );
 
 			$span = new \System\XML\DomObject( 'span' );
-			$span->setAttribute( 'class', 'pages' );
+			$span->setAttribute( 'class', 'pagination' );
 
 			// prev
 			$a = new \System\XML\DomObject( 'a' );
 			$a->nodeValue .= 'prev';
-			$a->setAttribute('class', 'prev');
 			if( $this->page > 1 )
 			{
 				$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
 			else
 			{
-				$a->appendAttribute('class', ' disabled');
+				$a->setAttribute('class', 'disabled');
 			}
 			$span->addChild( $a );
+			$span->addChild( new \System\XML\TextNode(' '));
 
 			// page jump
 			$count = $this->dataSource->count;
@@ -1563,31 +1554,32 @@
 					$a = new \System\XML\DomObject( 'a' );
 					$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.$page.'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 					$a->nodeValue .= $page;
-					$a->setAttribute( 'class', 'page' );
 					$span->addChild( $a );
+					$span->addChild( new \System\XML\TextNode(' '));
 				}
 				else
 				{
-					$a = new \System\XML\DomObject( 'span' );
-					$a->setAttribute( 'class', 'page current' );
+					$a = new \System\XML\DomObject( 'a' );
+					$a->setAttribute( 'class', 'current' );
 					$a->nodeValue .= $page;
 					$span->addChild( $a );
+					$span->addChild( new \System\XML\TextNode(' '));
 				}
 			}
 
 			// next
 			$a = new \System\XML\DomObject( 'a' );
 			$a->nodeValue .= 'next';
-			$a->setAttribute('class', 'next');
 			if(( $this->page * $this->pageSize ) < $this->dataSource->count && $this->pageSize )
 			{
 				$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
 			else
 			{
-				$a->appendAttribute('class', ' disabled');
+				$a->setAttribute('class', 'disabled');
 			}
 			$span->addChild( $a );
+			$span->addChild( new \System\XML\TextNode(' '));
 
 			$td->addChild( $span );
 
@@ -1607,7 +1599,7 @@
 
 			$span = new \System\XML\DomObject( 'span' );
 			$span->setAttribute('class', 'summary');
-			$span->nodeValue .= "showing $start to $end of " . $this->dataSource->count;
+			$span->nodeValue .= "showing {$start} to {$end} of " . $this->dataSource->count;
 
 			$td->addChild( $span );
 			$tr->addChild( $td );

@@ -1,6 +1,9 @@
 TODO
 ====
 
+	- validate GridViewControls
+	- GridView ajaxupdate - update paganation, update all sort columns? (update filters, then set focus?)
+
 	[Due in 6.6]
 	- Column ctors should be identical (requires breaking backwards compatability)
 		- ActiveRecord column mapping

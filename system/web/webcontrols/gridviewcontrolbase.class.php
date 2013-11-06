@@ -175,14 +175,8 @@
 			$parameter = $this->formatParameter($this->parameter);
 			if( isset( $request[$parameter] ))
 			{
-//				$pkey = $this->formatParameter($this->pkey);
-
 				$this->_handlePostBack = true;
-				$this->_args = $request;
-//				unset( $request[$parameter] );
-//				if(isset($request[$pkey])) {
-//					unset($request[$pkey]);
-//				}
+				unset( $request[$parameter] );
 			}
 		}
 
@@ -199,11 +193,11 @@
 			{
 				if($this->ajaxPostBack && \Rum::app()->requestHandler->isAjaxPostBack)
 				{
-					$this->events->raise(new \System\Web\Events\GridViewColumnAjaxPostEvent(), $this, $this->_args);
+					$this->events->raise(new \System\Web\Events\GridViewColumnAjaxPostEvent(), $this, \System\Web\HTTPRequest::$post);
 				}
 				else
 				{
-					$this->events->raise(new \System\Web\Events\GridViewColumnPostEvent(), $this, $this->_args);
+					$this->events->raise(new \System\Web\Events\GridViewColumnPostEvent(), $this, \System\Web\HTTPRequest::$post);
 				}
 			}
 		}
