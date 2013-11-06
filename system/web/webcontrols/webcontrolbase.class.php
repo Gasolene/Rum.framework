@@ -859,18 +859,11 @@
 		 */
 		final protected function getQueryString( $queryString = '' )
 		{
-			if( strstr( (string)$queryString, '?' ))
-			{
-				$queryString .= '&' . $this->getRequestData();
-			}
-			else
-			{
-				$queryString .= '?' . $this->getRequestData();
-			}
+			$queryString = $this->getRequestData() . '&' . $queryString;
 
 			// extract parameters
 			$args = array();
-			foreach( explode( '&', substr( stristr( $queryString, '?' ), 1 )) as $param ) {
+			foreach( explode( '&', $queryString) as $param ) {
 				$data = explode( '=', $param );
 				if( isset( $data[1] )) {
 					$args[$data[0]] = $data[1];
@@ -879,9 +872,9 @@
 
 			// extract page
 			$page = '';
-			if( isset( $args[\System\Web\WebApplicationBase::getInstance()->config->requestParameter] )) {
-				$page = $args[\System\Web\WebApplicationBase::getInstance()->config->requestParameter];
-				unset( $args[\System\Web\WebApplicationBase::getInstance()->config->requestParameter] );
+			if( isset( $args[\Rum::config()->requestParameter] )) {
+				$page = $args[\Rum::config()->requestParameter];
+				unset( $args[\Rum::config()->requestParameter] );
 			}
 
 			return \System\Web\WebApplicationBase::getInstance()->getPageURI( $page, $args );
