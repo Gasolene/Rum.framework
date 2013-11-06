@@ -33,8 +33,6 @@
 	 * @property string $sortOrder
 	 * @property string $onmouseover
 	 * @property string $onmouseout
-	 * @property string $onclick
-	 * @property string $ondblclick
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $updateRowsOnly specifies whether to update rows only, or the entire table on updateAjax()
 	 *
@@ -316,9 +314,11 @@
 				return $this->onmouseout;
 			}
 			elseif( $field === 'onclick' ) {
+				trigger_error("GridView::onclick is deprecated, use GridView::render(args) instead", E_USER_DEPRECATED);
 				return $this->onclick;
 			}
 			elseif( $field === 'ondblclick' ) {
+				trigger_error("GridView::ondblclick is deprecated, use GridView::render(args) instead", E_USER_DEPRECATED);
 				return $this->ondblclick;
 			}
 			elseif( $field === 'ajaxPostBack' ) {
@@ -935,79 +935,28 @@
 			if( isset( $request[$this->getHTMLControlId().'__sort_by'] ))
 			{
 				$this->sortBy = $request[$this->getHTMLControlId().'__sort_by'];
-				unset( $request[$this->getHTMLControlId().'__sort_by'] );
+//				unset( $request[$this->getHTMLControlId().'__sort_by'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__sort_order'] ))
 			{
 				$this->sortOrder = $request[$this->getHTMLControlId().'__sort_order'];
-				unset( $request[$this->getHTMLControlId().'__sort_order'] );
+//				unset( $request[$this->getHTMLControlId().'__sort_order'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__page'] ))
 			{
 				$this->page = (int) $request[$this->getHTMLControlId().'__page'];
-				unset( $request[$this->getHTMLControlId().'__page'] );
+//				unset( $request[$this->getHTMLControlId().'__page'] );
 			}
 
 			if( isset( $request[$this->getHTMLControlId().'__selected'] ))
 			{
 				$this->selected = $request[$this->getHTMLControlId().'__selected'];
-				unset( $request[$this->getHTMLControlId().'__selected'] );
+//				unset( $request[$this->getHTMLControlId().'__selected'] );
 			}
-/**
-			if( isset( $request[$this->getHTMLControlId().'__filter_name'] ))
-			{
-				if( isset( $request[$this->getHTMLControlId().'__filter_value'] ))
-				{
-					// filter results
-					$htmlId = $this->getHTMLControlId();
 
-					$this->filters[$request[$htmlId.'__filter_name']] = trim($request[$htmlId.'__filter_value']);
-
-					if(!$this->filters[$request[$htmlId.'__filter_name']])
-					{
-					}
-					elseif($this->filters[$request[$htmlId.'__filter_name']] == 'true')
-					{
-						$this->filters[$request[$htmlId.'__filter_name']] = '1';
-					}
-					elseif($this->filters[$request[$htmlId.'__filter_name']] == 'false')
-					{
-						$this->filters[$request[$htmlId.'__filter_name']] = '0';
-					}
-
-					unset( $request[$this->getHTMLControlId().'__filter_value'] );
-				}
-
-				unset( $request[$this->getHTMLControlId().'__filter_name'] );
-			}
-*/
-			// filter results
-//			if( $this->filters ) {
-//				$filter_event = new \System\Web\Events\GridViewFilterEvent();
-//
-//				if($this->events->contains( $filter_event )) {
-//					$this->events->raise( $filter_event, $this );
-//				}
-//				else {
-//					// filter DataSet
-//					foreach( $this->filters as $column=>$value) {
-//						if(strlen($value)>0) {
-//							if(isset($this->filterValues[$column])) {
-//								$this->dataSource->filter( $column, '=', $value, true );
-//							}
-//							else {
-//								$this->dataSource->filter( $column, 'contains', $value, true );
-//							}
-//						}
-//					}
-//
-//					if($this->ajaxPostBack) {
-//						$this->updateAjax();
-//					}
-//				}
-//			}
+			$this->applyFilterAndSort();
 		}
 
 
@@ -1031,7 +980,7 @@
 		 */
 		protected function onPreRender()
 		{
-			$this->applyFilterAndSort();
+//			$this->applyFilterAndSort();
 		}
 
 
@@ -1069,11 +1018,25 @@
 			$page = $this->getParentByType('\System\Web\WebControls\Page');
 
 			if($this->updateRowsOnly) {
+				$tbody = \addslashes(str_replace("\n", '', str_replace("\r", '', str_replace("<tbody>", '', str_replace("</tbody>", '', $this->getDomObject()->tbody->fetch())))));
+				$tfoot = \addslashes(str_replace("\n", '', str_replace("\r", '', str_replace("<tfoot>", '', str_replace("</tfoot>", '', $this->getDomObject()->tfoot->fetch())))));
+
+				// Update rows
 				$page->loadAjaxJScriptBuffer('var tbody1 = Rum.id(\''.$this->getHTMLControlId().'\').getElementsByTagName(\'tbody\')[0];');
 				$page->loadAjaxJScriptBuffer('var tbody2 = document.createElement(\'tbody\');');
-				$page->loadAjaxJScriptBuffer('tbody2.innerHTML = \''.\addslashes(str_replace("\n", '', str_replace("\r", '', str_replace("<tbody>", '', str_replace("</tbody>", '', $this->getDomObject()->tbody->fetch()))))).'\';');
+				$page->loadAjaxJScriptBuffer('tbody2.innerHTML = \''.$tbody.'\';');
 				$page->loadAjaxJScriptBuffer('tbody1.parentNode.insertBefore(tbody2, tbody1);');
 				$page->loadAjaxJScriptBuffer('tbody1.parentNode.removeChild(tbody1);');
+
+				if($this->showPageNumber)
+				{
+					// Update footer
+					$page->loadAjaxJScriptBuffer('var tfoot1 = Rum.id(\''.$this->getHTMLControlId().'\').getElementsByTagName(\'tfoot\')[0];');
+					$page->loadAjaxJScriptBuffer('var tfoot2 = document.createElement(\'tfoot\');');
+					$page->loadAjaxJScriptBuffer('tfoot2.innerHTML = \''.$tfoot.'\';');
+					$page->loadAjaxJScriptBuffer('tfoot1.parentNode.insertBefore(tfoot2, tfoot1);');
+					$page->loadAjaxJScriptBuffer('tfoot1.parentNode.removeChild(tfoot1);');
+				}
 			}
 			else {
 				// KLUDGE!
@@ -1164,7 +1127,7 @@
 						$order = "asc";
 					}
 
-					$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__sort_by='.($column['DataField']).'&'.$this->getHTMLControlId().'__sort_order='.$order));
+					$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__sort_by='.($column['DataField']).'&'.$this->getHTMLControlId().'__sort_order='.$order));
 
 					// add link node to column
 					$th->addChild( $a );
@@ -1439,8 +1402,8 @@
 				}
 				else
 				{
-					$up->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=up&'.$this->getHTMLControlId().'__move='.$ds->cursor));
-					$down->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=down&'.$this->getHTMLControlId().'__move='.$ds->cursor));
+					$up->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=up&'.$this->getHTMLControlId().'__move='.$ds->cursor));
+					$down->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=down&'.$this->getHTMLControlId().'__move='.$ds->cursor));
 				}
 
 				$up->setAttribute('class', 'move_up');
@@ -1571,7 +1534,7 @@
 			$a->setAttribute('class', 'prev');
 			if( $this->page > 1 )
 			{
-				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
+				$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
 			else
 			{
@@ -1598,7 +1561,7 @@
 				if( $this->page <> $page )
 				{
 					$a = new \System\XML\DomObject( 'a' );
-					$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.$page.'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
+					$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.$page.'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 					$a->nodeValue .= $page;
 					$a->setAttribute( 'class', 'page' );
 					$span->addChild( $a );
@@ -1618,7 +1581,7 @@
 			$a->setAttribute('class', 'next');
 			if(( $this->page * $this->pageSize ) < $this->dataSource->count && $this->pageSize )
 			{
-				$a->setAttribute( 'href', $this->getQueryString('?'.$this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
+				$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
 			else
 			{
