@@ -702,7 +702,7 @@
 
 			// set some basic attributes/properties
 			$table->setAttribute( 'id', $this->getHTMLControlId() );
-			$table->appendAttribute( 'class', ' gridview' );
+//			$table->appendAttribute( 'class', ' gridview' );
 
 			$caption->nodeValue .= $this->caption;
 
@@ -790,9 +790,8 @@
 			 */
 			if( $this->showFooter ) {
 				$tr = $this->getRowFooter( $this->dataSource );
-				$tr->setAttribute( 'class', 'footer' );
 
-				$tfoot->addChild( $tr );
+				$tbody->addChild( $tr );
 			}
 
 			/**
@@ -1465,6 +1464,9 @@
 		{
 			// create footer node
 			$tr = new \System\XML\DomObject( 'tr' );
+
+			// set row attributes
+			$tr->setAttribute( 'class', ($this->dataSource->cursor % 2)?'row_alt':'row' );
 
 			// add blank listcolumn
 			if( $this->valueField && $this->showList ) {
