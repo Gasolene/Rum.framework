@@ -102,7 +102,7 @@
 
 			// set collections
 			$this->controls = new WebControlCollection( $this );
-			$this->attributes = new WebControlAttributeCollection(array('class'=>''));
+			$this->attributes = new WebControlAttributeCollection();
 
 			// set ajax handlers
 			$this->ajaxCallback	= $_SERVER['PHP_SELF'];
