@@ -211,8 +211,8 @@
 		 */
 		public function onRender()
 		{
-			$this->itemText = $this->getItemText($this->dataField, $this->formatParameter($this->parameter));
-			$this->footerText = $this->getFooterText($this->dataField, $this->formatParameter($this->parameter));
+			$this->itemText = $this->fetchUpdateControl($this->dataField, $this->formatParameter($this->parameter));
+//			$this->footerText = $this->fetchInsertControl($this->dataField, $this->formatParameter($this->parameter));
 		}
 
 
@@ -257,20 +257,16 @@
 		/**
 		 * get item text
 		 *
-		 * @param string $dataField datafield of the current row
-		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		abstract protected function getItemText($dataField, $parameter);
+		abstract public function fetchUpdateControl();
 
 
 		/**
 		 * get footer text
 		 *
-		 * @param string $parameter parameter to send
-		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		abstract protected function getFooterText($dataField, $parameter);
+		abstract public function fetchInsertControl();
 	}
 ?>

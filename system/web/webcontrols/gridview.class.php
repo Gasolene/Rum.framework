@@ -20,7 +20,7 @@
 	 * @property bool $showHeader
 	 * @property bool $showFooter
 	 * @property bool $showPageNumber
-	 * @property bool $showPrimaryKey
+	 * @property bool $showInsertRow
 	 * @property bool $showList
 	 * @property bool $autoGenerateColumns
 	 * @property string $valueField
@@ -102,10 +102,10 @@
 		protected $showPageNumber			= true;
 
 		/**
-		 * Set to display primary key in view, Default is false
+		 * Set to display insert row, Default is false
 		 * @var bool
 		 */
-		protected $showPrimaryKey			= false;
+		protected $showInsertRow			= false;
 
 		/**
 		 * Show list view, default is false
@@ -274,7 +274,10 @@
 				return $this->showPageNumber;
 			}
 			elseif( $field === 'showPrimaryKey' ) {
-				return $this->showPrimaryKey;
+				return false;
+			}
+			elseif( $field === 'showInsertRow' ) {
+				return $this->showInsertRow;
 			}
 			elseif( $field === 'showList' ) {
 				return $this->showList;
@@ -389,7 +392,10 @@
 				$this->showPageNumber = (bool)$value;
 			}
 			elseif( $field === 'showPrimaryKey' ) {
-				$this->showPrimaryKey = (bool)$value;
+				trigger_error("GridView::showPrimaryKey is deprecated", E_USER_DEPRECATED);
+			}
+			elseif( $field === 'showInsertRow' ) {
+				$this->showInsertRow = (bool)$value;
 			}
 			elseif( $field === 'showList' ) {
 				$this->showList = (bool)$value;
@@ -778,6 +784,15 @@
 				$this->dataSource->next();
 			}
 
+			/**
+			 * Insert row
+			 */
+			if( $this->showInsertRow ) {
+				$tr = $this->getInsertRow();
+
+				$tbody->addChild( $tr );
+			}
+
 			/**********************************************************************
 			 *
 			 * <tfoot>
@@ -790,7 +805,7 @@
 			if( $this->showFooter ) {
 				$tr = $this->getRowFooter( $this->dataSource );
 
-				$tbody->addChild( $tr );
+				$tfoot->addChild( $tr );
 			}
 
 			/**
@@ -1446,6 +1461,52 @@
 
 
 		/**
+		 * generic method for handling the table insert row
+		 *
+		 * @return DomObject
+		 */
+		protected function getInsertRow( )
+		{
+			// create footer node
+			$tr = new \System\XML\DomObject( 'tr' );
+
+			// set row attributes
+			$tr->setAttribute( 'class', ($this->dataSource->cursor % 2)?'insert row_alt':'insert row' );
+
+			// add blank listcolumn
+			if( $this->valueField && $this->showList ) {
+				$td = new \System\XML\DomObject( 'td' );
+				$tr->addChild( $td );
+			}
+
+			// loop through each column
+			foreach( $this->columns as $column )
+			{
+				// create column node
+				$td = new \System\XML\DomObject( 'td' );
+
+				// set column attributes
+				if( $column['Classname'] ) {
+					$td->setAttribute( 'class', $column['Classname'] );
+				}
+
+				if( $column instanceof GridViewControlBase ) {
+					$html = $column->fetchInsertControl();
+					$insertText = '';
+					if(false === eval("\$insertText ={$html};")) {
+						throw new \System\Base\InvalidOperationException("Could not run expression in GridView on column `".$column["DataField"]."`: \$html = " . ($html) . ';');
+					}
+					$td->innerHtml .= $insertText;
+				}
+
+				$tr->addChild( $td );
+			}
+
+			return $tr;
+		}
+
+
+		/**
 		 * generic method for handling the table footer
 		 *
 		 * @return DomObject
@@ -1613,7 +1674,7 @@
 
 				foreach( $this->dataSource->fieldMeta as $field )
 				{
-					if( !$field->primaryKey || $this->showPrimaryKey )
+					if( !$field->primaryKey )
 					{
 						if( $field->boolean )
 						{

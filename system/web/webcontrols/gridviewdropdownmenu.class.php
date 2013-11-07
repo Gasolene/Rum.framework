@@ -51,20 +51,20 @@
 		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getItemText($dataField, $parameter)
+		public function fetchUpdateControl()
 		{
 			if($this->ajaxPostBack)
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
+				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
 
-				$html = "'<select name=\"{$parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+				$html = "'<select name=\"{$this->parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);
 					$key = htmlentities($key, ENT_QUOTES);
 
-					$html .= "<option value=\"{$value}\" '.(%{$dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
+					$html .= "<option value=\"{$value}\" '.(%{$this->dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
 				}
 				$html .= '</select>\'';
 
@@ -72,13 +72,13 @@
 			}
 			else
 			{
-				$html = "'<select name=\"{$parameter}\" class=\"listbox\">";
+				$html = "'<select name=\"{$this->parameter}\" class=\"listbox\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);
 					$key = htmlentities($key, ENT_QUOTES);
 
-					$html .= "<option value=\"{$value}\" '.(%{$dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
+					$html .= "<option value=\"{$value}\" '.(%{$this->dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
 				}
 				$html .= '</select>\'';
 
@@ -93,15 +93,15 @@
 		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getFooterText($dataField, $parameter)
+		public function fetchInsertControl()
 		{
 			/*
 			if($this->ajaxPostBack)
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
+				$params = $this->getRequestData() . "&{$this->parameter}=\'+this.value+\'";
 
-				$html = "'<select name=\"{$parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+				$html = "'<select name=\"{$this->parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
 					$value = htmlentities($value, ENT_QUOTES);
@@ -114,7 +114,7 @@
 				return $html;
 			}
 			*/
-			$html = "'<select name=\"{$parameter}\" class=\"listbox\">";
+			$html = "'<select name=\"{$this->parameter}\" class=\"listbox\">";
 			foreach($this->items as $key=>$value)
 			{
 				$value = htmlentities($value, ENT_QUOTES);

@@ -110,22 +110,20 @@
 		/**
 		 * get item text
 		 *
-		 * @param string $dataField datafield of the current row
-		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getItemText($dataField, $parameter)
+		public function fetchUpdateControl()
 		{
-			$params = $this->getRequestData() . "&{$dataField}='.\\rawurlencode(%{$dataField}%).'&{$parameter}={$this->itemButtonName}";
+			$params = $this->getRequestData() . "&{$dataField}='.\\rawurlencode(%{$this->dataField}%).'&{$this->parameter}={$this->itemButtonName}";
 			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 
 			if( $this->ajaxPostBack )
 			{
-				return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\',\'POST\');\" />'";
+				return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
+				return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
 			}
 		}
 
@@ -133,11 +131,9 @@
 		/**
 		 * get footer text
 		 *
-		 * @param string $dataField datafield of the current row
-		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getFooterText($dataField, $parameter)
+		public function fetchInsertControl()
 		{
 			if( !$this->footerText )
 			{
@@ -148,11 +144,11 @@
 
 					if( $this->ajaxPostBack )
 					{
-						return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
+						return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
 					}
 					else
 					{
-						return "'<input name=\"{$parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
+						return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
 					}
 				}
 			}

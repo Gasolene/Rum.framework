@@ -108,18 +108,16 @@
 		/**
 		 * get item text
 		 *
-		 * @param string $dataField datafield of the current row
-		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getItemText($dataField, $parameter)
+		public function fetchUpdateControl()
 		{
 			if($this->ajaxPostBack)
 			{
 				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$parameter}=\'+this.value+\'";
+				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
 
-				$html = "'<select name=\"{$parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+				$html = "'<select name=\"{$this->parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
 					if(is_array($value)) {
@@ -129,7 +127,7 @@
 					$value = \Rum::escape($value, ENT_QUOTES);
 					$key = \Rum::escape($key, ENT_QUOTES);
 
-					$html .= "<option value=\"{$value}\" '.(%{$dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
+					$html .= "<option value=\"{$value}\" '.(%{$this->dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
 				}
 				$html .= '</select>\'';
 
@@ -137,7 +135,7 @@
 			}
 			else
 			{
-				$html = "'<select name=\"{$parameter}\">";
+				$html = "'<select name=\"{$this->parameter}\">";
 				foreach($this->items as $key=>$value)
 				{
 					if(is_array($value)) {
@@ -147,7 +145,7 @@
 					$value = \Rum::escape($value, ENT_QUOTES);
 					$key = \Rum::escape($key, ENT_QUOTES);
 
-					$html .= "<option value=\"{$value}\" '.(%{$dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
+					$html .= "<option value=\"{$value}\" '.(%{$this->dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
 				}
 				$html .= '</select>\'';
 
@@ -158,11 +156,9 @@
 		/**
 		 * get footer text
 		 *
-		 * @param string $dataField datafield of the current row
-		 * @param string $parameter parameter to send
 		 * @return string
 		 */
-		protected function getFooterText($dataField, $parameter)
+		public function fetchInsertControl()
 		{
 			if( !$this->footerText )
 			{
@@ -170,9 +166,9 @@
 				if($this->ajaxPostBack)
 				{
 					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-					$params = $this->getRequestData() . "&{$parameter}=\'+this.value+\'";
+					$params = $this->getRequestData() . "&{$this->parameter}=\'+this.value+\'";
 
-					$html = "'<select name=\"{$parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+					$html = "'<select name=\"{$this->parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 					foreach($this->items as $key=>$value)
 					{
 						$value = \Rum::escape($value, ENT_QUOTES);
@@ -185,7 +181,7 @@
 					return $html;
 				}
 				*/
-				$html = "'<select name=\"{$parameter}\">";
+				$html = "'<select name=\"{$this->parameter}\">";
 				foreach($this->items as $key=>$value)
 				{
 					if(is_array($value)) {
