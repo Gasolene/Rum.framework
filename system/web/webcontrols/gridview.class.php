@@ -955,8 +955,6 @@
 				$this->selected = $request[$this->getHTMLControlId().'__selected'];
 //				unset( $request[$this->getHTMLControlId().'__selected'] );
 			}
-
-			$this->applyFilterAndSort();
 		}
 
 
@@ -980,7 +978,7 @@
 		 */
 		protected function onPreRender()
 		{
-//			$this->applyFilterAndSort();
+			$this->applyFilterAndSort();
 		}
 
 

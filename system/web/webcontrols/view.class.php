@@ -324,9 +324,6 @@
 		 */
 		public function fetch( array $args = array() )
 		{
-			// Do pre render stuff
-			$this->preRender();
-
 			$output = '';
 
 			if( $this->_data )
