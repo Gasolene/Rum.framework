@@ -57,6 +57,10 @@
 			$this->footerButtonName = $footerButtonName;
 			$this->confirmation = $confirmation;
 
+			if($footerButtonName) {
+				$this->gridView->showInsertRow = true;
+			}
+
 			$clickEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Click';
 			$AjaxClickEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxClick';
 
@@ -137,19 +141,16 @@
 		{
 			if( !$this->footerText )
 			{
-				if( $this->footerButtonName )
-				{
-					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
-					$params = $this->getRequestData();
+				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$params = $this->getRequestData();
 
-					if( $this->ajaxPostBack )
-					{
-						return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
-					}
-					else
-					{
-						return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
-					}
+				if( $this->ajaxPostBack )
+				{
+					return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
+				}
+				else
+				{
+					return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
 				}
 			}
 			else
