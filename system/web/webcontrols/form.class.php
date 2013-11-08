@@ -464,7 +464,7 @@
 						$childControl->validate($errMsg);
 					}
 
-					$dd .= $childControl->fetchError(array('class'=>'err_msg'));
+					$dd .= $childControl->fetchError(array('class'=>'warning'));
 
 					$dl .= $dt . '</dt>';
 					$dl .= $dd . '</dd>';
