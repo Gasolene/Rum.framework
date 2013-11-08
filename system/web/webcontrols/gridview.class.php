@@ -201,13 +201,7 @@
 		 * Specifies whether to update rows only, or the entire table on updateAjax()
 		 * @var bool
 		 */
-		protected $updateRowsOnly			= true;
-
-		/**
-		 * contains bound DataSet
-		 * @var DataSet
-		 */
-		private $_data						= null;
+		protected $updateRowsOnly			= false;
 
 		/**
 		 * @deprecated
@@ -1029,35 +1023,25 @@
 			// Update only tbody element
 			$page = $this->getParentByType('\System\Web\WebControls\Page');
 
-			if($this->updateRowsOnly) {
-				$tbody = \addslashes(str_replace("\n", '', str_replace("\r", '', str_replace("<tbody>", '', str_replace("</tbody>", '', $this->getDomObject()->tbody->fetch())))));
+			$tbody = \addslashes(str_replace("\n", '', str_replace("\r", '', str_replace("<tbody>", '', str_replace("</tbody>", '', $this->getDomObject()->tbody->fetch())))));
+
+			// Update rows
+			$page->loadAjaxJScriptBuffer('var tbody1 = Rum.id(\''.$this->getHTMLControlId().'\').getElementsByTagName(\'tbody\')[0];');
+			$page->loadAjaxJScriptBuffer('var tbody2 = document.createElement(\'tbody\');');
+			$page->loadAjaxJScriptBuffer('tbody2.innerHTML = \''.$tbody.'\';');
+			$page->loadAjaxJScriptBuffer('tbody1.parentNode.insertBefore(tbody2, tbody1);');
+			$page->loadAjaxJScriptBuffer('tbody1.parentNode.removeChild(tbody1);');
+
+			if(($this->showFooter || $this->showPageNumber) && !$this->updateRowsOnly)
+			{
 				$tfoot = \addslashes(str_replace("\n", '', str_replace("\r", '', str_replace("<tfoot>", '', str_replace("</tfoot>", '', $this->getDomObject()->tfoot->fetch())))));
 
-				// Update rows
-				$page->loadAjaxJScriptBuffer('var tbody1 = Rum.id(\''.$this->getHTMLControlId().'\').getElementsByTagName(\'tbody\')[0];');
-				$page->loadAjaxJScriptBuffer('var tbody2 = document.createElement(\'tbody\');');
-				$page->loadAjaxJScriptBuffer('tbody2.innerHTML = \''.$tbody.'\';');
-				$page->loadAjaxJScriptBuffer('tbody1.parentNode.insertBefore(tbody2, tbody1);');
-				$page->loadAjaxJScriptBuffer('tbody1.parentNode.removeChild(tbody1);');
-
-				if($this->showPageNumber)
-				{
-					// Update footer
-					$page->loadAjaxJScriptBuffer('var tfoot1 = Rum.id(\''.$this->getHTMLControlId().'\').getElementsByTagName(\'tfoot\')[0];');
-					$page->loadAjaxJScriptBuffer('var tfoot2 = document.createElement(\'tfoot\');');
-					$page->loadAjaxJScriptBuffer('tfoot2.innerHTML = \''.$tfoot.'\';');
-					$page->loadAjaxJScriptBuffer('tfoot1.parentNode.insertBefore(tfoot2, tfoot1);');
-					$page->loadAjaxJScriptBuffer('tfoot1.parentNode.removeChild(tfoot1);');
-				}
-			}
-			else {
-				// KLUDGE!
-				// TODO: fix bug where adding new element field each update
-				$page->loadAjaxJScriptBuffer('table1 = Rum.id(\''.$this->getHTMLControlId().'\');');
-				$page->loadAjaxJScriptBuffer('table2 = document.createElement(\'div\');');
-				$page->loadAjaxJScriptBuffer('table2.innerHTML = \''.\addslashes(str_replace("\n", '', str_replace("\r", '', $this->fetch()))).'\';');
-				$page->loadAjaxJScriptBuffer('table1.parentNode.insertBefore(table2, table1);');
-				$page->loadAjaxJScriptBuffer('table1.parentNode.removeChild(table1);');
+				// Update footer
+				$page->loadAjaxJScriptBuffer('var tfoot1 = Rum.id(\''.$this->getHTMLControlId().'\').getElementsByTagName(\'tfoot\')[0];');
+				$page->loadAjaxJScriptBuffer('var tfoot2 = document.createElement(\'tfoot\');');
+				$page->loadAjaxJScriptBuffer('tfoot2.innerHTML = \''.$tfoot.'\';');
+				$page->loadAjaxJScriptBuffer('tfoot1.parentNode.insertBefore(tfoot2, tfoot1);');
+				$page->loadAjaxJScriptBuffer('tfoot1.parentNode.removeChild(tfoot1);');
 			}
 		}
 
