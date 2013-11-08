@@ -57,10 +57,6 @@
 			$this->footerButtonName = $footerButtonName;
 			$this->confirmation = $confirmation;
 
-			if($footerButtonName) {
-				$this->gridView->showInsertRow = true;
-			}
-
 			$clickEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Click';
 			$AjaxClickEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxClick';
 
@@ -118,7 +114,11 @@
 		 */
 		public function fetchUpdateControl()
 		{
-			$params = $this->getRequestData() . "&{$dataField}='.\\rawurlencode(%{$this->dataField}%).'&{$this->parameter}={$this->itemButtonName}";
+			if($this->footerButtonName) {
+				$this->gridView->showInsertRow = true;
+			}
+
+			$params = $this->getRequestData() . "&{$this->dataField}='.\\rawurlencode(%{$this->dataField}%).'&{$this->parameter}={$this->itemButtonName}";
 			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 
 			if( $this->ajaxPostBack )
