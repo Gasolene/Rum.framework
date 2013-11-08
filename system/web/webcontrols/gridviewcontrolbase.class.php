@@ -59,12 +59,6 @@
 		 */
 		private $_handlePostBack			= false;
 
-		/**
-		 * args
-		 * @var array
-		 */
-		private $_args						= array();
-
 
 		/**
 		 * @param  string		$dataField			field name
