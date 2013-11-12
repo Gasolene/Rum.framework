@@ -163,7 +163,6 @@
 			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').length=0;");
 			foreach($this->items as $key=>$value)
 			{
-//				$key = htmlentities($key, ENT_QUOTES); // KLUDGE:
 				$key = str_replace('\'', '\\\'', $key);
 				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').options.add(new Option('{$key}', '{$value}'));");
 			}

@@ -26,13 +26,10 @@
 		 */
 		public function getDomObject()
 		{
-			$output = $this->createDomObject( 'input' );
+			$output = $this->createDomObject( 'span' );
 			$output->setAttribute( 'name', $this->getHTMLControlId() );
 			$output->setAttribute( 'id', $this->getHTMLControlId() );
-			$output->setAttribute( 'value', $this->value );
-
-			// Backwards compatability
-			$output->setAttribute( 'readonly', 'readonly' );
+			$output->nodeValue = $this->value;
 
 			return $output;
 		}
@@ -45,7 +42,8 @@
 		 */
 		protected function onUpdateAjax()
 		{
-			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').value='$this->value';");
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').removeChild( span.firstChild );");
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').document.createTextNode('".addslashes($this->value)."');");
 		}
 	}
 ?>
