@@ -134,7 +134,7 @@
 			{
 				params = params.split('&');
 				var temp=document.createElement("form");
-				temp.action=url+'/';
+				temp.action=url;
 				temp.method="POST";
 				temp.style.display="none";
 				for(var x = 0; x < params.length; x++)
