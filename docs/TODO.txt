@@ -26,5 +26,6 @@ CONTROLS (BOD)
 BUGS/ISSUES
 ===========
 
+	RequiredValidator does not work with ListBox when multiple=true
 	ENT_QUOTES causes GridViewControls to fail epically
 	DateSelector AJAX fails epically

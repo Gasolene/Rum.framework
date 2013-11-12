@@ -102,7 +102,10 @@
 
 			if( $this->ajaxPostBack || $this->ajaxValidation )
 			{
-				$select->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
+				if( !$this->multiple )
+				{
+					$select->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.selectedIndex+\'&'.$this->getRequestData().'\',\'POST\');' );
+				}
 			}
 
 			if( $this->readonly )
