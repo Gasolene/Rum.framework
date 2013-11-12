@@ -22,8 +22,11 @@
 	 * @property string $emailSubject Specifies the subject line of the email message
 	 * @property string $emailBody Specifies the body of the email message with template variables {username}, {url}
 	 * @property IMailClient $mailClient Specifies the mail client to send the message with
-	 * @property Text $username username control
-	 * @property Password $password password control
+	 * @property Text $username username textbox
+	 * @property Password $password password textbox
+	 * @property Checkbox $permenant permenant checkbox
+	 * @property Hyperlink $forgot_password forgot password link
+	 * @property Button $login login button
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -261,15 +264,23 @@
 			}
 			elseif( $field === 'username' )
 			{
-				return $this->getControl('username');
+				return $this->findControl('username');
 			}
 			elseif( $field === 'password' )
 			{
-				return $this->getControl('password');
+				return $this->findControl('password');
 			}
-			elseif( $field === 'new_password' )
+			elseif( $field === 'forgot_password' )
 			{
-				return $this->getControl('new_password');
+				return $this->findControl('forgot_password');
+			}
+			elseif( $field === 'permanent' )
+			{
+				return $this->findControl('permanent');
+			}
+			elseif( $field === 'login' )
+			{
+				return $this->findControl('login');
 			}
 			else
 			{
@@ -299,6 +310,8 @@
 
 				$this->getControl('username')->label = \Rum::tl('loginform_new_password', "New password");
 				$this->getControl('password')->label = \Rum::tl('loginform_confirm_password', "Confirm password");
+				$this->getControl('username')->placeholder = \Rum::tl('loginform_new_password', "New password");
+				$this->getControl('password')->placeholder = \Rum::tl('loginform_confirm_password', "Confirm password");
 
 				$this->getControl('username')->addValidator(new \System\Validators\RequiredValidator(\Rum::tl('loginform_required_validation_message', "You must enter a password")));
 				$this->getControl('username')->addValidator(new \System\Validators\MatchValidator($this->password, \Rum::tl('loginform_match_validation_message', "Your passwords must match")));
@@ -311,7 +324,8 @@
 				$this->add(new Email('username'));
 				$this->add(new Button('login', \Rum::tl('loginform_reset', "Reset")));
 
-				$this->getControl('username')->label = 'Email address';
+				$this->getControl('username')->label = \Rum::tl('loginform_email', "Email address");
+				$this->getControl('username')->placeholder = \Rum::tl('loginform_email', "Email address");
 
 				$this->getControl('username')->addValidator(new \System\Validators\EmailValidator(\Rum::tl('loginform_email_validation_message', "You must enter a valid email address")));
 			}
@@ -328,16 +342,8 @@
 				$this->getControl('username')->label = \Rum::tl('loginform_username', "Username");
 				$this->getControl('password')->label = \Rum::tl('loginform_password', "Password");
 				$this->getControl('permanent')->label = \Rum::tl('loginform_permanent', "Remember me?");
-
-//				$this->getControl( 'forgot_password' )->visible = false;
-//				foreach($app->config->authenticationCredentialsTables as $table)
-//				{
-//					if(isset($table["emailaddress-field"]))
-//					{
-//						$this->getControl( 'forgot_password' )->visible = true;
-//						break;
-//					}
-//				}
+				$this->getControl('username')->placeholder = \Rum::tl('loginform_username', "Username");
+				$this->getControl('password')->placeholder = \Rum::tl('loginform_password', "Password");
 			}
 		}
 
@@ -512,19 +518,24 @@
 			$dl->addChild($dt);
 			$dl->addChild($dd);
 
-			$dt = new \System\XML\DomObject('dt');
-			$dd = new \System\XML\DomObject('dd');
-			$label = new \System\XML\DomObject('label');
-			$label->nodeValue = $this->password->label;
-			$dt->addChild($label);
-			$dd->addChild($this->password->getDomObject());
-			if($this->forgot_password) {
-				$dd->addChild($this->forgot_password->getDomObject());
+			if($this->findControl('password'))
+			{
+				$dt = new \System\XML\DomObject('dt');
+				$dd = new \System\XML\DomObject('dd');
+				$label = new \System\XML\DomObject('label');
+				$label->nodeValue = $this->password->label;
+				$dt->addChild($label);
+				$dd->addChild($this->password->getDomObject());
+				if($this->findControl('forgot_password'))
+				{
+					$dd->addChild($this->forgot_password->getDomObject());
+				}
+				$dl->addChild($dt);
+				$dl->addChild($dd);
 			}
-			$dl->addChild($dt);
-			$dl->addChild($dd);
 
-			if($this->permanent) {
+			if($this->findControl('permanent'))
+			{
 				$dt = new \System\XML\DomObject('dt');
 				$dd = new \System\XML\DomObject('dd');
 				$label = new \System\XML\DomObject('label');
