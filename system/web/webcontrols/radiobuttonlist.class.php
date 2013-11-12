@@ -102,7 +102,7 @@
 		{
 			$fieldset = new \System\XML\DomObject( 'fieldset' );
 			$fieldset->setAttribute( 'id', $this->getHTMLControlId() );
-//			$fieldset->appendAttribute( 'class', ' radiobuttonlist' );
+//			$fieldset->setAttribute( 'class', ' radiobuttonlist' );
 
 			if( !$this->visible )
 			{
@@ -124,12 +124,12 @@
 
 				if( $this->autoPostBack )
 				{
-					$input->appendAttribute( 'onclick', 'Rum.id(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
+					$input->setAttribute( 'onclick', 'Rum.id(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 				}
 
 				if( $this->ajaxPostBack )
 				{
-					$input->appendAttribute( 'onclick', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
+					$input->setAttribute( 'onclick', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
 				}
 
 				if( $this->readonly )
@@ -163,8 +163,8 @@
 					}
 				}
 
-				$input->appendAttribute( 'onclick',	str_replace( '%value%', $this->items->itemAt( $i ), $this->onclick ));
-				$input->appendAttribute( 'ondblclick', str_replace( '%value%', $this->items->itemAt( $i ), $this->ondblclick ));
+				$input->setAttribute( 'onclick',	str_replace( '%value%', $this->items->itemAt( $i ), $this->onclick ));
+				$input->setAttribute( 'ondblclick', str_replace( '%value%', $this->items->itemAt( $i ), $this->ondblclick ));
 
 				$label = new \System\XML\DomObject( 'label' );
 				$label->addChild( $input );
@@ -188,6 +188,57 @@
 			if( $this->items->count > 0 )
 			{
 				$this->defaultHTMLControlId = $this->getHTMLControlId() . "__0";
+			}
+		}
+
+
+		/**
+		 * process the HTTP request array
+		 *
+		 * @return void
+		 */
+		protected function onRequest( array &$request )
+		{
+			if( !$this->disabled )
+			{
+				if( $this->readonly )
+				{
+					$this->submitted = true;
+				}
+
+				if( isset( $request[$this->getHTMLControlId()] ))
+				{
+					$this->submitted = true;
+
+					if( $this->value != $request[$this->getHTMLControlId()] )
+					{
+						$this->changed = true;
+					}
+
+					$this->value = $request[$this->getHTMLControlId()];
+					unset( $request[$this->getHTMLControlId()] );
+				}
+
+				if( !$this->value && $this->multiple )
+				{
+					$this->value = array();
+				}
+				elseif( $this->value === '' )
+				{
+					$this->value = null;
+				}
+			}
+
+			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted)
+			{
+				if($this->validate($errMsg))
+				{
+					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.clear('{$this->getHTMLControlId()}');");
+				}
+				else
+				{
+					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}', '".\addslashes($errMsg)."');");
+				}
 			}
 		}
 	}

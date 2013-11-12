@@ -125,7 +125,7 @@
 		{
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'type', 'file' );
-			$input->appendAttribute( 'class', ' filebrowser' );
+			$input->setAttribute( 'class', ' filebrowser' );
 
 			return $input;
 		}

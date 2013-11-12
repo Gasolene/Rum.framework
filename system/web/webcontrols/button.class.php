@@ -121,7 +121,7 @@
 		{
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'value', $this->text );
-//			$input->appendAttribute( 'class', ' button' );
+//			$input->setAttribute( 'class', ' button' );
 
 			if( $this->src )
 			{
@@ -135,7 +135,7 @@
 
 			if( !$this->visible )
 			{
-				$input->appendAttribute( 'style', 'display:none;' );
+				$input->setAttribute( 'style', 'display:none;' );
 			}
 
 			if( $this->readonly )

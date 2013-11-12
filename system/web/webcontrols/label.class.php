@@ -112,7 +112,7 @@
 
 			if( !$this->visible )
 			{
-				$span->appendAttribute( 'style', 'display:none;' );
+				$span->setAttribute( 'style', 'display:none;' );
 			}
 
 			return $span;

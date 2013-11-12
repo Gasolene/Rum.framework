@@ -180,7 +180,7 @@
 			trigger_error("TextBox is deprecated, use Text", E_USER_DEPRECATED);
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'size', $this->size );
-			$input->appendAttribute( 'class', ' textbox' );
+			$input->setAttribute( 'class', ' textbox' );
 
 			if(!is_null($this->value) && !$this->mask)
 			{
@@ -189,7 +189,7 @@
 
 			if( $this->ajaxPostBack || $this->ajaxValidation )
 			{
-				$input->appendAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');}' );
+				$input->setAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');}' );
 			}
 
 			if( $this->visible )
@@ -211,7 +211,7 @@
 
 			if( $this->disableEnterKey )
 			{
-				$input->appendAttribute( 'onkeydown', 'if(event.keyCode==13){return false;}' );
+				$input->setAttribute( 'onkeydown', 'if(event.keyCode==13){return false;}' );
 			}
 
 			if( $this->disableAutoComplete )

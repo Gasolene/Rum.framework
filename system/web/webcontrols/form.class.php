@@ -511,11 +511,11 @@
 			$form->setAttribute( 'action', $this->action );
 			$form->setAttribute( 'method', strtolower( $this->method ));
 			$form->setAttribute( 'enctype', $this->encodeType );
-//			$form->appendAttribute( 'class', ' form' );
+//			$form->setAttribute( 'class', ' form' );
 
 			if( $this->_onsubmit )
 			{
-				$form->appendAttribute( 'onsubmit', $this->_onsubmit );
+				$form->setAttribute( 'onsubmit', $this->_onsubmit );
 			}
 
 			// public to check if form has been submitted

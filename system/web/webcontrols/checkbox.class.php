@@ -69,7 +69,7 @@
 		{
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'value', '1' );
-//			$input->appendAttribute( 'class', ' checkbox' );
+//			$input->setAttribute( 'class', ' checkbox' );
 
 			if( $this->value )
 			{
@@ -83,7 +83,7 @@
 
 			if( $this->autoPostBack )
 			{
-				$input->appendAttribute( 'onclick', 'Rum.id(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
+				$input->setAttribute( 'onclick', 'Rum.id(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
 			if( $this->ajaxPostBack )

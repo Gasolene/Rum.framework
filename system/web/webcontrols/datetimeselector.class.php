@@ -201,7 +201,7 @@
 		{
 			// create widgets
 			$editRegion = $this->createDomObject( 'span' );
-			$editRegion->appendAttribute( 'class', ' datetimeselector' );
+			$editRegion->setAttribute( 'class', ' datetimeselector' );
 
 			$select_day = new \System\XML\DomObject( 'select' );
 			$select_month = new \System\XML\DomObject( 'select' );
@@ -267,12 +267,12 @@
 			// set onchange attribute
 			if( $this->autoPostBack )
 			{
-				$select_day->appendAttribute( 'onchange', 'submit();' );
-				$select_month->appendAttribute( 'onchange', 'submit();' );
-				$select_year->appendAttribute( 'onchange', 'submit();' );
-				$select_hour->appendAttribute( 'onchange', 'submit();' );
-				$select_minute->appendAttribute( 'onchange', 'submit();' );
-				$select_meridiem->appendAttribute( 'onchange', 'submit();' );
+				$select_day->setAttribute( 'onchange', 'submit();' );
+				$select_month->setAttribute( 'onchange', 'submit();' );
+				$select_year->setAttribute( 'onchange', 'submit();' );
+				$select_hour->setAttribute( 'onchange', 'submit();' );
+				$select_minute->setAttribute( 'onchange', 'submit();' );
+				$select_meridiem->setAttribute( 'onchange', 'submit();' );
 				$null->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
@@ -287,13 +287,13 @@
 				if($this->allowNull) $js .= '\'&' . $this->getHTMLControlId() . '__null=\' + Rum.id(\'' . $this->getHTMLControlId() . '__null\').value + ';
 				$js .= '\'';
 
-				$select_day->appendAttribute( 'onchange',      'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$select_month->appendAttribute( 'onchange',    'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$select_year->appendAttribute( 'onchange',     'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$select_hour->appendAttribute( 'onchange',     'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$select_minute->appendAttribute( 'onchange',   'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$select_meridiem->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$null->appendAttribute( 'onchange',            'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_day->setAttribute( 'onchange',      'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_month->setAttribute( 'onchange',    'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_year->setAttribute( 'onchange',     'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_hour->setAttribute( 'onchange',     'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_minute->setAttribute( 'onchange',   'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_meridiem->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$null->setAttribute( 'onchange',            'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
 			}
 
 			// set invalid class

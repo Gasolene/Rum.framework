@@ -675,7 +675,7 @@
 			}
 
 			if($update && \Rum::requestHandler()->isAjaxPostBack) {
-				$this->updateAjax();
+//				$this->updateAjax();
 			}
 		}
 
@@ -1314,22 +1314,22 @@
 					if( is_array( $this->selected )) {
 						if( array_search( $ds[$this->valueField], $this->selected ) !== false ) {
 							$input->setAttribute( 'checked', 'checked' );
-							$tr->appendAttribute( 'class', ' selected' );
+							$tr->setAttribute( 'class', ' selected' );
 						}
 					}
 				}
 				else {
 					if( $this->selected === $ds[$this->valueField] ) {
 						$input->setAttribute( 'checked', 'checked' );
-						$tr->appendAttribute( 'class', ' selected' );
+						$tr->setAttribute( 'class', ' selected' );
 					}
 
-					$tr->appendAttribute( 'onclick', 'Rum.gridViewUnSelectAll( \'' . $this->getHTMLControlId() . '\' );' );
+					$tr->setAttribute( 'onclick', 'Rum.gridViewUnSelectAll( \'' . $this->getHTMLControlId() . '\' );' );
 				}
 
-				$tr->appendAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { Rum.id(\''. (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = false; } else { Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = true; }' );
-				$tr->appendAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'row\' ) { this.className = \'selected row\'; } else { this.className = \'selected row_alt\'; }}' );
-				$tr->appendAttribute( 'onclick', 'if(!Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'selected row\' ) { this.className = \'row\'; } else { this.className = \'row_alt\'; }}' );
+				$tr->setAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { Rum.id(\''. (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = false; } else { Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = true; }' );
+				$tr->setAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'row\' ) { this.className = \'selected row\'; } else { this.className = \'selected row_alt\'; }}' );
+				$tr->setAttribute( 'onclick', 'if(!Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'selected row\' ) { this.className = \'row\'; } else { this.className = \'row_alt\'; }}' );
 
 				// add td element to tr
 				$td->addChild( $input );

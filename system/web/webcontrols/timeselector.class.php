@@ -158,7 +158,7 @@
 		public function getDomObject()
 		{
 			$editRegion = $this->createDomObject( 'span' );
-			$editRegion->appendAttribute( 'class', ' timeselector' );
+			$editRegion->setAttribute( 'class', ' timeselector' );
 
 			$select_hour = new \System\XML\DomObject( 'select' );
 			$select_minute = new \System\XML\DomObject( 'select' );
@@ -206,9 +206,9 @@
 			// set onchange attribute
 			if( $this->autoPostBack )
 			{
-				$select_hour->appendAttribute( 'onchange', 'submit();' );
-				$select_minute->appendAttribute( 'onchange', 'submit();' );
-				$select_meridiem->appendAttribute( 'onchange', 'submit();' );
+				$select_hour->setAttribute( 'onchange', 'submit();' );
+				$select_minute->setAttribute( 'onchange', 'submit();' );
+				$select_meridiem->setAttribute( 'onchange', 'submit();' );
 				$null->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
@@ -219,10 +219,10 @@
 				$js .= '\'&' . $this->getHTMLControlId() . '__meridiem=\' + Rum.id(\'' . $this->getHTMLControlId() . '__meridiem\').value + ';
 				if($this->allowNull) $js .= '\'&' . $this->getHTMLControlId() . '__null=\' + Rum.id(\'' . $this->getHTMLControlId() . '__null\').value + ';
 				$js .= '\'';
-				$select_hour->appendAttribute( 'onchange',     'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$select_minute->appendAttribute( 'onchange',   'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$select_meridiem->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$null->appendAttribute( 'onchange',            'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_hour->setAttribute( 'onchange',     'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_minute->setAttribute( 'onchange',   'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_meridiem->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$null->setAttribute( 'onchange',            'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
 			}
 
 			// set invalid class

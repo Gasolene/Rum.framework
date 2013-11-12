@@ -131,7 +131,7 @@
 		public function getDomObject()
 		{
 			$input = $this->getInputDomObject();
-//			$input->appendAttribute( 'class', ' text' );
+//			$input->setAttribute( 'class', ' text' );
 
 			if(!is_null($this->value))
 			{
@@ -140,7 +140,7 @@
 
 			if( $this->ajaxPostBack || $this->ajaxValidation )
 			{
-				$input->appendAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');}' );
+				$input->setAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');}' );
 			}
 
 			if( $this->visible )
@@ -155,7 +155,7 @@
 
 			if( $this->disableEnterKey )
 			{
-				$input->appendAttribute( 'onkeydown', 'if(event.keyCode==13){return false;}' );
+				$input->setAttribute( 'onkeydown', 'if(event.keyCode==13){return false;}' );
 			}
 
 			if( $this->disableAutoComplete )

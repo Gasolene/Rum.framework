@@ -147,7 +147,7 @@
 			if( $this->rootNode )
 			{
 				$rootNode = $this->createDomObject( 'ul' );
-//				$rootNode->appendAttribute( 'class', ' treeview' );
+//				$rootNode->setAttribute( 'class', ' treeview' );
 
 				if( $this->showRoot )
 				{
@@ -289,7 +289,7 @@
 
 				if( !$treeNode->expanded )
 				{
-					$childNodes->appendAttribute( 'style', 'display:none;' );
+					$childNodes->setAttribute( 'style', 'display:none;' );
 				}
 
 				foreach( $treeNode->childNodes as $node )

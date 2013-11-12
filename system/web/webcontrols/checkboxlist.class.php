@@ -32,7 +32,7 @@
 		public function getDomObject()
 		{
 			$dom = parent::getDomObject();
-//			$dom->appendAttribute( 'class', ' checkbuttonlist' );
+//			$dom->setAttribute( 'class', ' checkbuttonlist' );
 			return $dom;
 		}
 		*/

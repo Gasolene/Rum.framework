@@ -187,7 +187,7 @@
 		{
 			// create widgets
 			$editRegion = $this->createDomObject( 'span' );
-			$editRegion->appendAttribute( 'class', ' dateselector' );
+			$editRegion->setAttribute( 'class', ' dateselector' );
 
 			$select_day = new \System\XML\DomObject( 'select' );
 			$select_month = new \System\XML\DomObject( 'select' );
@@ -235,9 +235,9 @@
 			// set onchange attribute
 			if( $this->autoPostBack )
 			{
-				$select_day->appendAttribute( 'onchange', 'submit();' );
-				$select_month->appendAttribute( 'onchange', 'submit();' );
-				$select_year->appendAttribute( 'onchange', 'submit();' );
+				$select_day->setAttribute( 'onchange', 'submit();' );
+				$select_month->setAttribute( 'onchange', 'submit();' );
+				$select_year->setAttribute( 'onchange', 'submit();' );
 				$null->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
@@ -248,10 +248,10 @@
 				$js .= '\'&' . $this->getHTMLControlId() . '__year=\' + Rum.id(\'' . $this->getHTMLControlId() . '__year\').value + ';
 				if($this->allowNull) $js .= '\'&' . $this->getHTMLControlId() . '__null=\' + Rum.id(\'' . $this->getHTMLControlId() . '__null\').value + ';
 				$js .= '\'';
-				$select_day->appendAttribute( 'onchange',   'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$select_month->appendAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$select_year->appendAttribute( 'onchange',  'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
-				$null->appendAttribute( 'onchange',         'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_day->setAttribute( 'onchange',   'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_month->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$select_year->setAttribute( 'onchange',  'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
+				$null->setAttribute( 'onchange',         'Rum.evalAsync(\'' . $this->ajaxCallback . '\','.$js.'&'.$this->getRequestData().'\',\'POST\');' );
 			}
 
 			// set invalid class

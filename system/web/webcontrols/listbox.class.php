@@ -77,7 +77,7 @@
 			$select = $this->createDomObject( 'select' );
 			$select->setAttribute( 'id', $this->getHTMLControlId());
 			$select->setAttribute( 'title', $this->tooltip );
-//			$select->appendAttribute( 'class', ' listbox' );
+//			$select->setAttribute( 'class', ' listbox' );
 			$select->setAttribute( 'size', $this->listSize );
 
 			if( $this->multiple )
@@ -92,19 +92,19 @@
 
 			if( $this->submitted && !$this->validate() )
 			{
-				$select->appendAttribute( 'class', ' invalid' );
+				$select->setAttribute( 'class', 'invalid' );
 			}
 
 			if( $this->autoPostBack )
 			{
-				$select->appendAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
+				$select->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
 			if( $this->ajaxPostBack || $this->ajaxValidation )
 			{
 				if( !$this->multiple )
 				{
-					$select->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.selectedIndex+\'&'.$this->getRequestData().'\',\'POST\');' );
+					$select->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'__validate=1&'.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
 				}
 			}
 
@@ -153,6 +153,57 @@
 			}
 
 			return $select;
+		}
+
+
+		/**
+		 * process the HTTP request array
+		 *
+		 * @return void
+		 */
+		protected function onRequest( array &$request )
+		{
+			if( !$this->disabled )
+			{
+				if( $this->readonly )
+				{
+					$this->submitted = true;
+				}
+
+				if( isset( $request[$this->getHTMLControlId()] ))
+				{
+					$this->submitted = true;
+
+					if( $this->value != $request[$this->getHTMLControlId()] )
+					{
+						$this->changed = true;
+					}
+
+					$this->value = $request[$this->getHTMLControlId()];
+					unset( $request[$this->getHTMLControlId()] );
+				}
+
+				if( !$this->value && $this->multiple )
+				{
+					$this->value = array();
+				}
+				elseif( $this->value === '' )
+				{
+					$this->value = null;
+				}
+			}
+
+			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted)
+			{
+				if($this->validate($errMsg))
+				{
+					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.clear('{$this->getHTMLControlId()}');");
+				}
+				else
+				{
+					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}', '".\addslashes($errMsg)."');");
+				}
+			}
 		}
 
 

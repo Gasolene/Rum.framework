@@ -149,13 +149,13 @@
 		public function getDomObject()
 		{
 			$a = $this->createDomObject('a');
-//			$a->appendAttribute( 'class', ' hyperlink' );
+//			$a->setAttribute( 'class', ' hyperlink' );
 			$a->setAttribute('href', $this->url);
 			$a->setAttribute('target', $this->target);
 
 			if( !$this->visible )
 			{
-				$a->appendAttribute( 'style', 'display:none;' );
+				$a->setAttribute( 'style', 'display:none;' );
 			}
 
 			if( $this->src )
