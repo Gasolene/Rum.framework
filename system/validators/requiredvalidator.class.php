@@ -43,7 +43,14 @@
 		{
 			if($this->controlToValidate)
 			{
-				return (bool)$this->controlToValidate->value || $this->controlToValidate->value === '0';
+				if(is_array($this->controlToValidate->value))
+				{
+					return (bool)$this->controlToValidate->value || $this->controlToValidate->value === '0';
+				}
+				else
+				{
+					return (bool)trim($this->controlToValidate->value) || trim($this->controlToValidate->value) === '0';
+				}
 			}
 			else
 			{
