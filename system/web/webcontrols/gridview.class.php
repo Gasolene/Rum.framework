@@ -651,10 +651,6 @@
 			elseif($this->canFilter) {
 				// filter DataSet
 				$this->columns->filterDataSet( $this->dataSource );
-
-				if($this->ajaxPostBack) {
-					$update = true;
-				}
 			}
 
 			// sort results
@@ -669,13 +665,9 @@
 					$this->dataSource->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
 
 					if($this->ajaxPostBack) {
-						$update = true;
+						$this->needsUpdating = true;
 					}
 				}
-			}
-
-			if($update && \Rum::requestHandler()->isAjaxPostBack) {
-//				$this->updateAjax();
 			}
 		}
 
@@ -980,13 +972,14 @@
 
 
 		/**
-		 * handle post events
+		 * Event called when control is ready for rendering
 		 *
 		 * @return void
 		 */
 		protected function onPreRender()
 		{
 			$this->applyFilterAndSort();
+			parent::onPreRender();
 		}
 
 

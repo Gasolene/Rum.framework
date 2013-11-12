@@ -21,6 +21,7 @@
 	 * @property WebControlBase $parent parent control
 	 * @property DataSet $dataSource Reference to data-source
 	 * @property mixed $value Control value
+	 * @property bool $needsUpdating Specifies if control needs to be updated
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -69,6 +70,12 @@
 		 * @var DataSet
 		 */
 		protected $dataSource			= null;
+
+		/**
+		 * specifies if control needs to be updated
+		 * @var bool
+		 */
+		protected $needsUpdating		= false;
 
 		/**
 		 * Id of the control
@@ -182,6 +189,10 @@
 			{
 				return $this->dataSource;
 			}
+			elseif( $field === 'needsUpdating' )
+			{
+				return $this->needsUpdating;
+			}
 			else
 			{
 				$control = $this->findControl($field);
@@ -222,6 +233,10 @@
 			elseif( $field === 'dataSource' )
 			{
 				$this->bind($value);
+			}
+			elseif( $field === 'needsUpdating' )
+			{
+				$this->needsUpdating = (bool)$value;
 			}
 			elseif( $field === 'parent' )
 			{
@@ -787,7 +802,12 @@
 		 *
 		 * @return void
 		 */
-		protected function onPreRender() {}
+		protected function onPreRender()
+		{
+			if($this->needsUpdating) {
+				$this->updateAjax();
+			}
+		}
 
 
 		/**

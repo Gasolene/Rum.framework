@@ -55,6 +55,7 @@
 		{
 			if($this->value) {
 				$ds->filter($this->column->dataField, '=', $this->value=='true'?1:0 );
+				$this->column->gridView->needsUpdating = true;
 			}
 		}
 
