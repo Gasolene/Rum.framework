@@ -82,7 +82,31 @@
 
 
 		/**
-		 * return min filter value
+		 * set min filter value
+		 *
+		 * @param  string	$minValue	filter min value
+		 * @return void
+		 */
+		public function setMinValue($minValue)
+		{
+			$this->minValue = (string)$minValue;
+		}
+
+
+		/**
+		 * set max filter value
+		 *
+		 * @param  string	$maxValue	filter min value
+		 * @return void
+		 */
+		public function setMaxValue($maxValue)
+		{
+			$this->maxValue = (string)$maxValue;
+		}
+
+
+		/**
+		 * get min filter value
 		 *
 		 * @return string
 		 */
@@ -93,7 +117,7 @@
 
 
 		/**
-		 * return max filter value
+		 * get max filter value
 		 *
 		 * @return string
 		 */

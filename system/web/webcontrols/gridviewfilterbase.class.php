@@ -165,7 +165,19 @@
 
 
 		/**
-		 * return filter value
+		 * set filter value
+		 *
+		 * @param  string	$value	filter value
+		 * @return void
+		 */
+		public function setValue($value)
+		{
+			$this->value = (string)$value;
+		}
+
+
+		/**
+		 * get filter value
 		 *
 		 * @return string
 		 */
