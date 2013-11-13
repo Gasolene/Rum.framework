@@ -98,10 +98,10 @@
 		protected $label					= '';
 
 		/**
-		 * Specifies whether to disable the enter key, default is false
+		 * Specifies whether to disable the browsers auto complete feature
 		 * @var bool
 		 */
-		protected $disableEnterKey			= false;
+		protected $disableAutoComplete		= false;
 
 		/**
 		 * Specifies the text for the placeholder attribute
