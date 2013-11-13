@@ -86,8 +86,10 @@
 			var inputs = element.getElementsByTagName('input');
 			var selects = element.getElementsByTagName('select');
 			for (x=0;x<inputs.length;x++) {
-				if(params) params = params + '&';
-				params = params + inputs[x].getAttribute('name') + '=' + inputs[x].value;
+				if(inputs[x].getAttribute('type')!='button' && inputs[x].getAttribute('type')!='submit' && inputs[x].getAttribute('type')!='image') {
+					if(params) params = params + '&';
+					params = params + inputs[x].getAttribute('name') + '=' + inputs[x].value;
+				}
 			}
 			for (x=0;x<selects.length;x++) {
 				if(params) params = params + '&';
