@@ -42,8 +42,8 @@
 		 */
 		protected function onUpdateAjax()
 		{
-			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').removeChild( span.firstChild );");
-			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').document.createTextNode('".addslashes($this->value)."');");
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').removeChild( Rum.id('{$this->getHTMLControlId()}').firstChild );");
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').appendChild(document.createTextNode('".addslashes($this->value)."'));");
 		}
 	}
 ?>
