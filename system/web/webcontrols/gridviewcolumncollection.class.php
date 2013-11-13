@@ -246,7 +246,7 @@
 		 * returns index if value is found in collection
 		 *
 		 * @param  string		$controlId			control id
-		 * @return int
+		 * @return GridViewColumn
 		 */
 		public function findColumn( $dataField )
 		{

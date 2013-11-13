@@ -326,13 +326,24 @@
 				return $this->updateRowsOnly;
 			}
 			elseif( $field === 'filters' ) {
-				trigger_error("GridView::filters is deprecated, use GridView::getFilters() instead", E_USER_DEPRECATED);
 				$filters = array();
 				foreach($this->columns as $column) {
 					if( $column->filter ) {
-						$value = $column->filter->getValue();
-						if( $value ) {
-							$filters[$column->dataField] = $value;
+						if($column->filter instanceof GridViewRangeFilterBase) {
+							$minValue = $column->filter->getMinValue();
+							if( $minValue ) {
+								$filters[$column->dataField]['Min'] = $minValue;
+							}
+							$maxValue = $column->filter->getMaxValue();
+							if( $maxValue ) {
+								$filters[$column->dataField]['Max'] = $maxValue;
+							}
+						}
+						else {
+							$value = $column->filter->getValue();
+							if( $value ) {
+								$filters[$column->dataField] = $value;
+							}
 						}
 					}
 				}
