@@ -231,6 +231,19 @@
 
 
 		/**
+		 * load javascript content into JScript buffer
+		 *
+		 * @param  string	$javaScript		javascript to execute
+		 * @return void
+		 */
+		final public function loadJScript( $javaScript )
+		{
+			$this->onload .= $javaScript . ';';
+			$this->loadAjaxJScriptBuffer($javaScript);
+		}
+
+
+		/**
 		 * load content into ajax output buffer
 		 *
 		 * @param  string	$output		output content
@@ -245,12 +258,12 @@
 		/**
 		 * load content into ajax jscript output buffer
 		 *
-		 * @param  string	$javaScript		output javascript content
+		 * @param  string	$javaScript		javascript to execute
 		 * @return void
 		 */
 		final public function loadAjaxJScriptBuffer( $javaScript )
 		{
-			$this->loadAjaxBuffer(\str_replace("\n", "\\n\\", $javaScript));
+			$this->loadAjaxBuffer(\str_replace("\n", "\\n\\", $javaScript . ';'));
 		}
 
 
