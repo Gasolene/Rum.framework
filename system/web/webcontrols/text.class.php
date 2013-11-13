@@ -12,9 +12,7 @@
 	 * Represents a Text Control
 	 *
 	 * @property int $maxLength Specifies Max Length of value when defined
-	 * @property bool $disableAutoComplete Specifies whether to disable the browsers auto complete feature
 	 * @property bool $disableEnterKey Specifies whether to disable the enter key
-	 * @property string $placeholder Specifies the text for the placeholder attribute
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -29,23 +27,10 @@
 		protected $maxLength				= 0;
 
 		/**
-		 * Specifies whether to disable the browsers auto complete feature, default is false
-		 * @var bool
-		 */
-		protected $disableAutoComplete		= false;
-
-		/**
 		 * Specifies whether to disable the enter key, default is false
 		 * @var bool
 		 */
 		protected $disableEnterKey			= false;
-
-		/**
-		 * Specifies the text for the placeholder attribute
-		 * @var string
-		 */
-		protected $placeholder				= '';
-
 
 		/**
 		 * gets object property
@@ -62,14 +47,8 @@
 				trigger_error("Text::watermark is deprecated, use Text::placeholder instead", E_USER_DEPRECATED);
 				return $this->placeholder;
 			}
-			elseif( $field === 'disableAutoComplete' ) {
-				return $this->disableAutoComplete;
-			}
 			elseif( $field === 'disableEnterKey' ) {
 				return $this->disableEnterKey;
-			}
-			elseif( $field === 'placeholder' ) {
-				return $this->placeholder;
 			}
 			else {
 				return parent::__get( $field );
@@ -93,14 +72,8 @@
 				trigger_error("Text::watermark is deprecated, use Text::placeholder instead", E_USER_DEPRECATED);
 				$this->placeholder = (string)$value;
 			}
-			elseif( $field === 'disableAutoComplete' ) {
-				$this->disableAutoComplete = (bool)$value;
-			}
 			elseif( $field === 'disableEnterKey' ) {
 				$this->disableEnterKey = (bool)$value;
-			}
-			elseif( $field === 'placeholder' ) {
-				$this->placeholder = (string)$value;
 			}
 			else {
 				parent::__set($field,$value);
@@ -156,16 +129,6 @@
 			if( $this->disableEnterKey )
 			{
 				$input->setAttribute( 'onkeydown', 'if(event.keyCode==13){return false;}' );
-			}
-
-			if( $this->disableAutoComplete )
-			{
-				$input->setAttribute( 'autocomplete', 'off' );
-			}
-
-			if( $this->placeholder )
-			{
-				$input->setAttribute( 'placeholder', $this->placeholder );
 			}
 
 			return $input;

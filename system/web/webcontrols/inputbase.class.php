@@ -22,6 +22,8 @@
 	 * @property bool $changed Specifies whether the data has been changed
 	 * @property array $validators Array of validators
 	 * @property string $defaultHTMLControlId Specifies the id of the default html control
+	 * @property bool $disableAutoComplete Specifies whether to disable the browsers auto complete feature
+	 * @property string $placeholder Specifies the text for the placeholder attribute
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -94,6 +96,18 @@
 		 * @var string
 		 */
 		protected $label					= '';
+
+		/**
+		 * Specifies whether to disable the enter key, default is false
+		 * @var bool
+		 */
+		protected $disableEnterKey			= false;
+
+		/**
+		 * Specifies the text for the placeholder attribute
+		 * @var string
+		 */
+		protected $placeholder				= '';
 
 		/**
 		 * specifies the id of the default html control
@@ -185,6 +199,12 @@
 			elseif( $field === 'ajaxValidation' ) {
 				return $this->ajaxValidation;
 			}
+			elseif( $field === 'disableAutoComplete' ) {
+				return $this->disableAutoComplete;
+			}
+			elseif( $field === 'placeholder' ) {
+				return $this->placeholder;
+			}
 			elseif( $field === 'readonly' ) {
 				return $this->readonly;
 			}
@@ -244,6 +264,12 @@
 			}
 			elseif( $field === 'ajaxValidation' ) {
 				$this->ajaxValidation = (bool)$value;
+			}
+			elseif( $field === 'disableAutoComplete' ) {
+				$this->disableAutoComplete = (bool)$value;
+			}
+			elseif( $field === 'placeholder' ) {
+				$this->placeholder = (string)$value;
 			}
 			elseif( $field === 'readonly' ) {
 				$this->readonly = (bool)$value;
@@ -411,6 +437,16 @@
 			if( !$this->visible )
 			{
 				$input->setAttribute( 'type', 'hidden' );
+			}
+
+			if( $this->disableAutoComplete )
+			{
+				$input->setAttribute( 'autocomplete', 'off' );
+			}
+
+			if( $this->placeholder )
+			{
+				$input->setAttribute( 'placeholder', $this->placeholder );
 			}
 
 			return $input;
