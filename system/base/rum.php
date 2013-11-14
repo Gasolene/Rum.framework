@@ -91,7 +91,7 @@
 	if( !defined( '__DB_SCHEMA_VERSION_TABLENAME__' ))	define( '__DB_SCHEMA_VERSION_TABLENAME__',	'db_schema_version' );
 
 	/**
-	 * specifies the cache table name
+	 * specifies the user defaults table name
 	 */
 	if( !defined( '__USERDEFAULTS_TABLENAME__' ))		define( '__USERDEFAULTS_TABLENAME__',		'user_defaults' );
 
@@ -199,6 +199,11 @@
 	 * specifies the asyncronous validation timeout
 	 */
 	if( !defined( '__VALIDATION_TIMEOUT__' ))			define( '__VALIDATION_TIMEOUT__',			'3000' );
+
+	/**
+	 * specifies the asyncronous flash message timeout
+	 */
+	if( !defined( '__FLASH_MSG_TIMEOUT__' ))			define( '__FLASH_MSG_TIMEOUT__',			'3000' );
 
 	/**
 	 * specifies the number of warnings to dump

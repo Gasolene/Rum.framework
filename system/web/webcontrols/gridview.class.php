@@ -925,12 +925,6 @@
 			// End Backwards compatibilty code
 
 			$this->columns->load();
-
-			$page = $this->getParentByType( '\System\Web\WebControls\Page' );
-			if( $page )
-			{
-				$page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=/gridview/gridview.js' );
-			}
 		}
 
 
@@ -1381,38 +1375,6 @@
 				// add td element to tr
 				$tr->addChild( $td );
 			}
-
-//			if($this->canChangeOrder)
-//			{
-//				$td = new \System\XML\DomObject('td');
-//				$up = new \System\XML\DomObject('a');
-//				$down = new \System\XML\DomObject('a');
-//
-//				if($this->ajaxPostBack)
-//				{
-//					$up->setAttribute( 'onclick', 'Rum.evalAsync(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=up&'.$this->getHTMLControlId().'__move='.$ds->cursor.'\', \'POST\', \'Rum.gridViewAjaxCallback\');');
-//					$down->setAttribute( 'onclick', 'Rum.evalAsync(\'' . $this->getQueryString() . '\', \'?'.$this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=down&'.$this->getHTMLControlId().'__move='.$ds->cursor.'\', \'POST\', \'Rum.gridViewAjaxCallback\');');
-//				}
-//				else
-//				{
-//					$up->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=up&'.$this->getHTMLControlId().'__move='.$ds->cursor));
-//					$down->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.$this->page.'&'.$this->getHTMLControlId().'__move_order=down&'.$this->getHTMLControlId().'__move='.$ds->cursor));
-//				}
-//
-//				$up->setAttribute('class', 'move_up');
-//				$down->setAttribute('class', 'move_down');
-//
-//				$up->setAttribute('title', 'Move up');
-//				$down->setAttribute('title', 'Move down');
-//
-//				$up->nodeValue = 'Move up';
-//				$down->nodeValue = 'Move down';
-//
-//				// add td element to tr
-//				$td->addChild( $up );
-//				$td->addChild( $down );
-//				$tr->addChild( $td );
-//			}
 
 			// parse event string
 			foreach( $ds->fields as $field ) {

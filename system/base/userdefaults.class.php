@@ -81,10 +81,10 @@
 						new \System\DB\ColumnSchema(array(
 						'name' => 'value',
 						'table' => self::$table,
-						'type' => 'VARCHAR',
+						'type' => 'MEDIUMBLOB',
 						'length' => 255,
 						'notNull' => true,
-						'string' => true)))));
+						'blob' => true)))));
 
 				// Try one more time (no trapping exceptions)
 				return (\Rum::db()->queryBuilder()

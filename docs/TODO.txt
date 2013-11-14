@@ -9,14 +9,6 @@ BUGS/ISSUES
 NEW FEATURES
 ============
 
-	- Combine css/js theme files into a single file
-		... in Page class
-		if !debug mode, read all css theme files into large file, then Build
-		if !debug mode, read all core js files into large file, then Build
-	- Build class UserDefaults (clone cache, use filesystem/db)
-		void UserDefaults::set(key, value);
-		mixed UserDefaults::get(key);
-
 	[Due in v6.6]
 	- GridViewColumn ctors should be identical (requires breaking backwards compatability)
 	- Change GridViewColumn ctor parameter order
