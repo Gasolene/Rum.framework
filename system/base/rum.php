@@ -93,6 +93,11 @@
 	/**
 	 * specifies the cache table name
 	 */
+	if( !defined( '__USERDEFAULTS_TABLENAME__' ))		define( '__USERDEFAULTS_TABLENAME__',		'user_defaults' );
+
+	/**
+	 * specifies the cache table name
+	 */
 	if( !defined( '__CACHE_TABLENAME__' ))				define( '__CACHE_TABLENAME__',				'cache' );
 
 	/**

@@ -12,7 +12,6 @@
 	 * Provides access to read/write build files
 	 *
 	 * @package			PHPRum
-	 * @subpackage		Caching
 	 * @author			Darnell Shinbine
 	 */
 	final class Build

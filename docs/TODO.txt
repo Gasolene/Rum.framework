@@ -1,31 +1,33 @@
-TODO
-====
-
-	- validate GridViewControls
-	- GridView ajaxupdate - update paganation, update all sort columns? (update filters, then set focus?)
-
-	[Due in 6.6]
-	- Column ctors should be identical (requires breaking backwards compatability)
-		- ActiveRecord column mapping
-		- ActiveRecord filter mapping??
-
-	[Features]
-	- combine css/js theme files into a single file
-	- migration tests
-	- User Preferences
-
-PLUGINS
-=======
-
-Components (BOD)
-==========
-
-CONTROLS (BOD)
-========
-
 BUGS/ISSUES
 ===========
 
-	RequiredValidator does not work with ListBox when multiple=true
+	[Fix/Revise for 6.5]
+	- Validate GridViewControlBase objects with validators?
+	- GridView onAjaxUpdate() {update filters somehow}
+	- MatchValidator
+
+NEW FEATURES
+============
+
+	- Combine css/js theme files into a single file
+		... in Page class
+		if !debug mode, read all css theme files into large file, then Build
+		if !debug mode, read all core js files into large file, then Build
+	- Build class UserDefaults (clone cache, use filesystem/db)
+		void UserDefaults::set(key, value);
+		mixed UserDefaults::get(key);
+
+	[Due in v6.6]
+	- GridViewColumn ctors should be identical (requires breaking backwards compatability)
+	- Change GridViewColumn ctor parameter order
+	- Rem all backwards compatibility code
+
+	[Due in v7]
+	- ActiveRecordBase::gridview() column mapping
+	- ActiveRecord::gridview() filter mapping
+
+KNOWN ISSUES
+============
+
 	ENT_QUOTES causes GridViewControls to fail epically
-	DateSelector AJAX fails epically
+	RequiredValidator does not work with ListBox when multiple=true
