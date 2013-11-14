@@ -37,21 +37,20 @@
 
 
 		/**
-		 * Function to flash a new message
+		 * Function to flash a new message for n milliseconds
 		 */
-		this.flash = function(message, type) {
+		this.flash = function(message, type, delay) {
+			if(!delay) delay = 3000;
 			if(this.id('messages')) {
-				var a = document.createElement('a');
 				var li = document.createElement('li');
 				var text = document.createTextNode(message);
 				li.setAttribute('class', type);
-				a.appendChild(document.createTextNode(' dismiss'));
-				a.setAttribute('class', 'dismiss');
-				a.setAttribute('title', 'Dismiss');
-				addListener(a, 'click', function(){li.style.display='none';});
+//				addListener(a, 'click', function(){li.style.display='none';});
 				li.appendChild(text);
-				li.appendChild(a);
 				this.id('messages').appendChild(li);
+				setTimeout(function() {
+					fadeOut(li);
+				}, delay);
 			}
 		};
 
@@ -453,6 +452,10 @@
 			return null;
 		};
 
+
+		/**
+		 * add listener to element
+		 */
 		addListener = function(element, eventName, handler) {
 		  if (element.addEventListener) {
 			element.addEventListener(eventName, handler, false);
@@ -463,5 +466,41 @@
 		  else {
 			element['on' + eventName] = handler;
 		  }
+		}
+
+
+		/**
+		 * set opacity of element
+		 */
+		setOpacity = function(element, level) {
+			if(level===0) {
+				element.parentNode.removeChild(element);
+			}
+			else {
+				element.style.opacity = level;
+				element.style.MozOpacity = level;
+				element.style.KhtmlOpacity = level;
+				element.style.filter = "alpha(opacity=" + (level * 100) + ");";
+			}
+		}
+
+
+		/**
+		 * fadeout timer handler
+		 */
+		createTimeoutHandler = function( element, level ) {
+			return function() { setOpacity( element, level ); };
+		}
+
+
+		/**
+		 * fadeout element for n milliseconds
+		 */
+		fadeOut = function(element, duration) {
+			var steps = 20;
+			if(!duration) duration = 1000; // duration of fadeout
+			for (var i = 1; i <= steps; i++) {
+				setTimeout( createTimeoutHandler( element, 1-i/steps ), (i/steps) * duration);
+			}
 		}
 	};
