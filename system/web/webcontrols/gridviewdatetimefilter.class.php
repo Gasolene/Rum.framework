@@ -67,7 +67,7 @@
 		{
 			$HTMLControlId = $this->getHTMLControlId();
 
-			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+			$uri = \Rum::config()->uri;
 
 			$input = new \System\XML\DomObject('input');
 			$input->setAttribute('type', 'datetime');

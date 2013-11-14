@@ -76,7 +76,7 @@
 		public function getDomObject($requestString)
 		{
 			$HTMLControlId = $this->getHTMLControlId();
-			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+			$uri = \Rum::config()->uri;
 
 			$span = new \System\XML\DomObject('span');
 

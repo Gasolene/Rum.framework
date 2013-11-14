@@ -115,7 +115,7 @@
 			$this->ajaxCallback	= $_SERVER['PHP_SELF'];
 
 			// set viewstate
-			$this->enableViewState = \System\Web\WebApplicationBase::getInstance()->config->viewStateEnabled;
+			$this->enableViewState = \Rum::config()->viewStateEnabled;
 
 			// event handling
 			$this->events->add(new \System\Web\Events\WebControlCreateEvent());

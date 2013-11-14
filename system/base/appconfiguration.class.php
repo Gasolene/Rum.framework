@@ -19,7 +19,8 @@
 	 * @property bool $viewStateEnabled specifies whether viewstate is enabled
 	 * @property string $viewStateMethod specifies the viewstate method
 	 * @property int $viewStateExpires specifies the viewstate expiration in seconds form the current time
-	 * @property string $themes path to themes folder
+	 * @property string $themesPath path to themes folder
+	 * @property string $themesURI uri to themes folder
 	 * @property string $defaultController specifies default controller
 	 * @property string $requestParameter specifies page request parameter
 	 * @property bool $rewriteURIS specifies whether to rewrite URI's
@@ -324,7 +325,10 @@
 			elseif( $field === 'defaultTheme' ) {
 				return $this->defaultTheme;
 			}
-			elseif( $field === 'themes' ) {
+			elseif( $field === 'themesPath' ) {
+				return __HTDOCS_PATH__ . $this->themes;
+			}
+			elseif( $field === 'themesURI' ) {
 				return __APP_URI__ . $this->themes;
 			}
 			elseif( $field === 'viewStateEnabled' ) {

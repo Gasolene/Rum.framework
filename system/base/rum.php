@@ -141,7 +141,7 @@
 	if( !defined( '__ASYNC_REQUEST_PARAMETER__' ))		define( '__ASYNC_REQUEST_PARAMETER__',		'async' );
 
 	/**
-	 * specifies the async request parameter
+	 * specifies the module request parameter
 	 */
 	if( !defined( '__MODULE_REQUEST_PARAMETER__' ))		define( '__MODULE_REQUEST_PARAMETER__',		'modules' );
 

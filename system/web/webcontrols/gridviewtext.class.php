@@ -26,7 +26,7 @@
 		{
 			if($this->ajaxPostBack)
 			{
-				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
 				return "'<input name=\"{$this->parameter}\" type=\"text\" value=\"'.\Rum::escape(%{$this->dataField}%).'\" onkeypress=\"if(event.keyCode==13){blur();event.returnValue=false;}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
@@ -48,7 +48,7 @@
 				/*
 				if($this->ajaxPostBack)
 				{
-					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+					$uri = \Rum::config()->uri;
 					$params = $this->getRequestData() . "&{$this->parameter}=\'+this.value+\'";
 					return "'<input name=\"{$this->parameter}\" type=\"text\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 				}

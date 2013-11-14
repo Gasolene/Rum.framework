@@ -520,7 +520,7 @@
 				}
 				else
 				{
-					if($vars[$i] == \System\Web\WebApplicationBase::getInstance()->config->requestParameter)
+					if($vars[$i] == \Rum::config()->requestParameter)
 					{
 						$data = $vars[$i] . '=' . \System\Web\HTTPRequest::$request[$vars[$i]];
 					}

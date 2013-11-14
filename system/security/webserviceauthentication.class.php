@@ -56,7 +56,7 @@
 			$salt = $_SERVER["REMOTE_ADDR"].$uid.$timestamp;
 			if( 0 === $expires || $timestamp + $expires > time() )
 			{
-				if( $hash === Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt ))
+				if( $hash === Authentication::generateHash('sha1', \Rum::config()->authenticationFormsSecret, $salt ))
 				{
 					Authentication::$identity = $uid;
 					self::$authSecret = $secret;
@@ -78,7 +78,7 @@
 			//Authentication::$identity = $uid;
 			$timestamp = time();
 			$salt = $_SERVER["REMOTE_ADDR"].$uid.$timestamp;
-			$secret = Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt) . $timestamp;
+			$secret = Authentication::generateHash('sha1', \Rum::config()->authenticationFormsSecret, $salt) . $timestamp;
 
 			Authentication::$identity = $uid;
 			self::$authSecret = $secret;

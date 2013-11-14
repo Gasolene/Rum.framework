@@ -192,25 +192,25 @@
 				}
 				else
 				{
-					if(isset(\System\Web\WebApplicationBase::getInstance()->config->authorizationPages[\System\Web\WebApplicationBase::getInstance()->requestHandler->controllerId]["deny"]))
+					if(isset(\Rum::config()->authorizationPages[\System\Web\WebApplicationBase::getInstance()->requestHandler->controllerId]["deny"]))
 					{
-						$denyRoles = \System\Web\WebApplicationBase::getInstance()->config->authorizationPages[\System\Web\WebApplicationBase::getInstance()->requestHandler->controllerId]["deny"];
+						$denyRoles = \Rum::config()->authorizationPages[\System\Web\WebApplicationBase::getInstance()->requestHandler->controllerId]["deny"];
 					}
 					else
 					{
-						$denyRoles = \System\Web\WebApplicationBase::getInstance()->config->authorizationDeny;
+						$denyRoles = \Rum::config()->authorizationDeny;
 					}
 				}
 				$allowRoles = \System\Web\WebApplicationBase::getInstance()->requestHandler->getRoles();
 				if(!$allowRoles)
 				{
-					if(isset(\System\Web\WebApplicationBase::getInstance()->config->authorizationPages[\System\Web\WebApplicationBase::getInstance()->requestHandler->controllerId]["allow"]))
+					if(isset(\Rum::config()->authorizationPages[\System\Web\WebApplicationBase::getInstance()->requestHandler->controllerId]["allow"]))
 					{
-						$allowRoles = \System\Web\WebApplicationBase::getInstance()->config->authorizationPages[\System\Web\WebApplicationBase::getInstance()->requestHandler->controllerId]["allow"];
+						$allowRoles = \Rum::config()->authorizationPages[\System\Web\WebApplicationBase::getInstance()->requestHandler->controllerId]["allow"];
 					}
 					else
 					{
-						$allowRoles = \System\Web\WebApplicationBase::getInstance()->config->authorizationAllow;
+						$allowRoles = \Rum::config()->authorizationAllow;
 					}
 				}
 

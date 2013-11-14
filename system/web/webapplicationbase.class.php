@@ -375,7 +375,7 @@
 		 */
 		final public function getAllControllers( $path = '' ) {
 
-			if( !$path ) $path = \System\Web\WebApplicationBase::getInstance()->config->controllers;
+			if( !$path ) $path = \Rum::config()->controllers;
 
 			$modules = array();
 			$dir = dir( $path );
@@ -387,7 +387,7 @@
 					}
 					else {
 						
-						$module = str_replace( \System\Web\WebApplicationBase::getInstance()->config->controllers . '/', '', $path . '/' . $file );
+						$module = str_replace( \Rum::config()->controllers . '/', '', $path . '/' . $file );
 						$module = preg_replace( '^' . '(.*)$^', '\\1', $module );
 						$module = preg_replace( '^.php$^', '\\1', $module );
 						$modules[] = $module;
@@ -914,10 +914,10 @@
 		 */
 		private function handleRequestParams( \System\Web\HTTPRequest &$request )
 		{
-			if(isset($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]) && isset($request->get["id"]))
+			if(isset($request->get[\Rum::config()->requestParameter]) && isset($request->get["id"]))
 			{
 				// modules
-				if($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]===__MODULE_REQUEST_PARAMETER__&&isset($request->get["asset"])&&isset($request->get["type"]))
+				if($request->get[\Rum::config()->requestParameter]===__MODULE_REQUEST_PARAMETER__&&isset($request->get["asset"])&&isset($request->get["type"]))
 				{
 					if( $request["type"]==='text/html' ||
 						$request["type"]==='text/javascript' ||
@@ -951,7 +951,7 @@
 				// dev parameters
 				elseif($_SERVER[__ENV_PARAMETER__]===__DEV_ENV__||$_SERVER[__ENV_PARAMETER__]===__TEST_ENV__)
 				{
-					if($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]==='dev' && ($request->get["id"]==="clean" || $request->get["id"]==="build"))
+					if($request->get[\Rum::config()->requestParameter]==='dev' && ($request->get["id"]==="clean" || $request->get["id"]==="build"))
 					{
 						\System\Base\Build::$verbose = true;
 						\System\Base\Build::clean();
@@ -1012,19 +1012,19 @@ No building is needed or allowed in a production environment.</p>
 </html>" );
 						exit;
 					}
-					elseif($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]=='dev' && $request->get["id"]=="run_all")
+					elseif($request->get[\Rum::config()->requestParameter]=='dev' && $request->get["id"]=="run_all")
 					{
 						$tester = new \System\Test\Tester();
 						$tester->runAllTestCases(new \System\Test\HTMLTestReporter());
 						exit;
 					}
-					elseif($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]=='dev/run_unit_test' )
+					elseif($request->get[\Rum::config()->requestParameter]=='dev/run_unit_test' )
 					{
 						$tester = new \System\Test\Tester();
 						$tester->runUnitTestCase($request->get["id"], new \System\Test\HTMLTestReporter());
 						exit;
 					}
-					elseif($request->get[\System\Web\WebApplicationBase::getInstance()->config->requestParameter]=='dev/run_functional_test' )
+					elseif($request->get[\Rum::config()->requestParameter]=='dev/run_functional_test' )
 					{
 						$tester = new \System\Test\Tester();
 						$tester->runFunctionalTestCase($request->get["id"], new \System\Test\HTMLTestReporter());
@@ -1122,7 +1122,7 @@ No building is needed or allowed in a production environment.</p>
 				\System\Web\HTTPResponse::write( "<p><strong>Env:</strong> ".$_SERVER[__ENV_PARAMETER__]."</p>" );
 				if($ttl>0) \System\Web\HTTPResponse::write( "<p><strong>Output caching:</strong> output is cached {$ttl}s</p>" );
 				if(ini_get('apc.enabled')==1) \System\Web\HTTPResponse::write( "<p>APC is enabled: ".ini_get("apc.ttl")."s</p>" );
-				\System\Web\HTTPResponse::write( "<p><strong>Caching:</strong> " . (\System\Web\WebApplicationBase::getInstance()->config->cacheEnabled?'enabled':'disabled') . "</p>" );
+				\System\Web\HTTPResponse::write( "<p><strong>Caching:</strong> " . (\Rum::config()->cacheEnabled?'enabled':'disabled') . "</p>" );
 				\System\Web\HTTPResponse::write( "<p><strong>Execution time:</strong> " . $elapsed . "s</p>" );
 
 				// mem usage

@@ -26,7 +26,7 @@
 		{
 			if($this->ajaxPostBack)
 			{
-				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+(this.checked?1:0)+\'";
 				return "'<input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\" '.(%{$this->dataField}%?'checked=\"checked\"':'').' onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
@@ -48,7 +48,7 @@
 				/*
 				if($this->ajaxPostBack)
 				{
-					$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+					$uri = \Rum::config()->uri;
 					$params = $this->getRequestData() . "&{$this->parameter}=\'+this.value+\'";
 					return "'<input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\" class=\"checkbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 				}

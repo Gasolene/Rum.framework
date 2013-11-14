@@ -126,9 +126,9 @@
 		 */
 		public function getView( \System\Web\HTTPRequest &$request )
 		{
-			$this->theme = $this->theme?$this->theme:\System\Web\WebApplicationBase::getInstance()->config->defaultTheme;
+			$this->theme = $this->theme?$this->theme:\Rum::config()->defaultTheme;
 
-			if(\System\Web\WebApplicationBase::getInstance()->config->viewStateMethod == 'cookies')
+			if(\Rum::config()->viewStateMethod == 'cookies')
 			{
 				$viewState = $request->getCookieData();
 			}
@@ -155,10 +155,10 @@
 			$this->events->raise(new Events\PageControllerCreatePageEvent(), $this);
 
 			// set template implicitly
-			$this->page->template = \System\Web\WebApplicationBase::getInstance()->config->views . '/' . strtolower( $this->controllerId ) . __TEMPLATE_EXTENSION__;
+			$this->page->template = \Rum::config()->views . '/' . strtolower( $this->controllerId ) . __TEMPLATE_EXTENSION__;
 
 			// include jscripts
-			if( \System\Web\WebApplicationBase::getInstance()->config->state == \System\Base\AppState::Debug() )
+			if( \Rum::config()->state == \System\Base\AppState::Debug() )
 			{
 				$this->page->addScript( WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=debug_tools/debug.js' );
 				$this->page->addLink( WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . '&asset=debug_tools/debug.css' );
@@ -167,19 +167,35 @@
 			$this->page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=rum.js' );
 			$this->page->onload .= 'Rum.init(\''.__ASYNC_REQUEST_PARAMETER__.'\', '.__VALIDATION_TIMEOUT__.', '.__FLASH_MSG_TIMEOUT__.');';
 
+			// combine all css files for theme
+			$themeStatus = \System\Base\Build::get('theme_built');
+			if(is_null($themeStatus))
+			{
+				$content = '';
+				foreach( (array)glob( \Rum::config()->themesPath . '/' . $this->theme . "/*.css" ) as $stylesheet ) {
+					if($stylesheet != \Rum::config()->themesPath . '/' . $this->theme . '/combined.css') {
+						$content .= file_get_contents($stylesheet);
+					}
+				}
+				file_put_contents(\Rum::config()->themesPath . '/' . $this->theme . '/combined.css', str_replace('; ',';',str_replace(' }','}',str_replace('{ ','{',str_replace(array("\r\n","\r","\n","\t",'  ','    ','    '),"",preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!','',$content))))));
+				if(!\Rum::app()->debug) {
+					if(file_exists(\Rum::config()->themesPath . '/' . $this->theme . '/combined.css')) {
+						\System\Base\Build::put('theme_built', TRUE);
+					}
+					else {
+						\System\Base\Build::put('theme_built', FALSE);
+					}
+				}
+			}
+
 			// include all css files for theme
-			if(\Rum::app()->debug)
-			{
-				
+			if($themeStatus===TRUE) {
+				$this->page->addLink( \Rum::config()->themesURI . '/' . $this->theme . '/combined.css' );
 			}
-			foreach( (array)glob( \System\Web\WebApplicationBase::getInstance()->config->htdocs . substr( \System\Web\WebApplicationBase::getInstance()->config->themes, strlen( \System\Web\WebApplicationBase::getInstance()->config->uri )) . '/' . $this->theme . "/*.css" ) as $stylesheet )
-			{
-				$this->page->addLink( \System\Web\WebApplicationBase::getInstance()->config->themes . '/' . $this->theme . strrchr( $stylesheet, '/' ));
-			}
-			// include all js files for theme
-			foreach( (array)glob( \System\Web\WebApplicationBase::getInstance()->config->htdocs . substr( \System\Web\WebApplicationBase::getInstance()->config->themes, strlen( \System\Web\WebApplicationBase::getInstance()->config->uri )) . '/' . $this->theme . "/scripts/*.js" ) as $script )
-			{
-				$this->page->addScript( \System\Web\WebApplicationBase::getInstance()->config->themes . '/' . $this->theme . '/scripts' . strrchr( $script, '/' ));
+			else {
+				foreach( (array)glob( \Rum::config()->themesPath . '/' . $this->theme . "/*.css" ) as $stylesheet ) {
+					$this->page->addLink( \Rum::config()->themesURI . '/' . $this->theme . strrchr( $stylesheet, '/' ));
+				}
 			}
 
 			/**
@@ -282,7 +298,7 @@
 					. '_masterviewstate'] = serialize( $viewStateArray );
 			}
 
-			$config = \System\Web\WebApplicationBase::getInstance()->config;
+			$config = \Rum::config();
 			if($config->viewStateMethod == 'cookies')
 			{
 				foreach($viewState as $param=>$values)

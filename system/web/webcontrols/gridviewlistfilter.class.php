@@ -171,7 +171,7 @@
 		public function getDomObject($requestString)
 		{
 			$HTMLControlId = $this->getHTMLControlId();
-			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+			$uri = \Rum::config()->uri;
 
 			$select = new \System\XML\DomObject( 'select' );
 			$select->setAttribute('name', "{$HTMLControlId}__filter_value");

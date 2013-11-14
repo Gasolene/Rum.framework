@@ -65,7 +65,7 @@
 		{
 			$this->controllerId = (string)$controllerId;
 
-			if( $this->requireSSL && \System\Web\WebApplicationBase::getInstance()->config->protocol <> 'https' && !isset($GLOBALS["__DISABLE_HEADER_REDIRECTS__"]))
+			if( $this->requireSSL && \Rum::config()->protocol <> 'https' && !isset($GLOBALS["__DISABLE_HEADER_REDIRECTS__"]))
 			{
 				// redirect to secure server (forward session)
 				$url = 'https://' . __NAME__ . (__SSL_PORT__<>443?':'.__SSL_PORT__:'') . \System\Web\WebApplicationBase::getInstance()->getPageURI('', array( \System\Web\WebApplicationBase::getInstance()->session->sessionName => \System\Web\WebApplicationBase::getInstance()->session->sessionId ));

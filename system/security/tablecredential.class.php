@@ -147,7 +147,7 @@
 			{
 				if($ds[$this->credential['attemptwindowexpires-field']] > time())
 				{
-					if($ds[$this->credential['failedattemptcount-field']] >= \System\Web\WebApplicationBase::getInstance()->config->authenticationMaxInvalidAttempts)
+					if($ds[$this->credential['failedattemptcount-field']] >= \Rum::config()->authenticationMaxInvalidAttempts)
 					{
 						return false;
 					}
@@ -170,7 +170,7 @@
 				if($ds[$this->credential['attemptwindowexpires-field']] < time()) {
 					// Reset failed count as attempt window has reset
 					$ds[$this->credential['failedattemptcount-field']] = 1;
-					$ds[$this->credential['attemptwindowexpires-field']] = time() + \System\Web\WebApplicationBase::getInstance()->config->authenticationAttemtpWindow;
+					$ds[$this->credential['attemptwindowexpires-field']] = time() + \Rum::config()->authenticationAttemtpWindow;
 				}
 				else {
 					// Increment failed count

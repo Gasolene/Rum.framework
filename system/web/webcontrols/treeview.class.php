@@ -253,7 +253,7 @@
 					$img->setAttribute( 'src', $treeNode->imgSrc );
 					$img->setAttribute( 'alt', $treeNode->id );
 
-					$img->setAttribute( 'onclick', 'Rum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($this->getHTMLControlId().'__'.$treeNode->id) . '\',\'' . \System\Web\WebApplicationBase::getInstance()->config->uri( '', array( $this->getHTMLControlId() . '_submitted' => '1' )) . '\');' );
+					$img->setAttribute( 'onclick', 'Rum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($this->getHTMLControlId().'__'.$treeNode->id) . '\',\'' . \Rum::config()->uri( '', array( $this->getHTMLControlId() . '_submitted' => '1' )) . '\');' );
 
 					$rootNode->addChild( $img );
 				}
@@ -264,7 +264,7 @@
 					$img->setAttribute( 'src', \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . '&asset=/treeview/spacer.gif' );
 					$img->setAttribute( 'alt', $treeNode->id );
 
-					$img->setAttribute( 'onclick', 'Rum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($this->getHTMLControlId().'__'.$treeNode->id) . '\',\'' . \System\Web\WebApplicationBase::getInstance()->config->uri( '', array( $this->getHTMLControlId() . '_submitted' => '1' )) . '\');' );
+					$img->setAttribute( 'onclick', 'Rum.treeviewToggleNode(\''.addslashes($this->getHTMLControlId()).'\',\'' . addslashes($this->getHTMLControlId().'__'.$treeNode->id) . '\',\'' . \Rum::config()->uri( '', array( $this->getHTMLControlId() . '_submitted' => '1' )) . '\');' );
 
 					$rootNode->addChild( $img );
 				}

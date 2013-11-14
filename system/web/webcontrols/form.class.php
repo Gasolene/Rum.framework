@@ -112,7 +112,7 @@
 		{
 			parent::__construct( $controlId );
 
-			$this->action = \System\Web\WebApplicationBase::getInstance()->config->uri . '/';
+			$this->action = \Rum::config()->uri . '/';
 			$this->forward = \System\Web\WebApplicationBase::getInstance()->currentPage;
 			$this->parameters = array();
 
@@ -522,7 +522,7 @@
 			$this->parameters[$this->getHTMLControlId() . '__submit'] = '1';
 
 			// send session id as http var
-			if( \System\Web\WebApplicationBase::getInstance()->config->cookielessSession ) {
+			if( \Rum::config()->cookielessSession ) {
 				$this->parameters['PHPSESSID'] = session_id();
 			}
 
@@ -555,12 +555,12 @@
 			$hiddenElements = '';
 
 			// set forward controller
-			if( isset( $this->parameters[\System\Web\WebApplicationBase::getInstance()->config->requestParameter] ))
+			if( isset( $this->parameters[\Rum::config()->requestParameter] ))
 			{
-				unset( $this->parameters[\System\Web\WebApplicationBase::getInstance()->config->requestParameter] );
+				unset( $this->parameters[\Rum::config()->requestParameter] );
 			}
 
-			$this->parameters[\System\Web\WebApplicationBase::getInstance()->config->requestParameter] = $this->forward;
+			$this->parameters[\Rum::config()->requestParameter] = $this->forward;
 
 			foreach( $this->parameters as $field => $value )
 			{

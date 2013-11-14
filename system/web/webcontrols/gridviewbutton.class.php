@@ -119,7 +119,7 @@
 			}
 
 			$params = $this->getRequestData() . "&{$this->dataField}='.\\rawurlencode(%{$this->dataField}%).'&{$this->parameter}={$this->itemButtonName}";
-			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+			$uri = \Rum::config()->uri;
 
 			if( $this->ajaxPostBack )
 			{
@@ -141,7 +141,7 @@
 		{
 			if( !$this->footerText )
 			{
-				$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
+				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData();
 
 				if( $this->ajaxPostBack )

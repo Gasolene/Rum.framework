@@ -71,7 +71,7 @@
 		public static function redirectToLoginPage()
 		{
 			// redirect to secure server (forward session)
-			if( \System\Web\WebApplicationBase::getInstance()->config->authenticationRequireSSL && \System\Web\WebApplicationBase::getInstance()->config->protocol <> 'https' && !isset($GLOBALS["__DISABLE_HEADER_REDIRECTS__"]))
+			if( \Rum::config()->authenticationRequireSSL && \Rum::config()->protocol <> 'https' && !isset($GLOBALS["__DISABLE_HEADER_REDIRECTS__"]))
 			{
 				$url = 'https://' . __NAME__ . (__SSL_PORT__<>443?':'.__SSL_PORT__:'') . \System\Web\WebApplicationBase::getInstance()->getPageURI( \System\Base\ApplicationBase::getInstance()->config->authenticationFormsLoginPage, array( 'returnUrl' => $_SERVER["REQUEST_URI"], \System\Web\WebApplicationBase::getInstance()->session->sessionName => \System\Web\WebApplicationBase::getInstance()->session->sessionId ));
 			}
@@ -98,7 +98,7 @@
 			$timestamp = substr($secret, 40);
 			$hash = substr($secret, 0, 40);
 			$salt = $_SERVER["REMOTE_ADDR"].$uid.$timestamp;
-			return( $hash === Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt ));
+			return( $hash === Authentication::generateHash('sha1', \Rum::config()->authenticationFormsSecret, $salt ));
 		}
 
 
@@ -115,18 +115,18 @@
 		{
 			$timestamp = time();
 			$salt = $_SERVER["REMOTE_ADDR"].$uid.$timestamp;
-			$secret = Authentication::generateHash('sha1', \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsSecret, $salt) . $timestamp;
+			$secret = Authentication::generateHash('sha1', \Rum::config()->authenticationFormsSecret, $salt) . $timestamp;
 
 			if( $permanent )
 			{
-				\System\Web\HTTPResponse::setCookie(\System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName, $uid, time() + $expires, \System\Web\WebApplicationBase::getInstance()->config->uri, null, $ssl );
-				\System\Web\HTTPResponse::setCookie(\System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret', $secret, time() + $expires, \System\Web\WebApplicationBase::getInstance()->config->uri, null, $ssl );
+				\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName, $uid, time() + $expires, \Rum::config()->uri, null, $ssl );
+				\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_secret', $secret, time() + $expires, \Rum::config()->uri, null, $ssl );
 			}
 			else
 			{
 				// set session cookie
-				\System\Base\ApplicationBase::getInstance()->session[\System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName] = $uid;
-				\System\Base\ApplicationBase::getInstance()->session[\System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret'] = $secret;
+				\System\Base\ApplicationBase::getInstance()->session[\Rum::config()->authenticationFormsCookieName] = $uid;
+				\System\Base\ApplicationBase::getInstance()->session[\Rum::config()->authenticationFormsCookieName.'_secret'] = $secret;
 			}
 		}
 
@@ -210,8 +210,8 @@
 				unset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret'] );
 			}
 
-			setcookie( \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName, '', time()-31536000, \System\Base\ApplicationBase::getInstance()->config->uri );
-			setcookie( \System\Web\WebApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret', '', time()-31536000, \System\Base\ApplicationBase::getInstance()->config->uri );
+			setcookie( \Rum::config()->authenticationFormsCookieName, '', time()-31536000, \System\Base\ApplicationBase::getInstance()->config->uri );
+			setcookie( \Rum::config()->authenticationFormsCookieName.'_secret', '', time()-31536000, \System\Base\ApplicationBase::getInstance()->config->uri );
 
 			\System\Web\WebApplicationBase::getInstance()->setForwardPage();
 		}

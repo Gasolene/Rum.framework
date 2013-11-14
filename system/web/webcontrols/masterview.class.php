@@ -37,7 +37,7 @@
 			parent::__construct($controlId);
 
 			$this->_contentId = $this->controlId . time();
-			$this->template = \System\Web\WebApplicationBase::getInstance()->config->templates . '/' . $this->controlId . __TEMPLATE_EXTENSION__;
+			$this->template = \Rum::config()->templates . '/' . $this->controlId . __TEMPLATE_EXTENSION__;
 
 			// event handling
 			$this->events->add(new \System\Web\Events\MasterViewInitEvent());
