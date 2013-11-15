@@ -57,11 +57,11 @@
 		public function filterDataSet(\System\DB\DataSet &$ds)
 		{
 			if($this->minValue) {
-				$ds->filter($this->column->dataField, '<=', date('Y-m-d', strtotime($this->minValue)));
+				$ds->filter($this->column->dataField, '>=', date('Y-m-d', strtotime($this->minValue)));
 				$this->column->gridView->needsUpdating = true;
 			}
 			if($this->maxValue) {
-				$ds->filter($this->column->dataField, '>=', date('Y-m-d', strtotime($this->maxValue)));
+				$ds->filter($this->column->dataField, '<=', date('Y-m-d', strtotime($this->maxValue)));
 				$this->column->gridView->needsUpdating = true;
 			}
 		}
@@ -76,7 +76,7 @@
 		public function getDomObject($requestString)
 		{
 			$HTMLControlId = $this->getHTMLControlId();
-			$uri = \Rum::config()->uri;
+			$uri = \System\Web\WebApplicationBase::getInstance()->config->uri;
 
 			$span = new \System\XML\DomObject('span');
 
