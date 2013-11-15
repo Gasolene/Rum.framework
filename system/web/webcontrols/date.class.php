@@ -34,7 +34,7 @@
 		{
 			parent::onRequest($httpRequest);
 
-			if(strtotime($this->value)===false)
+			if(strtotime($this->value)===false || $this->value=='0000-00-00') // PHP BUG
 			{
 				$this->value = null;
 			}
