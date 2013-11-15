@@ -43,22 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			if( !$this->footerText )
-			{
-				/*
-				if($this->ajaxPostBack)
-				{
-					$uri = \Rum::config()->uri;
-					$params = $this->getRequestData() . "&{$this->parameter}=\'+this.value+\'";
-					return "'<input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\" class=\"checkbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
-				}
-				*/
-				return "'<input name=\"{$this->parameter}\" type=\"hidden\" value=\"0\"/><input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\"/>'";
-			}
-			else
-			{
-				return $this->footerText;
-			}
+			return "'<input name=\"{$this->parameter}\" type=\"hidden\" value=\"0\"/><input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\"/>'";
 		}
 	}
 ?>

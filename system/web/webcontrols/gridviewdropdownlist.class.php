@@ -160,47 +160,21 @@
 		 */
 		public function fetchInsertControl()
 		{
-			if( !$this->footerText )
+			$html = "'<select name=\"{$this->parameter}\">";
+			foreach($this->items as $key=>$value)
 			{
-				/*
-				if($this->ajaxPostBack)
-				{
-					$uri = \Rum::config()->uri;
-					$params = $this->getRequestData() . "&{$this->parameter}=\'+this.value+\'";
-
-					$html = "'<select name=\"{$this->parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
-					foreach($this->items as $key=>$value)
-					{
-						$value = \Rum::escape($value, ENT_QUOTES);
-						$key = \Rum::escape($key, ENT_QUOTES);
-
-						$html .= "<option value=\"{$value}\">{$key}</option>";
-					}
-					$html .= '</select>\'';
-
-					return $html;
+				if(is_array($value)) {
+					$key = $value[$this->textField];
+					$value = $value[$this->valueField];
 				}
-				*/
-				$html = "'<select name=\"{$this->parameter}\">";
-				foreach($this->items as $key=>$value)
-				{
-					if(is_array($value)) {
-						$key = $value[$this->textField];
-						$value = $value[$this->valueField];
-					}
-					$value = \Rum::escape($value, ENT_QUOTES);
-					$key = \Rum::escape($key, ENT_QUOTES);
+				$value = \Rum::escape($value, ENT_QUOTES);
+				$key = \Rum::escape($key, ENT_QUOTES);
 
-					$html .= "<option value=\"{$value}\">{$key}</option>";
-				}
-				$html .= '</select>\'';
+				$html .= "<option value=\"{$value}\">{$key}</option>";
+			}
+			$html .= '</select>\'';
 
-				return $html;
-			}
-			else
-			{
-				return $this->footerText;
-			}
+			return $html;
 		}
 	}
 ?>

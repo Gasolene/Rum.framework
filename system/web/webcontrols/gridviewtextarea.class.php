@@ -9,13 +9,13 @@
 
 
 	/**
-	 * Represents a GridView DateTime
+	 * Represents a GridView TextArea
 	 * 
 	 * @package			PHPRum
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
 	 */
-	class GridViewDateTime extends GridViewControlBase
+	class GridViewTextArea extends GridViewControlBase
 	{
 		/**
 		 * get item text
@@ -28,11 +28,11 @@
 			{
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
-				return "'<input name=\"{$this->parameter}\" type=\"datetime\" value=\"'.%{$this->dataField}%.'\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<textarea name=\"{$this->parameter}\" onkeypress=\"if(event.keyCode==13){blur();event.returnValue=false;}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
 			}
 			else
 			{
-				return "'<input name=\"{$this->parameter}\" type=\"datetime\" value=\"'.%{$this->dataField}%.'\"/>'";
+				return "'<textarea name=\"{$this->parameter}\" onkeypress=\"if(event.keyCode==13){event.returnValue=false;}\">'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
 			}
 		}
 
@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<input name=\"{$this->parameter}\" type=\"datetime\"/>'";
+			return "'<textarea name=\"{$this->parameter}\" onkeypress=\"if(event.keyCode==13){event.returnValue=false;}\"></textarea>'";
 		}
 	}
 ?>

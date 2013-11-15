@@ -49,21 +49,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			if( !$this->footerText )
-			{
-				/*
-				if($this->ajaxPostBack)
-				{
-					$uri = \Rum::config()->uri;
-					$params = $this->getRequestData() . "&{$this->parameter}=\'+this.value+\'";
-					return "'<input name=\"{$this->parameter}\" type=\"text\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
-				}
-				*/
-				return "'<input name=\"{$this->parameter}\" type=\"text\" class=\"textbox\" />'";			}
-			else
-			{
-				return $this->footerText;
-			}
+			return "'<input name=\"{$this->parameter}\" type=\"text\" class=\"textbox\" />'";
 		}
 	}
 ?>

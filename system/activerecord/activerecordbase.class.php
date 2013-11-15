@@ -945,6 +945,11 @@
 						$column = new \System\Web\WebControls\GridViewCheckBox($field, $activeRecord->pkey, $param, $header);
 						$column->setFilter(new \System\Web\WebControls\GridViewBooleanFilter());
 					}
+					else if($type === 'blob')
+					{
+						$column = new \System\Web\WebControls\GridViewTextArea($field, $activeRecord->pkey, $param, $header);
+//						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
+					}
 					else
 					{
 						$column = new \System\Web\WebControls\GridViewText($field, $activeRecord->pkey, $param, $header);

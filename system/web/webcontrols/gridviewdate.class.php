@@ -43,14 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			if( !$this->footerText )
-			{
-				return "'<input name=\"{$this->parameter}\" type=\"date\"/>'";
-			}
-			else
-			{
-				return $this->footerText;
-			}
+			return "'<input name=\"{$this->parameter}\" type=\"date\"/>'";
 		}
 	}
 ?>

@@ -139,23 +139,16 @@
 		 */
 		public function fetchInsertControl()
 		{
-			if( !$this->footerText )
-			{
-				$uri = \Rum::config()->uri;
-				$params = $this->getRequestData();
+			$uri = \Rum::config()->uri;
+			$params = $this->getRequestData();
 
-				if( $this->ajaxPostBack )
-				{
-					return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
-				}
-				else
-				{
-					return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
-				}
+			if( $this->ajaxPostBack )
+			{
+				return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
 			}
 			else
 			{
-				return $this->footerText;
+				return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
 			}
 		}
 	}

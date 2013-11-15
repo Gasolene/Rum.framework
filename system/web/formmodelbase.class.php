@@ -61,7 +61,7 @@
 		 */
 		static protected $column_mappings = array(
 			'binary' => 'System\Web\WebControls\GridViewColumn',
-			'blob' => 'System\Web\WebControls\GridViewColumn',
+			'blob' => 'System\Web\WebControls\GridViewTextArea',
 			'boolean' => 'System\Web\WebControls\GridViewCheckBox',
 			'date' => 'System\Web\WebControls\GridViewDate',
 			'datetime' => 'System\Web\WebControls\GridViewDateTime',
