@@ -139,8 +139,8 @@
 		 */
 		public function fetchInsertControl()
 		{
+			$params = $this->getRequestData() . "&{$this->parameter}={$this->footerButtonName}";
 			$uri = \Rum::config()->uri;
-			$params = $this->getRequestData();
 
 			if( $this->ajaxPostBack )
 			{
