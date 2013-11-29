@@ -31,6 +31,7 @@
 	 * @property string $listName
 	 * @property string $sortBy
 	 * @property string $sortOrder
+	 * @property string $rowDataField specifies an optional row data-field
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $updateRowsOnly specifies whether to update rows only, or the entire table on updateAjax()
 	 *
@@ -160,6 +161,12 @@
 		 * @var bool
 		 */
 		protected $sortOrder				= '';
+
+		/**
+		 * Specifies an optional row data-field
+		 * @var GridView
+		 */
+		protected $rowDataField			= '';
 
 		/**
 		 * collection of columns
@@ -303,6 +310,9 @@
 			elseif( $field === 'sortOrder' ) {
 				return $this->sortOrder;
 			}
+			elseif( $field === 'rowDataField' ) {
+				return $this->rowDataField;
+			}
 			elseif( $field === 'onmouseover' ) {
 				trigger_error("GridView::onmouseover is deprecated, use GridView::render(args) instead", E_USER_DEPRECATED);
 				return $this->onmouseover;
@@ -428,6 +438,9 @@
 			}
 			elseif( $field === 'sortOrder' ) {
 				$this->sortOrder = (string)$value;
+			}
+			elseif( $field === 'rowDataField' ) {
+				$this->rowDataField = (string) $value;
 			}
 			elseif( $field === 'onmouseover' ) {
 				$this->onmouseover = (string)$value;
@@ -1085,6 +1098,13 @@
 			{
 				// create column node
 				$th = new \System\XML\DomObject( 'th' );
+
+				// set data-field attributes
+				if($column->dataField) {
+					$th->setAttribute( 'data-field', $column->dataField );
+				}
+
+				// set class
 				if($column['Classname']) {
 					$th->setAttribute( 'class', $column['Classname'] );
 				}
@@ -1290,10 +1310,12 @@
 			$tr = new \System\XML\DomObject( 'tr' );
 
 			// set row attributes
-			$tr->setAttribute( 'class', ($ds->cursor & 1)?'row_alt':'row' );
+			$tr->setAttribute( 'class', ($ds->cursor & 1)?'row_alt':'row' );// set data-field attributes
 
-			// set row attributes
-			$tr->setAttribute( 'id', $this->getHTMLControlId() . '__' . $ds->cursor );
+			// set data-field attributes
+			if($this->rowDataField) {
+				$tr->setAttribute( 'data-field', $ds[$this->rowDataField] );
+			}
 
 			// list item
 			if( $this->valueField && $this->showList ) {
@@ -1341,6 +1363,11 @@
 			{
 				// create column node (field)
 				$td = new \System\XML\DomObject( 'td' );
+
+				// set data-field attributes
+				if($column->dataField) {
+					$td->setAttribute( 'data-field', $column->dataField );
+				}
 
 				// set column attributes
 				if( $column['Classname'] ) {
