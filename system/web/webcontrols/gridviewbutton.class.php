@@ -108,6 +108,22 @@
 
 
 		/**
+		 * handle request events
+		 *
+		 * @param  array	&$request	request data
+		 * @return void
+		 */
+		public function onRequest( &$request )
+		{
+			if( isset( $request[$this->dataField] ))
+			{
+				unset( $request[$this->dataField] );
+			}
+			parent::onRequest($request);
+		}
+
+
+		/**
 		 * get item text
 		 *
 		 * @return string

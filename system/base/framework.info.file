@@ -42,7 +42,7 @@
      * build time
      * @var string
      */
-	const FRAMEWORK_BUILD_DATE = '17:34:19 MST';
+	const FRAMEWORK_BUILD_DATE = '17:34:49 MST';
 
     /**
      * framework authors
@@ -60,5 +60,5 @@
      * framework date string
      * @var string
      */
-	const FRAMEWORK_DATE_STRING = 'last build on 03 Dec 13 at 17:34:19 MST';
+	const FRAMEWORK_DATE_STRING = 'last build on 03 Dec 13 at 17:34:49 MST';
 ?>
