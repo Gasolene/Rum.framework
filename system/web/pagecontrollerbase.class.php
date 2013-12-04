@@ -177,7 +177,9 @@
 						$content .= file_get_contents($stylesheet);
 					}
 				}
-				file_put_contents(\Rum::config()->themesPath . '/' . $this->theme . '/combined.css', str_replace('; ',';',str_replace(' }','}',str_replace('{ ','{',str_replace(array("\r\n","\r","\n","\t",'  ','    ','    '),"",preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!','',$content))))));
+				if(is_writable(\Rum::config()->themesPath . '/' . $this->theme)) {
+					file_put_contents(\Rum::config()->themesPath . '/' . $this->theme . '/combined.css', str_replace('; ',';',str_replace(' }','}',str_replace('{ ','{',str_replace(array("\r\n","\r","\n","\t",'  ','    ','    '),"",preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!','',$content))))));
+				}
 				if(!\Rum::app()->debug) {
 					if(file_exists(\Rum::config()->themesPath . '/' . $this->theme . '/combined.css')) {
 						\System\Base\Build::put('theme_built', TRUE);
@@ -194,7 +196,9 @@
 			}
 			else {
 				foreach( (array)glob( \Rum::config()->themesPath . '/' . $this->theme . "/*.css" ) as $stylesheet ) {
-					$this->page->addLink( \Rum::config()->themesURI . '/' . $this->theme . strrchr( $stylesheet, '/' ));
+					if(strrchr( $stylesheet, '/' ) !== '/combined.css') {
+						$this->page->addLink( \Rum::config()->themesURI . '/' . $this->theme . strrchr( $stylesheet, '/' ));
+					}
 				}
 			}
 
