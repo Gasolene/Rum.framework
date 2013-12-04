@@ -28,11 +28,11 @@
 			{
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
-				return "'<textarea name=\"{$this->parameter}\" onkeypress=\"if(event.keyCode==13){blur();event.returnValue=false;}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
+				return "'<textarea name=\"{$this->parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
 			}
 			else
 			{
-				return "'<textarea name=\"{$this->parameter}\" onkeypress=\"if(event.keyCode==13){event.returnValue=false;}\">'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
+				return "'<textarea name=\"{$this->parameter}\">'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
 			}
 		}
 
@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<textarea name=\"{$this->parameter}\" onkeypress=\"if(event.keyCode==13){event.returnValue=false;}\"></textarea>'";
+			return "'<textarea name=\"{$this->parameter}\"></textarea>'";
 		}
 	}
 ?>
