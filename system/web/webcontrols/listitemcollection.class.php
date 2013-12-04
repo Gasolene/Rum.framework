@@ -40,7 +40,7 @@
 		 */
 		public function addToBeginning( $key, $value )
 		{
-			$this->items = array_merge($this->items, array($key, $value));
+			$this->items =  array($key=>$value) + $this->items;
 		}
 
 
