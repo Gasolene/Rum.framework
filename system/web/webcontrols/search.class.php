@@ -15,7 +15,7 @@
 	 * @subpackage		Web
 	 *
 	 */
-	class Search extends InputBase
+	class Search extends Text
 	{
 		/**
 		 * type

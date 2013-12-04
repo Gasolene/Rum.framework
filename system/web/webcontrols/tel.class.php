@@ -15,7 +15,7 @@
 	 * @subpackage		Web
 	 *
 	 */
-	class Tel extends InputBase
+	class Tel extends Text
 	{
 		/**
 		 * type

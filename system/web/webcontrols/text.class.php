@@ -21,6 +21,12 @@
 	class Text extends InputBase
 	{
 		/**
+		 * type
+		 * @ignore
+		 */
+		const type = 'text';
+
+		/**
 		 * Max Length of value when set to non zero, default is 0
 		 * @var int
 		 */
@@ -82,21 +88,6 @@
 
 
 		/**
-		 * update DataSet with Control data
-		 *
-		 * @param  DataSet $ds DataSet to fill
-		 * @return void
-		 */
-		public function fillDataSet(\System\DB\DataSet &$ds)
-		{
-			if( isset( $ds[$this->dataField] ))
-			{
-				$ds[$this->dataField] = $this->value;
-			}
-		}
-
-
-		/**
 		 * returns a DomObject representing control
 		 *
 		 * @return DomObject
@@ -118,7 +109,7 @@
 
 			if( $this->visible )
 			{
-				$input->setAttribute( 'type', 'text' );
+				$input->setAttribute( 'type', self::type );
 			}
 
 			if( $this->maxLength )

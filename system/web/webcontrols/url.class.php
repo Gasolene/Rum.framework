@@ -15,7 +15,7 @@
 	 * @subpackage		Web
 	 *
 	 */
-	class URL extends InputBase
+	class URL extends Text
 	{
 		/**
 		 * type
