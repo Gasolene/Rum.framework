@@ -84,15 +84,28 @@
 			var params = '';
 			var inputs = element.getElementsByTagName('input');
 			var selects = element.getElementsByTagName('select');
+			var textareas = element.getElementsByTagName('textarea');
 			for (x=0;x<inputs.length;x++) {
 				if(inputs[x].getAttribute('type')!='button' && inputs[x].getAttribute('type')!='submit' && inputs[x].getAttribute('type')!='image') {
-					if(params) params = params + '&';
-					params = params + inputs[x].getAttribute('name') + '=' + inputs[x].value;
+					if(inputs[x].getAttribute('type')==='checkbox') {
+						if(inputs[x].checked) {
+							if(params) params = params + '&';
+							params = params + inputs[x].getAttribute('name') + '=' + inputs[x].value;
+						}
+					}
+					else {
+						if(params) params = params + '&';
+						params = params + inputs[x].getAttribute('name') + '=' + inputs[x].value;
+					}
 				}
 			}
 			for (x=0;x<selects.length;x++) {
 				if(params) params = params + '&';
 				params = params + selects[x].getAttribute('name') + '=' + selects[x].value;
+			}
+			for (x=0;x<textareas.length;x++) {
+				if(params) params = params + '&';
+				params = params + textareas[x].getAttribute('name') + '=' + textareas[x].value;
 			}
 			return params;
 		}
@@ -514,7 +527,7 @@
 		 * @param	controlId		name of control
 		 * @return	TRUE if successfull
 		 */
-		Rum.gridViewSelectAll = function( controlId )
+		this.gridViewSelectAll = function( controlId )
 		{
 			var table = document.getElementById( controlId );
 			var selectAll = document.getElementById( controlId + "__selectall" );
@@ -538,7 +551,7 @@
 		 * @param	controlId		name of control
 		 * @return	TRUE if successfull
 		 */
-		Rum.gridViewUnSelectAll = function( controlId ) {
+		this.gridViewUnSelectAll = function( controlId ) {
 			var trTags = document.getElementById( controlId ).getElementsByTagName( 'tr' );
 
 			for( var i = 0; i < trTags.length; i++ ) {
