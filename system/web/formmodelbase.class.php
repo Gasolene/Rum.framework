@@ -50,6 +50,7 @@
 			'numeric' => 'System\Web\WebControls\Text',
 			'real' => 'System\Web\WebControls\Text',
 			'ref' => 'System\Web\WebControls\DropDownList',
+			'search' => 'System\Web\WebControls\Search',
 			'string' => 'System\Web\WebControls\Text',
 			'tel' => 'System\Web\WebControls\Tel',
 			'time' => 'System\Web\WebControls\Time'
@@ -71,6 +72,7 @@
 			'numeric' => 'System\Web\WebControls\GridViewText',
 			'real' => 'System\Web\WebControls\GridViewText',
 			'ref' => 'System\Web\WebControls\GridViewDropDownMenu',
+			'search' => 'System\Web\WebControls\GridViewSearch',
 			'string' => 'System\Web\WebControls\GridViewText',
 			'tel' => 'System\Web\WebControls\GridViewTel',
 			'time' => 'System\Web\WebControls\GridViewTime',

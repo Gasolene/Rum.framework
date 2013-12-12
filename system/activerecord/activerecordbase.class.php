@@ -948,7 +948,12 @@
 					else if($type === 'blob')
 					{
 						$column = new \System\Web\WebControls\GridViewTextArea($field, $activeRecord->pkey, $param, $header);
-//						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
+						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
+					}
+					else if($type === 'search')
+					{
+						$column = new \System\Web\WebControls\GridViewSearch($field, $activeRecord->pkey, $param, $header);
+						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
 					}
 					else
 					{
