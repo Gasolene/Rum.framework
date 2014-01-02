@@ -85,12 +85,7 @@
 			}
 			else
 			{
-				// Attempt to make the folder
-				\mkdir(__BUILD_PATH__);
-				if(!file_exists(__BUILD_PATH__))
-				{
-					throw new \System\Utils\DirectoryNotFoundException("Could not open file `{$file}` for output, check that directory " . __BUILD_PATH__ . " exists");
-				}
+				throw new \System\Utils\FileNotWritableException("Could not write to `{$file}`, check that directory " . __BUILD_PATH__ . " is writable");
 			}
 		}
 

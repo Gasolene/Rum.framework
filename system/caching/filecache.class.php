@@ -88,12 +88,7 @@
 			}
 			else
 			{
-				// Attempt to make the folder
-				\mkdir(__CACHE_PATH__);
-				if(!file_exists(__CACHE_PATH__))
-				{
-					throw new \System\Utils\DirectoryNotFoundException("Could not open file `{$file}` for output, check that directory " . __CACHE_PATH__ . " exists");
-				}
+				throw new \System\Utils\FileNotWritableException("Could not write to log file `{$file}`, check that directory " . __CACHE_PATH__ . " is writable");
 			}
 		}
 

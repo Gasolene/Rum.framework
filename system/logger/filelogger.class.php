@@ -110,7 +110,6 @@
 			$file = $this->path . '/' . $category . '.log';
 
 			$log = fopen( $file, 'ab+' );
-
 			if($log)
 			{
 				if( fwrite( $log, date( 'Y-m-d H:i:s e', time() ) . "\t" . $message . "\n" ))
@@ -124,12 +123,7 @@
 			}
 			else
 			{
-				// Attempt to make the folder
-				\mkdir($this->path);
-				if(!file_exists($this->path))
-				{
-					throw new \System\Utils\DirectoryNotFoundException("Could not open file `{$file}` for output, check that directory " . $this->path . " exists");
-				}
+				throw new \System\Utils\FileNotWritableException("Could not write to log file `{$file}`, check that directory " . $this->path . " is writable");
 			}
 		}
 
