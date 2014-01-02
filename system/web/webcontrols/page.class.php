@@ -263,7 +263,7 @@
 		 */
 		final public function loadAjaxJScriptBuffer( $javaScript )
 		{
-			$this->loadAjaxBuffer(\str_replace("\n", "\\n\\", $javaScript . ';'));
+			$this->loadAjaxBuffer(\str_replace("\n", "\\n", $javaScript));
 		}
 
 
