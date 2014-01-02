@@ -687,10 +687,6 @@
 				else {
 					// sort DataSet
 					$this->dataSource->sort( $this->sortBy, (strtolower($this->sortOrder)=='asc'?false:true), true );
-
-					if($this->ajaxPostBack) {
-						$this->needsUpdating = true;
-					}
 				}
 			}
 		}
