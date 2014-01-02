@@ -16,6 +16,7 @@
 	 * @property int $page
 	 * @property bool $canSort
 	 * @property bool $canFilter
+	 * @property bool $canUpdateView specifies whether the GridView can update its own view when a postback is made
 	 * @property bool $showFilters
 	 * @property bool $showHeader
 	 * @property bool $showFooter
@@ -71,6 +72,12 @@
 		 * @var bool
 		 */
 		protected $canFilter				= true;
+
+		/**
+		 * Specifies whether the GridView can update its own view when a postback is made
+		 * @var bool
+		 */
+		protected $canUpdateView			= true;
 
 		/**
 		 * Specifies if table order can be changed, Default is false
@@ -262,6 +269,9 @@
 			elseif( $field === 'canFilter' ) {
 				return $this->canFilter;
 			}
+			elseif( $field === 'canUpdateView' ) {
+				return $this->canUpdateView;
+			}
 			elseif( $field === 'showFilters' ) {
 				return $this->showFilters;
 			}
@@ -390,6 +400,9 @@
 			}
 			elseif( $field === 'canFilter' ) {
 				$this->canFilter = (bool)$value;
+			}
+			elseif( $field === 'canUpdateView' ) {
+				$this->canUpdateView = (bool)$value;
 			}
 			elseif( $field === 'canChangeOrder' ) {
 				$this->canChangeOrder = (bool)$value;

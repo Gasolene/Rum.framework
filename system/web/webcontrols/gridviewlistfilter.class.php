@@ -157,7 +157,9 @@
 		{
 			if($this->value) {
 				$ds->filter($this->column->dataField, '=', $this->value, true );
-				$this->column->gridView->needsUpdating = true;
+				if($this->column->gridView->canUpdateView) {
+					$this->column->gridView->needsUpdating = true;
+				}
 			}
 		}
 

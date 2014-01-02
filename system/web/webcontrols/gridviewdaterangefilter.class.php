@@ -58,11 +58,15 @@
 		{
 			if($this->minValue) {
 				$ds->filter($this->column->dataField, '>=', date('Y-m-d', strtotime($this->minValue)));
-				$this->column->gridView->needsUpdating = true;
+				if($this->column->gridView->canUpdateView) {
+					$this->column->gridView->needsUpdating = true;
+				}
 			}
 			if($this->maxValue) {
 				$ds->filter($this->column->dataField, '<=', date('Y-m-d', strtotime($this->maxValue)));
-				$this->column->gridView->needsUpdating = true;
+				if($this->column->gridView->canUpdateView) {
+					$this->column->gridView->needsUpdating = true;
+				}
 			}
 		}
 
