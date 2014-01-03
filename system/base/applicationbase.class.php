@@ -298,7 +298,7 @@
 		{
 			$autoLoaders = Build::get('autoloaders');
 
-			if( !$autoLoaders )
+			if( is_null( $autoLoaders ))
 			{
 				$autoLoaders = array();
 
