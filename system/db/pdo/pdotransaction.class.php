@@ -22,7 +22,7 @@
 		 */
 		protected function beginTransaction()
 		{
-			$this->dataAdapter->pdo->beginTransaction();
+			$this->resource->beginTransaction();
 		}
 
 
@@ -31,7 +31,7 @@
 		 */
 		protected function rollbackTransaction()
 		{
-			$this->dataAdapter->pdo->rollBack();
+			$this->resource->rollBack();
 		}
 
 
@@ -40,7 +40,7 @@
 		 */
 		protected function commitTransaction()
 		{
-			$this->dataAdapter->pdo->commit();
+			$this->resource->commit();
 		}
 	}
 ?>

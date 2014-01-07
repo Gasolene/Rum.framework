@@ -22,8 +22,8 @@
 		 */
 		protected function beginTransaction()
 		{
-			$this->dataAdapter->execute( 'SET autocommit=0' );
-			$this->dataAdapter->execute( 'START TRANSACTION' );
+			$this->resource->execute( 'SET autocommit=0' );
+			$this->resource->execute( 'START TRANSACTION' );
 		}
 
 
@@ -32,7 +32,7 @@
 		 */
 		protected function rollbackTransaction()
 		{
-			$this->dataAdapter->execute( 'ROLLBACK' );
+			$this->resource->execute( 'ROLLBACK' );
 		}
 
 
@@ -41,7 +41,7 @@
 		 */
 		protected function commitTransaction()
 		{
-			$this->dataAdapter->execute( 'COMMIT' );
+			$this->resource->execute( 'COMMIT' );
 		}
 	}
 ?>

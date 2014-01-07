@@ -18,10 +18,10 @@
 	abstract class TransactionBase
 	{
 		/**
-		 * Contains a reference to a DataAdapter object
+		 * Contains a reference to an object
 		 * @var DataAdapter
 		**/
-		protected $dataAdapter		= null;
+		protected $resource				= null;
 
 		/**
 		 * Specifies whether the transaction has begun
@@ -33,12 +33,12 @@
 		/**
 		 * Constructor
 		 *
-		 * @param  DataAdapter	$dataAdapter	instance of a DataAdapter
+		 * @param  object	$resource	instance of a DataAdapter
 		 * @return void
 		 */
-		final public function __construct( DataAdapter &$dataAdapter )
+		final public function __construct( &$resource )
 		{
-			$this->dataAdapter =& $dataAdapter;
+			$this->resource =& $resource;
 			$this->begin();
 		}
 

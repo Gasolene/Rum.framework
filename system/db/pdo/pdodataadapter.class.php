@@ -476,7 +476,7 @@
 		 */
 		public function beginTransaction()
 		{
-			return new PDOTransaction($this);
+			return new PDOTransaction($this->pdo);
 		}
 
 
