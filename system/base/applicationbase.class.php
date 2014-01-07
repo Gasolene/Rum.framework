@@ -540,7 +540,7 @@
 			if( !$this->dataAdapter )
 			{
 				// create dataAdapter
-				$this->dataAdapter = \System\DB\DataAdapter::create( ApplicationBase::getInstance()->config->dsn );
+				$this->dataAdapter = \System\DB\DataAdapter::create( ApplicationBase::getInstance()->config->dsn, ApplicationBase::getInstance()->config->db_username, ApplicationBase::getInstance()->config->db_password );
 			}
 
 			return $this->dataAdapter;

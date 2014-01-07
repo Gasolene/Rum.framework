@@ -7,7 +7,7 @@
 	<property name="build.name"					value="Rum" />
 	<property name="build.version.number"		value="6.5" />
 	<property name="build.zip.exension"			value="6_5" />
-	<property name="build.revision.number"		value="1-RC-1.15" />
+	<property name="build.revision.number"		value="1-RC-1.16" />
 	<property name="authors"					value="darnell.shinbine" />
 
 	<property name="output.install"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_release" />

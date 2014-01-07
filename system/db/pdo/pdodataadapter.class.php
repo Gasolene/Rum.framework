@@ -75,8 +75,6 @@
 		 */
 		public function open()
 		{
-			trigger_error("The PDODataAdapter is beta, use with caution", E_USER_NOTICE);
-
 			if( !$this->pdo )
 			{
 				$this->pdo = new \PDO($this->dsn, $this->username, $this->password, $this->options);
@@ -129,7 +127,14 @@
 		{
 			if( $this->pdo )
 			{
-				return $this->pdo->query( $query );
+				try
+				{
+					return $this->pdo->query( $query );
+				}
+				catch(\Exception $e)
+				{
+					throw new \System\DB\DatabaseException($e->getMessage());
+				}
 			}
 			else
 			{
@@ -189,6 +194,7 @@
 			$databaseProperties = array();
 			$tableSchemas = array();
 
+			// TODO: Fix, will not work with all db adapters
 			$tables = $this->runQuery( "SHOW TABLES" );
 //			$tables = $this->runQuery( "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';" );
 
@@ -226,12 +232,10 @@
 
 				$tableSchemas[] = new \System\DB\TableSchema($tableProperties, $foreignKeys, $columnSchemas);
 			}
-			
+
 			return new \System\DB\DatabaseSchema($databaseProperties, $tableSchemas);
-					
 		}
 
-		
 
 		/**
 		 * creats a TableSchema object

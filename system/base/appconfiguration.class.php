@@ -48,7 +48,8 @@
 	 * @property bool $authorizationRequireSSL specifies whether to require SSL for authentication
 	 * @property array $authorizationPages contains the page authorization configuration
 	 * @property string $dsn dsn connecting string
-	 * @property string $test_dsn testcase dsn connectin string
+	 * @property string $db_username dsn username
+	 * @property string $db_password dsn password
 	 * @property array $errors array of errors
 	 * @property string $root path to root folder
 	 * @property string $htdocs path to htdocs folder
@@ -290,10 +291,16 @@
 		private $dsn							= '';
 
 		/**
-		 * specifies the dsn connection string for the test-source
+		 * specifies the data-source username
 		 * @var string
 		 */
-		private $test_dsn						= '';
+		private $db_username						= '';
+
+		/**
+		 * specifies the data-source password
+		 * @var string
+		 */
+		private $db_password						= '';
 
 		/**
 		 * contains an array of error handling pages
@@ -421,8 +428,11 @@
 			elseif( $field === 'dsn' ) {
 				return $this->dsn;
 			}
-			elseif( $field === 'test_dsn' ) {
-				return $this->test_dsn;
+			elseif( $field === 'db_username' ) {
+				return $this->db_username;
+			}
+			elseif( $field === 'db_password' ) {
+				return $this->db_password;
 			}
 			elseif( $field === 'errors' ) {
 				return $this->errors;
@@ -793,6 +803,12 @@
 				{
 					if( isset( $node_data['attributes']['DSN'] )) {
 						$this->dsn = $node_data['attributes']['DSN'];
+					}
+					if( isset( $node_data['attributes']['USERNAME'] )) {
+						$this->db_username = $node_data['attributes']['USERNAME'];
+					}
+					if( isset( $node_data['attributes']['PASSWORD'] )) {
+						$this->db_password = $node_data['attributes']['PASSWORD'];
 					}
 
 					$this->_closeNode( $nodes, $index );
