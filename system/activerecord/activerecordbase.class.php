@@ -679,21 +679,20 @@
 			$activeRecord = self::create();
 
 			$form = new \System\Web\WebControls\Form( $controlId );
-			$form->add( new \System\Web\WebControls\Fieldset( 'fieldset' ));
 
 			// create controls
 			foreach( $activeRecord->fields as $field => $type )
 			{
 				if(isset(self::$field_mappings[$type]))
 				{
-					$form->fieldset->add(new self::$field_mappings[$type]($field));
+					$form->add(new self::$field_mappings[$type]($field));
 				}
 				else
 				{
 					throw new \System\Base\InvalidOperationException("No field mapping assigned to `{$type}`");
 				}
 
-				$control = $form->fieldset->getControl( $field );
+				$control = $form->getControl( $field );
 				$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
 
 				// create references
@@ -835,12 +834,12 @@
 
 				foreach( $validators as $validator )
 				{
-					if($form->fieldset->hasControl($field))
+					if($form->hasControl($field))
 					{
 						eval("\$validator = new {$validator};");
 						if($validator instanceof \System\Validators\ValidatorBase)
 						{
-							$form->fieldset->getControl($field)->validators->add($validator);
+							$form->getControl($field)->validators->add($validator);
 						}
 					}
 				}
