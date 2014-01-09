@@ -42,15 +42,5 @@
 		 * @return  AuthenticationStatus
 		 */
 		abstract public function authenticate( $username, $password );
-
-
-		/**
-		 * compare passwords, return true on success
-		 * 
-		 * @param type $encryptedPassword
-		 * @param type $passwordToCompare
-		 * @return bool
-		 */
-		abstract public function comparePassword( $encryptedPassword, $passwordToCompare, $salt );
 	}
 ?>

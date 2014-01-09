@@ -41,6 +41,7 @@
 	 * @property string $authenticationFormsSecret specifies secret used when checking auth cookies
 	 * @property array $authenticationCredentialsUsers array of authentication users
 	 * @property array $authenticationCredentialsTables array of authentication tables
+	 * @property array $authenticationCredentialsLDAP array of authentication LDAP connections
 	 * @property array $authenticationMemberships array of memberships
 	 * @property array $authenticationMembershipsTables array of membership tables
 	 * @property array $authorizationDeny specifies the roles that are denied access by default
@@ -249,6 +250,12 @@
 		private $authenticationCredentialsTables	= array();
 
 		/**
+		 * contains an array of user credential LDAP connections
+		 * @var array
+		 */
+		private $authenticationCredentialsLDAP	= array();
+
+		/**
 		 * contains an array of user memberships
 		 * @var array
 		 */
@@ -406,6 +413,9 @@
 			}
 			elseif( $field === 'authenticationCredentialsTables' ) {
 				return $this->authenticationCredentialsTables;
+			}
+			elseif( $field === 'authenticationCredentialsLDAP' ) {
+				return $this->authenticationCredentialsLDAP;
 			}
 			elseif( $field === 'authenticationMemberships' ) {
 				return $this->authenticationMemberships;
@@ -1086,6 +1096,34 @@
 						}
 
 						$this->authenticationCredentialsTables[] = $table;
+					}
+
+					$this->_closeNode( $nodes, $index );
+				}
+				// ldap
+				elseif( $node_data['tag'] === 'LDAP' &&
+						$node_data['type'] != 'cdata' &&
+						isset( $node_data['attributes'] ))
+				{
+					if( isset( $node_data['attributes']['HOST'] ))
+					{
+						$ldap = array();
+						$ldap['host']			 = $node_data['attributes']['HOST'];
+
+						if( isset( $node_data['attributes']['DOMAIN'] )) {
+							$ldap['domain'] = $node_data['attributes']['DOMAIN'];
+						}
+						if( isset( $node_data['attributes']['USE-START-TLS'] )) {
+							$ldap['use-start-tls'] = (bool)$node_data['attributes']['USE-START-TLS'];
+						}
+						if( isset( $node_data['attributes']['ACCOUNT-CANONICAL-FORM'] )) {
+							$ldap['account-canonical-form'] = (int)$node_data['attributes']['ACCOUNT-CANONICAL-FORM'];
+						}
+						if( isset( $node_data['attributes']['BASE-DN'] )) {
+							$ldap['base-dn'] = (int)$node_data['attributes']['BASE-DN'];
+						}
+
+						$this->authenticationCredentialsLDAP[] = $ldap;
 					}
 
 					$this->_closeNode( $nodes, $index );

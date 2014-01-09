@@ -97,6 +97,12 @@
 				}
 			}
 
+			// TODO: add LDAP roles
+			// Get roles using ldap
+			foreach( \System\Base\ApplicationBase::getInstance()->config->authenticationMembershipsTables as $ldap )
+			{
+			}
+
 			return $roles;
 		}
 	}

@@ -113,6 +113,15 @@
                 <xs:attribute name="password-format" type="authenticationPasswordFormatType" use="optional" />
               </xs:complexType>
             </xs:element>
+            <xs:element name="ldap" minOccurs="0" maxOccurs="100">
+              <xs:complexType>
+                <xs:attribute name="host" type="xs:string" use="required" />
+                <xs:attribute name="domain" type="xs:string" use="optional" />
+                <xs:attribute name="use-start-tls" type="xs:boolean" use="optional" />
+                <xs:attribute name="account-canonical-form" type="xs:integer" use="optional" />
+                <xs:attribute name="base-dn" type="xs:string" use="optional" />
+              </xs:complexType>
+            </xs:element>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
