@@ -99,11 +99,11 @@
 
 			if($this->column->gridView->ajaxPostBack)
 			{
-				$select->setAttribute( 'onchange', "Rum.evalAsync('{$uri}', '{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
+				$select->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/', '{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
 			}
 			else
 			{
-				$select->setAttribute( 'onchange', "Rum.sendSync('{$uri}', '{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
+				$select->setAttribute( 'onchange', "Rum.sendSync('{$uri}/', '{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
 			}
 
 			return $select;

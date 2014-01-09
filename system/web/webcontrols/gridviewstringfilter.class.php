@@ -80,12 +80,12 @@
 
 			if($this->column->gridView->ajaxPostBack)
 			{
-				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
+				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
 				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);return false;}" );
 			}
 			else
 			{
-				$input->setAttribute( 'onchange', "if(this.value==''){Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);}" );
+				$input->setAttribute( 'onchange', "if(this.value==''){Rum.sendSync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+this.value);}" );
 				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;blur();Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);return false;}" );
 			}
 
