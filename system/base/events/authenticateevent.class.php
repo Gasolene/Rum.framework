@@ -16,7 +16,7 @@
 	 * @subpackage		Base
 	 * @author			Darnell Shinbine
 	 */
-	final class AuthenticatedEvent extends EventBase
+	final class AuthenticateEvent extends EventBase
 	{
 		/**
 		 * Constructor

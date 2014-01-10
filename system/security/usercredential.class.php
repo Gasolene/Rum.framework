@@ -33,7 +33,7 @@
 						if( $this->credential['active'] ) {
 
 							// Raise event
-							\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticatedEvent(), $this, $this->credential);
+							\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticateEvent(), $this, $this->credential);
 
 							// Success!
 							return new AuthenticationStatus();

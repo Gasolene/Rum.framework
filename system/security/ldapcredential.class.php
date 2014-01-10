@@ -27,9 +27,6 @@
 		public function authenticate( $username, $password )
 		{
 			// TODO: remove this line
-
-								// Raise event
-								\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticatedEvent(), $this, $this->credential);
 			return new AuthenticationStatus();
 
 			// connect to data source
@@ -49,7 +46,7 @@
 							if( $this->checkAccountActive( $ds )) {
 
 								// Raise event
-								\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticatedEvent(), $this, $this->credential);
+								\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticateEvent(), $this, $this->credential);
 
 								// Success!
 								return new AuthenticationStatus();

@@ -142,7 +142,7 @@
 
 			// Event handling
 			$this->events->add(new Events\ApplicationRunEvent());
-			$this->events->add(new Events\AuthenticatedEvent());
+			$this->events->add(new Events\AuthenticateEvent());
 
 			$onRunMethod = 'onRun';
 			if(\method_exists($this, $onRunMethod))
@@ -153,7 +153,7 @@
 			$onAuthMethod = 'onAuthenticate';
 			if(\method_exists($this, $onAuthMethod))
 			{
-				$this->events->registerEventHandler(new Events\AuthenticatedEventHandler('\System\Base\ApplicationBase::getInstance()->' . $onAuthMethod));
+				$this->events->registerEventHandler(new Events\AuthenticateEventHandler('\System\Base\ApplicationBase::getInstance()->' . $onAuthMethod));
 			}
 		}
 
