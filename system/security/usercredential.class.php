@@ -31,9 +31,15 @@
 				if($this->credential['salt']) {
 					if( $this->comparePassword( $this->credential['password'], $password, $this->credential['salt'] )) {
 						if( $this->credential['active'] ) {
+
+							// Raise event
+							\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticatedEvent(), $this, $this->credential);
+
+							// Success!
 							return new AuthenticationStatus();
 						}
 						else {
+							// Account is suspended
 							return new AuthenticationStatus(false, true);
 						}
 					}

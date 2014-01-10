@@ -142,11 +142,18 @@
 
 			// Event handling
 			$this->events->add(new Events\ApplicationRunEvent());
+			$this->events->add(new Events\AuthenticatedEvent());
 
-			$onRunMethod = 'on'.ucwords($this->id).'Run';
+			$onRunMethod = 'onRun';
 			if(\method_exists($this, $onRunMethod))
 			{
 				$this->events->registerEventHandler(new Events\ApplicationRunEventHandler('\System\Base\ApplicationBase::getInstance()->' . $onRunMethod));
+			}
+
+			$onAuthMethod = 'onAuthenticate';
+			if(\method_exists($this, $onAuthMethod))
+			{
+				$this->events->registerEventHandler(new Events\AuthenticatedEventHandler('\System\Base\ApplicationBase::getInstance()->' . $onAuthMethod));
 			}
 		}
 

@@ -15,7 +15,7 @@
 	 * @subpackage		Security
 	 * @author			Darnell Shinbine
 	 */
-	final class TableCredential extends CredentialBase
+	final class LDAPCredential extends CredentialBase
 	{
 		/**
 		 * authenticates password based on the credential
@@ -26,6 +26,12 @@
 		 */
 		public function authenticate( $username, $password )
 		{
+			// TODO: remove this line
+
+								// Raise event
+								\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticatedEvent(), $this, $this->credential);
+			return new AuthenticationStatus();
+
 			// connect to data source
 			$da = null;
 			if( isset( $this->credential['dsn'] )) {
@@ -77,6 +83,9 @@
 		 */
 		public function authorize( $username )
 		{
+			// TODO: remove this line
+			return true;
+
 			// connect to data source
 			$da = null;
 			if( isset( $this->credential['dsn'] )) {
@@ -109,18 +118,7 @@
 		 */
 		public function comparePassword( $encryptedPassword, $passwordToCompare, $salt )
 		{
-			return (string) $encryptedPassword === $this->generateHash($passwordToCompare, $salt);
-		}
-
-
-		/**
-		 * generate password hash
-		 * 
-		 * @return string
-		 */
-		public function generateHash($passwordToEncrypt, $salt)
-		{
-			return \System\Security\Authentication::generateHash($this->credential["password-format"], $passwordToEncrypt, (isset($this->credential["salt"])?$this->credential["salt"]:'') . $salt);
+			return (string) $encryptedPassword === $passwordToCompare;
 		}
 
 
