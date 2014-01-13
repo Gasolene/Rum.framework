@@ -43,7 +43,7 @@
 							if( $this->checkAccountActive( $ds )) {
 
 								// Raise event
-								\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticatedEvent(), $this, $ds->row);
+								\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticateEvent(), $this, $ds->row);
 
 								// Success!
 								return new AuthenticationStatus();

@@ -46,7 +46,7 @@
 							if( $this->checkAccountActive( $ds )) {
 
 								// Raise event
-								\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticatedEvent(), $this, array('username'=>$username));
+								\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticateEvent(), $this, array('username'=>$username));
 
 								// Success!
 								return new AuthenticationStatus();
