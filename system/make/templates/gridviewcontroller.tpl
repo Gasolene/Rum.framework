@@ -30,12 +30,11 @@
 		 */
 		public function onPageInit($sender, $args)
 		{
-			$this->page->add(new \System\Web\WebControls\GridView('<ControlName>'));
-			$this->page-><ControlName>->caption = '<ControlTitle>';
-			$this->page-><ControlName>->showFooter = true;
-
-			$this->page->add(<ObjectName>::form('add_form'));
-<Columns>			$this->page-><ControlName>->columns->add(new \System\Web\WebControls\GridViewButton('<PrimaryKey>', 'Delete', 'delete', 'Are you sure you want to delete this <ControlTitle> record?', '', '\Rum::app()->requestHandler->page->submit->fetch(array(\'class\'=>\' add\'))', 'delete' ));
+			$this->page->add(<ObjectName>::gridview('gridview'));
+			$this->page->gridview->caption = '<ControlTitle>';
+			$this->page->gridview->showInsertRow = true;
+			$this->page->gridview->columns->ajaxPostBack = true;
+			$this->page->gridview->columns->add(new \System\Web\WebControls\GridViewButton('<PrimaryKey>', 'Delete', 'action', 'Are you sure you want to delete this <ControlTitle> record?', '', '', 'action', 'Add' ));
 		}
 
 
@@ -51,61 +50,94 @@
 		 */
 		public function onPageLoad($sender, $args)
 		{
-			$this->page-><ControlName>->attachDataSource(<ObjectName>::all());
-			$this->page->add_form->attachDataSource(<ObjectName>::create());
-		}<Events>
+			$this->page->gridview->bind(<ObjectName>::all());
+		}
 
 
 		/**
-		 * Event called when the add button is clicked
+		 * Event called after Viewstate and Page are loaded but before Post events are handled
+		 *
+		 * This method should be idempotent as it invoked every page request
 		 *
 		 * @param  object $sender Sender object
 		 * @param  EventArgs $args Event args
 		 * @return void
 		 */
-		public function onSubmitAjaxClick($sender, $args)
+		public function onPageRequest($sender, $args)
 		{
-			if($this->add_form->validate($err))
+			if($this->isAjaxPostBack)
 			{
-				$this->add_form->save();
+				if(isset(\System\Web\HTTPRequest::$post["<PrimaryKey>"]))
+				{
+					$entity = <ObjectName>::findById(\System\Web\HTTPRequest::$post["<PrimaryKey>"]);
 
-				$this->page-><ControlName>->attachDataSource(<ObjectName>::all());
-				$this->page-><ControlName>->updateAjax();
+					foreach($entity->fields as $field=>$type)
+					{
+						if(isset(\System\Web\HTTPRequest::$post[$field]))
+						{
+							$entity[$field] = \System\Web\HTTPRequest::$post[$field];
+						}
+					}
 
-				\Rum::flash("s:<ControlTitle> record has been added");
-			}
-			else
-			{
-				\Rum::flash(\Rum::tl('validation_failed'), \System\Base\AppMessageType::Warning());
+					$entity->save();
+					\Rum::flash("s:<ControlTitle> record has been updated");
+				}
 			}
 		}
 
 
 		/**
-		 * Event called when the delete button is clicked
+		 * on button post
 		 *
 		 * @param  object $sender Sender object
 		 * @param  EventArgs $args Event args
 		 * @return void
 		 */
-		public function onDeleteAjaxPost($sender, $args)
+		public function onActionPost($sender, $args)
 		{
-			$<ControlName>Record = <ObjectName>::findById($args["<PrimaryKey>"]);
-
-			if($<ControlName>Record)
+			if($args["action"]=="Add")
 			{
+				// Insert
 				try
 				{
-					$<ControlName>Record->delete();
-
-					$this-><ControlName>->attachDatasource(<ObjectName>::all());
-					$this-><ControlName>->updateAjax();
-
-					\Rum::flash("s:<ControlTitle> record has been deleted");
+					$this->gridview->insertRow();
+					\Rum::flash("s:<ControlTitle> record has been added");
+					$this->gridview->refreshDataSource();
+					$this->gridview->needsUpdating = true;
 				}
 				catch(\System\DB\DatabaseException $e)
 				{
-					\Rum::flash("f:This <ControlTitle> record cannot be deleted as there are other records that are associated with this record");
+					\Rum::flash("s:Cannot add <ControlTitle> record, duplicate key detected");
+				}
+			}
+			elseif($args["action"]=="Edit")
+			{
+				// Update
+				try
+				{
+					$this->gridview->updateRow($args["<PrimaryKey>"]);
+					\Rum::flash("s:<ControlTitle> record has been updated");
+					$this->gridview->refreshDataSource();
+					$this->gridview->needsUpdating = true;
+				}
+				catch(\System\DB\DatabaseException $e)
+				{
+					\Rum::flash("s:Cannot update <ControlTitle> record, duplicate key detected");
+				}
+			}
+			elseif($args["action"]=="Delete")
+			{
+				// Delete
+				try
+				{
+					$this->gridview->deleteRow($args["<PrimaryKey>"]);
+					\Rum::flash("s:<ControlTitle> record has been deleted");
+					$this->gridview->refreshDataSource();
+					$this->gridview->needsUpdating = true;
+				}
+				catch(\System\DB\DatabaseException $e)
+				{
+					\Rum::flash("s:Cannot delete <ControlTitle> record, duplicate key detected");
 				}
 			}
 		}

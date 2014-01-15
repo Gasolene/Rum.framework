@@ -14,7 +14,7 @@
 	 * @package			PHPRum
 	 * @subpackage		Make
 	 */
-	class ListController extends MakeBase
+	class TableController extends MakeBase
 	{
 		/**
 		 * Default namespace
@@ -63,7 +63,7 @@
 					$ds = $objectName::all();
 					$fieldMeta = $ds->fieldMeta;
 					$pkey = $object->pkey;
-					$activeEvent = '';
+					$activeEvents = '';
 
 					$columns = '';
 					foreach($fieldMeta as $field)
@@ -71,9 +71,9 @@
 						if(!$field->primaryKey)
 						{
 							$colHeader = ucwords(str_replace('_', ' ', $field->name));
-							if($field->boolean && !$activeEvent)
+							if($field->boolean)
 							{
-								$activeEvent = "
+								$activeEvents .= "
 
 
 		/**
@@ -89,20 +89,17 @@
 
 			if(\${$controlName}Record)
 			{
-				\${$controlName}Record[\"{$field->name}\"] = \$args[\"{$field->name}\"]=='false'?false:true;
+				\${$controlName}Record[\"{$field->name}\"] = \$args[\"{$field->name}\"]==false?false:true;
 				\${$controlName}Record->save();
 
-				\$this->{$controlName}->attachDatasource({$objectName}::all());
-				\$this->{$controlName}->updateAjax();
-
-				\Rum::flash(\"s:{$controlTitle} {$field->name} field has been \".(\$args[\"{$field->name}\"]=='false'?\"disabled\":\"activated\"));
+				\Rum::flash(\"s:{$controlTitle} {$field->name} field has been \".(\$args[\"{$field->name}\"]==false?\"unset\":\"set\"));
 			}
 		}";
-								$columns .= "\t\t\t\$this->page->{$controlName}->columns->add(new \System\Web\WebControls\GridViewCheckBox('{$field->name}', '{$pkey}', '{$field->name}', '{$colHeader}', '', ''));" . PHP_EOL;
+								$columns .= "\t\t\t\$this->page->gridview->columns->add(new \System\Web\WebControls\GridViewCheckBox('{$field->name}', '{$pkey}', '{$field->name}', '{$colHeader}'));" . PHP_EOL;
 							}
 							else
 							{
-								$columns .= "\t\t\t\$this->page->{$controlName}->columns->add(new \System\Web\WebControls\GridViewColumn('{$field->name}', '{$colHeader}'));" . PHP_EOL;
+								$columns .= "\t\t\t\$this->page->gridview->columns->add(new \System\Web\WebControls\GridViewColumn('{$field->name}', '{$colHeader}'));" . PHP_EOL;
 							}
 						}
 					}
@@ -110,9 +107,8 @@
 					$controllerPath = \System\Base\ApplicationBase::getInstance()->config->controllers . '/' . strtolower($target) . __CONTROLLER_EXTENSION__;
 					$viewPath = \System\Base\ApplicationBase::getInstance()->config->views . '/' . strtolower($target) . __TEMPLATE_EXTENSION__;
 					$testCasePath = __FUNCTIONAL_TESTS_PATH__ . '/' . strtolower($target) . strtolower(__CONTROLLER_TESTCASE_SUFFIX__) . __CLASS_EXTENSION__;
-					$fixturePath = __FIXTURES_PATH__ . '/' . strtolower($className) . '.sql';
 
-					$controllerTemplate = file_get_contents(\System\Base\ApplicationBase::getInstance()->config->root . "/system/make/templates/listcontroller.tpl");
+					$controllerTemplate = file_get_contents(\System\Base\ApplicationBase::getInstance()->config->root . "/system/make/templates/tablecontroller.tpl");
 					$controllerTemplate = str_replace("<Namespace>", $namespace, $controllerTemplate);
 					$controllerTemplate = str_replace("<BaseNamespace>", $baseNamespace, $controllerTemplate);
 					$controllerTemplate = str_replace("<ClassName>", $className, $controllerTemplate);
@@ -120,13 +116,12 @@
 					$controllerTemplate = str_replace("<PageURI>", $pageURI, $controllerTemplate);
 					$controllerTemplate = str_replace("<TemplateExtension>", __TEMPLATE_EXTENSION__, $controllerTemplate);
 					$controllerTemplate = str_replace("<ObjectName>", $objectName, $controllerTemplate);
-					$controllerTemplate = str_replace("<ControlName>", $controlName, $controllerTemplate);
 					$controllerTemplate = str_replace("<ControlTitle>", $controlTitle, $controllerTemplate);
 					$controllerTemplate = str_replace("<PrimaryKey>", $pkey, $controllerTemplate);
 					$controllerTemplate = str_replace("<Columns>", $columns, $controllerTemplate);
-					$controllerTemplate = str_replace("<ActiveEvent>", $activeEvent, $controllerTemplate);
+					$controllerTemplate = str_replace("<ActiveEvents>", $activeEvents, $controllerTemplate);
 
-					$viewTemplate = $template = file_get_contents(\System\Base\ApplicationBase::getInstance()->config->root . "/system/make/templates/listview.tpl");
+					$viewTemplate = $template = file_get_contents(\System\Base\ApplicationBase::getInstance()->config->root . "/system/make/templates/tableview.tpl");
 					$viewTemplate = str_replace("<Namespace>", $namespace, $viewTemplate);
 					$viewTemplate = str_replace("<BaseNamespace>", $baseNamespace, $viewTemplate);
 					$viewTemplate = str_replace("<ClassName>", $className, $viewTemplate);
@@ -144,15 +139,9 @@
 					$testCaseTemplate = str_replace("<TemplateExtension>", __TEMPLATE_EXTENSION__, $testCaseTemplate);
 					$testCaseTemplate = str_replace("<Fixture>", strtolower($className).'.sql', $testCaseTemplate);
 
-					/**
-					$fixtureTemplate = $template = file_get_contents(\System\Base\ApplicationBase::getInstance()->config->root . "/system/make/templates/pagecontrollerfixture.tpl");
-					$fixtureTemplate = str_replace("<PageURI>", $pageURI, $fixtureTemplate);
-					 */
-
 					$this->export($controllerPath, $controllerTemplate);
 					$this->export($viewPath, $viewTemplate);
 					$this->export($testCasePath, $testCaseTemplate);
-					// $this->export($fixturePath, $fixtureTemplate);
 				}
 				else
 				{

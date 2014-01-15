@@ -54,66 +54,17 @@
 				$baseClassName = '\\'.$baseNamespace.self::DefaultBaseController;
 				$pageURI = $target;
 				$objectName = '\\'.$baseNamespace.self::ModelNamespace.'\\'.$options[3];
-				$controlName = strtolower($options[3]);
 				$controlTitle = ucwords($options[3]);
-				$events = '';
 
 				// object properties
 				if(class_exists($objectName))
 				{
 					$object = $objectName::create();
-					$ds = $objectName::all();
-					$fieldMeta = $ds->fieldMeta;
 					$pkey = $object->pkey;
-
-					$columns = '';
-					foreach($object->fields as $field=>$type)
-					{
-						$colHeader = ucwords(str_replace('_', ' ', $field));
-						$events .= "
-
-
-		/**
-		 * Event called when {$field} is posted
-		 *
-		 * @param  object \$sender Sender object
-		 * @param  EventArgs \$args Event args
-		 * @return void
-		 */
-		public function onEdit_".ucwords(str_replace(' ', '_', $field))."AjaxPost(\$sender, \$args)
-		{
-			\${$controlName}Record = {$objectName}::findById(\$args[\"{$pkey}\"]);
-
-			if(\${$controlName}Record)
-			{
-				\${$controlName}Record[\"{$field}\"] = \$args[\"edit_{$field}\"];
-				\${$controlName}Record->save();
-
-				\$this->{$controlName}->attachDatasource({$objectName}::all());
-				\$this->{$controlName}->updateAjax();
-
-				\Rum::flash(\"s:{$controlTitle} record has been updated\");
-			}
-		}";
-						if($type=='ref')
-						{
-							// TODO:
-							$columns .= "\t\t\t\$this->page->{$controlName}->columns->add(new \System\Web\WebControls\GridViewDropDownMenu('{$field}', '{$pkey}', array(), 'edit_{$field}', '{$colHeader}', '\Rum::app()->requestHandler->page->{$field}->fetch()', ''));" . PHP_EOL;
-						}
-						elseif($type=='boolean')
-						{
-							$columns .= "\t\t\t\$this->page->{$controlName}->columns->add(new \System\Web\WebControls\GridViewCheckBox('{$field}', '{$pkey}', 'edit_{$field}', '{$colHeader}', '\Rum::app()->requestHandler->page->{$field}->fetch()', ''));" . PHP_EOL;
-						}
-						else
-						{
-							$columns .= "\t\t\t\$this->page->{$controlName}->columns->add(new \System\Web\WebControls\GridViewTextBox('{$field}', '{$pkey}', 'edit_{$field}', '{$colHeader}', '\Rum::app()->requestHandler->page->{$field}->fetch()', ''));" . PHP_EOL;
-						}
-					}
 
 					$controllerPath = \System\Base\ApplicationBase::getInstance()->config->controllers . '/' . strtolower($target) . __CONTROLLER_EXTENSION__;
 					$viewPath = \System\Base\ApplicationBase::getInstance()->config->views . '/' . strtolower($target) . __TEMPLATE_EXTENSION__;
 					$testCasePath = __FUNCTIONAL_TESTS_PATH__ . '/' . strtolower($target) . strtolower(__CONTROLLER_TESTCASE_SUFFIX__) . __CLASS_EXTENSION__;
-					$fixturePath = __FIXTURES_PATH__ . '/' . strtolower($className) . '.sql';
 
 					$controllerTemplate = file_get_contents(\System\Base\ApplicationBase::getInstance()->config->root . "/system/make/templates/gridviewcontroller.tpl");
 					$controllerTemplate = str_replace("<Namespace>", $namespace, $controllerTemplate);
@@ -123,11 +74,8 @@
 					$controllerTemplate = str_replace("<PageURI>", $pageURI, $controllerTemplate);
 					$controllerTemplate = str_replace("<TemplateExtension>", __TEMPLATE_EXTENSION__, $controllerTemplate);
 					$controllerTemplate = str_replace("<ObjectName>", $objectName, $controllerTemplate);
-					$controllerTemplate = str_replace("<ControlName>", $controlName, $controllerTemplate);
 					$controllerTemplate = str_replace("<ControlTitle>", $controlTitle, $controllerTemplate);
 					$controllerTemplate = str_replace("<PrimaryKey>", $pkey, $controllerTemplate);
-					$controllerTemplate = str_replace("<Columns>", $columns, $controllerTemplate);
-					$controllerTemplate = str_replace("<Events>", $events, $controllerTemplate);
 
 					$viewTemplate = $template = file_get_contents(\System\Base\ApplicationBase::getInstance()->config->root . "/system/make/templates/gridviewview.tpl");
 					$viewTemplate = str_replace("<Namespace>", $namespace, $viewTemplate);
@@ -136,7 +84,6 @@
 					$viewTemplate = str_replace("<BaseClassName>", $baseClassName, $viewTemplate);
 					$viewTemplate = str_replace("<PageURI>", $pageURI, $viewTemplate);
 					$viewTemplate = str_replace("<TemplateExtension>", __TEMPLATE_EXTENSION__, $viewTemplate);
-					$viewTemplate = str_replace("<ControlName>", $controlName, $viewTemplate);
 
 					$testCaseTemplate = $template = file_get_contents(\System\Base\ApplicationBase::getInstance()->config->root . "/system/make/templates/controllertestcase.tpl");
 					$testCaseTemplate = str_replace("<Namespace>", $namespace, $testCaseTemplate);
@@ -147,15 +94,9 @@
 					$testCaseTemplate = str_replace("<TemplateExtension>", __TEMPLATE_EXTENSION__, $testCaseTemplate);
 					$testCaseTemplate = str_replace("<Fixture>", strtolower($className).'.sql', $testCaseTemplate);
 
-					/**
-					$fixtureTemplate = $template = file_get_contents(\System\Base\ApplicationBase::getInstance()->config->root . "/system/make/templates/pagecontrollerfixture.tpl");
-					$fixtureTemplate = str_replace("<PageURI>", $pageURI, $fixtureTemplate);
-					 */
-
 					$this->export($controllerPath, $controllerTemplate);
 					$this->export($viewPath, $viewTemplate);
 					$this->export($testCasePath, $testCaseTemplate);
-					// $this->export($fixturePath, $fixtureTemplate);
 				}
 				else
 				{

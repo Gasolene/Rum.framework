@@ -31,10 +31,9 @@
 		public function onPageInit($sender, $args)
 		{
 			$this->page->add(<ObjectName>::form('form'));
-			$this->page->form->fieldset->legend = '<ControlTitle> record';
+			$this->page->form->legend = '<ControlTitle> record';
 			$this->page->form->ajaxValidation = true;
-			$this->page->form->submit->text = 'Save';
-			$this->page->form->add(new \System\Web\WebControls\Button('cancel'));
+			$this->page->form->add(new \System\Web\WebControls\Button('submit'));
 		}
 
 
@@ -56,7 +55,7 @@
 
 				if($<ControlName>Record)
 				{
-					$this->page->form->attachDataSource($<ControlName>Record);
+					$this->page->form->bind($<ControlName>Record);
 				}
 				else
 				{
@@ -65,7 +64,7 @@
 			}
 			else
 			{
-				$this->page->form->attachDataSource(<ObjectName>::create());
+				$this->page->form->bind(<ObjectName>::create());
 			}
 		}
 
@@ -90,19 +89,6 @@
 			{
 				\Rum::flash(\Rum::tl('validation_failed'), \System\Base\AppMessageType::Warning());
 			}
-		}
-
-
-		/**
-		 * Event called when the Cancel button is clicked
-		 *
-		 * @param  object $sender Sender object
-		 * @param  EventArgs $args Event args
-		 * @return void
-		 */
-		public function onCancelClick($sender, $args)
-		{
-			\Rum::forward('<ReturnURI>');
 		}
 	}
 #end

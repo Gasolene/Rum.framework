@@ -25,7 +25,14 @@
 		 */
 		public function get(array $args)
 		{
-			
+			if( \System\Security\WebServiceAuthentication::authenticated() )
+			{
+				return 'You are logged in';
+			}
+			else
+			{
+				return 'You are not logged in';
+			}
 		}
 
 		/**

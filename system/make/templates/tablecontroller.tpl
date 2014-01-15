@@ -30,12 +30,10 @@
 		 */
 		public function onPageInit($sender, $args)
 		{
-			$this->page->add(new \System\Web\WebControls\GridView('<ControlName>'));
-			$this->page-><ControlName>->caption = '<ControlTitle>';
-			$this->page-><ControlName>->showFilters = true;
-			$this->page-><ControlName>->showFooter = true;
-<Columns>			$this->page-><ControlName>->columns->add(new \System\Web\WebControls\GridViewButton('<PrimaryKey>', 'Edit', 'edit', '', '', '', 'edit' ));
-			$this->page-><ControlName>->columns->add(new \System\Web\WebControls\GridViewButton('<PrimaryKey>', 'Delete', 'delete', 'Are you sure you want to delete this <ControlTitle> record?', '', '', 'delete' ));
+			$this->page->add(new \System\Web\WebControls\GridView('gridview'));
+			$this->page->gridview->caption = '<ControlTitle>';
+			$this->page->gridview->showFilters = true;
+<Columns>			$this->page->gridview->columns->add(new \System\Web\WebControls\GridViewButton('<PrimaryKey>', 'Edit', 'edit', '', '', '', 'edit' ));
 		}
 
 
@@ -51,8 +49,8 @@
 		 */
 		public function onPageLoad($sender, $args)
 		{
-			$this->page-><ControlName>->attachDataSource(<ObjectName>::all());
-		}<ActiveEvent>
+			$this->page->gridview->bind(<ObjectName>::all());
+		}<ActiveEvents>
 
 
 		/**
@@ -64,37 +62,7 @@
 		 */
 		public function onEditClick($sender, $args)
 		{
-			\Rum::forward('<PageURI>/edit', array('id'=>$args["edit"]));
-		}
-
-
-		/**
-		 * Event called when the delete button is clicked
-		 *
-		 * @param  object $sender Sender object
-		 * @param  EventArgs $args Event args
-		 * @return void
-		 */
-		public function onDeleteAjaxPost($sender, $args)
-		{
-			$<ControlName>Record = <ObjectName>::findById($args["<PrimaryKey>"]);
-
-			if($<ControlName>Record)
-			{
-				try
-				{
-					$<ControlName>Record->delete();
-
-					$this-><ControlName>->attachDatasource(<ObjectName>::all());
-					$this-><ControlName>->updateAjax();
-
-					\Rum::flash("s:<ControlTitle> record has been deleted");
-				}
-				catch(\System\DB\DatabaseException $e)
-				{
-					\Rum::flash("f:This <ControlTitle> record cannot be deleted as there are other records that are associated with this record");
-				}
-			}
+			\Rum::forward('<PageURI>/edit', array('id'=>$args[<PrimaryKey>]));
 		}
 	}
 #end
