@@ -1113,6 +1113,12 @@
 						if( isset( $node_data['attributes']['DOMAIN'] )) {
 							$ldap['domain'] = $node_data['attributes']['DOMAIN'];
 						}
+						if( isset( $node_data['attributes']['LDAP-USER'] )) {
+							$ldap['ldap_user'] = $node_data['attributes']['LDAP-USER'];
+						}
+						if( isset( $node_data['attributes']['LDAP-PASSWORD'] )) {
+							$ldap['ldap_password'] = $node_data['attributes']['LDAP-PASSWORD'];
+						}
 						if( isset( $node_data['attributes']['USE-START-TLS'] )) {
 							$ldap['use-start-tls'] = (bool)$node_data['attributes']['USE-START-TLS'];
 						}

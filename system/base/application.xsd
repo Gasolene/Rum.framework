@@ -117,6 +117,8 @@
               <xs:complexType>
                 <xs:attribute name="host" type="xs:string" use="required" />
                 <xs:attribute name="domain" type="xs:string" use="optional" />
+                <xs:attribute name="ldap-user" type="xs:string" use="optional" />
+                <xs:attribute name="ldap-password" type="xs:string" use="optional" />
                 <xs:attribute name="use-start-tls" type="xs:boolean" use="optional" />
                 <xs:attribute name="account-canonical-form" type="xs:integer" use="optional" />
                 <xs:attribute name="base-dn" type="xs:string" use="optional" />
