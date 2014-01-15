@@ -25,50 +25,40 @@
 		 * @return  AuthenticationStatus
 		 */
 		public function authenticate( $username, $password )
-		{
-			// TODO: remove this line
-			return new AuthenticationStatus();
+		{	
+		    
+		    	// TODO: remove this line			
+		    
+			$invalidCredentials = true; 
+			$disabled = false; 
+			$lockedOut = false;
+			
+			$ldapserver = $this->credential['host'];
+			$ldapuser      = $this->credential['domain'] . "\\" . $username;
+			
+			$ldappass     = $password;
+			$ldaptree    = "OU=User Accounts,DC=" . $this->credential['domain'] . ",DC=local";
 
-			// connect to data source
-			$da = null;
-			if( isset( $this->credential['dsn'] )) {
-				$da = \System\DB\DataAdapter::create( $this->credential['dsn'] );
-			}
-			else {
-				$da = \System\Base\ApplicationBase::getInstance()->dataAdapter;
-			}
+			$ldapconn = ldap_connect($ldapserver);
+						
+			if ($ldapconn) {
+			    
+			    // binding to ldap server
+			    $ldapbind = ldap_bind($ldapconn, $ldapuser, $ldappass);
+			    
+			    // verify binding
+			    if ($ldapbind) {
+					$invalidCredentials = false;
 
-			$ds = $da->openDataSet( $this->credential['source'] );
-			if( $ds ) {
-				if( $ds->seek( $this->credential['username-field'], (string)$username, true )) {
-					if( $this->comparePassword( $ds[$this->credential['password-field']], $password, isset($this->credential['salt-field'])?$ds[$this->credential['salt-field']]:'' )) {
-						if( $this->checkFailedCount( $ds )) {
-							if( $this->checkAccountActive( $ds )) {
+					// Raise event
+					\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticateEvent(), $this, $ds->row);
+			    }			    
+			    
+			    ldap_close($ldapconn);
+			} 
+			
+			return new AuthenticationStatus($invalidCredentials, $disabled, $lockedOut);
 
-								// Raise event
-								\System\Base\ApplicationBase::getInstance()->events->raise(new \System\Base\Events\AuthenticateEvent(), $this, array('username'=>$username));
-
-								// Success!
-								return new AuthenticationStatus();
-							}
-							else {
-								// Account is suspended
-								return new AuthenticationStatus(false, true);
-							}
-						}
-						else {
-							// Too many failed attempts
-							return new AuthenticationStatus(false, false, true);
-						}
-					}
-					else {
-						// Bad credentials
-						$this->failedAttempt( $ds );
-					}
-				}
-			}
-
-			return new AuthenticationStatus(true);
 		}
 
 
@@ -79,30 +69,53 @@
 		 * @return  bool
 		 */
 		public function authorize( $username )
-		{
-			// TODO: remove this line
+		{	    
+			$ldap_user = \Rum::config()->appsettings["ldap_user"];
+			$ldap_password = \Rum::config()->appsettings["ldap_password"];	
+			
+			$ldapserver = $this->credential['host'];
+			$ldapuser      = $this->credential['domain'] . "\\" . $ldap_user;
+			
+			$ldappass     = $ldap_password;
+			$ldaptree    = "OU=User Accounts,DC=" . $this->credential['domain'] . ",DC=local";
+									
+			$ldapconn = ldap_connect($ldapserver);
+						
+			if ($ldapconn) {			    
+			    
+			    // binding to ldap server
+			    $ldapbind = ldap_bind($ldapconn, $ldapuser, $ldappass);
+			    
+			    // verify binding
+			    if ($ldapbind) {
+				
+				//get useraccountcontrol for user
+				$filter="(|(samaccountname=". $username . "))"; 
+				$justthese = array("useraccountcontrol");				
+				
+				$result = ldap_search($ldapconn,$ldaptree,$filter,$justthese);
+				
+				$userInfo = ldap_get_entries($ldapconn, $result);
+				
+				foreach($userInfo[0] as $user){
+				
+				    // based of http://support.microsoft.com/default.aspx?scid=kb;en-us;305144
+				    
+				    //if disabled
+				    if($user['useraccountcontrol'] == '2'){
+					return false;
+				    }
+				    		
+				    //if locked
+				    if($user['useraccountcontrol'] == '16'){
+					return false;
+				    }				    				    
+				}				
+			    }			    
+			}
+			
 			return true;
-
-			// connect to data source
-			$da = null;
-			if( isset( $this->credential['dsn'] )) {
-				$da = \System\DB\DataAdapter::create( $this->credential['dsn'] );
-			}
-			else {
-				$da = \System\Base\ApplicationBase::getInstance()->dataAdapter;
-			}
-
-			$ds = $da->openDataSet( $this->credential['source'] );
-			if( $ds ) {
-				if( $ds->seek( $this->credential['username-field'], (string)$username, true )) {
-					if( $this->checkAccountActive( $ds )) {
-						// Success!
-						return true;
-					}
-				}
-			}
-
-			return false;
+			
 		}
 
 
@@ -186,6 +199,6 @@
 					throw new \System\DB\DatabaseException("Cannot update credential source, source must be updatable");
 				}
 			}
-		}
+		}		
 	}
 ?>
