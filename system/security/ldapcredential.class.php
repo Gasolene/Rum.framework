@@ -119,7 +119,7 @@
 			    if ($ldapbind) {
 
 					//get useraccountcontrol for user
-					$filter="(|(samaccountname=" . $username . "))";
+					$filter="(|(samaccountname=" . $this->credential['domain'] . "\\" . $username . "))";
 					$justthese = array("useraccountcontrol");
 					$result = ldap_search($ldapconn, $ldaptree, $filter, $justthese);
 					$userInfo = ldap_get_entries($ldapconn, $result);
