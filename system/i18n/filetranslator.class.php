@@ -72,6 +72,7 @@
 					}
 				}
 			}
+			\Rum::log("string id {$stringId} not found in langs.xml file, using default", 'error');
 
 			return $default;
 		}
