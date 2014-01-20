@@ -1113,12 +1113,6 @@
 						if( isset( $node_data['attributes']['DOMAIN'] )) {
 							$ldap['domain'] = $node_data['attributes']['DOMAIN'];
 						}
-						if( isset( $node_data['attributes']['LDAP-USER'] )) {
-							$ldap['ldap_user'] = $node_data['attributes']['LDAP-USER'];
-						}
-						if( isset( $node_data['attributes']['LDAP-PASSWORD'] )) {
-							$ldap['ldap_password'] = $node_data['attributes']['LDAP-PASSWORD'];
-						}
 						if( isset( $node_data['attributes']['USE-START-TLS'] )) {
 							$ldap['use-start-tls'] = (bool)$node_data['attributes']['USE-START-TLS'];
 						}
@@ -1127,6 +1121,18 @@
 						}
 						if( isset( $node_data['attributes']['BASE-DN'] )) {
 							$ldap['base-dn'] = (int)$node_data['attributes']['BASE-DN'];
+						}
+						if( isset( $node_data['attributes']['LDAP-USER'] )) {
+							$ldap['ldap_user'] = $node_data['attributes']['LDAP-USER'];
+						}
+						if( isset( $node_data['attributes']['LDAP-PASSWORD'] )) {
+							$ldap['ldap_password'] = $node_data['attributes']['LDAP-PASSWORD'];
+						}
+						if( isset( $node_data['attributes']['ATTRIBUTES'] )) {
+							$ldap['attributes'] = $node_data['attributes']['ATTRIBUTES'];
+						}
+						if( isset( $node_data['attributes']['TIMELIMIT'] )) {
+							$ldap['timelimit'] = $node_data['attributes']['TIMELIMIT'];
 						}
 
 						$this->authenticationCredentialsLDAP[] = $ldap;
