@@ -123,13 +123,21 @@
 		 * @param  string		$query		sql query
 		 * @return resource
 		 */
-		protected function query( $query, $buffer )
+		protected function query( $query, $buffer = true )
 		{
 			if( $this->pdo )
 			{
 				try
 				{
-					return $this->pdo->query( $query );
+					if($query instanceof PDOStatement)
+					{
+						return $query->query();
+					}
+					else
+					{
+						trigger_error("Raw queries are not recommended, use PDOAdapter::prepare() instead", E_USER_WARNING);
+						return $this->pdo->query( $query );
+					}
 				}
 				catch(\Exception $e)
 				{
@@ -140,6 +148,23 @@
 			{
 				throw new \System\DB\DataAdapterException("PDO resource in not a valid PDO object");
 			}
+		}
+
+
+		/**
+		 * prepare an SQL statement
+		 * Creates a prepared statement bound to parameters specified by the @symbol
+		 * e.g. SELECT * FROM `table` WHERE user=@user
+		 *
+		 * @param  string	$statement	SQL statement
+		 * @param  array	$parameters	array of parameters to bind
+		 * @return SQLStatement
+		 */
+		public function prepare($statement, array $parameters = array())
+		{
+			$psoStatement = new PDOStatement($this, $this->pdo);
+			$psoStatement->prepare($statement, $parameters);
+			return $psoStatement;
 		}
 
 
@@ -208,7 +233,7 @@
 				$query = $this->queryBuilder()->select()->from($table[0]);
 				$query->empty = true;
 
-				$columns = $this->runQuery( $query->getPreparedStatement() );
+				$columns = $this->runQuery( $query );
 
 				if( $columns )
 				{
@@ -412,7 +437,7 @@
 						->update($ds->table)
 						->setColumns($ds->table, $ds->fields, $ds->row)
 						->where($ds->table, $tableSchema->primaryKey, '=', $ds[$tableSchema->primaryKey])
-						->runQuery();
+						->query();
 				}
 				else
 				{
@@ -461,11 +486,11 @@
 		/**
 		 * creats a QueryBuilder object
 		 *
-		 * @return MySQLQueryBuilder
+		 * @return PDOQueryBuilder
 		 */
 		public function queryBuilder()
 		{
-			return new PDOQueryBuilder($this);
+			return new PDOQueryBuilder($this, $this->pdo);
 		}
 
 

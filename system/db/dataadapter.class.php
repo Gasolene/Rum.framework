@@ -623,7 +623,15 @@
 				$this->lastQueryTime = 0;
 			}
 
-			$result = $this->query((string)$query, (bool)$buffer);
+			// Add support for passing prepared statements
+			if($query instanceof SQLStatement) {
+				$result = $query->query();
+			}
+			else {
+				// Backwards compatible support
+				trigger_error("Use of unprepared SQL statements is not recommended, use DataAdapter::prepare() instead", E_USER_WARNING);
+				$result = $this->query((string)$query);
+			}
 
 			if( $this->stats )
 			{

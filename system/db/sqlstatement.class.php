@@ -146,7 +146,7 @@
 		 * @param  array	$parameters	array of parameters to bind
 		 * @return void
 		 */
-		final public function execute(array $parameters = array()) {
+		public function execute(array $parameters = array()) {
 			$this->dataAdapter->execute($this->getPreparedStatement($parameters));
 		}
 
@@ -158,7 +158,7 @@
 		 * @param  DataSetType	$lock_type	lock type as constant of DataSetType::OpenDynamic(), DataSetType::OpenStatic(), or DataSetType::OpenReadonly()
 		 * @return DataSet
 		 */
-		final public function openDataSet(array $parameters = array(), DataSetType $lock_type = null) {
+		public function openDataSet(array $parameters = array(), DataSetType $lock_type = null) {
 			return $this->dataAdapter->openDataSet($this->getPreparedStatement($parameters), $lock_type);
 		}
 
@@ -170,7 +170,7 @@
 		 * @ignore
 		 */
 		final public function runQuery() {
-			//trigger_error("SQLStatement::runQuery() is deprecated, use SQLStatement::execute() instead");
+			trigger_error("SQLStatement::runQuery() is deprecated, use SQLStatement::execute() instead");
 			$this->execute();
 		}
 

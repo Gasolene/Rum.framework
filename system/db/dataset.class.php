@@ -19,7 +19,7 @@
 	 * @property int $count number of records
 	 * @property bool $eof specifies if end of record
 	 * @property bool $bof specifies if beginning of record
-	 * @property string $source data source string
+	 * @property object $source data source object
 	 * @property string $table source table
 	 * @property array $fieldMeta array of field meta data
 	 * @property array $fields array of fields
@@ -546,8 +546,6 @@
 		 */
 		public function seek( $field, $value, $case_insensitive = 0 )
 		{
-			$count = count($this->rows);
-
 			// loop through rows
 			for( $i=0; $i < count($this->rows); $i++ )
 			{
@@ -897,7 +895,7 @@
 
 					return $max;
 				}
-				elseif( $this->fieldMeta[$index]->datetime || $this->fieldMeta[$index]->date || $this->fieldMeta[$index]->time )
+				elseif( $this->fieldMeta[$field]->datetime || $this->fieldMeta[$field]->date || $this->fieldMeta[$field]->time )
 				{
 					for( $i=0, $count=count($this->rows); $i < $count; $i++ )
 					{
@@ -967,7 +965,7 @@
 
 					return $min;
 				}
-				elseif( $field->datetime || $field->date || $fields->time )
+				elseif( $field->datetime || $field->date || $field->time )
 				{
 					for( $i = 0, $count = count($this->rows); $i < $count; $i++ )
 					{

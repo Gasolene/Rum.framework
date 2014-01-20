@@ -505,11 +505,11 @@
 
 					elseif( $mapping['relationship'] == RelationshipType::HasManyAndBelongsTo()->__toString() )
 					{
-						$this->dataSet->dataAdapter->execute( '
+						$this->dataSet->dataAdapter->prepare( '
 							delete from
 								`' . $mapping['table'] . '`
 							where
-								`' . $mapping['columnKey'] . '` = ' . $this[$mapping['columnKey']] );
+								`' . $mapping['columnKey'] . '` = ' . $this[$mapping['columnKey']] )->execute();
 
 						continue;
 					}
@@ -1162,7 +1162,7 @@
 								$query->where( $mapping['table'], $mapping['columnKey'], '=', $this[$this->pkey] );
 								$query->where( $mapping['table'], $mapping['columnRef'], '=', $activeRecord[$activeRecord->pkey] );
 
-								$dsA = $this->dataSet->dataAdapter->openDataSet( $query->getPreparedStatement() );
+								$dsA = $this->dataSet->dataAdapter->openDataSet( $query );
 
 								if( $dsA->count ) {
 									throw new \System\Base\InvalidOperationException("association already exists");
@@ -1286,7 +1286,7 @@
 						$query->from  ( $mapping['table'] );
 						$query->where ( $mapping['table'], $mapping['columnKey'], '=', $this[$this->pkey] );
 
-						$this->dataSet->dataAdapter->execute( $query->getPreparedStatement() );
+						$query->execute();
 						return;
 					}
 					if( $mapping['relationship'] == RelationshipType::HasMany()->__toString() )
@@ -1296,7 +1296,7 @@
 						$query->set   ( $mapping['table'], $mapping['columnRef'], null );
 						$query->where ( $mapping['table'], $mapping['columnRef'], '=', $this[$mapping['columnKey']] );
 
-						$this->dataSet->dataAdapter->execute( $query->getPreparedStatement() );
+						$query->execute();
 						return;
 					}
 				}
@@ -1360,7 +1360,7 @@
 						$query->from  ( $mapping['table'] );
 						$query->where ( $mapping['table'], $mapping['columnRef'], '=', $this[$mapping['columnKey']] );
 
-						$this->dataSet->dataAdapter->execute( $query->getPreparedStatement() );
+						$query->execute();
 						return;
 					}
 				}
@@ -1712,7 +1712,7 @@
 				throw new \System\Base\InvalidOperationException("AppServlet::dataAdapter is null");
 			}
 
-			$activeRecord->dataSet = $da->openDataSet( $query->getPreparedStatement() );
+			$activeRecord->dataSet = $query->openDataSet();
 
 			// set args
 			foreach( $args as $key => $value )
