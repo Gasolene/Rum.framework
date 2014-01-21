@@ -140,7 +140,7 @@
 				\System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
 						->insertInto(__DB_SCHEMA_VERSION_TABLENAME__, array('version'))
 						->values(array('0'))
-						->runQuery();
+						->execute();
 				return 0;
 			}
 		}
@@ -156,7 +156,7 @@
 				\System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
 						->update(__DB_SCHEMA_VERSION_TABLENAME__)
 						->set(__DB_SCHEMA_VERSION_TABLENAME__, 'version', (real)$version)
-						->runQuery();
+						->execute();
 			}
 			catch (\System\DB\DatabaseException $e)
 			{
@@ -164,7 +164,7 @@
 				\System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
 						->insertInto(__DB_SCHEMA_VERSION_TABLENAME__, array('version'))
 						->values(array((real)$version))
-						->runQuery();
+						->execute();
 			}
 		}
 

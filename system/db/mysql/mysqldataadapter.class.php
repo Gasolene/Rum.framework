@@ -131,29 +131,19 @@
 
 
 		/**
-		 * Executes a query procedure on the current connection and return the result
+		 * prepare an SQL statement
+		 * Creates a prepared statement bound to parameters specified by the @symbol
+		 * e.g. SELECT * FROM `table` WHERE user=@user
 		 *
-		 * @param  string		$query		sql query
-		 * @param  bool		$buffer		buffer resultset
-		 * @return resource
+		 * @param  string	$statement	SQL statement
+		 * @param  array	$parameters	array of parameters to bind
+		 * @return SQLStatement
 		 */
-		protected function query( $query, $buffer )
+		public function prepare($statement, array $parameters = array())
 		{
-			if( $this->link )
-			{
-				$result = \mysql_query( $query, $this->link );
-
-				if( !$result )
-				{
-					throw new \System\DB\DatabaseException( \mysql_error( $this->link ));
-				}
-
-				return $result;
-			}
-			else
-			{
-				throw new \System\DB\DataAdapterException("MySQL resource in not a valid link identifier");
-			}
+			$statement = new \System\DB\MySQLi\MySQLiStatement($this, $this->link);
+			$statement->prepare($statement, $parameters);
+			return $statement;
 		}
 
 
@@ -167,7 +157,8 @@
 		{
 			if( $this->link )
 			{
-				$result = $this->runQuery( $ds->source );
+				$result = $this->query( $ds->source );
+
 				if( $result )
 				{
 					$fields = array();
@@ -234,7 +225,7 @@
 			$databaseProperties = array();
 			$tableSchemas = array();
 
-			$tables = $this->runQuery( "SHOW TABLES" );
+			$tables = $this->query( "SHOW TABLES" );
 			while($table = \mysql_fetch_array($tables, MYSQL_NUM))
 			{
 				$i=0;
@@ -242,7 +233,7 @@
 				$foreignKeys = array();
 				$columnSchemas = array();
 
-				$columns = $this->runQuery( "SELECT * FROM `{$table[0]}` WHERE 0" );
+				$columns = $this->query( "SELECT * FROM `{$table[0]}` WHERE 0" );
 				while($i < \mysql_num_fields($columns))
 				{
 					$meta = \mysql_fetch_field($columns, $i);
@@ -421,7 +412,7 @@
 				$this->queryBuilder()
 					->insertInto($ds->table, $ds->fields)
 					->values($ds->row)
-					->runQuery();
+					->execute();
 
 				if($tableSchema->primaryKey)
 				{
@@ -453,7 +444,7 @@
 						->update($ds->table)
 						->setColumns($ds->table, $ds->fields, $ds->row)
 						->where($ds->table, $tableSchema->primaryKey, '=', $ds[$tableSchema->primaryKey])
-						->runQuery();
+						->execute();
 				}
 				else
 				{
@@ -485,7 +476,7 @@
 						->delete()
 						->from($ds->table)
 						->where($ds->table, $tableSchema->primaryKey, '=', $ds[$tableSchema->primaryKey])
-						->runQuery();
+						->execute();
 				}
 				else
 				{
@@ -506,7 +497,7 @@
 		 */
 		public function queryBuilder()
 		{
-			return new \System\DB\SQLQueryBuilder($this);
+			return new \System\DB\MySQLi\MySQLiQueryBuilder($this->dataAdapter, $this->link);
 		}
 
 

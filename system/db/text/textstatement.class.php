@@ -5,29 +5,35 @@
 	 * @author			Darnell Shinbine
 	 * @copyright		Copyright (c) 2013
 	 */
-	namespace System\DB\PDO;
+	namespace System\DB\Text;
 
 
 	/**
-	 * Represents a PDO database query statement
+	 * Represents a CSV file query statement
 	 *
 	 * @package			PHPRum
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	class PDOStatement extends \System\DB\SQLStatementBase
+	class TextStatement extends \System\DB\SQLStatementBase
 	{
 		/**
-		 * Contains a reference to a PDO Statement object
-		 * @var \PDOStatement
+		 * Contains the SQL statement parameters
+		 * @var array
 		**/
-		protected $statement = null;
+		protected $parameters = array();
+
+		/**
+		 * Contains a text statement
+		 * @var string
+		**/
+		protected $statement = '';
 
 		/**
 		 * Contains a reference to a PDO object
-		 * @var \PDO
+		 * @var resource
 		**/
-		protected $pdo = null;
+		protected $link = null;
 
 
 		/**
@@ -38,9 +44,9 @@
 		 * @param  object		$pdo			PDO object
 		 * @return void
 		 */
-		public function __construct(\System\DB\DataAdapter &$dataAdapter, \PDO &$pdo) {
+		public function __construct(\System\DB\DataAdapter &$dataAdapter, &$link) {
 			$this->dataAdapter =& $dataAdapter;
-			$this->pdo =& $pdo;
+			$this->link =& $link;
 		}
 
 
@@ -81,8 +87,7 @@
 		 * @return \PDOStatement
 		 */
 		public function query(array $parameters = array()) {
-			$this->execute($parameters);
-			return $this->statement;
+			dmp(callstack());
 		}
 
 
@@ -95,7 +100,7 @@
 		 * @return bool
 		 */
 		public function execute(array $parameters = array()) {
-			return $this->statement->execute($parameters);
+			dmp(callstack());
 		}
 	}
 ?>

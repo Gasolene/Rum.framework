@@ -84,7 +84,7 @@
 					$this->db->queryBuilder()
 						->insertInto($this->table, array('string_id', 'lang', 'charset', 'value'))
 						->values(array((string)$stringId, $this->lang, $this->charset, (string)$default))
-						->runQuery();
+						->execute();
 
 					return $default;
 				}

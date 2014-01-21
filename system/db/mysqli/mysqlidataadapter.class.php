@@ -114,29 +114,19 @@
 
 
 		/**
-		 * Executes a query procedure on the current connection and return the result
+		 * prepare an SQL statement
+		 * Creates a prepared statement bound to parameters specified by the @symbol
+		 * e.g. SELECT * FROM `table` WHERE user=@user
 		 *
-		 * @param  string		$query		sql query
-		 * @param  bool		$buffer		buffer resultset
-		 * @return resource
+		 * @param  string	$statement	SQL statement
+		 * @param  array	$parameters	array of parameters to bind
+		 * @return SQLStatement
 		 */
-		protected function query( $query, $buffer )
+		public function prepare($statement, array $parameters = array())
 		{
-			if( $this->link )
-			{
-				$result = \mysqli_query( $this->link, $query, $buffer?MYSQLI_STORE_RESULT:MYSQLI_USE_RESULT );
-
-				if( !$result )
-				{
-					throw new \System\DB\DatabaseException(\mysqli_error($this->link));
-				}
-
-				return $result;
-			}
-			else
-			{
-				throw new \System\DB\DataAdapterException("MySQLi resource in not a valid link identifier");
-			}
+			$statement = new MySQLiStatement($this, $this->link);
+			$statement->prepare($statement, $parameters);
+			return $statement;
 		}
 
 
@@ -150,7 +140,7 @@
 		{
 			if( $this->link )
 			{
-				$result = $this->runQuery( $ds->source, false );
+				$result = $this->query( $ds->source, false );
 
 				if( $result )
 				{
@@ -201,7 +191,7 @@
 			$databaseProperties = array();
 			$tableSchemas = array();
 
-			$tables = $this->runQuery( "SHOW TABLES" );
+			$tables = $this->query( "SHOW TABLES" );
 
 			while($table = \mysqli_fetch_array($tables, MYSQL_NUM))
 			{
@@ -210,7 +200,7 @@
 				$foreignKeys = array();
 				$columnSchemas = array();
 
-				$columns = $this->runQuery( "SELECT * FROM `{$table[0]}` WHERE 0" );
+				$columns = $this->query( "SELECT * FROM `{$table[0]}` WHERE 0" );
 				while($i < \mysqli_num_fields($columns))
 				{
 					$meta = \mysqli_fetch_field_direct($columns, $i);
@@ -378,7 +368,7 @@
 				$this->queryBuilder()
 					->insertInto($ds->table, $ds->fields)
 					->values($ds->row)
-					->runQuery();
+					->execute();
 
 				if($tableSchema->primaryKey)
 				{
@@ -410,7 +400,7 @@
 						->update($ds->table)
 						->setColumns($ds->table, $ds->fields, $ds->row)
 						->where($ds->table, $tableSchema->primaryKey, '=', $ds[$tableSchema->primaryKey])
-						->runQuery();
+						->execute();
 				}
 				else
 				{
@@ -442,7 +432,7 @@
 						->delete()
 						->from($ds->table)
 						->where($ds->table, $tableSchema->primaryKey, '=', $ds[$tableSchema->primaryKey])
-						->runQuery();
+						->execute();
 				}
 				else
 				{
@@ -463,7 +453,7 @@
 		 */
 		public function queryBuilder()
 		{
-			return new \System\DB\SQLQueryBuilder($this);
+			return new MySQLiQueryBuilder($this, $this->link);
 		}
 
 
@@ -511,18 +501,6 @@
 			{
 				throw new \System\DB\DataAdapterException("MySQLi resource is not a valid link identifier");
 			}
-		}
-
-
-		/**
-		 * Returns escaped string
-		 *
-		 * @param  string $unescaped_string		String to escape
-		 * @return string						Escaped string
-		 */
-		public function escapeString( $unescaped_string )
-		{
-			return \mysqli_real_escape_string( $this->link, $unescaped_string );
 		}
 
 

@@ -118,40 +118,6 @@
 
 
 		/**
-		 * Executes a query procedure on the current connection and return the result
-		 *
-		 * @param  string		$query		sql query
-		 * @return resource
-		 */
-		protected function query( $query, $buffer = true )
-		{
-			if( $this->pdo )
-			{
-				try
-				{
-					if($query instanceof PDOStatement)
-					{
-						return $query->query();
-					}
-					else
-					{
-						trigger_error("Raw queries are not recommended, use PDOAdapter::prepare() instead", E_USER_WARNING);
-						return $this->pdo->query( $query );
-					}
-				}
-				catch(\Exception $e)
-				{
-					throw new \System\DB\DatabaseException($e->getMessage());
-				}
-			}
-			else
-			{
-				throw new \System\DB\DataAdapterException("PDO resource in not a valid PDO object");
-			}
-		}
-
-
-		/**
 		 * prepare an SQL statement
 		 * Creates a prepared statement bound to parameters specified by the @symbol
 		 * e.g. SELECT * FROM `table` WHERE user=@user
@@ -178,7 +144,7 @@
 		{
 			if( $this->pdo )
 			{
-				$result = $this->runQuery( $ds->source );
+				$result = $this->query( $ds->source );
 
 				$fields = array();
 				$fieldMeta = array();
@@ -220,8 +186,8 @@
 			$tableSchemas = array();
 
 			// TODO: Fix, will not work with all db adapters
-			$tables = $this->runQuery( "SHOW TABLES" );
-//			$tables = $this->runQuery( "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';" );
+			$tables = $this->query( "SHOW TABLES" );
+//			$tables = $this->query( "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';" );
 
 			while($table = $tables->fetch( \PDO::FETCH_NUM))
 			{
@@ -233,7 +199,7 @@
 				$query = $this->queryBuilder()->select()->from($table[0]);
 				$query->empty = true;
 
-				$columns = $this->runQuery( $query );
+				$columns = $this->query( $query );
 
 				if( $columns )
 				{
@@ -405,7 +371,7 @@
 				$this->queryBuilder()
 					->insertInto($ds->table, $ds->fields)
 					->values($ds->row)
-					->runQuery();
+					->execute();
 
 				if($tableSchema->primaryKey)
 				{
@@ -469,7 +435,7 @@
 						->delete()
 						->from($ds->table)
 						->where($ds->table, $tableSchema->primaryKey, '=', $ds[$tableSchema->primaryKey])
-						->runQuery();
+						->execute();
 				}
 				else
 				{

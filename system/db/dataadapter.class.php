@@ -255,31 +255,9 @@
 
 
 		/**
-		 * creates a connection object to a datasource
-		 *
-		 * Examples:
-		 * <code>
-		 * adapter=mysql;uid=root;pwd=;server=localhost;database=northwind;charset=utf8;pconnect=false;cache_enabled=false;cache_expires=300;
-		 * adapter=mssql;uid=root;pwd=;server=localhost;database=northwind;charset=utf8;
-		 * adapter=text;format=TabDelimited;source=/northwind.csv;charset=utf8;
-		 * adapter=dir;source=/northwind;
-		 * </code>
-		 *
-		 * @param   string   $dsn   connection string
-		 * @return	DataAdapter
-		 * /
-		final static public function createPDO( $dsn )
-		{
-			include_once __SYSTEM_PATH__ . '/db/pdo/pdodataadapter' . __CLASS_EXTENSION__;
-			$da = new PDO\PDODataAdapter($args);
-			return $da;
-		}
-
-
-		/**
 		 * opens a DataSet specified by the source
 		 *
-		 * @param  string		$source		source string (or QueryBuilder)
+		 * @param  object		$source		source object
 		 * @param  DataSetType	$lock_type	lock type as constant of DataSetType::OpenDynamic(), DataSetType::OpenStatic(), or DataSetType::OpenReadonly()
 		 * @return DataSet					return DataSet
 		 */
@@ -337,29 +315,12 @@
 		/**
 		 * Executes a query procedure on the current connection
 		 *
-		 * @param  string	$query	SQL statement
+		 * @param  SQLStatement	$query	SQL statement
 		 * @return void
 		 */
 		final public function execute( $query )
 		{
-			$this->runQuery((string)$query);
-		}
-
-
-		/**
-		 * prepare an SQL statement
-		 * Creates a prepared statement bound to parameters specified by the @symbol
-		 * e.g. SELECT * FROM `table` WHERE user=@user
-		 *
-		 * @param  string	$statement	SQL statement
-		 * @param  array	$parameters	array of parameters to bind
-		 * @return SQLStatement
-		 */
-		public function prepare($statement, array $parameters = array())
-		{
-			$sqlStatement = new SQLStatement($this);
-			$sqlStatement->prepare($statement, $parameters);
-			return $sqlStatement;
+			$this->query($query);
 		}
 
 
@@ -371,7 +332,8 @@
 		 */
 		final public function executeBatch( $batch )
 		{
-			// TODO: very bad!!!
+			// TODO: very bad!!! avoid!
+			trigger_error("executeBatch is deprecated!", E_USER_DEPRECATED);
 			$queries = explode( ";", $batch );
 
 			foreach( $queries as $query )
@@ -495,6 +457,18 @@
 
 
 		/**
+		 * prepare an SQL statement
+		 * Creates a prepared statement bound to parameters specified by the @symbol
+		 * e.g. SELECT * FROM `table` WHERE user=@user
+		 *
+		 * @param  string	$statement	SQL statement
+		 * @param  array	$parameters	array of parameters to bind
+		 * @return SQLStatement
+		 */
+		abstract public function prepare($statement, array $parameters = array());
+
+
+		/**
 		 * fetches DataSet from datasource string using source string
 		 *
 		 * @param  DataSet	$ds			reference to a DataSet object
@@ -557,7 +531,7 @@
 		/**
 		 * creats a QueryBuilder object
 		 *
-		 * @return QueryBuilderBase
+		 * @return SQLStatementBase
 		 */
 		abstract public function queryBuilder();
 
@@ -571,48 +545,12 @@
 
 
 		/**
-		 * return id of last record inserted
-		 *
-		 * @return int
-		 */
-		abstract public function getLastInsertId();
-
-
-		/**
-		 * return affected rows
-		 *
-		 * @return int
-		 */
-		abstract public function getAffectedRows();
-
-
-		/**
-		 * Returns an escaped string
-		 *
-		 * @param  string	$unescaped_string		String to escape
-		 * @return string
-		 */
-		abstract public function escapeString( $unescaped_string );
-
-
-		/**
-		 * Executes a query procedure on the current connection and return the result
-		 *
-		 * @param  string	$query		query string
-		 * @param  bool		$buffer		buffer resultset
-		 * @return resource
-		 */
-		abstract protected function query( $query, $buffer );
-
-
-		/**
 		 * Executes a query procedure on the current connection and return the result
 		 *
 		 * @param  string		$query		query to execute
-		 * @param  bool			$buffer		buffer resultset
 		 * @return resource
 		 */
-		final protected function runQuery( $query, $buffer = true )
+		final protected function query( $query )
 		{
 			if( $this->stats )
 			{
@@ -629,8 +567,9 @@
 			}
 			else {
 				// Backwards compatible support
-				trigger_error("Use of unprepared SQL statements is not recommended, use DataAdapter::prepare() instead", E_USER_WARNING);
-				$result = $this->query((string)$query);
+//				trigger_error("Use of unprepared SQL statements is not recommended, use DataAdapter::prepare() instead", E_USER_WARNING);
+				$statement = $this->prepare($query);
+				$result = $statement->query();
 			}
 
 			if( $this->stats )

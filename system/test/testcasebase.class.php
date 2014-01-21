@@ -177,7 +177,7 @@
 						{
 							try
 							{
-								\System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()->delete()->from($table)->runQuery();
+								\System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()->delete()->from($table)->execute();
 								unset($tables[$i]);
 								$tables = \array_values($tables);
 							}
@@ -268,7 +268,7 @@
 							\System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
 								->insertInto($this->_arrayLsearch( $record->name, $tables ), $fieldnames)
 								->values($fieldvalues)
-								->runQuery();
+								->execute();
 						}
 						catch(SQLException $e)
 						{

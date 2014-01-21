@@ -15,25 +15,13 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	class SQLStatement
+	abstract class SQLStatementBase
 	{
 		/**
 		 * Contains a reference to a DataAdapter object
 		 * @var DataAdapter
 		**/
 		protected $dataAdapter = null;
-
-		/**
-		 * Contains the raw SQL statement
-		 * @var string
-		**/
-		private $statement = '';
-
-		/**
-		 * Contains the SQL statement parameters
-		 * @var string
-		**/
-		private $parameters = array();
 
 
 		/**
@@ -82,12 +70,7 @@
 		 * @param  array	$parameters	array of parameters to bind
 		 * @return string
 		 */
-		public function prepare($statement, array $parameters = array()) {
-			foreach($parameters as $parameter => $value) {
-				$this->bind($parameter, $value);
-			}
-			$this->statement = (string)$statement;
-		}
+		abstract public function prepare($statement, array $parameters = array());
 
 
 		/**
@@ -96,46 +79,18 @@
 		 * @param  string	$statement	SQL statement
 		 * @return string
 		 */
-		public function bind($parameter, $value) {
-			$this->parameters[$parameter] = $value;
-		}
+		abstract public function bind($parameter, $value);
 
 
 		/**
-		 * get prepared SQL statement as string
+		 * execute an SQL statement and return a PDOStatement object
+		 * Executes a prepared statement bound to parameters specified by the :symbol
+		 * e.g. SELECT * FROM `table` WHERE user=:user
 		 *
 		 * @param  array	$parameters	array of parameters to bind
-		 * @return string
+		 * @return \PDOStatement
 		 */
-		public function getPreparedStatement(array $parameters = array()) {
-			foreach($parameters as $parameter => $value) {
-				$this->bind($parameter, $value);
-			}
-
-			$preparedStatement = $this->statement;
-			foreach($this->parameters as $parameter => $value) {
-				if(strpos($value, '0x' )===0) {
-					$preparedStatement = str_replace("@{$parameter}", $value, $preparedStatement);
-				}
-				elseif(is_string($value)) {
-					$preparedStatement = str_replace("@{$parameter}", '\''.$this->dataAdapter->escapeString($value).'\'', $preparedStatement);
-				}
-				else {
-					$preparedStatement = str_replace("@{$parameter}", (real)$value, $preparedStatement);
-				}
-			}
-			return $preparedStatement;
-		}
-
-
-		/**
-		 * get prepared SQL statement as string
-		 *
-		 * @return string
-		 */
-		final public function __toString() {
-			return $this->getPreparedStatement();
-		}
+		abstract public function query(array $parameters = array());
 
 
 		/**
@@ -146,9 +101,7 @@
 		 * @param  array	$parameters	array of parameters to bind
 		 * @return void
 		 */
-		public function execute(array $parameters = array()) {
-			$this->dataAdapter->execute($this->getPreparedStatement($parameters));
-		}
+		abstract public function execute(array $parameters = array());
 
 
 		/**
@@ -158,8 +111,8 @@
 		 * @param  DataSetType	$lock_type	lock type as constant of DataSetType::OpenDynamic(), DataSetType::OpenStatic(), or DataSetType::OpenReadonly()
 		 * @return DataSet
 		 */
-		public function openDataSet(array $parameters = array(), DataSetType $lock_type = null) {
-			return $this->dataAdapter->openDataSet($this->getPreparedStatement($parameters), $lock_type);
+		final public function openDataSet(array $parameters = array(), DataSetType $lock_type = null) {
+			return $this->dataAdapter->openDataSet($this, $lock_type);
 		}
 
 

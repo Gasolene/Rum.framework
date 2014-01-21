@@ -107,29 +107,19 @@
 
 
 		/**
-		 * Executes a query procedure on the current connection and return the result
+		 * prepare an SQL statement
+		 * Creates a prepared statement bound to parameters specified by the @symbol
+		 * e.g. SELECT * FROM `table` WHERE user=@user
 		 *
-		 * @param  string		$query		sql query
-		 * @param  bool		$buffer		buffer resultset
-		 * @return resource
+		 * @param  string	$statement	SQL statement
+		 * @param  array	$parameters	array of parameters to bind
+		 * @return SQLStatement
 		 */
-		protected function query( $query, $buffer )
+		public function prepare($statement, array $parameters = array())
 		{
-			if( $this->link )
-			{
-				$result = \sqlsrv_query( $this->link , $query );
-				if( !$result )
-				{										
-					throw new \System\DB\DatabaseException(implode(' ', array_pop(sqlsrv_errors())));
-					
-				}
-
-				return $result;
-			}
-			else
-			{
-				throw new \System\DB\DataAdapterException("MSSQL resource in not a valid link identifier");
-			}
+			$statement = new MSSQLStatement($this, $this->link);
+			$statement->prepare($statement, $parameters);
+			return $statement;
 		}
 
 
@@ -161,7 +151,7 @@
 				}
 				// establish link to db resource
 				// replaced mysql_query with $this->execute
-				$result = $this->runQuery( $ds->source );
+				$result = $this->query( $ds->source );
 				
 				$fields = array();
 				if( $result )
@@ -317,7 +307,7 @@
 			$databaseProperties = array();
 			$tableSchemas = array();
 
-			$tables = $this->runQuery( "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';" );
+			$tables = $this->query( "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';" );
 
 			while($table = \sqlsrv_fetch_array($tables))
 			{
@@ -326,7 +316,7 @@
 				$foreignKeys = array();
 				$columnSchemas = array();
 
-				$columns = $this->runQuery( "SELECT * FROM [{$table[0]}]" );
+				$columns = $this->query( "SELECT * FROM [{$table[0]}]" );
 
 				// get table of mssql types
 				$mssql_type = array();
@@ -589,7 +579,7 @@
 				$this->queryBuilder()
 					->insertInto($ds->table, $fields)
 					->values($row)
-					->runQuery();
+					->execute();
 
 				if($tableSchema->primaryKey)
 				{
@@ -633,7 +623,7 @@
 						->update($ds->table)
 						->setColumns($ds->table, $fields, $row)
 						->where($ds->table, $tableSchema->primaryKey, '=', $ds[$tableSchema->primaryKey])
-						->runQuery();
+						->execute();
 				}
 				else
 				{
@@ -665,7 +655,7 @@
 						->delete()
 						->from($ds->table)
 						->where($ds->table, $tableSchema->primaryKey, '=', $ds[$tableSchema->primaryKey])
-						->runQuery();
+						->execute();
 				}
 				else
 				{
@@ -686,7 +676,7 @@
 		 */
 		public function queryBuilder()
 		{
-			return new \System\DB\SQLQueryBuilder($this, '[', ']', '\'');
+			return new MSSQLQueryBuilder($this, $this->link, '[', ']', '\'');
 		}
 
 
@@ -710,7 +700,7 @@
 		{
 			if($this->link)
 			{
-				$id = \sqlsrv_fetch_array($this->runQuery("SELECT  @@Identity"));
+				$id = \sqlsrv_fetch_array($this->query("SELECT  @@Identity"));
 				return $id[0];
 			}
 			else
@@ -807,7 +797,7 @@
 											AND c.name = '".$fieldName."'
 											order by ik.keyno";
 
-			$link = $this->runQuery( $sql );
+			$link = $this->query( $sql );
 			$result = sqlsrv_fetch_array( $link );
 
 			$field = array();

@@ -69,7 +69,7 @@
 				$this->db->queryBuilder()
 					->insertInto($this->table, array('datetime', 'message', 'category'))
 					->values(array(date('Y-m-d g:ia'), $message, $category))
-					->runQuery();
+					->execute();
 			}
 			catch(\System\DB\DatabaseException $e)
 			{
@@ -103,7 +103,7 @@
 				$this->db->queryBuilder()
 					->insertInto($this->table, array('datetime', 'message', 'category'))
 					->values(array(date('Y-m-d g:ia'), $message, $category))
-					->runQuery();
+					->execute();
 			}
 		}
 
@@ -136,7 +136,7 @@
 				->delete()
 				->from($this->table)
 				->where($this->table, 'category', '=', $category)
-				->runQuery();
+				->execute();
 		}
 	}
 ?>

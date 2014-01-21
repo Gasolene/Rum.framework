@@ -5,29 +5,35 @@
 	 * @author			Darnell Shinbine
 	 * @copyright		Copyright (c) 2013
 	 */
-	namespace System\DB\PDO;
+	namespace System\DB\MSSQL;
 
 
 	/**
-	 * Represents a PDO database query statement
+	 * Represents a MSSQL database query statement
 	 *
 	 * @package			PHPRum
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	class PDOStatement extends \System\DB\SQLStatementBase
+	class MSSQLStatement extends \System\DB\SQLStatementBase
 	{
 		/**
-		 * Contains a reference to a PDO Statement object
-		 * @var \PDOStatement
+		 * Contains an sql statement
+		 * @var string
 		**/
-		protected $statement = null;
+		protected $statement = '';
 
 		/**
-		 * Contains a reference to a PDO object
-		 * @var \PDO
+		 * Contains the SQL statement parameters
+		 * @var array
 		**/
-		protected $pdo = null;
+		protected $parameters = array();
+
+		/**
+		 * Contains a reference to a mysql connection object
+		 * @var resource
+		**/
+		protected $connection = null;
 
 
 		/**
@@ -35,12 +41,12 @@
 		 *
 		 * @param  DataAdapter	$dataAdapter	instance of a DataAdapter
 		 * @param  string		$statement		SQL statement
-		 * @param  object		$pdo			PDO object
+		 * @param  object		$connection		MSSQL connection object
 		 * @return void
 		 */
-		public function __construct(\System\DB\DataAdapter &$dataAdapter, \PDO &$pdo) {
+		public function __construct(\System\DB\DataAdapter &$dataAdapter, resource &$connection) {
 			$this->dataAdapter =& $dataAdapter;
-			$this->pdo =& $pdo;
+			$this->connection =& $connection;
 		}
 
 
@@ -54,7 +60,7 @@
 		 * @return string
 		 */
 		public function prepare($statement, array $parameters = array()) {
-			$this->statement = $this->pdo->prepare((string)$statement);
+			$this->statement = (string)$statement;
 			foreach($parameters as $parameter => $value) {
 				$this->bind($parameter, $value);
 			}
@@ -68,7 +74,7 @@
 		 * @return string
 		 */
 		public function bind($parameter, $value) {
-			$this->statement->bindParam($parameter, $value);
+			$this->parameters[$parameter] = $value;
 		}
 
 
@@ -80,22 +86,35 @@
 		 * @param  array	$parameters	array of parameters to bind
 		 * @return \PDOStatement
 		 */
-		public function query(array $parameters = array()) {
-			$this->execute($parameters);
-			return $this->statement;
+		public function query(array $parameters = array())
+		{
+			if( $this->connection )
+			{
+				$result = \sqlsrv_query( $this->connection , $this->statement );
+				if( !$result )
+				{										
+					throw new \System\DB\DatabaseException(implode(' ', array_pop(sqlsrv_errors())));
+				}
+
+				return $result;
+			}
+			else
+			{
+				throw new \System\DB\DataAdapterException("MSSQL resource in not a valid link identifier");
+			}
 		}
 
 
 		/**
 		 * execute an SQL statement
-		 * Executes a prepared statement bound to parameters specified by the :symbol
-		 * e.g. SELECT * FROM `table` WHERE user=:user
+		 * Executes a prepared statement bound to parameters specified by the @symbol
+		 * e.g. SELECT * FROM `table` WHERE user=@user
 		 *
 		 * @param  array	$parameters	array of parameters to bind
-		 * @return bool
+		 * @return void
 		 */
 		public function execute(array $parameters = array()) {
-			return $this->statement->execute($parameters);
+			$this->query($parameters);
 		}
 	}
 ?>

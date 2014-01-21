@@ -1237,7 +1237,7 @@
 						$query->where( $mapping['table'], $mapping['columnKey'], '=', $this[$this->pkey] );
 						$query->where( $mapping['table'], $mapping['columnRef'], '=', $activeRecord[$activeRecord->pkey] );
 
-						$query->runQuery();
+						$query->execute();
 
 						if($this->dataSet->dataAdapter->getAffectedRows()!=1)
 						{

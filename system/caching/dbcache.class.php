@@ -135,7 +135,7 @@
 			$this->db->queryBuilder()
 				->insertInto($this->table, array('cache_id', 'value', 'expires'))
 				->values(array((string)$id, \serialize($value), $expires))
-				->runQuery();
+				->execute();
 		}
 
 
@@ -151,7 +151,7 @@
 				->delete()
 				->from($this->table)
 				->where($this->table, 'cache_id', '=', (string)$id)
-				->runQuery();
+				->execute();
 		}
 
 
@@ -164,7 +164,7 @@
 		{
 			$this->db->queryBuilder()
 				->truncate($this->table)
-				->runQuery();
+				->execute();
 		}
 
 

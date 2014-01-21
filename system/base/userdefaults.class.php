@@ -117,7 +117,7 @@
 			\Rum::db()->queryBuilder()
 				->insertInto(self::$table, array('user_id', 'user_default_id', 'value'))
 				->values(array(\System\Security\Authentication::$identity, (string)$key, (string)$object))
-				->runQuery();
+				->execute();
 		}
 
 
@@ -134,7 +134,7 @@
 				->from(self::$table)
 				->where(self::$table, 'user_id', '=', \System\Security\Authentication::$identity)
 				->where(self::$table, 'user_default_id', '=', (string)$key)
-				->runQuery();
+				->execute();
 		}
 
 
@@ -149,7 +149,7 @@
 				->delete()
 				->from(self::$table)
 				->where(self::$table, 'user_id', '=', \System\Security\Authentication::$identity)
-				->runQuery();
+				->execute();
 		}
 	}
 ?>
