@@ -75,6 +75,8 @@
 		 */
 		public function open()
 		{
+			trigger_error("The PDODataAdapter is beta, use with caution", E_USER_NOTICE);
+
 			if( !$this->pdo )
 			{
 				$this->pdo = new \PDO($this->dsn, $this->username, $this->password, $this->options);
