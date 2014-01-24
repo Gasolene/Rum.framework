@@ -81,7 +81,8 @@
 			{
 				\System\Base\ApplicationBase::getInstance()->dataAdapter->addTableSchema(new \System\DB\TableSchema(
 					array(
-						'name' => $this->table),
+						'name' => $this->table,
+						'primaryKey' => 'cache_id'),
 					array(),
 					array(new \System\DB\ColumnSchema(array(
 						'name' => 'cache_id',
