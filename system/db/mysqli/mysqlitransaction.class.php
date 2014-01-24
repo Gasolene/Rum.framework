@@ -22,7 +22,6 @@
 		 */
 		protected function beginTransaction()
 		{
-			$this->resource->execute( 'SET autocommit=0' );
 			$this->resource->execute( 'START TRANSACTION' );
 		}
 
