@@ -272,7 +272,11 @@
 				}
 				elseif($columnSchema->datetime)
 				{
-					$type = "DATETIME";
+ 					$type = "DATETIME";
+ 				}
+				elseif($columnSchema->blob)
+				{
+					$type = "MEDIUMBLOB";
 				}
 				else
 				{

@@ -466,6 +466,10 @@
 				{
 					$type = "DATETIME";
 				}
+				elseif($columnSchema->blob)
+				{
+					$type = "VARBINARY({$columnSchema->length})";
+				}
 				else
 				{
 					$type = "VARCHAR({$columnSchema->length}) ";
