@@ -312,6 +312,10 @@
 				{
 					$type = "DATETIME";
 				}
+				elseif($columnSchema->blob)
+				{
+					$type = "MEDIUMBLOB";
+				}
 				else
 				{
 					$type = "VARCHAR({$columnSchema->length}) CHARACTER SET {$this->charset} COLLATE {$this->collation}";
