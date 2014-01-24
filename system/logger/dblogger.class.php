@@ -75,7 +75,8 @@
 			{
 				\System\Base\ApplicationBase::getInstance()->dataAdapter->addTableSchema(new \System\DB\TableSchema(
 					array(
-						'name' => $this->table),
+						'name' => $this->table,
+						'primaryKey' => 'datetime'),
 					array(),
 					array(new \System\DB\ColumnSchema(array(
 						'name' => 'datetime',

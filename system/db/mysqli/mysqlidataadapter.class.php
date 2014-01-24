@@ -243,11 +243,12 @@
 		public function addTableSchema( \System\DB\TableSchema &$tableSchema )
 		{
 			$columns = "";
+			$primaryKeys = array();
+			$indexKeys = array();
+			$uniqueKeys = array();
+
 			foreach($tableSchema->columnSchemas as $columnSchema)
 			{
-				$primaryKeys = array();
-				$indexKeys = array();
-				$uniqueKeys = array();
 				$type = "";
 
 				if($columnSchema->integer)
