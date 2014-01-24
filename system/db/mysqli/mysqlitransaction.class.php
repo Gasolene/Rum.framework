@@ -23,7 +23,6 @@
 		 */
 		protected function beginTransaction()
 		{
-			$this->dataAdapter->execute( 'SET autocommit=0' );
 			$this->dataAdapter->execute( 'START TRANSACTION' );
 		}
 
