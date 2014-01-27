@@ -117,9 +117,9 @@
 		 */
 		public function prepare($statement, array $parameters = array())
 		{
-			$statement = new MSSQLStatement($this, $this->link);
-			$statement->prepare($statement, $parameters);
-			return $statement;
+			$mssqlStatement = new MSSQLStatement($this, $this->link);
+			$mssqlStatement->prepare($statement, $parameters);
+			return $mssqlStatement;
 		}
 
 
@@ -133,24 +133,6 @@
 		{
 			if( $this->link )
 			{
-				$source = '';
-				if( $ds->source instanceof QueryBuilder )
-				{
-					$source = $this->getQuery( $ds->source );
-				}
-				elseif( !strstr( strtoupper($ds->source), 'SELECT' ) &&
-					!strstr( strtoupper($ds->source), 'DESCRIBE' ) &&
-					!strstr( strtoupper($ds->source), 'SHOW' ))
-				{
-					// source is table name
-					$source = 'SELECT * FROM [' . $ds->source . ']';
-				}
-				else
-				{
-					$source = $ds->source;
-				}
-				// establish link to db resource
-				// replaced mysql_query with $this->execute
 				$result = $this->query( $ds->source );
 				
 				$fields = array();

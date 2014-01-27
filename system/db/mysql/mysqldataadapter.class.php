@@ -141,9 +141,9 @@
 		 */
 		public function prepare($statement, array $parameters = array())
 		{
-			$statement = new \System\DB\MySQLi\MySQLiStatement($this, $this->link);
-			$statement->prepare($statement, $parameters);
-			return $statement;
+			$mysqlStatement = new MySQLStatement($this, $this->link);
+			$mysqlStatement->prepare($statement, $parameters);
+			return $mysqlStatement;
 		}
 
 
@@ -502,7 +502,7 @@
 		 */
 		public function queryBuilder()
 		{
-			return new \System\DB\MySQLi\MySQLiQueryBuilder($this->dataAdapter, $this->link);
+			return new MySQLQueryBuilder($this, $this->link);
 		}
 
 

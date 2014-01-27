@@ -5,7 +5,7 @@
 	 * @author			Darnell Shinbine
 	 * @copyright		Copyright (c) 2013
 	 */
-	namespace System\DB\MySQLi;
+	namespace System\DB\MySQL;
 
 
 	/**
@@ -17,7 +17,7 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	class MySQLiQueryBuilder extends MySQLiStatement
+	class MySQLQueryBuilder extends MySQLStatement
 	{
 		/**
 		 * object opening delimiter
@@ -663,7 +663,7 @@
 						$values .= (real)$value;
 					}
 					else {
-						$value = \mysqli_real_escape_string( $this->connection, $value );
+						$value = \mysql_real_escape_string( $value );
 						if(strpos($value, '0x' )===0) {
 							$values .= $value;
 						}
@@ -710,7 +710,7 @@
 						$setClause .= ''.$this->objectOpeningDelimiter.'' . $columns[$i]['table'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $columns[$i]['column'] . ''.$this->objectClosingDelimiter.' = ' . (real)$values[$i];
 					}
 					else {
-						$value = \mysqli_real_escape_string( $this->connection, $values[$i] );
+						$value = \mysql_real_escape_string( $values[$i] );
 						if(strpos( $value, '0x' )===0) {
 							$setClause .= ''.$this->objectOpeningDelimiter.'' . $columns[$i]['table'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $columns[$i]['column'] . ''.$this->objectClosingDelimiter.' = ' . $value;
 						}
@@ -799,7 +799,7 @@ where';
 	'.$this->objectOpeningDelimiter.'' . $where['table'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $where['column'] . ''.$this->objectClosingDelimiter.' ' . $where['operand'] . ' ' . (real)$where['value'] . '';
 				}
 				else {
-					$value = \mysqli_real_escape_string( $this->connection, $where['value'] );
+					$value = \mysql_real_escape_string( $where['value'] );
 					if(strpos( $value, '0x' )===0) {
 						$whereClause .= '
 	'.$this->objectOpeningDelimiter.'' . $where['table'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $where['column'] . ''.$this->objectClosingDelimiter.' ' . $where['operand'] . ' ' . $value;
@@ -864,7 +864,7 @@ and';
 					$havingClause = '
 having';
 				}
-				$value = \mysqli_real_escape_string( $this->connection, $having['value'] );
+				$value = \mysql_real_escape_string( $having['value'] );
 				if(strpos( $value, '0x' )===0) {
 					$havingClause .= '
 	'.$this->objectOpeningDelimiter.'' . $having['column'] . ''.$this->objectClosingDelimiter.' ' . $having['operand'] . ' ' . $value;

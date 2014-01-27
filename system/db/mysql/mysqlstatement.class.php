@@ -5,23 +5,23 @@
 	 * @author			Darnell Shinbine
 	 * @copyright		Copyright (c) 2013
 	 */
-	namespace System\DB\MSSQL;
+	namespace System\DB\MySQL;
 
 
 	/**
-	 * Represents a MSSQL database query statement
+	 * Represents a MySQLi database query statement
 	 *
 	 * @package			PHPRum
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	class MSSQLStatement extends \System\DB\SQLStatementBase
+	class MySQLStatement extends \System\DB\SQLStatementBase
 	{
 		/**
 		 * Contains an sql statement
 		 * @var string
 		**/
-		protected $statement = '';
+		protected $statement = null;
 
 		/**
 		 * Contains the SQL statement parameters
@@ -41,7 +41,7 @@
 		 *
 		 * @param  DataAdapter	$dataAdapter	instance of a DataAdapter
 		 * @param  string		$statement		SQL statement
-		 * @param  object		$connection		MSSQL connection object
+		 * @param  object		$connection		MySQLi connection object
 		 * @return void
 		 */
 		public function __construct(\System\DB\DataAdapter &$dataAdapter, &$connection) {
@@ -84,23 +84,24 @@
 		 * e.g. SELECT * FROM `table` WHERE user=:user
 		 *
 		 * @param  array	$parameters	array of parameters to bind
-		 * @return \PDOStatement
+		 * @return resource
 		 */
 		public function query(array $parameters = array())
 		{
-			if( $this->connection )
+			if($this->connection)
 			{
-				$result = \sqlsrv_query( $this->connection , $this->statement );
+				$result = mysql_query( $this->getPreparedStatement($parameters), $this->connection );
+
 				if( !$result )
-				{										
-					throw new \System\DB\DatabaseException(implode(' ', array_pop(sqlsrv_errors())));
+				{
+					throw new \System\DB\DatabaseException(mysql_errno($this->connection));
 				}
 
 				return $result;
 			}
 			else
 			{
-				throw new \System\DB\DataAdapterException("MSSQL resource in not a valid link identifier");
+				throw new \System\DB\DataAdapterException("MySQL resource in not a valid link identifier");
 			}
 		}
 
@@ -115,6 +116,33 @@
 		 */
 		public function execute(array $parameters = array()) {
 			$this->query($parameters);
+		}
+
+
+		/**
+		 * get prepared SQL statement as string
+		 *
+		 * @param  array	$parameters	array of parameters to bind
+		 * @return string
+		 */
+		protected function getPreparedStatement(array $parameters = array()) {
+			foreach($parameters as $parameter => $value) {
+				$this->bind($parameter, $value);
+			}
+
+			$preparedStatement = $this->statement;
+			foreach($this->parameters as $parameter => $value) {
+				if(strpos($value, '0x' )===0) {
+					$preparedStatement = str_replace("@{$parameter}", $value, $preparedStatement);
+				}
+				elseif(is_string($value)) {
+					$preparedStatement = str_replace("@{$parameter}", '\''.  mysql_real_escape_string($value, $this->connection).'\'', $preparedStatement);
+				}
+				else {
+					$preparedStatement = str_replace("@{$parameter}", (real)$value, $preparedStatement);
+				}
+			}
+			return $preparedStatement;
 		}
 	}
 ?>

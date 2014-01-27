@@ -562,7 +562,7 @@
 			}
 
 			// Add support for passing prepared statements
-			if($query instanceof SQLStatement) {
+			if($query instanceof SQLStatementBase) {
 				$result = $query->query();
 			}
 			else {

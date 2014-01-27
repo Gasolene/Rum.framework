@@ -96,9 +96,9 @@
 		 */
 		public function prepare($statement, array $parameters = array())
 		{
-			$statement = new TextStatement($this, $this->link);
-			$statement->prepare($statement, $parameters);
-			return $statement;
+			$txtStatement = new TextStatement($this, $this->link);
+			$txtStatement->prepare($statement, $parameters);
+			return $txtStatement;
 		}
 
 

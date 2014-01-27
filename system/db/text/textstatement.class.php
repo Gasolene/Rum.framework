@@ -60,7 +60,7 @@
 		 * @return string
 		 */
 		public function prepare($statement, array $parameters = array()) {
-			$this->statement = $this->pdo->prepare((string)$statement);
+			$this->statement = (string)$statement;
 			foreach($parameters as $parameter => $value) {
 				$this->bind($parameter, $value);
 			}
@@ -74,7 +74,7 @@
 		 * @return string
 		 */
 		public function bind($parameter, $value) {
-			$this->statement->bindParam($parameter, $value);
+			
 		}
 
 

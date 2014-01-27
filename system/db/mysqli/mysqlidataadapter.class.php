@@ -124,9 +124,9 @@
 		 */
 		public function prepare($statement, array $parameters = array())
 		{
-			$statement = new MySQLiStatement($this, $this->link);
-			$statement->prepare($statement, $parameters);
-			return $statement;
+			$mysqlStatement = new MySQLiStatement($this, $this->link);
+			$mysqlStatement->prepare($statement, $parameters);
+			return $mysqlStatement;
 		}
 
 
