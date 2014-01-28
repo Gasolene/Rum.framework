@@ -72,7 +72,9 @@
 					}
 				}
 			}
-			\Rum::log("string id {$stringId} not found in langs.xml file, using default", 'error');
+
+			// raise notice
+			trigger_error("string id {$stringId} not found in langs.xml file, using default", E_USER_NOTICE);
 
 			return $default;
 		}
