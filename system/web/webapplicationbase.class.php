@@ -564,7 +564,8 @@
 								$outputCacheId = 'output:'.$hash.$requestHandler->getCacheId();
 
 								// Output Cache Exists
-								if( \System\Web\WebApplicationBase::getInstance()->cache->get( $outputCacheId ))
+								$outputCache = \System\Web\WebApplicationBase::getInstance()->cache->get( $outputCacheId );
+								if( $outputCache && !isset( $request["nocache"] ))
 								{
 									$response = new \System\Web\HTTPResponse();
 									$headers = \System\Web\WebApplicationBase::getInstance()->cache->get($headersCacheId);
