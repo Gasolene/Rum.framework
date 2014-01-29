@@ -10,12 +10,12 @@
 
 		public function up()
 		{
-			$this->db->execute("");
+			return \Rum::db()->prepare("");
 		}
 
 		public function down()
 		{
-			$this->db->execute("");
+			return \Rum::db()->prepare("");
 		}
 	}
 #end
