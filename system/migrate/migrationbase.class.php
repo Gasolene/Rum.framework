@@ -40,13 +40,13 @@
 
 		/**
 		 * up migration
-		 * @return void
+		 * @return SQLStatement
 		 */
 		abstract public function up();
 
 		/**
 		 * down migration
-		 * @return void
+		 * @return SQLStatement
 		 */
 		abstract public function down();
 	}

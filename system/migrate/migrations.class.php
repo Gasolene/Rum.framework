@@ -41,7 +41,13 @@
 					$migration->version <= $toVersion)
 				{
 					echo "Upgrading to version {$migration->version}".PHP_EOL;
-					$migration->up();
+					$statement = $migration->up();
+					if($statement instanceof \System\DB\SQLStatement) {
+						$statement->execute();
+					}
+					else {
+						trigger_error("Migrations::up() should return a SQLStatement object", E_USER_DEPRECATED);
+					}
 
 					// set version
 					$this->setVersion($migration->version);
@@ -72,7 +78,13 @@
 					echo "Downgrading from version {$migration->version}".PHP_EOL;
 					try
 					{
-						$migration->down();
+						$statement = $migration->down();
+						if($statement instanceof \System\DB\SQLStatement) {
+							$statement->execute();
+						}
+						else {
+							trigger_error("Migrations::down() should return a SQLStatement object", E_USER_DEPRECATED);
+						}
 
 						$this->setVersion($migration->version);
 						$next = true;
@@ -140,7 +152,7 @@
 				\System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
 						->insertInto(__DB_SCHEMA_VERSION_TABLENAME__, array('version'))
 						->values(array('0'))
-						->execute();
+						->runQuery();
 				return 0;
 			}
 		}
@@ -156,7 +168,7 @@
 				\System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
 						->update(__DB_SCHEMA_VERSION_TABLENAME__)
 						->set(__DB_SCHEMA_VERSION_TABLENAME__, 'version', (real)$version)
-						->execute();
+						->runQuery();
 			}
 			catch (\System\DB\DatabaseException $e)
 			{
@@ -164,7 +176,7 @@
 				\System\Base\ApplicationBase::getInstance()->dataAdapter->queryBuilder()
 						->insertInto(__DB_SCHEMA_VERSION_TABLENAME__, array('version'))
 						->values(array((real)$version))
-						->execute();
+						->runQuery();
 			}
 		}
 
