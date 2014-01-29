@@ -75,14 +75,12 @@
 			{
 				\System\Base\ApplicationBase::getInstance()->dataAdapter->addTableSchema(new \System\DB\TableSchema(
 					array(
-						'name' => $this->table,
-						'primaryKey' => 'datetime'),
+						'name' => $this->table),
 					array(),
 					array(new \System\DB\ColumnSchema(array(
 						'name' => 'datetime',
 						'table' => $this->table,
 						'type' => 'DATETIME',
-						'primaryKey' => true,
 						'length' => 30,
 						'notNull' => true,
 						'datetime' => true)),
