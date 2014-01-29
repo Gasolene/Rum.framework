@@ -116,6 +116,6 @@ PHP MIGRATE [env] [task] [version]
 		 *
 		 * @return void
 		 */
-		protected function handleError($errno, $errstr, $errfile, $errline) {die("{$errstr} in {$errfile} on line {$errline}".PHP_EOL);}
+		protected function handleError($errno, $errstr, $errfile, $errline) {if($errno==16384)return;die("{$errstr} in {$errfile} on line {$errline}".PHP_EOL);}
 	}
 ?>
