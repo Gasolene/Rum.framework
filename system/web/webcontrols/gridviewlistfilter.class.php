@@ -192,6 +192,10 @@
 				{
 					$values[$value[$this->textField]] = $value[$this->valueField];
 				}
+				else
+				{
+					$values[$key] = $value;
+				}
 			}
 
 			foreach($values as $key=>$value)

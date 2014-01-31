@@ -38,7 +38,7 @@
 			if ($ldapconn) {
 
 			    // binding to ldap server
-			    $ldapbind = ldap_bind($ldapconn, $ldapuser, $ldappass);
+			    $ldapbind = @ldap_bind($ldapconn, $ldapuser, $ldappass);
 
 			    // verify binding
 			    if ($ldapbind) {
@@ -63,7 +63,7 @@
 							}
 							break;
 					    }
-				    }				    
+				    }
 
 				    // Raise event
 				    if(!$disabled && !$lockedOut) {
@@ -72,7 +72,10 @@
 			    }
 
 			    ldap_close($ldapconn);
-			} 
+			}
+			else {
+				throw new \Exception("Can't connect to ldap server");
+			}
 
 			return new AuthenticationStatus($invalidCredentials, $disabled, $lockedOut);
 		}
