@@ -16,6 +16,7 @@
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $escapeOutput Specifies whether to escape the output
 	 * @property string $tooltip Specifies control tooltip
+	 * @property string $default Specifies default value
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -54,6 +55,12 @@
 		protected $tooltip					= '';
 
 		/**
+		 * specifies default value
+		 * @var string
+		 */
+		protected $default					= '';
+
+		/**
 		 * post back
 		 * @var bool
 		 */
@@ -69,15 +76,17 @@
 		 * @param  string		$footerText			footer text
 		 * @param  string		$className			css class name
 		 * @param  string		$tooltip			toolstip
+		 * @param  string		$default			default value
 		 * @return void
 		 */
-		public function __construct( $dataField, $pkey, $parameter='', $headerText='', $footerText='', $className='', $tooltip='' )
+		public function __construct( $dataField, $pkey, $parameter='', $headerText='', $footerText='', $className='', $tooltip='', $default = '' )
 		{
 			parent::__construct( $dataField, $headerText, '', $footerText, $className );
 
 			$this->parameter = $parameter?$parameter:str_replace(" ","_",$dataField);
 			$this->pkey = $pkey;
 			$this->tooltip = $tooltip;
+			$this->default = $default;
 
 			// event handling
 			$this->events->add(new \System\Web\Events\GridViewColumnPostEvent());
@@ -122,6 +131,9 @@
 			elseif( $field === 'tooltip' ) {
 				return $this->tooltip;
 			}
+			elseif( $field === 'default' ) {
+				return $this->default;
+			}
 			else {
 				return parent::__get($field);
 			}
@@ -151,6 +163,9 @@
 			}
 			elseif( $field === 'tooltip' ) {
 				$this->tooltip = (string)$value;
+			}
+			elseif( $field === 'default' ) {
+				$this->default = (string)$value;
 			}
 			else {
 				parent::__set( $field, $value );

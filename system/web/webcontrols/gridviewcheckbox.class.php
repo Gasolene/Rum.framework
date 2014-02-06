@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<input name=\"{$this->parameter}\" type=\"hidden\" value=\"0\"/><input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\"/>'";
+			return "'<input name=\"{$this->parameter}\"".($this->default?' checked="checked"':'')." type=\"hidden\" value=\"0\"/><input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\"/>'";
 		}
 	}
 ?>

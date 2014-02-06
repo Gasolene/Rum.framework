@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<input name=\"{$this->parameter}\" type=\"text\" onkeypress=\"if(event.keyCode==13){event.returnValue=false;}\" />'";
+			return "'<input name=\"{$this->parameter}\" value=\"{$this->default}\" type=\"text\" onkeypress=\"if(event.keyCode==13){event.returnValue=false;}\" />'";
 		}
 	}
 ?>

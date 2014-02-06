@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<input name=\"{$this->parameter}\" type=\"search\"/>'";
+			return "'<input name=\"{$this->parameter}\" value=\"{$this->default}\" type=\"search\"/>'";
 		}
 	}
 ?>
