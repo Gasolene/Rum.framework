@@ -170,7 +170,12 @@
 				$value = \Rum::escape($value, ENT_QUOTES);
 				$key = \Rum::escape($key, ENT_QUOTES);
 
-				$html .= "<option value=\"{$value}\">{$key}</option>";
+				if($value==$this->default) {
+					$html .= "<option selected=\"selected\" value=\"{$value}\">{$key}</option>";
+				}
+				else {
+					$html .= "<option value=\"{$value}\">{$key}</option>";
+				}
 			}
 			$html .= '</select>\'';
 

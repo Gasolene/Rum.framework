@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<textarea name=\"{$this->parameter}\"></textarea>'";
+			return "'<textarea name=\"{$this->parameter}\">{$this->default}</textarea>'";
 		}
 	}
 ?>
