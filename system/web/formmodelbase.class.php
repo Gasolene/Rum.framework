@@ -286,8 +286,6 @@
 				}
 			}
 
-			$form->add( new \System\Web\WebControls\Button('submit'));
-
 			// implement rules
 			foreach( $model->rules as $field => $rules )
 			{
