@@ -41,6 +41,10 @@
 					$this->value = $request[$HTMLControlId . '__filter_value'];
 //					unset($request[$HTMLControlId . '__filter_value']);
 				}
+				else
+				{
+					$this->value = null;
+				}
 			}
 		}
 
