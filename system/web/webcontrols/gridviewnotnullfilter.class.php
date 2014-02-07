@@ -41,6 +41,10 @@
 					$this->value = $request[$HTMLControlId . '__filter_value'];
 //					unset($request[$HTMLControlId . '__filter_value']);
 				}
+				else
+				{
+					$this->value = null;
+				}
 			}
 		}
 
@@ -54,7 +58,12 @@
 		public function filterDataSet(\System\DB\DataSet &$ds )
 		{
 			if($this->value) {
-				$ds->filter($this->column->dataField, 'not null');
+				if($this->value=='null') {
+					$ds->filter($this->column->dataField, 'is null');
+				}
+				else {
+					$ds->filter($this->column->dataField, 'not null');
+				}
 				if($this->column->gridView->canUpdateView) {
 					$this->column->gridView->needsUpdating = true;
 				}
@@ -83,7 +92,7 @@
 			$select->addChild($option);
 
 			// get values
-			foreach(array('not null'=>'false', 'null'=>'true') as $key=>$value)
+			foreach(array('not null'=>'not null', 'null'=>'null') as $key=>$value)
 			{
 				$option = new \System\XML\DomObject( 'option' );
 				$option->setAttribute('value', $value);
