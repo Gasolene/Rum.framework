@@ -1287,7 +1287,7 @@ No building is needed or allowed in a production environment.</p>
 				foreach($this->session->getSessionData() as $key=>$value)
 				{
 					if(is_array($value)) {
-						print("[{$key}] => ".  serialize($errcode)."\n");
+						print("[{$key}] => ".  serialize($value)."\n");
 					}
 					else {
 						print("[{$key}] => {$value}\n");
