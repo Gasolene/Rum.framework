@@ -51,7 +51,9 @@
 		public function filterDataSet(\System\DB\DataSet &$ds)
 		{
 			if($this->value) {
-				$ds->filter($this->column->dataField, '=', date('Y-m-d', strtotime($this->value)), true );
+				$timestamp = strtotime($this->value);
+				$ds->filter($this->column->dataField, '<=', date('Y-m-d', $timestamp+86400));
+				$ds->filter($this->column->dataField, '>=', date('Y-m-d', $timestamp));
 				if($this->column->gridView->canUpdateView) {
 					$this->column->gridView->needsUpdating = true;
 				}
