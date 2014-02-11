@@ -1304,7 +1304,12 @@ No building is needed or allowed in a production environment.</p>
 				ob_start();
 				foreach($this->session->getSessionData() as $key=>$value)
 				{
-					print("[{$key}] => {$value}\n");
+					if(is_array($value)) {
+						print("[{$key}] => ".  serialize($value)."\n");
+					}
+					else {
+						print("[{$key}] => {$value}\n");
+					}
 				}
 				$output = ob_get_clean();
 				\System\Web\HTTPResponse::write( \Rum::escape( $this->replaceNonPrinting( $output )));
