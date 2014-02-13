@@ -134,7 +134,7 @@
 			if( $this->link )
 			{
 				$result = $this->query( $ds->source );
-				
+
 				$fields = array();
 				if( $result )
 				{
@@ -184,7 +184,7 @@
 					$colcount = sqlsrv_num_fields( $result );
 
 					// set table property
-					$ds->setTable($this->getTableFromSQL( $source ));
+					$ds->setTable($this->getTableFromSQL( $ds->source ));
 					$fieldMeta = \sqlsrv_field_metadata( $result );
 
 					for( $i=0; $i < $colcount; $i++ )
@@ -250,7 +250,7 @@
 					 */
 
 					$rowcount = sqlsrv_num_rows( $result );
-						
+
 					$rows = array();$j=0;
 					while($row = sqlsrv_fetch_array( $result ))
 					{
@@ -740,6 +740,7 @@
 		 */
 		private function getTableFromSQL($sql)
 		{
+			if($sql instanceof MSSQLStatement) $sql = $sql->getPreparedStatement();
 			$posStart = stripos($sql,'from');
 			while(!$this->removeWhitespace($sql,$posStart) && $posStart < strlen($sql)){
 			$posStart++;

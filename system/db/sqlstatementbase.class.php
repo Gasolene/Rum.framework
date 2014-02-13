@@ -135,8 +135,7 @@
 		 * @ignore
 		 */
 		final public function getQuery() {
-			trigger_error("SQLStatement::getQuery() is deprecated, use SQLStatement::getPreparedStatement() instead");
-			return $this->getPreparedStatement();
+			trigger_error("SQLStatement::getQuery() is deprecated");
 		}
 	}
 ?>

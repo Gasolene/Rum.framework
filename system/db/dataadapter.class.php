@@ -333,7 +333,7 @@
 		final public function executeBatch( $batch )
 		{
 			// TODO: very bad!!! avoid!
-			trigger_error("executeBatch is deprecated!", E_USER_DEPRECATED);
+//			trigger_error("executeBatch is deprecated!", E_USER_DEPRECATED);
 			$queries = explode( ";", $batch );
 
 			foreach( $queries as $query )

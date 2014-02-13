@@ -332,7 +332,15 @@
 
 				if( $sql )
 				{
-					\System\Base\ApplicationBase::getInstance()->dataAdapter->executeBatch( $sql );
+					if(	\System\Base\ApplicationBase::getInstance()->dataAdapter instanceof \System\DB\MySQLi\MySQLiDataAdapter ||
+						\System\Base\ApplicationBase::getInstance()->dataAdapter instanceof \System\DB\MySQL\MySQLDataAdapter)
+					{
+						\System\Base\ApplicationBase::getInstance()->dataAdapter->executeBatch( $sql );
+					}
+					else
+					{
+						\System\Base\ApplicationBase::getInstance()->dataAdapter->execute( $sql );
+					}
 				}
 				else
 				{

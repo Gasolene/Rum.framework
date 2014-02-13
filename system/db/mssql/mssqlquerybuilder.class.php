@@ -102,7 +102,7 @@
 		 * Constructor
 		 * 
 		 * @param DataAdapter	$dataAdapter	instance of a DataAdapter
-		 * @param resource $connection mysql connection object
+		 * @param resource $connection mssql connection object
 		 * @param string $objectOpeningDelimiter object opening delimiter
 		 * @param string $objectClosingDelimiter object closing delimiter
 		 * @param string $stringDelimiter string delimiter
@@ -663,7 +663,7 @@
 						$values .= (real)$value;
 					}
 					else {
-						$value = \mysqli_real_escape_string( $value, $this->connection );
+						$value = $this->dataAdapter->escapeString( $value );
 						if(strpos($value, '0x' )===0) {
 							$values .= $value;
 						}
@@ -710,7 +710,7 @@
 						$setClause .= ''.$this->objectOpeningDelimiter.'' . $columns[$i]['table'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $columns[$i]['column'] . ''.$this->objectClosingDelimiter.' = ' . (real)$values[$i];
 					}
 					else {
-						$value = \mysqli_real_escape_string( $values[$i], $this->connection );
+						$value = $this->dataAdapter->escapeString( $values[$i] );
 						if(strpos( $value, '0x' )===0) {
 							$setClause .= ''.$this->objectOpeningDelimiter.'' . $columns[$i]['table'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $columns[$i]['column'] . ''.$this->objectClosingDelimiter.' = ' . $value;
 						}
@@ -799,7 +799,7 @@ where';
 	'.$this->objectOpeningDelimiter.'' . $where['table'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $where['column'] . ''.$this->objectClosingDelimiter.' ' . $where['operand'] . ' ' . (real)$where['value'] . '';
 				}
 				else {
-					$value = \mysqli_real_escape_string( $where['value'], $this->connection );
+					$value = $this->dataAdapter->escapeString( $where['value'] );
 					if(strpos( $value, '0x' )===0) {
 						$whereClause .= '
 	'.$this->objectOpeningDelimiter.'' . $where['table'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $where['column'] . ''.$this->objectClosingDelimiter.' ' . $where['operand'] . ' ' . $value;
@@ -864,7 +864,7 @@ and';
 					$havingClause = '
 having';
 				}
-				$value = \mysqli_real_escape_string( $having['value'], $this->connection );
+				$value = $this->dataAdapter->escapeString( $having['value'] );
 				if(strpos( $value, '0x' )===0) {
 					$havingClause .= '
 	'.$this->objectOpeningDelimiter.'' . $having['column'] . ''.$this->objectClosingDelimiter.' ' . $having['operand'] . ' ' . $value;

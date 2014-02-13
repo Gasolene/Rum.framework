@@ -537,7 +537,7 @@
 				}
 			}
 
-			throw new QueryException("unexpected clause in `{$this->mainClause}` statement");
+			throw new \System\DB\QueryException("unexpected clause in `{$this->mainClause}` statement");
 		}
 
 

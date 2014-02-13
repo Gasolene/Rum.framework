@@ -90,6 +90,7 @@
 		{
 			if( $this->connection )
 			{
+				$this->getPreparedStatement($parameters);
 				$result = \sqlsrv_query( $this->connection , $this->statement );
 				if( !$result )
 				{										
@@ -115,6 +116,33 @@
 		 */
 		public function execute(array $parameters = array()) {
 			$this->query($parameters);
+		}
+
+
+		/**
+		 * get prepared SQL statement as string
+		 *
+		 * @param  array	$parameters	array of parameters to bind
+		 * @return string
+		 */
+		protected function getPreparedStatement(array $parameters = array()) {
+			foreach($parameters as $parameter => $value) {
+				$this->bind($parameter, $value);
+			}
+
+			$preparedStatement = $this->statement;
+			foreach($this->parameters as $parameter => $value) {
+				if(strpos($value, '0x' )===0) {
+					$preparedStatement = str_replace("@{$parameter}", $value, $preparedStatement);
+				}
+				elseif(is_string($value)) {
+					$preparedStatement = str_replace("@{$parameter}", '\''.  mysql_real_escape_string($value, $this->connection).'\'', $preparedStatement);
+				}
+				else {
+					$preparedStatement = str_replace("@{$parameter}", (real)$value, $preparedStatement);
+				}
+			}
+			return $preparedStatement;
 		}
 	}
 ?>
