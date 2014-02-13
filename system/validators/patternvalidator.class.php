@@ -50,7 +50,7 @@
 		{
 			if($this->controlToValidate)
 			{
-				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} " . \System\Base\ApplicationBase::getInstance()->translator->get('must_match_the_pattern', 'must match the pattern') . " {$this->pattern}";
+				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} " . str_replace('%n', $this->pattern, \System\Base\ApplicationBase::getInstance()->translator->get('must_match_the_pattern'));
 			}
 		}
 

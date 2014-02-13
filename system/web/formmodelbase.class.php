@@ -266,11 +266,11 @@
 		{
 			$type = self::getClass();
 			$model = new $type();
-			$legend = \substr( strrchr( self::getClass(), '\\'), 1 );
+//			$legend = \substr( strrchr( self::getClass(), '\\'), 1 );
 
 			$form = new \System\Web\WebControls\Form( $controlId );
 			$form->add( new \System\Web\WebControls\Fieldset( 'fieldset' ));
-			$form->fieldset->legend = \ucwords( \System\Web\WebApplicationBase::getInstance()->translator->get( $legend, $legend ));
+//			$form->fieldset->legend = \ucwords( \System\Web\WebApplicationBase::getInstance()->translator->get( $legend, $legend ));
 
 			// create controls
 			foreach( $model->fields as $field => $type )
@@ -278,7 +278,7 @@
 				if(isset(self::$field_mappings[$type]))
 				{
 					$form->fieldset->add(new self::$field_mappings[$type]($field));
-					$form->fieldset->getControl( $field )->label = ucwords( \System\Web\WebApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
+//					$form->fieldset->getControl( $field )->label = ucwords( \System\Web\WebApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
 				}
 				else
 				{

@@ -61,7 +61,7 @@
 				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} " . 
 						\str_replace('%x', ($this->minDate? "after ".$this->minDate : ""), 
 						\str_replace('%y', ($this->maxDate? ($this->minDate? " and ":"")."before ".$this->maxDate : ""), 
-						\System\Base\ApplicationBase::getInstance()->translator->get('date_must_be_within_the_range_of_x_and_y', 'must be %x%y')));
+						\System\Base\ApplicationBase::getInstance()->translator->get('must_be_within_the_range_of_x_and_y')));
 			}
 		}
 

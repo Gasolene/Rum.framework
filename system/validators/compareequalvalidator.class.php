@@ -17,35 +17,27 @@
 	 * @subpackage		Validators
 	 * @author			Darnell Shinbine
 	 */
-	class RangeValidator extends ValidatorBase
+	class CompareEqualValidator extends ValidatorBase
 	{
 		/**
-		 * min
-		 * @var double
+		 * control to match
+		 * @var InputBase
 		 */
-		private $min;
-
-		/**
-		 * max
-		 * @var double
-		 */
-		private $max;
+		protected $controlToCompare;
 
 
 		/**
-		 * RangeValidator
+		 * MatchValidator
 		 *
-		 * @param  double   $min		min value
-		 * @param  double   $max		max value
+		 * @param  InputBase $controlToMatch control to match
 		 * @param  string $errorMessage error message
 		 * @return void
 		 */
-		public function __construct( $min, $max, $errorMessage = '' )
+		public function __construct(\System\Web\WebControls\InputBase &$controlToMatch, $errorMessage = '' )
 		{
 			parent::__construct($errorMessage);
 
-			$this->min = (double) $min;
-			$this->max = (double) $max;
+			$this->controlToCompare =& $controlToMatch;
 		}
 
 
@@ -56,9 +48,9 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
+			if($this->controlToCompare)
 			{
-				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} " . \str_replace('%x', $this->min, \str_replace('%y', $this->max, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_within_the_range_of_x_and_y')));
+				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToCompare->label} " . str_replace('%n', $this->controlToCompare->label, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_equal_to', 'must be equal to %n'));
 			}
 		}
 
@@ -70,9 +62,9 @@
 		 */
 		public function validate()
 		{
-			if($this->controlToValidate)
+			if($this->controlToCompare && $this->controlToCompare)
 			{
-				return !$this->controlToValidate->value || ((double)$this->controlToValidate->value >= $this->min && $this->controlToValidate->value <= $this->max);
+				return ($this->controlToCompare->value == $this->controlToCompare->value);
 			}
 			else
 			{

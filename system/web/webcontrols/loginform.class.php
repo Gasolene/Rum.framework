@@ -11,6 +11,18 @@
 	/**
 	 * Represents a LoginForm
 	 *
+	 * @property string $loginFormTitle Specifies the login form title
+	 * @property string $usernameLabelText Specifies the username label text
+	 * @property string $passwordLabelText Specifies the password label text
+	 * @property string $rememberMeLabelText Specifies the remember me label text
+	 * @property string $forgotPasswordLinkLabelText Specifies the forgot password hyperlink text
+	 * @property string $loginButtonLabelText Specifies the login button text
+	 * @property string $forgotPasswordFormTitle Specifies the forgot password form title
+	 * @property string $emailAddressLabelText Specifies the email address label text
+	 * @property string $resetButtonLabelText Specifies the reset button text
+	 * @property string $resetPasswordFormTitle Specifies the reset form title
+	 * @property string $newPasswordLabelText Specifies the new password label text
+	 * @property string $confirmPasswordLabelText Specifies the confirm password label text
 	 * @property string $invalidCredentialsMsg Specifies the message when login failed
 	 * @property string $disabledMsg Specifies the message when account is disabled
 	 * @property string $lockoutMsg Specifies the message when account is locked out
@@ -22,7 +34,7 @@
 	 * @property string $emailSubject Specifies the subject line of the email message
 	 * @property string $emailBody Specifies the body of the email message with template variables {username}, {url}
 	 * @property IMailClient $mailClient Specifies the mail client to send the message with
-	 * @property Text $username username textbox
+	 * @property string $username username textbox
 	 * @property Password $password password textbox
 	 * @property Checkbox $permenant permenant checkbox
 	 * @property Hyperlink $forgot_password forgot password link
@@ -34,6 +46,78 @@
 	 */
 	class LoginForm extends Form
 	{
+		/**
+		 * Specifies the login form title
+		 * @var string
+		 */
+		protected $loginFormTitle				= "Login";
+
+		/**
+		 * Specifies the username label text
+		 * @var string
+		 */
+		protected $usernameLabelText			= "Username";
+
+		/**
+		 * Specifies the password label text
+		 * @var string
+		 */
+		protected $passwordLabelText			= "Password";
+
+		/**
+		 * Specifies the remember me label text
+		 * @var string
+		 */
+		protected $rememberMeLabelText			= "Remember me?";
+
+		/**
+		 * Specifies the forgot password hyperlink label text
+		 * @var string
+		 */
+		protected $forgotPasswordLinkLabelText	= "Forgot password";
+
+		/**
+		 * Specifies the login button text
+		 * @var string
+		 */
+		protected $loginButtonLabelText			= "Login";
+
+		/**
+		 * Specifies the forgot password form title
+		 * @var string
+		 */
+		protected $forgotPasswordFormTitle		= "Reset password";
+
+		/**
+		 ** Specifies the email address label text
+		 * @var string
+		 */
+		protected $emailAddressLabelText		= "E-Mail address";
+
+		/**
+		 ** Specifies the reset button text
+		 * @var string
+		 */
+		protected $resetButtonLabelText			= "Reset";
+
+		/**
+		 * Specifies the reset button text
+		 * @var string
+		 */
+		protected $resetPasswordFormTitle		= "Please enter your new password";
+
+		/**
+		 ** Specifies the new password label text
+		 * @var string
+		 */
+		protected $newPasswordLabelText			= "New password";
+
+		/**
+		 ** Specifies the confirm password label text
+		 * @var string
+		 */
+		protected $ConfirmPasswordLabelText		= "Confirm password";
+
 		/**
 		 * specifies the message when login failed
 		 * @var string
@@ -303,47 +387,47 @@
 			if( isset( $request[$this->controlId . "_reset"] ) && isset( $request["e"] ) && isset( $request["t"] ))
 			{
 				// Show reset password form
-				$this->legend = \Rum::tl('loginform_new_password_legend', "Please enter your new password");
+				$this->legend = $this->resetPasswordFormTitle;
 				$this->add(new Password('username'));
 				$this->add(new Password('password'));
-				$this->add(new Button('login', \Rum::tl('loginform_reset', "Reset")));
+				$this->add(new Button('login', $this->resetButtonlabel));
 
-				$this->getControl('username')->label = \Rum::tl('loginform_new_password', "New password");
-				$this->getControl('password')->label = \Rum::tl('loginform_confirm_password', "Confirm password");
-				$this->getControl('username')->placeholder = \Rum::tl('loginform_new_password', "New password");
-				$this->getControl('password')->placeholder = \Rum::tl('loginform_confirm_password', "Confirm password");
+				$this->getControl('username')->label = $this->newPasswordLabelText;
+				$this->getControl('password')->label = $this->confirmPasswordLabel;
+				$this->getControl('username')->placeholder = $this->newPasswordLabelText;
+				$this->getControl('password')->placeholder = $this->confirmPasswordLabel;
 
-				$this->getControl('username')->addValidator(new \System\Validators\RequiredValidator(\Rum::tl('loginform_required_validation_message', "You must enter a password")));
-				$this->getControl('username')->addValidator(new \System\Validators\MatchValidator($this->password, \Rum::tl('loginform_match_validation_message', "Your passwords must match")));
-				$this->getControl('username')->addValidator(new \System\Validators\PatternValidator('^(?=.*\d).{6,16}$^', \Rum::tl('loginform_pattern_validation_message', 'Password must contain 6 to 16 characters with at least one numeric digit')));
+				$this->getControl('username')->addValidator(new \System\Validators\RequiredValidator());
+				$this->getControl('username')->addValidator(new \System\Validators\MatchValidator($this->password));
+				$this->getControl('username')->addValidator(new \System\Validators\PatternValidator('^(?=.*\d).{6,16}$^'));
 			}
 			elseif( isset( $request["forgot_password"] ))
 			{
 				// Show password request email form
-				$this->legend = \Rum::tl('loginform_reset_password_legend', "Reset password");
+				$this->legend = $this->forgotPasswordFormTitle;
 				$this->add(new Email('username'));
-				$this->add(new Button('login', \Rum::tl('loginform_reset', "Reset")));
+				$this->add(new Button('login', $this->resetButtonLabelText));
 
-				$this->getControl('username')->label = \Rum::tl('loginform_email', "Email address");
-				$this->getControl('username')->placeholder = \Rum::tl('loginform_email', "Email address");
+				$this->getControl('username')->label = $this->emailAddressLabelText;
+				$this->getControl('username')->placeholder = $this->emailAddressLabelText;
 
-				$this->getControl('username')->addValidator(new \System\Validators\EmailValidator(\Rum::tl('loginform_email_validation_message', "You must enter a valid email address")));
+				$this->getControl('username')->addValidator(new \System\Validators\EmailValidator());
 			}
 			else
 			{
 				// Show login form
-				$this->legend = \Rum::tl('loginform_legend', "Login");
-				$this->add(new Text('username'));
+				$this->legend = $this->loginFormTitle;
+				$this->add(new LabelText('username'));
 				$this->add(new Password('password'));
 				$this->add(new CheckBox('permanent'));
-				$this->add(new Button('login', \Rum::tl('loginform_login', "Login")));
-				$this->add(new HyperLink('forgot_password', \Rum::tl('loginform_forgot_password', "Forgot password"), $this->getQueryString('forgot_password=true')));
+				$this->add(new Button('login', $this->loginButtonLabelText));
+				$this->add(new HyperLink('forgot_password', $this->forgotPasswordLinkLabelText, $this->getQueryString('forgot_password=true')));
 
-				$this->getControl('username')->label = \Rum::tl('loginform_username', "Username");
-				$this->getControl('password')->label = \Rum::tl('loginform_password', "Password");
-				$this->getControl('permanent')->label = \Rum::tl('loginform_permanent', "Remember me?");
-				$this->getControl('username')->placeholder = \Rum::tl('loginform_username', "Username");
-				$this->getControl('password')->placeholder = \Rum::tl('loginform_password', "Password");
+				$this->getControl('username')->label = $this->usernameLabelText;
+				$this->getControl('password')->label = $this->passwordLabelText;
+				$this->getControl('permanent')->label = $this->rememberMeLabelText;
+				$this->getControl('username')->placeholder = $this->usernameLabelText;
+				$this->getControl('password')->placeholder = $this->passwordLabelText;
 			}
 		}
 

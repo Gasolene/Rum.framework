@@ -205,7 +205,6 @@
 		static public function link($title, $page, array $args = array(), $class = '')
 		{
 			$uri = \Rum::escape(\System\Web\WebApplicationBase::getInstance()->getPageURI($page, $args));
-			$title = \Rum::escape(\System\Web\WebApplicationBase::getInstance()->translator->get($title, $title));
 			return "<a href=\"{$uri}\" title=\"{$title}\" class=\"{$class}\">{$title}</a>";
 		}
 

@@ -52,7 +52,7 @@
 					}
 				}
 
-				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} {$this->controlToValidate->value}" . \System\Base\ApplicationBase::getInstance()->translator->get('is_not_valid', 'is not a valid option');
+				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} {$this->controlToValidate->value}" . \System\Base\ApplicationBase::getInstance()->translator->get('is_not_a_valid_option');
 			}
 		}
 

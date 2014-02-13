@@ -2,6 +2,22 @@
 
 <langs>
   <lang lang="en" charset="utf-8">
-    <string id="" value="" />
+	<string id="must_be_a_valid_date_or_time" value="must be a valid date or time" />
+	<string id="must_be_a_valid_email_address" value="must be a valid email address" />
+	<string id="must_be_a_valid_integer" value="must be a valid integer" />
+	<string id="must_be_a_valid_url" value="must be a valid url" />
+	<string id="must_be_between_x_to_y_characters" value="must be between %x to %y characters" />
+	<string id="must_be_greater_than" value="must be greater than %n" />
+	<string id="must_be_less_than" value="must be less than %n" />
+	<string id="must_be_equal_to" value="must be equal to %n" />
+	<string id="must_be_numeric" value="must be numeric" />
+    <string id="must_be_true_or_false" value="must be true or false" />
+	<string id="must_be_within_the_range_of_x_and_y" value="must be within the range of %x and %y" />
+	<string id="must_be_unique" value="must be unique" />
+	<string id="must_match_the_pattern" value="must match the pattern %n" />
+	<string id="is_not_a_valid_file_type" value="is not a valid file type" />
+	<string id="is_not_a_valid_option" value="is not a valid option" />
+	<string id="is_required" value="is required" />
+	<string id="validation_failed" value="validation has failed" />
   </lang>
 </langs>

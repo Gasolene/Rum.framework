@@ -693,7 +693,7 @@
 				}
 
 				$control = $form->getControl( $field );
-				$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
+//				$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
 
 				// create references
 				if($type === 'ref')
@@ -711,7 +711,7 @@
 							$control->textField = isset($mapping["columnText"])?$mapping["columnText"]:$mapping["columnRef"];
 							$control->valueField = $mapping["columnKey"];
 							$control->dataSource = $ds;
-							$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $label, $label ));
+//							$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $label, $label ));
 
 							continue 2;
 						}
@@ -772,7 +772,7 @@
 					$form->fieldset->getControl( $mapping['columnRef'] )->dataSource = $ds;
 					$form->fieldset->getControl( $mapping['columnRef'] )->dataBind();
 					$form->fieldset->getControl( $mapping['columnRef'] )->multiple  = true;
-					$form->fieldset->getControl( $mapping['columnRef'] )->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $label, $label ));
+//					$form->fieldset->getControl( $mapping['columnRef'] )->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $label, $label ));
 				}
 			}
 			*/
@@ -863,7 +863,7 @@
 			foreach( $activeRecord->fields as $field => $type )
 			{
 				$column = null;
-				$header = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
+//				$header = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
 				$param = $field;
 
 				if(isset(self::$field_mappings[$type]))
