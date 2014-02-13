@@ -52,7 +52,7 @@
 
 		/**
 		 * prepare an SQL statement
-		 * Creates a prepared statement bound to parameters specified by the @symbol
+		 * Creates a prepared statement bound to parameters
 		 * e.g. SELECT * FROM `table` WHERE user=@user
 		 *
 		 * @param  string	$statement	SQL statement
@@ -80,7 +80,7 @@
 
 		/**
 		 * execute an SQL statement and return a PDOStatement object
-		 * Executes a prepared statement bound to parameters specified by the :symbol
+		 * Executes a prepared statement bound to parameters
 		 * e.g. SELECT * FROM `table` WHERE user=:user
 		 *
 		 * @param  array	$parameters	array of parameters to bind
@@ -109,7 +109,7 @@
 
 		/**
 		 * execute an SQL statement
-		 * Executes a prepared statement bound to parameters specified by the @symbol
+		 * Executes a prepared statement bound to parameters
 		 * e.g. SELECT * FROM `table` WHERE user=@user
 		 *
 		 * @param  array	$parameters	array of parameters to bind
@@ -134,13 +134,13 @@
 			$preparedStatement = $this->statement;
 			foreach($this->parameters as $parameter => $value) {
 				if(strpos($value, '0x' )===0) {
-					$preparedStatement = str_replace("@{$parameter}", $value, $preparedStatement);
+					$preparedStatement = str_replace("{$parameter}", $value, $preparedStatement);
 				}
 				elseif(is_string($value)) {
-					$preparedStatement = str_replace("@{$parameter}", '\''.  mysql_real_escape_string($value, $this->connection).'\'', $preparedStatement);
+					$preparedStatement = str_replace("{$parameter}", '\''.  mysql_real_escape_string($value, $this->connection).'\'', $preparedStatement);
 				}
 				else {
-					$preparedStatement = str_replace("@{$parameter}", (real)$value, $preparedStatement);
+					$preparedStatement = str_replace("{$parameter}", (real)$value, $preparedStatement);
 				}
 			}
 			return $preparedStatement;

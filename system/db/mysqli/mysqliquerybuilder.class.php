@@ -767,8 +767,6 @@
 ' . $join['type'] . '
 	join '.$this->objectOpeningDelimiter.'' . $join['lefttable'] . ''.$this->objectClosingDelimiter.' as '.$this->objectOpeningDelimiter.'' . $join['alias'] . ''.$this->objectClosingDelimiter.'
 		on '.$this->objectOpeningDelimiter.'' . $join['alias'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $join['leftcolumn'] . ''.$this->objectClosingDelimiter.' = '.$this->objectOpeningDelimiter.'' . $join['righttable'] . ''.$this->objectClosingDelimiter.'.'.$this->objectOpeningDelimiter.'' . $join['rightcolumn'] . ''.$this->objectClosingDelimiter.'';
-
-
 			}
 
 			// where
