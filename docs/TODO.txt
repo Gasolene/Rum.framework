@@ -8,6 +8,7 @@ NEW FEATURES
 
 	[Due in v6.6]
 	- Validate GridViewControlBase objects with Validators?
+	- Model events should raise on GridView insertions
 
 	[Due in v7]
 	- Rem all backwards compatibility code
