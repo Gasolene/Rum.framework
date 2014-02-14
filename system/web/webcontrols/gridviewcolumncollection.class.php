@@ -93,19 +93,19 @@
 		/**
 		 * add GridViewColumn to Collection before
 		 *
-		 * @param  GridViewColumn $item
-		 * @param  string         $datafield
+		 * @param  GridViewColumn $item			GridViewColumn
+		 * @param  string         $controlId	control id
 		 *
 		 * @return bool
 		 */
-		public function addBefore( $item, $datafield )
+		public function addBefore( $item, $controlId )
 		{
 			if( $item instanceof GridViewColumn )
 			{
 				$new_items = array();
 				for( $i=0; $i<count($this->items); $i++ )
 				{
-					if( $this->items[$i]->dataField==$datafield )
+					if( $this->items[$i]->controlId==$controlId )
 					{
 						$item->setGridView($this->gridView);
 						$new_items[] = $item;
@@ -248,11 +248,11 @@
 		 * @param  string		$controlId			control id
 		 * @return GridViewColumn
 		 */
-		public function findColumn( $dataField )
+		public function findColumn( $controlId )
 		{
 			for( $i = 0, $count = count( $this->items ); $i < $count; $i++ )
 			{
-				if( $this->items[$i]->dataField == $dataField )
+				if( $this->items[$i]->controlId == $controlId )
 				{
 					return $this->items[$i];
 				}

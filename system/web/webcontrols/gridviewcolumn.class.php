@@ -11,6 +11,7 @@
 	/**
 	 * Represents a GridView column
 	 *
+	 * @property string $controlId control id
 	 * @property string $dataField datefield
 	 * @property string $headerText header text
 	 * @property string $itemText item text (templating allowed)
@@ -26,6 +27,12 @@
 	 */
 	class GridViewColumn extends \System\Base\Object implements \ArrayAccess
 	{
+		/**
+		 * control id
+		 * @var string
+		 */
+		protected $controlId			= '';
+
 		/**
 		 * datefield
 		 * @var string
@@ -91,6 +98,7 @@
 		 */
 		public function __construct( $dataField, $headerText = '', $itemText = '', $footerText = '', $className = '' )
 		{
+			$this->controlId = (string) $dataField;
 			$this->dataField = (string) $dataField;
 			$this->headerText = (string) $headerText;
 			$this->itemText = (string) $itemText;
@@ -107,7 +115,10 @@
 		 * @ignore
 		 */
 		public function __get( $field ) {
-			if( $field === 'dataField' ) {
+			if( $field === 'controlId' ) {
+				return $this->controlId;
+			}
+			elseif( $field === 'dataField' ) {
 				return $this->dataField;
 			}
 			elseif( $field === 'headerText' ) {
@@ -150,7 +161,10 @@
 		 * @ignore
 		 */
 		public function __set( $field, $value ) {
-			if( $field === 'dataField' ) {
+			if( $field === 'controlId' ) {
+				$this->controlId = (string) $value;
+			}
+			elseif( $field === 'dataField' ) {
 				$this->dataField = (string) $value;
 			}
 			elseif( $field === 'headerText' ) {
