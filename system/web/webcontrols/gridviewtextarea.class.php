@@ -28,11 +28,11 @@
 			{
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
-				return "'<textarea name=\"{$this->parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
+				return "'<textarea {$this->getAttrs()} onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
 			}
 			else
 			{
-				return "'<textarea name=\"{$this->parameter}\">'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
+				return "'<textarea {$this->getAttrs()}>'.\Rum::escape(%{$this->dataField}%).'</textarea>'";
 			}
 		}
 
@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<textarea name=\"{$this->parameter}\">{$this->default}</textarea>'";
+			return "'<textarea {$this->getAttrs()}>{$this->default}</textarea>'";
 		}
 	}
 ?>

@@ -28,11 +28,11 @@
 			{
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+(this.checked?1:0)+\'";
-				return "'<input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\" '.(%{$this->dataField}%?'checked=\"checked\"':'').' onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"checkbox\" value=\"1\" '.(%{$this->dataField}%?'checked=\"checked\"':'').' onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$this->parameter}\" type=\"hidden\" value=\"0\"/><input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\" '.(%{$this->dataField}%?'checked=\"checked\"':'').'/>'";
+				return "'<input name=\"{$this->parameter}\" type=\"hidden\" value=\"0\"/><input {$this->getAttrs()} type=\"checkbox\" value=\"1\" '.(%{$this->dataField}%?'checked=\"checked\"':'').'/>'";
 			}
 		}
 
@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<input name=\"{$this->parameter}\"".($this->default?' checked="checked"':'')." type=\"hidden\" value=\"0\"/><input name=\"{$this->parameter}\" type=\"checkbox\" value=\"1\"/>'";
+			return "'<input name=\"{$this->parameter}\"".($this->default?' checked="checked"':'')." type=\"hidden\" value=\"0\"/><input {$this->getAttrs()} type=\"checkbox\" value=\"1\"/>'";
 		}
 	}
 ?>

@@ -21,7 +21,6 @@
 	 * @property bool $submitted Specifies whether the data has been submitted
 	 * @property bool $changed Specifies whether the data has been changed
 	 * @property array $validators Array of validators
-	 * @property string $defaultHTMLControlId Specifies the id of the default html control
 	 * @property bool $disableAutoComplete Specifies whether to disable the browsers auto complete feature
 	 * @property string $placeholder Specifies the text for the placeholder attribute
 	 *
@@ -35,7 +34,7 @@
 		 * turn on or off auto focusing
 		 * @var bool
 		 */
-		protected $autoFocus			= false;
+		protected $autoFocus				= false;
 
 		/**
 		 * Specifies whether form will submit postback on change, Default is false
@@ -93,7 +92,7 @@
 
 		/**
 		 * Specifies control label
-		 * @var string
+		 * @ignore
 		 */
 		protected $label					= '';
 
@@ -278,6 +277,7 @@
 				$this->disabled = (bool)$value;
 			}
 			elseif( $field === 'label' ) {
+				trigger_error("InputBase::label is deprecated", E_USER_DEPRECATED);
 				$this->label = (string)$value;
 			}
 			elseif( $field === 'tooltip' ) {

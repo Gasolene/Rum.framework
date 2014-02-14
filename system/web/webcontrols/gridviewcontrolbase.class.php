@@ -15,8 +15,13 @@
 	 * @property string $pkey specifies the primary key field
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $escapeOutput Specifies whether to escape the output
+	 * @property bool $readonly Specifies whether control is readonly
+	 * @property bool $disabled Specifies whether the control is disabled
 	 * @property string $tooltip Specifies control tooltip
 	 * @property string $default Specifies default value
+	 * @property array $validators Array of validators
+	 * @property bool $disableAutoComplete Specifies whether to disable the browsers auto complete feature
+	 * @property string $placeholder Specifies the text for the placeholder attribute
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -49,6 +54,18 @@
 		protected $escapeOutput				= true;
 
 		/**
+		 * Specifies whether the control is readonly, Default is false
+		 * @var bool
+		 */
+		protected $readonly					= false;
+
+		/**
+		 * Specifies whether the control is disabled, Default is false
+		 * @var bool
+		 */
+		protected $disabled					= false;
+
+		/**
 		 * specifies control tool tip
 		 * @var string
 		 */
@@ -59,6 +76,24 @@
 		 * @var string
 		 */
 		protected $default					= '';
+
+		/**
+		 * contains a collection of validators
+		 * @var ValidatorCollection
+		 */
+		protected $validators				= null;
+
+		/**
+		 * Specifies whether to disable the browsers auto complete feature
+		 * @var bool
+		 */
+		protected $disableAutoComplete		= false;
+
+		/**
+		 * Specifies the text for the placeholder attribute
+		 * @var string
+		 */
+		protected $placeholder				= '';
 
 		/**
 		 * post back
@@ -87,6 +122,7 @@
 			$this->pkey = $pkey;
 			$this->tooltip = $tooltip;
 			$this->default = $default;
+			$this->validators  = new \System\Validators\ValidatorCollection($this);
 
 			// event handling
 			$this->events->add(new \System\Web\Events\GridViewColumnPostEvent());
@@ -128,11 +164,26 @@
 			elseif( $field === 'escapeOutput' ) {
 				return $this->escapeOutput;
 			}
+			elseif( $field === 'disableAutoComplete' ) {
+				return $this->disableAutoComplete;
+			}
+			elseif( $field === 'placeholder' ) {
+				return $this->placeholder;
+			}
+			elseif( $field === 'readonly' ) {
+				return $this->readonly;
+			}
+			elseif( $field === 'disabled' ) {
+				return $this->disabled;
+			}
 			elseif( $field === 'tooltip' ) {
 				return $this->tooltip;
 			}
 			elseif( $field === 'default' ) {
 				return $this->default;
+			}
+			elseif( $field === 'validators' ) {
+				return $this->validators;
 			}
 			else {
 				return parent::__get($field);
@@ -160,6 +211,18 @@
 			}
 			elseif( $field === 'escapeOutput' ) {
 				$this->escapeOutput = (bool)$value;
+			}
+			elseif( $field === 'disableAutoComplete' ) {
+				$this->disableAutoComplete = (bool)$value;
+			}
+			elseif( $field === 'placeholder' ) {
+				$this->placeholder = (string)$value;
+			}
+			elseif( $field === 'readonly' ) {
+				$this->readonly = (bool)$value;
+			}
+			elseif( $field === 'disabled' ) {
+				$this->disabled = (bool)$value;
 			}
 			elseif( $field === 'tooltip' ) {
 				$this->tooltip = (string)$value;
@@ -260,6 +323,32 @@
 			{
 				return $string;
 			}
+		}
+
+
+		final protected function getAttrs()
+		{
+			$attrs = "name=\"{$this->parameter}\"";
+			if( $this->readonly )
+			{
+				$attrs .= ' readonly="readonly"';
+			}
+
+			if( $this->disabled )
+			{
+				$attrs .= ' disabled="disabled"';
+			}
+
+			if( $this->disableAutoComplete )
+			{
+				$attrs .= ' autocomplete="off"';
+			}
+
+//			if( $this->placeholder )
+//			{
+//				$attrs .= " placeholder=\"{$this->placeholder}\"";
+//			}
+			return $attrs;
 		}
 
 

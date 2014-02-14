@@ -28,11 +28,11 @@
 			{
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
-				return "'<input name=\"{$this->parameter}\" type=\"file\" value=\"'.%{$this->dataField}%.'\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"file\" value=\"'.%{$this->dataField}%.'\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$this->parameter}\" type=\"file\" value=\"'.%{$this->dataField}%.'\"/>'";
+				return "'<input {$this->getAttrs()} type=\"file\" value=\"'.%{$this->dataField}%.'\"/>'";
 			}
 		}
 
@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<input name=\"{$this->parameter}\" type=\"file\"/>'";
+			return "'<input {$this->getAttrs()} type=\"file\"/>'";
 		}
 	}
 ?>

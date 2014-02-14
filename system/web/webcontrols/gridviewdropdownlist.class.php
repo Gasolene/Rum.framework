@@ -117,7 +117,7 @@
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
 
-				$html = "'<select name=\"{$this->parameter}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+				$html = "'<select {$this->getAttrs()} onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
 				{
 					if(is_array($value)) {
@@ -135,7 +135,7 @@
 			}
 			else
 			{
-				$html = "'<select name=\"{$this->parameter}\">";
+				$html = "'<select {$this->getAttrs()}>";
 				foreach($this->items as $key=>$value)
 				{
 					if(is_array($value)) {
@@ -160,7 +160,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			$html = "'<select name=\"{$this->parameter}\">";
+			$html = "'<select {$this->getAttrs()}>";
 			foreach($this->items as $key=>$value)
 			{
 				if(is_array($value)) {

@@ -28,11 +28,11 @@
 			{
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
-				return "'<input name=\"{$this->parameter}\" type=\"search\" value=\"'.%{$this->dataField}%.'\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"search\" value=\"'.%{$this->dataField}%.'\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$this->parameter}\" type=\"search\" value=\"'.%{$this->dataField}%.'\"/>'";
+				return "'<input {$this->getAttrs()} type=\"search\" value=\"'.%{$this->dataField}%.'\"/>'";
 			}
 		}
 
@@ -43,7 +43,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<input name=\"{$this->parameter}\" value=\"{$this->default}\" type=\"search\"/>'";
+			return "'<input {$this->getAttrs()} type=\"search\" value=\"{$this->default}\"/>'";
 		}
 	}
 ?>

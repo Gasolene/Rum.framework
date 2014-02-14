@@ -139,11 +139,11 @@
 
 			if( $this->ajaxPostBack )
 			{
-				return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\',\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\',\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
 			}
 		}
 
@@ -160,11 +160,11 @@
 
 			if( $this->ajaxPostBack )
 			{
-				return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
 			}
 			else
 			{
-				return "'<input name=\"{$this->parameter}\" type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"button\" title=\"{$this->footerButtonName}\" value=\"{$this->footerButtonName}\" onclick=\"Rum.sendSync(\'{$uri}/\',\'".$this->escape($params)."&\'+Rum.getParams(this.parentNode.parentNode),\'POST\');\" />'";
 			}
 		}
 	}
