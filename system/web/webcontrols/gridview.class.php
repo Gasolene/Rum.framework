@@ -669,6 +669,17 @@
 
 
 		/**
+		 * reset sorting
+		 * @return void
+		 */
+		public function resetSorting()
+		{
+			$this->sortBy = '';
+			$this->sortOrder = '';
+		}
+
+
+		/**
 		 * apply filter and sort
 		 * @return void
 		 */
