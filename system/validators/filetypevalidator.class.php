@@ -62,7 +62,7 @@
 		{
 			if($this->controlToValidate)
 			{
-				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} " . \System\Base\ApplicationBase::getInstance()->translator->get('is_not_a_valid_file_type');
+				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('is_not_a_valid_file_type');
 			}
 		}
 

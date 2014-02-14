@@ -58,7 +58,7 @@
 		{
 			if($this->controlToValidate)
 			{
-				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} " . \str_replace('%x', $this->min, \str_replace('%y', $this->max, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_within_the_range_of_x_and_y')));
+				$this->errorMessage = \str_replace('%x', $this->min, \str_replace('%y', $this->max, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_within_the_range_of_x_and_y')));
 			}
 		}
 

@@ -45,7 +45,7 @@
 			parent::__construct( $controlId );
 
 			$this->text = $text?$text:$controlId;
-			$this->label = '';
+//			$this->label = ''; // deprecated
 
 			// event handling
 			$this->events->add(new \System\Web\Events\InputPostEvent());

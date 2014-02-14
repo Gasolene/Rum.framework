@@ -28,7 +28,7 @@
 		{
 			if($this->controlToValidate)
 			{
-				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} " . \System\Base\ApplicationBase::getInstance()->translator->get('must_be_a_valid_date_or_time');
+				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_a_valid_date_or_time');
 			}
 		}
 

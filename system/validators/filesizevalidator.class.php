@@ -58,7 +58,7 @@
 		{
 			if($this->controlToValidate)
 			{
-				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} " . str_replace('%n', "{$this->maxSize}KB", \System\Base\ApplicationBase::getInstance()->translator->get('must_be_less_than'));
+				$this->errorMessage = str_replace('%n', "{$this->maxSize}KB", \System\Base\ApplicationBase::getInstance()->translator->get('must_be_less_than'));
 			}
 		}
 

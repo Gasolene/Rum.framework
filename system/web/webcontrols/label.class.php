@@ -37,7 +37,7 @@
 		{
 			parent::__construct( $controlId );
 
-			$this->text = $text?$text:$this->label;
+			$this->text = $text;
 
 			// event handling
 			/*

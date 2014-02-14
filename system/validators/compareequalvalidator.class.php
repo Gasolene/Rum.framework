@@ -50,7 +50,7 @@
 		{
 			if($this->controlToCompare)
 			{
-				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToCompare->label} " . str_replace('%n', $this->controlToCompare->label, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_equal_to', 'must be equal to %n'));
+				$this->errorMessage = str_replace('%n', $this->controlToCompare->dataField, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_equal_to', 'must be equal to %n'));
 			}
 		}
 

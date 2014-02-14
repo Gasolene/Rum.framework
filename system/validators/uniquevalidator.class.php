@@ -28,7 +28,7 @@
 		{
 			if($this->controlToValidate)
 			{
-				$this->errorMessage = $this->errorMessage?$this->errorMessage:"{$this->controlToValidate->label} " . \System\Base\ApplicationBase::getInstance()->translator->get('must_be_unique');
+				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_unique');
 			}
 		}
 

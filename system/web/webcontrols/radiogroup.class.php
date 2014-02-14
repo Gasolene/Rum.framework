@@ -29,6 +29,7 @@
 		 */
 		public function __construct( $controlId, $default = null )
 		{
+			trigger_error("RadioGroup is deprecated", E_USER_DEPRECATED);
 			parent::__construct( $controlId, $default );
 		}
 
@@ -55,7 +56,7 @@
 			$fieldset = $this->createDomObject( 'fieldset' );
 //			$fieldset->setAttribute( 'class', ' radiogroup' );
 			$legend = new \System\XML\DomObject( 'legend' );
-			$legend->innerHtml = $this->label;
+			$legend->innerHtml = $this->label; // deprecated
 
 			for( $i = 0, $count = $this->controls->count; $i < $count; $i++ )
 			{
