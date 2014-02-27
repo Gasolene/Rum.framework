@@ -117,7 +117,7 @@
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
 
-				$html = "'<select {$this->getAttrs()} onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
+				$html = "'<select {$this->getAttrs()} onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");\">";
 				foreach($this->items as $key=>$value)
 				{
 					if(is_array($value)) {

@@ -20,6 +20,9 @@
 		 */
 		var validationReady = true;
 
+		this.defaultAjaxStartHandler = function(params){};
+		this.defaultAjaxCompletionHandler = function(params){};
+
 		/**
 		 * Function to get a XMLDom object
 		 */
@@ -180,7 +183,7 @@
 		/**
 		 * this.to send a xmlhttp request.
 		 */
-		this.sendAsyncWithCallback = function( http_request, url, params, method, callback ) {
+		this.sendAsyncWithCallback = function( http_request, url, params, method, completionHandler ) {
 
 			if (method == null){
 				method = 'GET';
@@ -203,8 +206,8 @@
 				params = '';
 			}
 
-			if (callback != null){
-				eval( 'http_request.onreadystatechange=' + callback );
+			if (completionHandler != null){
+				eval( 'http_request.onreadystatechange=' + completionHandler );
 			}
 
 			http_request.open(method, url, true);
@@ -218,16 +221,25 @@
 		/**
 		 * this.to send a xmlhttp request.
 		 */
-		this.evalAsync = function( url, params, method ) {
+		this.evalAsync = function( url, params, method, startHandler, completionHandler ) {
+
+			if(!startHandler) startHandler = this.defaultAjaxStartHandler;
+			if(!completionHandler) completionHandler = this.defaultAjaxCompletionHandler;
+
+			eventArgs={};
+			params.split('&').forEach(function(e) {
+				a=e.split('='); eventArgs[a[0]] = a[1];
+			});
 
 			http_request = this.createXMLHttpRequest();
 
-                        if(http_request === null) {
-                            console.log('browser does not support HTTP Request');
-                        }
+			if(http_request === null) {
+				console.log('browser does not support HTTP Request');
+			}
 
-			var callback = function() { evalHttpResponse( http_request ); };
+			var callback = function() { evalHttpResponse( http_request, completionHandler, eventArgs ); };
 			this.sendAsyncWithCallback(http_request, url, params, method, callback);
+ 			startHandler(eventArgs);
 		};
 
 
@@ -236,7 +248,7 @@
 		 */
 		this.documentLoaded = function(formElement, iframeID) {
 
-                        //changed frameElement to allow IE10 to work was var frameElement = document.getElementById(iframeID);
+			//changed frameElement to allow IE10 to work was var frameElement = document.getElementById(iframeID);
 			var frameElement = (!document.getElementById(iframeID))?"":document.getElementById(iframeID);
 			var documentElement = null;
 
@@ -245,8 +257,8 @@
 			} else if (frameElement.contentWindow) {
 				documentElement = frameElement.contentWindow.document;
 			} else {
-                                return;
-                                //removed below to make this work in IE10
+				return;
+				//removed below to make this work in IE10
 				//documentElement = window.frames[iframeID].document;
 			}
 
@@ -348,10 +360,17 @@
 
 
 		/**
+		 * this.to parse HTTP response
+		 */
+		evalHttpResponse = function( http_request, completionHandler, eventArgs  ) {
+			eval(getHttpResponse(http_request, completionHandler, eventArgs ));
+		};
+
+
+		/**
 		 * this.to receive HTTP response
 		 */
-		getHttpResponse = function( http_request ) {
-
+		getHttpResponse = function( http_request, completionHandler, eventArgs ) {
 			// if xmlhttp shows "loaded"
 			if (http_request) {
 				// if xmlhttp shows "loaded"
@@ -360,21 +379,16 @@
 					if (http_request.status==200) {
 						// get response
 						response = http_request.responseText;
+
+						completionHandler(eventArgs);
 						return response;
 					}
 					else {
+						completionHandler(eventArgs);
 						throw "Problem retrieving XML data";
 					}
 				}
 			}
-		};
-
-
-		/**
-		 * this.to parse HTTP response
-		 */
-		evalHttpResponse = function( http_request ) {
-			eval(getHttpResponse(http_request));
 		};
 
 
@@ -470,15 +484,15 @@
 		 * add listener to element
 		 */
 		addListener = function(element, eventName, handler) {
-		  if (element.addEventListener) {
-			element.addEventListener(eventName, handler, false);
-		  }
-		  else if (element.attachEvent) {
-			element.attachEvent('on' + eventName, handler);
-		  }
-		  else {
-			element['on' + eventName] = handler;
-		  }
+			if (element.addEventListener) {
+				element.addEventListener(eventName, handler, false);
+			}
+			else if (element.attachEvent) {
+				element.attachEvent('on' + eventName, handler);
+			}
+			else {
+				element['on' + eventName] = handler;
+			}
 		}
 
 

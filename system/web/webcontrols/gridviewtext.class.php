@@ -28,7 +28,7 @@
 			{
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
-				return "'<input {$this->getAttrs()} type=\"text\" value=\"'.\Rum::escape(%{$this->dataField}%).'\" onkeypress=\"if(event.keyCode==13){blur();event.returnValue=false;}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"text\" value=\"'.\Rum::escape(%{$this->dataField}%).'\" onkeypress=\"if(event.keyCode==13){blur();event.returnValue=false;}\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");\" />'";
 			}
 			else
 			{

@@ -77,7 +77,7 @@
 
 			if($this->column->gridView->ajaxPostBack)
 			{
-				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
+				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+this.value,'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
 			}
 			else
 			{

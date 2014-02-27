@@ -14,6 +14,8 @@
 	 * @property string $parameter specifies the request parameter
 	 * @property string $pkey specifies the primary key field
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
+	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
+	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
 	 * @property bool $escapeOutput Specifies whether to escape the output
 	 * @property bool $readonly Specifies whether control is readonly
 	 * @property bool $disabled Specifies whether the control is disabled
@@ -46,6 +48,18 @@
 		 * @var string
 		 */
 		protected $ajaxPostBack				= false;
+
+		/**
+		 * specifies the optional ajax start handler
+		 * @var string
+		 */
+		public $ajaxStartHandler			= 'null';
+
+		/**
+		 * specifies the optional ajax completion handler
+		 * @var string
+		 */
+		public $ajaxCompletionHandler		= 'null';
 
 		/**
 		 * determines whether to escape the output
@@ -161,6 +175,12 @@
 			elseif( $field === 'ajaxPostBack' ) {
 				return $this->ajaxPostBack;
 			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				return $this->ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				return $this->ajaxCompletionHandler;
+			}
 			elseif( $field === 'escapeOutput' ) {
 				return $this->escapeOutput;
 			}
@@ -209,6 +229,12 @@
 			elseif( $field === 'ajaxPostBack' ) {
 				$this->ajaxPostBack = (bool)$value;
 			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				$this->ajaxStartHandler = (string)$ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
+			}
 			elseif( $field === 'escapeOutput' ) {
 				$this->escapeOutput = (bool)$value;
 			}
@@ -233,6 +259,44 @@
 			else {
 				parent::__set( $field, $value );
 			}
+		}
+
+
+		/**
+		 * adds a validator to the control
+		 *
+		 * @param  ValidatorBase
+		 * @return void
+		 */
+		public function addValidator(\System\Validators\ValidatorBase $validator)
+		{
+			$this->validators->add($validator);
+		}
+
+
+		/**
+		 * validates control data, returns true on success
+		 *
+		 * @param  string		$errMsg		error message
+		 * @return bool						true if control value is valid
+		 */
+		public function validate(&$errMsg = '')
+		{
+			$fail = false;
+			if(!$this->disabled)
+			{
+				foreach($this->validators as $validator)
+				{
+					if(!$validator->validate())
+					{
+						$fail = true;
+						if($errMsg) $errMsg .= ", ";
+						$errMsg .= $validator->errorMessage;
+					}
+				}
+			}
+
+			return !$fail;
 		}
 
 

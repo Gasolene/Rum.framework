@@ -28,7 +28,7 @@
 			{
 				$uri = \Rum::config()->uri;
 				$params = $this->getRequestData() . "&".$this->formatParameter($this->pkey)."='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+(this.checked?1:0)+\'";
-				return "'<input {$this->getAttrs()} type=\"checkbox\" value=\"1\" '.(%{$this->dataField}%?'checked=\"checked\"':'').' onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"checkbox\" value=\"1\" '.(%{$this->dataField}%?'checked=\"checked\"':'').' onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");\" />'";
 			}
 			else
 			{

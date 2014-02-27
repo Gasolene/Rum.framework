@@ -14,6 +14,8 @@
 	 * @property bool $autoFocus specifies whether to auto focus
 	 * @property bool $autoPostBack Specifies whether form will perform postback on change, Default is false
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
+	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
+	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
 	 * @property bool $ajaxValidation specifies whether to perform ajax validation, Default is false
 	 * @property bool $readonly Specifies whether control is readonly
 	 * @property bool $disabled Specifies whether the control is disabled
@@ -47,6 +49,18 @@
 		 * @var bool
 		 */
 		protected $ajaxPostBack				= false;
+
+		/**
+		 * specifies the optional ajax start handler
+		 * @var string
+		 */
+		public $ajaxStartHandler			= 'null';
+
+		/**
+		 * specifies the optional ajax completion handler
+		 * @var string
+		 */
+		public $ajaxCompletionHandler		= 'null';
 
 		/**
 		 * Specifies whether form will submit ajax validation, Default is false
@@ -195,6 +209,12 @@
 			elseif( $field === 'ajaxPostBack' ) {
 				return $this->ajaxPostBack;
 			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				return $this->ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				return $this->ajaxCompletionHandler;
+			}
 			elseif( $field === 'ajaxValidation' ) {
 				return $this->ajaxValidation;
 			}
@@ -260,6 +280,12 @@
 			}
 			elseif( $field === 'ajaxPostBack' ) {
 				$this->ajaxPostBack = (bool)$value;
+			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				$this->ajaxStartHandler = (string)$ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
 			}
 			elseif( $field === 'ajaxValidation' ) {
 				$this->ajaxValidation = (bool)$value;
@@ -421,7 +447,7 @@
 
 			if( $this->ajaxPostBack || $this->ajaxValidation )
 			{
-				$input->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
+				$input->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\','.\addslashes($this->ajaxStartHandler).','.\addslashes($this->ajaxCompletionHandler).');' );
 			}
 
 			if( $this->readonly )

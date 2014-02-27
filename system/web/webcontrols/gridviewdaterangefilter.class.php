@@ -100,8 +100,8 @@
 
 			if($this->column->gridView->ajaxPostBack)
 			{
-				$date_start->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_startdate='+this.value);" );
-				$date_end->setAttribute(   'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_enddate='+this.value);" );
+				$date_start->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_startdate='+this.value,'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
+				$date_end->setAttribute(   'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_enddate='+this.value,'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
 			}
 			else
 			{

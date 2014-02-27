@@ -103,7 +103,7 @@
 
 			if($this->column->gridView->ajaxPostBack)
 			{
-				$select->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/', '{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
+				$select->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/', '{$requestString}&{$HTMLControlId}__filter_value='+this.value,'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
 			}
 			else
 			{

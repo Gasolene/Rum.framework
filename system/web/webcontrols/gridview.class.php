@@ -504,6 +504,30 @@
 
 
 		/**
+		 * validate all controls in form object
+		 *
+		 * @param  string $errMsg error message
+		 * @return bool
+		 */
+		public function validate(&$errMsg = '')
+		{
+			$valid = true;
+			for($i = 0; $i < count($this->columns); $i++)
+			{
+				if( $this->columns[$i] instanceof GridViewControlBase )
+				{
+					if( !$this->columns[$i]->validate( $errMsg ))
+					{
+						$valid = false;
+					}
+				}
+			}
+
+			return $valid;
+		}
+
+
+		/**
 		 * insert row in DataSet
 		 *
 		 * @return void

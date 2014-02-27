@@ -12,6 +12,8 @@
 	 * Represents a GridView filter
 	 * 
 	 * @property string $tooltip Specifies control tooltip
+	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
+	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
 	 *
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
@@ -43,6 +45,18 @@
 		protected $tooltip					= '';
 
 		/**
+		 * specifies the optional ajax start handler
+		 * @var string
+		 */
+		public $ajaxStartHandler			= 'null';
+
+		/**
+		 * specifies the optional ajax completion handler
+		 * @var string
+		 */
+		public $ajaxCompletionHandler		= 'null';
+
+		/**
 		 * Constructor
 		 */
 		public function __construct() {}
@@ -58,6 +72,12 @@
 		public function __get( $field ) {
 			if( $field === 'tooltip' ) {
 				return $this->tooltip;
+			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				return $this->ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				return $this->ajaxCompletionHandler;
 			}
 			elseif( $field === 'submitted' ) {
 				return $this->submitted;
@@ -79,6 +99,12 @@
 		public function __set( $field, $value ) {
 			if( $field === 'tooltip' ) {
 				$this->tooltip = (string)$value;
+			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				$this->ajaxStartHandler = (string)$ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
 			}
 			else {
 				parent::__set( $field, $value );

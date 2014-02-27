@@ -139,7 +139,7 @@
 
 			if( $this->ajaxPostBack )
 			{
-				return "'<input {$this->getAttrs()} type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\',\'POST\');\" />'";
+				return "'<input {$this->getAttrs()} type=\"button\" title=\"{$this->itemButtonName}\" value=\"{$this->itemButtonName}\" onclick=\"".($this->confirmation?'if(!confirm(\\\''.\addslashes(\addslashes($this->escape($this->confirmation)))."\\')){return false;}":"")."Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."&\',\'POST\',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");\" />'";
 			}
 			else
 			{

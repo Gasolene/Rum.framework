@@ -88,7 +88,7 @@
 
 			if( $this->ajaxPostBack )
 			{
-				$input->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'=\'+(this.checked?1:0)+\'&'.$this->getRequestData().'\',\'POST\');' );
+				$input->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'=\'+(this.checked?1:0)+\'&'.$this->getRequestData().'\',\'POST\','.\addslashes($this->ajaxStartHandler).','.\addslashes($this->ajaxCompletionHandler).');' );
 			}
 
 			if( $this->visible === false )
