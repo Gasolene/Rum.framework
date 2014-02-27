@@ -204,7 +204,7 @@
 			}
 
 			if (callback != null){
-				eval( 'http_request.onreadystatechange=' + callback );
+				http_request.onreadystatechange=callback;
 			}
 
 			http_request.open(method, url, true);
