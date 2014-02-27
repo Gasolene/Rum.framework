@@ -20,7 +20,14 @@
 		 */
 		var validationReady = true;
 
+		/**
+		 * Specifies the default ajax start handler
+		 */
 		this.defaultAjaxStartHandler = function(params){};
+
+		/**
+		 * Specifies the default ajax completion handler
+		 */
 		this.defaultAjaxCompletionHandler = function(params){};
 
 		/**
@@ -207,7 +214,7 @@
 			}
 
 			if (completionHandler != null){
-				eval( 'http_request.onreadystatechange=' + completionHandler );
+				http_request.onreadystatechange = completionHandler;
 			}
 
 			http_request.open(method, url, true);
