@@ -24,6 +24,7 @@
 	 * @property array $validators Array of validators
 	 * @property bool $disableAutoComplete Specifies whether to disable the browsers auto complete feature
 	 * @property string $placeholder Specifies the text for the placeholder attribute
+	 * @property string $value Specifies the value of control
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -108,6 +109,12 @@
 		 * @var string
 		 */
 		protected $placeholder				= '';
+
+		/**
+		 * Specifies the value of control
+		 * @var string
+		 */
+		protected $value					= null;
 
 		/**
 		 * post back
@@ -205,6 +212,9 @@
 			elseif( $field === 'validators' ) {
 				return $this->validators;
 			}
+			elseif( $field === 'value' ) {
+				return $this->value;
+			}
 			else {
 				return parent::__get($field);
 			}
@@ -255,6 +265,9 @@
 			}
 			elseif( $field === 'default' ) {
 				$this->default = (string)$value;
+			}
+			elseif( $field === 'value' ) {
+				$this->value = $value;
 			}
 			else {
 				parent::__set( $field, $value );
@@ -311,6 +324,7 @@
 			$parameter = $this->formatParameter($this->parameter);
 			if( isset( $request[$parameter] ))
 			{
+				$this->value = $request[$parameter];
 				$this->_handlePostBack = true;
 				unset( $request[$parameter] );
 			}
