@@ -220,11 +220,11 @@
 		 */
 		this.evalAsync = function( url, params, method ) {
 
-			http_request = this.createXMLHttpRequest();
+			var http_request = this.createXMLHttpRequest();
 
-                        if(http_request === null) {
-                            console.log('browser does not support HTTP Request');
-                        }
+			if(http_request === null) {
+				console.log('browser does not support HTTP Request');
+			}
 
 			var callback = function() { evalHttpResponse( http_request ); };
 			this.sendAsyncWithCallback(http_request, url, params, method, callback);
