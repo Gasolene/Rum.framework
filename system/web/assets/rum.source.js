@@ -233,12 +233,12 @@
 			if(!startHandler) startHandler = this.defaultAjaxStartHandler;
 			if(!completionHandler) completionHandler = this.defaultAjaxCompletionHandler;
 
-			eventArgs={};
+			var eventArgs={};
 			params.split('&').forEach(function(e) {
 				a=e.split('='); eventArgs[a[0]] = a[1];
 			});
 
-			http_request = this.createXMLHttpRequest();
+			var http_request = this.createXMLHttpRequest();
 
 			if(http_request === null) {
 				console.log('browser does not support HTTP Request');
