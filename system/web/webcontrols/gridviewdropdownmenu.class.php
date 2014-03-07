@@ -56,7 +56,7 @@
 			if($this->ajaxPostBack)
 			{
 				$uri = \Rum::config()->uri;
-				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
+				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+encodeURIComponent(this.value)+\'";
 
 				$html = "'<select name=\"{$this->parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)
@@ -99,7 +99,7 @@
 			if($this->ajaxPostBack)
 			{
 				$uri = \Rum::config()->uri;
-				$params = $this->getRequestData() . "&{$this->parameter}=\'+this.value+\'";
+				$params = $this->getRequestData() . "&{$this->parameter}=\'+encodeURIComponent(this.value)+\'";
 
 				$html = "'<select name=\"{$this->parameter}\" class=\"listbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\">";
 				foreach($this->items as $key=>$value)

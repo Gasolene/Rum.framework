@@ -129,7 +129,7 @@
 
 				if( $this->ajaxPostBack )
 				{
-					$input->setAttribute( 'onclick', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'=\'+this.value+\'&'.$this->getRequestData().'\',\'POST\');' );
+					$input->setAttribute( 'onclick', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\''.$this->getHTMLControlId().'=\'+encodeURIComponent(this.value)+\'&'.$this->getRequestData().'\',\'POST\');' );
 				}
 
 				if( $this->readonly )

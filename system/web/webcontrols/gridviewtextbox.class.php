@@ -31,7 +31,7 @@
 			if($this->ajaxPostBack)
 			{
 				$uri = \Rum::config()->uri;
-				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+this.value+\'";
+				$params = $this->getRequestData() . "&{$this->pkey}='.\\rawurlencode(%{$this->pkey}%).'&{$this->parameter}=\'+encodeURIComponent(this.value)+\'";
 				return "'<input name=\"{$this->parameter}\" type=\"text\" value=\"'.%{$this->dataField}%.'\" class=\"textbox\" onchange=\"Rum.evalAsync(\'{$uri}/\',\'".$this->escape($params)."\',\'POST\');\" />'";
 			}
 			else

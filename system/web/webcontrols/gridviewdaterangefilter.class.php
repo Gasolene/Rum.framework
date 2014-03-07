@@ -100,13 +100,13 @@
 
 			if($this->column->gridView->ajaxPostBack)
 			{
-				$date_start->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_startdate='+this.value);" );
-				$date_end->setAttribute(   'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_enddate='+this.value);" );
+				$date_start->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_startdate='+encodeURIComponent(this.value));" );
+				$date_end->setAttribute(   'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_enddate='+encodeURIComponent(this.value));" );
 			}
 			else
 			{
-				$date_start->setAttribute( 'onchange', "Rum.sendSync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_startdate='+this.value);" );
-				$date_end->setAttribute(   'onchange', "Rum.sendSync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_enddate='+this.value);" );
+				$date_start->setAttribute( 'onchange', "Rum.sendSync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_startdate='+encodeURIComponent(this.value));" );
+				$date_end->setAttribute(   'onchange', "Rum.sendSync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_enddate='+encodeURIComponent(this.value));" );
 			}
 
 			$span->addChild($date_start);
