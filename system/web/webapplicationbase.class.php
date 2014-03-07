@@ -719,6 +719,7 @@
 
 							\System\Web\HTTPResponse::clear();
 							\System\Web\HTTPResponse::write("console.log('".(str_replace("\n", '', str_replace("\r", '', $content)))."');");
+							\System\Web\HTTPResponse::write("alert('An unhandled exception occurred during execution, please check logs');");
 							\System\Web\HTTPResponse::end();
 						}
 					}

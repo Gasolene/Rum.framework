@@ -126,7 +126,7 @@
 		 */
 		this.sendAsync = function( url, params, method ) {
 
-			http_request = this.createXMLHttpRequest();
+			var http_request = this.createXMLHttpRequest();
 			this.sendAsyncWithCallback(http_request, url, params, method);
 		}
 
@@ -331,6 +331,7 @@
 		 * @ignore
 		 */
 		this.createXMLHttpRequest = function() {
+			var http_request;
 			if (window.XMLHttpRequest) { // Mozilla, Safari,...
 				http_request = new XMLHttpRequest();
 
