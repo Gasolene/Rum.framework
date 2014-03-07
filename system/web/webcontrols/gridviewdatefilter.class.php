@@ -82,11 +82,11 @@
 
 			if($this->column->gridView->ajaxPostBack)
 			{
-				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+this.value,'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
+				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
 			}
 			else
 			{
-				$input->setAttribute( 'onchange', "Rum.sendSync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+this.value);" );
+				$input->setAttribute( 'onchange', "Rum.sendSync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value));" );
 			}
 
 			return $input;

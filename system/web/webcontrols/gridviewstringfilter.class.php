@@ -80,13 +80,13 @@
 
 			if($this->column->gridView->ajaxPostBack)
 			{
-				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+this.value,'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
-				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value,'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");return false;}" );
+				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
+				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");return false;}" );
 			}
 			else
 			{
-				$input->setAttribute( 'onchange', "if(this.value==''){Rum.sendSync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+this.value);}" );
-				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;blur();Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+this.value);return false;}" );
+				$input->setAttribute( 'onchange', "if(this.value==''){Rum.sendSync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value));}" );
+				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;blur();Rum.sendSync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value));return false;}" );
 			}
 
 			return $input;
