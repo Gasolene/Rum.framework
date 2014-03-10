@@ -27,13 +27,6 @@
 
 
 		/**
-		 * control to validate
-		 * @var InputBase
-		 */
-		protected $controlToValidate;
-
-
-		/**
 		 * ValidatorBase
 		 *
 		 * @param  string $errorMessage error message
@@ -97,26 +90,31 @@
 
 
 		/**
+		 * called when all controls are loaded
+		 *
+		 * @param  array	&$request	request data
+		 * @return void
+		 */
+		final public function load()
+		{
+			// onLoad event
+			$this->onLoad();
+		}
+
+
+		/**
 		 * set control to validate
 		 *
 		 * @param  InputBase $controlToValidate control to validate
 		 * @return void
-		 */
+		 * /
 		final public function setControlToValidate(\System\Web\WebControls\InputBase &$controlToValidate)
 		{
 			$this->controlToValidate =& $controlToValidate;
 
 			$this->onLoad();
 		}
-
-
-		/**
-		 * validates the control
-		 *
-		 * @param  InputBase $controlToValidate control to validate
-		 * @return bool
-		 */
-		abstract public function validate();
+		*/
 
 
 		/**
@@ -125,5 +123,15 @@
 		 * @return void
 		 */
 		protected function onLoad() {}
+
+
+		/**
+		 * validates the control
+		 *
+		 * @param  mixed $value value to validate
+		 * 
+		 * @return bool
+		 */
+		abstract public function validate($value);
 	}
 ?>

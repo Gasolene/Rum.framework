@@ -26,28 +26,19 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_a_valid_date_or_time');
-			}
+			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_a_valid_date_or_time');
 		}
 
 
 		/**
 		 * sets the controlId and prepares the control attributes
 		 *
+		 * @param  mixed $value value to validate
 		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToValidate)
-			{
-				return !$this->controlToValidate->value || (false !== \strtotime($this->controlToValidate->value));
-			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
-			}
+			return !$value || (false !== \strtotime($value));
 		}
 	}
 ?>

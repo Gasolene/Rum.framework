@@ -60,39 +60,23 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('is_not_a_valid_file_type');
-			}
+			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('is_not_a_valid_file_type');
 		}
 
 
 		/**
-		 * validates the control
+		 * sets the controlId and prepares the control attributes
 		 *
-		 * @return bool
+		 * @param  mixed $value value to validate
+		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToValidate)
+			if( array_search( $value['type'], $this->types ) === false )
 			{
-				if( isset( $_FILES[$this->controlToValidate->getHTMLControlId()] ))
-				{
-					if( $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] > 0 )
-					{
-						if( array_search( $_FILES[$this->controlToValidate->getHTMLControlId()]['type'], $this->types ) === false )
-						{
-							return false;
-						}
-					}
-				}
-
-				return true;
+				return false;
 			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
-			}
+			return true;
 		}
 	}
 ?>

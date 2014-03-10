@@ -19,21 +19,13 @@
 	final class ValidatorCollection extends CollectionBase
 	{
 		/**
-		 * control
-		 * @var InputBase
-		 */
-		private $control;
-
-
-		/**
 		 * Constructor
 		 *
 		 * @param  InputBase	$parent		instance of a InputBase object
 		 * 
 		 * @return void
 		 */
-		public function __construct( \System\Web\WebControls\InputBase &$control ) {
-			$this->control =& $control;
+		public function __construct() {
 		}
 
 
@@ -47,7 +39,7 @@
 			{
 				if( $item instanceof ValidatorBase )
 				{
-					$item->setControlToValidate($this->control);
+//					$item->setControlToValidate($this->control);
 					$this->items[$index] = $item;
 				}
 				else
@@ -73,7 +65,7 @@
 		{
 			if( $item instanceof ValidatorBase )
 			{
-				$item->setControlToValidate($this->control);
+//				$item->setControlToValidate($this->control);
 				array_push( $this->items, $item );
 			}
 			else
@@ -100,6 +92,21 @@
 			}
 
 			return false;
+		}
+
+
+		/**
+		 * called when all controls are loaded
+		 *
+		 * @param  array	&$request	request data
+		 * @return void
+		 */
+		final public function load()
+		{
+			foreach($this->items as $item)
+			{
+				$item->load();
+			}
 		}
 	}
 ?>

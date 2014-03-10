@@ -173,7 +173,7 @@
 		 * Specifies an optional row data-field
 		 * @var GridView
 		 */
-		protected $rowDataField			= '';
+		protected $rowDataField				= '';
 
 		/**
 		 * collection of columns
@@ -534,6 +534,7 @@
 		 */
 		public function insertRow()
 		{
+			trigger_error("GridView::insertRow() is deprecated, use GridViewColumn::fill() instead", E_USER_DEPRECATED);
 			$request = \System\Web\HTTPRequest::$post;
 
 			if( $this->dataSource )
@@ -580,6 +581,7 @@
 		 */
 		public function updateRow($id)
 		{
+			trigger_error("GridView::insertRow() is deprecated, use GridViewColumn::fill() instead", E_USER_DEPRECATED);
 			$request = \System\Web\HTTPRequest::$post;
 
 			if( $this->dataSource )
@@ -632,6 +634,7 @@
 		 */
 		public function deleteRow($id)
 		{
+			trigger_error("GridView::insertRow() is deprecated, use GridViewColumn::fill() instead", E_USER_DEPRECATED);
 			$request = \System\Web\HTTPRequest::$request;
 
 			if( $this->dataSource )
@@ -665,6 +668,27 @@
 			else
 			{
 				throw new \System\Base\InvalidOperationException("GridView::updateRow() called with null dataSource");
+			}
+		}
+
+
+		/**
+		 * fill an existing \ArrayAccess object with data from a GridView button post back
+		 * 
+		 * @param \ArrayAccess $object object to fill
+		 * @throws \System\Base\InvalidOperationException
+		 * @return void
+		 */
+		public function fill(\ArrayAccess &$object)
+		{
+			$request = \System\Web\HTTPRequest::$post;
+
+			foreach($this->dataSource->fields as $field)
+			{
+				if(isset($request[str_replace(' ', '_', $field)]))
+				{
+					$object[$field] = $request[str_replace(' ', '_', $field)];
+				}
 			}
 		}
 

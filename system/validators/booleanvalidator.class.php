@@ -26,28 +26,19 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_true_or_false');
-			}
+			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_true_or_false');
 		}
 
 
 		/**
 		 * sets the controlId and prepares the control attributes
 		 *
+		 * @param  mixed $value value to validate
 		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToValidate)
-			{
-				return $this->controlToValidate->value === true || $this->controlToValidate->value === false;
-			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
-			}
+			return $value === true || $value === false;
 		}
 	}
 ?>

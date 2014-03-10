@@ -26,35 +26,25 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('is_required');
-				$this->controlToValidate->attributes->append('class', ' required');
-			}
+			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('is_required');
 		}
 
 
 		/**
-		 * validates the control
+		 * sets the controlId and prepares the control attributes
 		 *
-		 * @return bool
+		 * @param  mixed $value value to validate
+		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToValidate)
+			if(is_array($value))
 			{
-				if(is_array($this->controlToValidate->value))
-				{
-					return (bool)$this->controlToValidate->value || $this->controlToValidate->value === '0';
-				}
-				else
-				{
-					return (bool)trim($this->controlToValidate->value) || trim($this->controlToValidate->value) === '0';
-				}
+				return (bool)$value || $value === '0';
 			}
 			else
 			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
+				return (bool)trim($value) || trim($value) === '0';
 			}
 		}
 	}

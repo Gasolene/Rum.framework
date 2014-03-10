@@ -26,43 +26,35 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_unique');
-			}
+			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_unique');
 		}
 
 
 		/**
 		 * sets the controlId and prepares the control attributes
 		 *
+		 * @param  mixed $value value to validate
 		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToValidate)
+			throw new \System\Base\MethodNotImplementedException();
+			$form = $this->controlToValidate->getParentByType('\System\Web\WebControls\Form');
+			$column = $this->controlToValidate->dataField;
+			$table = $form->dataSource->table;
+			$value = $this->controlToValidate->value;
+			if($value == $form->dataSource[$this->controlToValidate->dataField])
 			{
-				$form = $this->controlToValidate->getParentByType('\System\Web\WebControls\Form');
-				$column = $this->controlToValidate->dataField;
-				$table = $form->dataSource->table;
-				$value = $this->controlToValidate->value;
-				if($value == $form->dataSource[$this->controlToValidate->dataField])
-				{
-					return true;
-				}
-				else return \System\Web\WebApplicationBase::getInstance()
-						->dataAdapter
-							->queryBuilder()
-							->select($table, $column)
-							->from($table)
-							->where($table, $column, '=', $value)
-							->openDataSet()
-							->count == 0;
+				return true;
 			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
-			}
+			else return \System\Web\WebApplicationBase::getInstance()
+					->dataAdapter
+						->queryBuilder()
+						->select($table, $column)
+						->from($table)
+						->where($table, $column, '=', $value)
+						->openDataSet()
+						->count == 0;
 		}
 	}
 ?>

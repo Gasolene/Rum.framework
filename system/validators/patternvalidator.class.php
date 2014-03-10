@@ -48,28 +48,19 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				$this->errorMessage = str_replace('%n', $this->pattern, \System\Base\ApplicationBase::getInstance()->translator->get('must_match_the_pattern'));
-			}
+			$this->errorMessage = str_replace('%n', $this->pattern, \System\Base\ApplicationBase::getInstance()->translator->get('must_match_the_pattern'));
 		}
 
 
 		/**
 		 * sets the controlId and prepares the control attributes
 		 *
+		 * @param  mixed $value value to validate
 		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToValidate)
-			{
-				return !$this->controlToValidate->value || (0 !== preg_match($this->pattern, $this->controlToValidate->value));
-			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
-			}
+			return !$value || (0 !== preg_match($this->pattern, $value));
 		}
 	}
 ?>

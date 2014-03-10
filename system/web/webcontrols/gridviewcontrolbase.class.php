@@ -300,7 +300,7 @@
 			{
 				foreach($this->validators as $validator)
 				{
-					if(!$validator->validate())
+					if(!$validator->validate($this->value))
 					{
 						$fail = true;
 						if($errMsg) $errMsg .= ", ";
@@ -310,6 +310,17 @@
 			}
 
 			return !$fail;
+		}
+
+
+		/**
+		 * handle load events
+		 *
+		 * @return void
+		 */
+		protected function onLoad()
+		{
+			$this->validators->load();
 		}
 
 

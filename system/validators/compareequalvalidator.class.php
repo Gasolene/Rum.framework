@@ -20,10 +20,10 @@
 	class CompareEqualValidator extends ValidatorBase
 	{
 		/**
-		 * control to match
-		 * @var InputBase
+		 * value to match
+		 * @var mixed
 		 */
-		protected $controlToCompare;
+		protected $valueToCompare;
 
 
 		/**
@@ -33,11 +33,11 @@
 		 * @param  string $errorMessage error message
 		 * @return void
 		 */
-		public function __construct(\System\Web\WebControls\InputBase &$controlToMatch, $errorMessage = '' )
+		public function __construct( $valueToCompare, $errorMessage = '' )
 		{
 			parent::__construct($errorMessage);
 
-			$this->controlToCompare =& $controlToMatch;
+			$this->valueToCompare =& $valueToCompare;
 		}
 
 
@@ -48,28 +48,19 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToCompare)
-			{
-				$this->errorMessage = str_replace('%n', $this->controlToCompare->dataField, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_equal_to', 'must be equal to %n'));
-			}
+			$this->errorMessage = str_replace('%n', $this->valueToCompare, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_equal_to', 'must be equal to %n'));
 		}
 
 
 		/**
 		 * sets the controlId and prepares the control attributes
 		 *
+		 * @param  mixed $value value to validate
 		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToCompare && $this->controlToCompare)
-			{
-				return ($this->controlToCompare->value == $this->controlToCompare->value);
-			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
-			}
+			return ($value == $this->valueToCompare);
 		}
 	}
 ?>

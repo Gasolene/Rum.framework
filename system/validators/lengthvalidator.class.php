@@ -56,28 +56,19 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				$this->errorMessage = str_replace('%x', $this->min, str_replace('%y', $this->max, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_between_x_to_y_characters')));
-			}
+			$this->errorMessage = str_replace('%x', $this->min, str_replace('%y', $this->max, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_between_x_to_y_characters')));
 		}
 
 
 		/**
 		 * sets the controlId and prepares the control attributes
 		 *
+		 * @param  mixed $value value to validate
 		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToValidate)
-			{
-				return !$this->controlToValidate->value || (strlen($this->controlToValidate->value) >= $this->min && \strlen($this->controlToValidate->value) <= $this->max);
-			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
-			}
+			return !$value || (strlen($value) >= $this->min && \strlen($value) <= $this->max);
 		}
 	}
 ?>

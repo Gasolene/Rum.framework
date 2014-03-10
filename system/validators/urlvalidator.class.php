@@ -37,10 +37,7 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_a_valid_url');
-			}
+			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_a_valid_url');
 		}
 	}
 ?>

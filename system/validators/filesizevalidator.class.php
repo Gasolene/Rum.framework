@@ -56,43 +56,29 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				$this->errorMessage = str_replace('%n', "{$this->maxSize}KB", \System\Base\ApplicationBase::getInstance()->translator->get('must_be_less_than'));
-			}
+			$this->errorMessage = str_replace('%n', "{$this->maxSize}KB", \System\Base\ApplicationBase::getInstance()->translator->get('must_be_less_than'));
 		}
 
 
 		/**
-		 * validates the control
+		 * sets the controlId and prepares the control attributes
 		 *
-		 * @return bool
+		 * @param  mixed $value value to validate
+		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToValidate)
+			if( $value['size'] > $this->minSize )
 			{
-				if( isset( $_FILES[$this->controlToValidate->getHTMLControlId()] ))
+				if(( ( (int) $this->maxSize ) < (int) $value['size'] ) && (int) $this->maxSize > 0 )
 				{
-					if( $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] > $this->minSize )
-					{
-						if(( ( (int) $this->maxSize ) < (int) $_FILES[$this->controlToValidate->getHTMLControlId()]['size'] ) && (int) $this->maxSize > 0 )
-						{
-							return false;
-						}
-
-						return true;
-					}
-
 					return false;
 				}
 
 				return true;
 			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
-			}
+
+			return false;
 		}
 	}
 ?>

@@ -42,36 +42,19 @@
 		 */
 		protected function onLoad()
 		{
-			if($this->controlToValidate)
-			{
-				if($this->controlToValidate instanceof \System\Web\WebControls\ListControlBase)
-				{
-					foreach($this->values as $key=>$val)
-					{
-						$this->controlToValidate->items->add($key, $val);
-					}
-				}
-
-				$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('is_not_a_valid_option');
-			}
+			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('is_not_a_valid_option');
 		}
 
 
 		/**
 		 * sets the controlId and prepares the control attributes
 		 *
+		 * @param  mixed $value value to validate
 		 * @return void
 		 */
-		public function validate()
+		public function validate($value)
 		{
-			if($this->controlToValidate)
-			{
-				return !$this->controlToValidate->value || (in_array($this->controlToValidate->value, $this->values));
-			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("no control to validate");
-			}
+			return !$value || (in_array($value, $this->values));
 		}
 	}
 ?>

@@ -1002,6 +1002,71 @@
 				$gridView->columns->add($column);
 			}
 
+			// implement rules
+			foreach( $activeRecord->rules as $field => $rules )
+			{
+				$validators = array();
+				if(\is_array($rules))
+				{
+					foreach($rules as $rule)
+					{
+						$type = \strstr($rule, '(', true);
+						if(!$type)
+						{
+							$type = $rule;
+						}
+						$params = \strstr($rule, '(');
+						if(!$params)
+						{
+							$params = '()';
+						}
+
+						if(isset(self::$rule_mappings[$type]))
+						{
+							$validators[] = self::$rule_mappings[$type].$params;
+						}
+						else
+						{
+							throw new \System\Base\InvalidOperationException("No rule mapping assigned to `{$type}`");
+						}
+					}
+				}
+				else
+				{
+					$type = \strstr($rules, '(', true);
+					if(!$type)
+					{
+						$type = $rules;
+					}
+					$params = \strstr($rules, '(');
+					if(!$params)
+					{
+						$params = '()';
+					}
+
+					if(isset(self::$rule_mappings[$type]))
+					{
+						$validators[] = self::$rule_mappings[$type].$params;
+					}
+					else
+					{
+						throw new \System\Base\InvalidOperationException("No rule mapping assigned to `{$type}`");
+					}
+				}
+
+				foreach( $validators as $validator )
+				{
+					if($gridView->findColumn($field))
+					{
+						eval("\$validator = new {$validator};");
+						if($validator instanceof \System\Validators\ValidatorBase)
+						{
+							$gridView->findColumn($field)->validators->add($validator);
+						}
+					}
+				}
+			}
+
 			return $gridView;
 		}
 
