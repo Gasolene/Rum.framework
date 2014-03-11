@@ -31,7 +31,7 @@
 	 * @subpackage		DB
 	 * @author			Darnell Shinbine
 	 */
-	final class DataSet extends ModelBase implements \Countable
+	final class DataSet extends \System\Base\Object implements \System\Base\IBindable
 	{
 		/**
 		 * array of FieldMeta objects
@@ -207,9 +207,60 @@
 		/**
 		 * create new DataSet
 		 *
-		 * @param   	$source				data source
-		 * @param   	$da					DataAdapter
-		 * @param   	$lock_type			lock type as constant of DataSetType::OpenDynamic(), DataSetType::OpenStatic(), or DataSetType::OpenReadonly()
+		 * @param   srray	$data				data source as array
+		 *
+		 * @return			DataSet
+		 */
+		static public function createFromArray( array $data )
+		{
+			$dataSet = new \System\DB\DataSet();
+
+			// validate data
+			if((bool)count(array_filter(array_keys($data[0]), 'is_string')))
+			{
+				$fields = array();
+				$fieldMeta = array();
+				foreach(array_keys($data[0]) as $field)
+				{
+					$fields[] = $field;
+					$fieldMeta[] = new \System\DB\ColumnSchema(array(
+						'name' => (string) $field,
+						'type' => 'string',
+						'notNull' => false,
+						'primaryKey' => false,
+						'foreignKey' => false,
+						'unique' => false,
+						'numeric' => false,
+						'string' => true,
+						'integer' => false,
+						'real' => false,
+						'date' => false,
+						'time' => false,
+						'datetime' => false,
+						'boolean' => false,
+						'autoIncrement' => false,
+						'blob' => false));
+				}
+
+				$dataSet->setFields($fields);
+				$dataSet->setFieldMeta($fieldMeta);
+				$dataSet->setRows($data);
+			}
+			else
+			{
+				throw new \System\Base\InvalidOperationException("Invalid array passed to DataSet::createFromArray(array())");
+			}
+
+			return $dataSet;
+		}
+
+
+		/**
+		 * create new DataSet
+		 *
+		 * @param   mixed		$source		data source
+		 * @param   DataAdapter	$da			DataAdapter
+		 * @param   DataSetType	$lock_type	lock type as constant of DataSetType::OpenDynamic(), DataSetType::OpenStatic(), or DataSetType::OpenReadonly()
 		 *
 		 * @return  	DataSet
 		 */
@@ -1048,6 +1099,18 @@
 		 */
 		public function requery()
 		{
+			trigger_error("DataSet::requery() is deprecated, use DataSet::refresh() instead", E_USER_DEPRECATED);
+			$this->refresh();
+		}
+
+
+		/**
+		 * refresh data from data source
+		 *
+		 * @return void
+		 */
+		public function refresh()
+		{
 			if( $this->lockType == DataSetType::OpenDynamic() )
 			{
 				$this->table = '';
@@ -1062,6 +1125,35 @@
 				$this->updateRowData();
 				$this->first();
 			}
+		}
+
+
+		/**
+		 * write data to data source
+		 *
+		 * @return void
+		 */
+		public function save()
+		{
+			if( isset( $this->rows[$this->cursor] ))
+			{
+				return $this->update();
+			}
+			else
+			{
+				return $this->insert();
+			}
+		}
+
+
+		/**
+		 * return fields as array
+		 *
+		 * @return void
+		 */
+		public function fields()
+		{
+			return $this->fields;
 		}
 
 

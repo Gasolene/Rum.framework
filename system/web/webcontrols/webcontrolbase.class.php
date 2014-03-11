@@ -288,10 +288,12 @@
 		 * @param  \ArrayAccess		$ds		data source to attach
 		 * @return void
 		 */
-		final public function bind( \System\Base\ModelBase $ds )
+		final public function bind(\System\Base\IBindable &$ds)
 		{
 			$this->dataSource =& $ds;
 			$this->onDataBind();
+
+			// throw new \System\Base\InvalidArgumentException("Argument 1 passed to ".get_class($this)."::bind() must implement the IBindable interface or be of the type array");
 		}
 
 
@@ -315,15 +317,8 @@
 		 */
 		final public function refreshDataSource()
 		{
-			if($this->dataSource)
-			{
-				$this->dataSource->requery();
-				$this->onDataBind();
-			}
-			else
-			{
-				throw new \System\Base\InvalidOperationException("Cannot refresh data source, no datasource specified");
-			}
+			$this->dataSource->refresh();
+			$this->onDataBind();
 		}
 
 

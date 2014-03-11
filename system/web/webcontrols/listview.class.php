@@ -116,14 +116,16 @@
 //			$dom->setAttribute( 'class', ' listview' );
 
 			if(!$this->itemText) $this->itemText = "%{$this->dataField}%";
-			foreach( $this->dataSource->rows as $row )
+
+			// convert object into array
+			foreach( $this->dataSource->toArray() as $row )
 			{
 				// eval
 				$values = array();
 				$html = $this->itemText;
 
-				foreach( $this->dataSource->fields as $field ) {
-					$values[$field] = $row[$field];
+				foreach( $row as $field=>$value ) {
+					$values[$field] = $value;
 					$html = \str_replace( '%' . $field . '%', '$values[\''.addslashes($field).'\']', $html );
 				}
 

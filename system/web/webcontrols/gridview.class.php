@@ -683,7 +683,7 @@
 		{
 			$request = \System\Web\HTTPRequest::$post;
 
-			foreach($this->dataSource->fields as $field)
+			foreach($this->dataSource->fields() as $field)
 			{
 				if(isset($request[str_replace(' ', '_', $field)]))
 				{
@@ -737,16 +737,16 @@
 				throw new \System\Base\InvalidOperationException("GridView must have a valid data source before rendering");
 			}
 
-			$update = false;
-
 			// filter results
-			$filter_event = new \System\Web\Events\GridViewFilterEvent();
-			if($this->events->contains( $filter_event )) {
-				$this->events->raise( $filter_event, $this );
-			}
-			elseif($this->canFilter) {
-				// filter DataSet
-				$this->columns->filterDataSet( $this->dataSource );
+			if( $this->canFilter ) {
+				$filter_event = new \System\Web\Events\GridViewFilterEvent();
+				if($this->events->contains( $filter_event )) {
+					$this->events->raise( $filter_event, $this );
+				}
+				else {
+					// filter DataSet
+					$this->columns->filterDataSet( $this->dataSource );
+				}
 			}
 
 			// sort results
@@ -771,6 +771,7 @@
 		 */
 		public function getDomObject()
 		{
+			$count = count($this->dataSource);
 			$this->columns->render();
 
 			if( !$this->dataSource ) {
@@ -791,7 +792,7 @@
 
 			// display all
 			if( $this->pageSize === 0 ) {
-				$this->pageSize = $this->dataSource->count;
+				$this->pageSize = $count;
 				$this->showPageNumber = FALSE;
 			}
 
@@ -895,7 +896,7 @@
 			}
 
 			// empty table
-			if( !$this->dataSource->count ) {
+			if( !$count ) {
 				$tr = new \System\XML\DomObject( 'tr' );
 				$td = new \System\XML\DomObject( 'td' );
 
@@ -965,14 +966,14 @@
 		{
 			if( $this->dataSource instanceof \System\DB\DataSet )
 			{
-				if( $this->autoGenerateColumns || $this->columns->count === 0 )
+				if( $this->autoGenerateColumns || count($this->columns) === 0 )
 				{
 					$this->_generateColumns();
 				}
 			}
 			else
 			{
-				throw new \System\Base\InvalidArgumentException("Argument 1 passed to ".get_class($this)."::bind() must be an object of type DataSet");
+				throw new \System\Base\InvalidArgumentException("Argument 1 passed to ".get_class($this)."::bind() must implement the iBindable interface");
 			}
 		}
 
@@ -1415,9 +1416,9 @@
 					$tr->setAttribute( 'onclick', 'Rum.gridViewUnSelectAll( \'' . $this->getHTMLControlId() . '\' );' );
 				}
 
-				$tr->setAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { Rum.id(\''. (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = false; } else { Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked = true; }' );
-				$tr->setAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'row\' ) { this.className = \'selected row\'; } else { this.className = \'selected row_alt\'; }}' );
-				$tr->setAttribute( 'onclick', 'if(!Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds->row[$this->valueField] ) . '\').checked ) { if(this.className === \'selected row\' ) { this.className = \'row\'; } else { this.className = \'row_alt\'; }}' );
+				$tr->setAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds[$this->valueField] ) . '\').checked ) { Rum.id(\''. (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds[$this->valueField] ) . '\').checked = false; } else { Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds[$this->valueField] ) . '\').checked = true; }' );
+				$tr->setAttribute( 'onclick', 'if( Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds[$this->valueField] ) . '\').checked ) { if(this.className === \'row\' ) { this.className = \'selected row\'; } else { this.className = \'selected row_alt\'; }}' );
+				$tr->setAttribute( 'onclick', 'if(!Rum.id(\'' . (string) $this->getHTMLControlId() . '__item_' . \rawurlencode( $ds[$this->valueField] ) . '\').checked ) { if(this.className === \'selected row\' ) { this.className = \'row\'; } else { this.className = \'row_alt\'; }}' );
 
 				// add td element to tr
 				$td->addChild( $input );
@@ -1632,18 +1633,18 @@
 			$span->addChild( new \System\XML\TextNode(' '));
 
 			// page jump
-			$count = $this->dataSource->count;
+			$count = count($this->dataSource);
 			for( $page=1; $this->pageSize && (( $page * $this->pageSize ) - $this->pageSize ) < $count; $page++ )
 			{
 				$start = ((( $page * $this->pageSize ) - $this->pageSize ) + 1 );
 
-				if( $page * $this->pageSize < $this->dataSource->count )
+				if( $page * $this->pageSize < $count )
 				{
 					$end = ( $page * $this->pageSize );
 				}
 				else
 				{
-					$end = $this->dataSource->count;
+					$end = $count;
 				}
 
 				// page select
@@ -1668,7 +1669,7 @@
 			// next
 			$a = new \System\XML\DomObject( 'a' );
 			$a->nodeValue .= 'next';
-			if(( $this->page * $this->pageSize ) < $this->dataSource->count && $this->pageSize )
+			if(( $this->page * $this->pageSize ) < $count && $this->pageSize )
 			{
 				$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
@@ -1683,21 +1684,21 @@
 
 			// get page info
 			$start = ((( $this->page * $this->pageSize ) - $this->pageSize ) + 1 );
-			if( !$this->dataSource->count ) $start = 0;
+			if( !$count ) $start = 0;
 
 			$end = 0;
-			if( $this->page * $this->pageSize < $this->dataSource->count )
+			if( $this->page * $this->pageSize < $count )
 			{
 				$end = ( $this->page * $this->pageSize );
 			}
 			else
 			{
-				$end = $this->dataSource->count;
+				$end = $count;
 			}
 
 			$span = new \System\XML\DomObject( 'span' );
 			$span->setAttribute('class', 'summary');
-			$span->nodeValue .= "showing {$start} to {$end} of " . $this->dataSource->count;
+			$span->nodeValue .= "showing {$start} to {$end} of " . $count;
 
 			$td->addChild( $span );
 			$tr->addChild( $td );

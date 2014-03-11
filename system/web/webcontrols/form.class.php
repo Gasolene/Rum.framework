@@ -326,25 +326,11 @@
 					}
 				}
 
-				if( $this->dataSource instanceof \System\DB\DataSet )
-				{
-					if( isset( $this->dataSource->rows[$this->dataSource->cursor] ))
-					{
-						return $this->dataSource->update();
-					}
-					else
-					{
-						return $this->dataSource->insert();
-					}
-				}
-				else
-				{
-					$this->dataSource->save();
-				}
+				$this->dataSource->save();
 			}
 			else
 			{
-				throw new \System\Base\InvalidOperationException("Form::update() called with null dataSource");
+				throw new \System\Base\InvalidOperationException("Form::save() called with null dataSource");
 			}
 		}
 

@@ -434,6 +434,19 @@
 
 
 		/**
+		 * discard cahnges
+		 *
+		 * @return void
+		 */
+		final public function refresh()
+		{
+			$this->beforeRetrieve();
+			$this->dataSet->requery();
+			$this->afterRetrieve();
+		}
+
+
+		/**
 		 * update DataAdapter
 		 *
 		 * @return void

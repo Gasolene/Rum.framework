@@ -183,24 +183,17 @@
 		{
 			$this->items->removeAll();
 
-			if( $this->dataSource instanceof \System\DB\DataSet )
+			// convert object into array
+			if( $this->valueField && $this->textField )
 			{
-				if( $this->valueField && $this->textField )
+				foreach( $this->dataSource->toArray() as $row )
 				{
-					while( !$this->dataSource->eof() )
-					{
-						$this->items->add( (string) $this->dataSource[$this->textField], (string) $this->dataSource->row[$this->valueField] );
-						$this->dataSource->next();
-					}
-				}
-				else
-				{
-					throw new \System\Base\InvalidOperationException( 'ListControl::dataBind() called with no valueField or textField set' );
+					$this->items->add( (string) $row[$this->textField], (string) $row[$this->valueField] );
 				}
 			}
 			else
 			{
-				throw new \System\Base\InvalidArgumentException("Argument 1 passed to ".get_class($this)."::bind() must be an object of type DataSet");
+				throw new \System\Base\InvalidOperationException( 'ListControl::dataBind() called with no valueField or textField set' );
 			}
 		}
 

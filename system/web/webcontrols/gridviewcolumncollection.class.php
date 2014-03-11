@@ -204,7 +204,7 @@
 		 * @param  DataSet	&$ds		DataSet
 		 * @return void
 		 */
-		final public function filterDataSet(\System\DB\DataSet &$ds )
+		final public function filterDataSet(\System\DB\DataSet &$ds)
 		{
 			foreach($this->items as $column)
 			{

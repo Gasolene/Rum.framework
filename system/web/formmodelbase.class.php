@@ -249,6 +249,14 @@
 
 
 		/**
+		 * refresh model state
+		 *
+		 * @return void
+		 */
+		abstract public function refresh();
+
+
+		/**
 		 * save model state
 		 *
 		 * @return void
