@@ -990,6 +990,26 @@
 		 */
 		protected function onLoad()
 		{
+			// default events
+			$onPostMethod = 'on' . ucwords( $this->controlId ) . 'ColumnPost';
+			if(!\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $onPostMethod)) {
+				$onPostMethod = '';
+			}
+			$onAjaxPostMethod = 'on' . ucwords( $this->controlId ) . 'AjaxColumnPost';
+			if(!\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $onAjaxPostMethod)) {
+				$onAjaxPostMethod = '';
+			}
+
+			// Set events for columns
+			foreach($this->columns as $column) {
+				if($onPostMethod) {
+					$column->events->registerEventHandler(new \System\Web\Events\GridViewColumnPostEvent('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onPostMethod));
+				}
+				if($onAjaxPostMethod) {
+					$column->events->registerEventHandler(new \System\Web\Events\GridViewColumnAjaxPostEvent('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onAjaxPostMethod));
+				}
+			}
+
 			// Backgwards compatibilty code - remove in Version 6.6
 			if($this->showFilters) {
 				$nofilters = true;
