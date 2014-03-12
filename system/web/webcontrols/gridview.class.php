@@ -456,18 +456,23 @@
 				$this->rowDataField = (string) $value;
 			}
 			elseif( $field === 'onmouseover' ) {
+				trigger_error("GridView::onmouseover is deprecated", E_USER_DEPRECATED);
 				$this->onmouseover = (string)$value;
 			}
 			elseif( $field === 'onmouseout' ) {
+				trigger_error("GridView::onmouseout is deprecated", E_USER_DEPRECATED);
 				$this->onmouseout = (string)$value;
 			}
 			elseif( $field === 'onclick' ) {
+				trigger_error("GridView::onclick is deprecated", E_USER_DEPRECATED);
 				$this->onclick = (string)$value;
 			}
 			elseif( $field === 'ondblclick' ) {
+				trigger_error("GridView::ondblclick is deprecated", E_USER_DEPRECATED);
 				$this->ondblclick = (string)$value;
 			}
 			elseif( $field === 'ajaxPostBack' ) {
+				trigger_error("GridView::ajaxPostBack is deprecated", E_USER_DEPRECATED);
 				$this->ajaxPostBack = (bool)$value;
 			}
 			elseif( $field === 'updateRowsOnly' ) {
