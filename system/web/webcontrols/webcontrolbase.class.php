@@ -975,9 +975,9 @@
 		private function setEnableViewState($enableViewState = true)
 		{
 			$this->enableViewState = (bool)$enableViewState;
-			foreach( $this->controls as $childControl )
+			if($this->enableViewState && $this->parent)
 			{
-				$childControl->setEnableViewState((bool)$enableViewState);
+				$this->parent->setEnableViewState($enableViewState);
 			}
 		}
 	}
