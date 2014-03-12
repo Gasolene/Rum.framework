@@ -33,7 +33,6 @@
 	 * @property string $sortBy
 	 * @property string $sortOrder
 	 * @property string $rowDataField specifies an optional row data-field
-	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $updateRowsOnly specifies whether to update rows only, or the entire table on updateAjax()
 	 *
 	 * @version			2.0
@@ -340,6 +339,7 @@
 				return $this->ondblclick;
 			}
 			elseif( $field === 'ajaxPostBack' ) {
+				trigger_error("GridView::ajaxPostBack is deprecated", E_USER_DEPRECATED);
 				return $this->ajaxPostBack;
 			}
 			elseif( $field === 'updateRowsOnly' ) {
@@ -1277,80 +1277,6 @@
 				{
 					$th->addChild($column->getFilterDomObject($this->getHTMLControlId()));
 				}
-
-					/**
-					if($column->filterType == GridViewFilterType::KeyValueList())
-					{
-						$select = new \System\XML\DomObject( 'select' );
-						$select->setAttribute('name', $this->getHTMLControlId().'__filter_value');
-						$option = new \System\XML\DomObject( 'option' );
-						$option->setAttribute('value', '');
-						$option->nodeValue = '';
-						$select->addChild($option);
-
-						// set selected value
-						if(isset($this->filters[$column["DataField"]]) && !\in_array($this->filters[$column["DataField"]], $column->filterValues))
-						{
-							$option = new \System\XML\DomObject( 'option' );
-							$option->setAttribute('value', $this->filters[$column["DataField"]]);
-							$option->nodeValue = $this->filters[$column["DataField"]];
-							$option->setAttribute('selected', 'selected');
-							$select->addChild($option);
-						}
-
-						// get values
-						foreach($column->filterValues as $key=>$value)
-						{
-							$option = new \System\XML\DomObject( 'option' );
-							$option->setAttribute('value', $value);
-							$option->nodeValue = $key;
-							if(isset($this->filters[$column["DataField"]]))
-							{
-								if(strtolower($this->filters[$column["DataField"]])==strtolower($value))
-								{
-									$option->setAttribute('selected', 'selected');
-								}
-							}
-							$select->addChild($option);
-						}
-
-						if($this->ajaxPostBack)
-						{
-							$select->setAttribute( 'onchange', "Rum.sendSync('".\Rum::config()->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+encodeURIComponent(this.value));" );
-						}
-						else
-						{
-							$select->setAttribute( 'onchange', "Rum.sendSync('".\Rum::config()->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+encodeURIComponent(this.value));" );
-						}
-
-						$th->addChild( $select );
-					}
-					else if($column->filterType == GridViewFilterType::String())
-					{
-						$input = new \System\XML\DomObject('input');
-						$input->setAttribute('name', $this->getHTMLControlId().'__filter_value');
-						$input->setAttribute('class', 'textbox');
-
-						// set value
-						if(isset($this->filters[$column["DataField"]]))
-						{
-							$input->setAttribute('value', $this->filters[$column["DataField"]]);
-						}
-
-						if($this->ajaxPostBack)
-						{
-							$input->setAttribute( 'onchange',													  "Rum.sendAsync('".\Rum::config()->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+encodeURIComponent(this.value));" );
-							$input->setAttribute( 'onkeypress', "if(event.keyCode == 13){event.returnValue = false;Rum.sendAsync('".\Rum::config()->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+encodeURIComponent(this.value));};" );
-						}
-						else
-						{
-							$input->setAttribute( 'onkeypress', "if(event.keyCode == 13){event.returnValue = false;Rum.sendSync('".\Rum::config()->uri."', '".$this->getRequestData().'&'.$this->getHTMLControlId().'__filter_name='.$column["DataField"].'&'.$this->getHTMLControlId()."__filter_value='+encodeURIComponent(this.value));};" );
-						}
-
-						$th->addChild( $input );
-					}
-				}
-				*/
 
 				// add column to header
 				$tr->addChild( $th );
