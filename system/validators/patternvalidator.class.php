@@ -48,7 +48,7 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = str_replace('%n', $this->pattern, \System\Base\ApplicationBase::getInstance()->translator->get('must_match_the_pattern'));
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:str_replace('%n', $this->pattern, \System\Base\ApplicationBase::getInstance()->translator->get('must_match_the_pattern'));
 		}
 
 

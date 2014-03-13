@@ -26,7 +26,7 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_true_or_false');
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:\System\Base\ApplicationBase::getInstance()->translator->get('must_be_true_or_false');
 		}
 
 

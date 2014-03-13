@@ -78,18 +78,6 @@
 
 
 		/**
-		 * set error message
-		 *
-		 * @param  string $errorMessage error message
-		 * @return void
-		 */
-		public function setErrorMessage($errorMessage)
-		{
-			$this->errorMessage = (string)$errorMessage;
-		}
-
-
-		/**
 		 * called when all controls are loaded
 		 *
 		 * @param  array	&$request	request data
@@ -100,21 +88,6 @@
 			// onLoad event
 			$this->onLoad();
 		}
-
-
-		/**
-		 * set control to validate
-		 *
-		 * @param  InputBase $controlToValidate control to validate
-		 * @return void
-		 * /
-		final public function setControlToValidate(\System\Web\WebControls\InputBase &$controlToValidate)
-		{
-			$this->controlToValidate =& $controlToValidate;
-
-			$this->onLoad();
-		}
-		*/
 
 
 		/**

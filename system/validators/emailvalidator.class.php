@@ -37,7 +37,7 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('must_be_a_valid_email_address');
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:\System\Base\ApplicationBase::getInstance()->translator->get('must_be_a_valid_email_address');
 		}
 	}
 ?>

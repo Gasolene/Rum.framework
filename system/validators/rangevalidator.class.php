@@ -56,7 +56,7 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = \str_replace('%x', $this->min, \str_replace('%y', $this->max, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_within_the_range_of_x_and_y')));
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:\str_replace('%x', $this->min, \str_replace('%y', $this->max, \System\Base\ApplicationBase::getInstance()->translator->get('must_be_within_the_range_of_x_and_y')));
 		}
 
 

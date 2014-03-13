@@ -26,7 +26,7 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = \System\Base\ApplicationBase::getInstance()->translator->get('is_required');
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:\System\Base\ApplicationBase::getInstance()->translator->get('is_required');
 		}
 
 
