@@ -131,6 +131,32 @@
 
 
 		/**
+		 * validates control data, returns true on success
+		 *
+		 * @param  string		$errMsg		error message
+		 * @return bool						true if control value is valid
+		 */
+		public function validate(&$errMsg = '')
+		{
+			$fail = false;
+			if(!$this->disabled)
+			{
+				foreach($this->validators as $validator)
+				{
+					if(!$validator->validate($this->getFileInfo()))
+					{
+						$fail = true;
+						if($errMsg) $errMsg .= ", ";
+						$errMsg .= $validator->errorMessage;
+					}
+				}
+			}
+
+			return !$fail;
+		}
+
+
+		/**
 		 * called when control is loaded
 		 *
 		 * @return bool			true if successfull
