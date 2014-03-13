@@ -20,12 +20,40 @@
 	class UniqueValidator extends ValidatorBase
 	{
 		/**
+		 * control to validate
+		 * @var InputBase
+		 */
+		protected $controlToValidate;
+
+		/**
+		 * previous value
+		 * @var string
+		 */
+		private $prevValue;
+
+
+		/**
+		 * UniqueValidator
+		 *
+		 * @param  InputBase $controlToValidate control to validate
+		 * @param  string $errorMessage error message
+		 * @return void
+		 */
+		public function __construct(\System\Web\WebControls\InputBase &$controlToValidate, $errorMessage = '')
+		{
+			parent::__construct($errorMessage);
+
+			$this->controlToValidate =& $controlToValidate;
+		}
+
+		/**
 		 * on load
 		 *
 		 * @return void
 		 */
 		protected function onLoad()
 		{
+			$this->prevValue = $this->controlToValidate->value;
 			$this->errorMessage = $this->errorMessage?$this->errorMessage:\System\Base\ApplicationBase::getInstance()->translator->get('must_be_unique');
 		}
 
@@ -38,23 +66,17 @@
 		 */
 		public function validate($value)
 		{
-			throw new \System\Base\MethodNotImplementedException();
+			if($value == $this->prevValue) return true;
+
 			$form = $this->controlToValidate->getParentByType('\System\Web\WebControls\Form');
-			$column = $this->controlToValidate->dataField;
-			$table = $form->dataSource->table;
-			$value = $this->controlToValidate->value;
-			if($value == $form->dataSource[$this->controlToValidate->dataField])
+			if($form)
 			{
-				return true;
+				foreach($form->dataSource->rows as $row)
+				{
+					if($row[$this->controlToValidate->dataField] == $value) return false;
+				}
 			}
-			else return \System\Web\WebApplicationBase::getInstance()
-					->dataAdapter
-						->queryBuilder()
-						->select($table, $column)
-						->from($table)
-						->where($table, $column, '=', $value)
-						->openDataSet()
-						->count == 0;
+			return true;
 		}
 	}
 ?>

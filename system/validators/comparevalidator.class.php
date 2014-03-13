@@ -20,7 +20,7 @@
 	class CompareValidator extends ValidatorBase
 	{
 		/**
-		 * comtrol to compare
+		 * control to compare
 		 * @var InputBase
 		 */
 		protected $controlToCompare;
@@ -33,9 +33,9 @@
 
 
 		/**
-		 * MatchValidator
+		 * CompareValidator
 		 *
-		 * @param  InputBase $controlToMatch control to match
+		 * @param  InputBase $controlToCompare control to compare
 		 * @param  string $errorMessage error message
 		 * @return void
 		 */
