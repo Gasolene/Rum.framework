@@ -7,9 +7,12 @@
 	<string id="must_be_a_valid_integer" value="must be a valid integer" />
 	<string id="must_be_a_valid_url" value="must be a valid url" />
 	<string id="must_be_between_x_to_y_characters" value="must be between %x to %y characters" />
-	<string id="must_be_greater_than" value="must be greater than %n" />
-	<string id="must_be_less_than" value="must be less than %n" />
 	<string id="must_be_equal_to" value="must be equal to %n" />
+	<string id="must_be_greater_than" value="must be greater than %n" />
+	<string id="must_be_greater_than_or_equal_to" value="must be greater than or equal to %n" />
+	<string id="must_be_less_than" value="must be less than %n" />
+	<string id="must_be_less_than_or_equal_to" value="must be less than or equal to %n" />
+	<string id="must_be_not_equal_to" value="must be not equal to %n" />
 	<string id="must_be_numeric" value="must be numeric" />
     <string id="must_be_true_or_false" value="must be true or false" />
 	<string id="must_be_within_the_range_of_x_and_y" value="must be within the range of %x and %y" />
