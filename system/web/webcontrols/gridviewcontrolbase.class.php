@@ -125,9 +125,6 @@
 			$this->validators  = new \System\Validators\ValidatorCollection($this);
 
 			// event handling
-			$this->events->add(new \System\Web\Events\GridViewColumnPostEvent());
-			$this->events->add(new \System\Web\Events\GridViewColumnAjaxPostEvent());
-
 			// default events
 			$postEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'Post';
 			$ajaxPostEvent='on'.ucwords(str_replace(" ","_",$this->parameter)).'AjaxPost';

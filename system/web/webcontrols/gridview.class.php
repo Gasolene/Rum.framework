@@ -205,12 +205,6 @@
 		protected $ondblclick				= '';
 
 		/**
-		 * Specifies whether form will submit ajax postback on change, Default is false
-		 * @var bool
-		 */
-		protected $ajaxPostBack				= false;
-
-		/**
 		 * Specifies whether to update rows only, or the entire table on updateAjax()
 		 * @var bool
 		 */
@@ -340,7 +334,7 @@
 			}
 			elseif( $field === 'ajaxPostBack' ) {
 				trigger_error("GridView::ajaxPostBack is deprecated", E_USER_DEPRECATED);
-				return $this->ajaxPostBack;
+				return false;
 			}
 			elseif( $field === 'updateRowsOnly' ) {
 				return $this->updateRowsOnly;
@@ -473,7 +467,7 @@
 			}
 			elseif( $field === 'ajaxPostBack' ) {
 				trigger_error("GridView::ajaxPostBack is deprecated", E_USER_DEPRECATED);
-				$this->ajaxPostBack = (bool)$value;
+				$this->columns->ajaxPostBack = (bool)$value;
 			}
 			elseif( $field === 'updateRowsOnly' ) {
 				$this->updateRowsOnly = (bool)$value;
@@ -1026,6 +1020,7 @@
 						else {
 							$column->setFilter(new GridViewStringFilter());
 						}
+						$column->filter->ajaxPostBack = $column->ajaxPostBack;
 					}
 				}
 			}

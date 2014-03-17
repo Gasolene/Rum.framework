@@ -56,6 +56,7 @@
 					if($item instanceof GridViewControlBase)
 					{
 						$item->ajaxPostBack = (bool)$value;
+						if($item->filter) $item->filter->ajaxPostBack = (bool)$value;
 					}
 				}
 			}

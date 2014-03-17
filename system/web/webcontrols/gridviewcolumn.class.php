@@ -125,6 +125,24 @@
 			$this->itemText = (string) $itemText;
 			$this->footerText = (string) $footerText;
 			$this->className = (string) $className;
+
+			// event handling
+			$this->events->add(new \System\Web\Events\GridViewColumnPostEvent());
+			$this->events->add(new \System\Web\Events\GridViewColumnAjaxPostEvent());
+
+			// default events
+			$postEvent='on'.ucwords(str_replace(" ","_",$this->dataField)).'Post';
+			$ajaxPostEvent='on'.ucwords(str_replace(" ","_",$this->dataField)).'AjaxPost';
+
+			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $postEvent))
+			{
+				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $postEvent));
+			}
+			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $ajaxPostEvent))
+			{
+				$this->ajaxPostBack = true;
+				$this->events->registerEventHandler(new \System\Web\Events\GridViewColumnAjaxPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $ajaxPostEvent));
+			}
 		}
 
 
