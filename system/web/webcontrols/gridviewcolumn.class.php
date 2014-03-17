@@ -20,6 +20,9 @@
 	 * @property GridView $gridView instance of the GridView
 	 * @property EventCollection $events event collection
 	 * @property GridViewFilter $filter specifies the column filter
+	 * 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
+	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
+	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -74,6 +77,24 @@
 		 * @var GridView
 		 */
 		protected $gridView				= null;
+
+		/**
+		 * event request parameter
+		 * @var string
+		 */
+		protected $ajaxPostBack				= false;
+
+		/**
+		 * specifies the optional ajax start handler
+		 * @var string
+		 */
+		protected $ajaxStartHandler			= 'null';
+
+		/**
+		 * specifies the optional ajax completion handler
+		 * @var string
+		 */
+		protected $ajaxCompletionHandler	= 'null';
 
 		/**
 		 * set when viewState loaded
@@ -139,6 +160,15 @@
 			elseif( $field === 'gridView' ) {
 				return $this->gridView;
 			}
+			elseif( $field === 'ajaxPostBack' ) {
+				return $this->ajaxPostBack;
+			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				return $this->ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				return $this->ajaxCompletionHandler;
+			}
 			elseif( $field === 'canFilter' ) {
 				trigger_error("GridViewColumn::canFilter is deprecated", E_USER_DEPRECATED);
 				return true;
@@ -178,6 +208,15 @@
 			}
 			elseif( $field === 'className' ) {
 				$this->className = (string) $value;
+			}
+			elseif( $field === 'ajaxPostBack' ) {
+				$this->ajaxPostBack = (bool)$value;
+			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				$this->ajaxStartHandler = (string)$ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
 			}
 			elseif( $field === 'ondblclick' ) {
 				trigger_error("GridViewColumn::ondblclick is deprecated", E_USER_DEPRECATED);
@@ -284,6 +323,7 @@
 		{
 			if(!$this->_loaded)
 			{
+				$filter->ajaxPostBack = $this->ajaxPostBack;
 				$this->filter = $filter;
 				$this->filter->setColumn($this);
 			}

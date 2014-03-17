@@ -12,6 +12,7 @@
 	 * Represents a GridView filter
 	 * 
 	 * @property string $tooltip Specifies control tooltip
+	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
 	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
 	 *
@@ -31,6 +32,12 @@
 		 * @var bool
 		 */
 		protected $submitted				= false;
+
+		/**
+		 * event request parameter
+		 * @var string
+		 */
+		protected $ajaxPostBack				= false;
 
 		/**
 		 * column
@@ -82,6 +89,9 @@
 			elseif( $field === 'submitted' ) {
 				return $this->submitted;
 			}
+			elseif( $field === 'ajaxPostBack' ) {
+				return $this->ajaxPostBack;
+			}
 			else {
 				return parent::__get($field);
 			}
@@ -105,6 +115,9 @@
 			}
 			elseif( $field === 'ajaxCompletionHandler' ) {
 				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
+			}
+			elseif( $field === 'ajaxPostBack' ) {
+				$this->ajaxPostBack = (bool)$value;
 			}
 			else {
 				parent::__set( $field, $value );

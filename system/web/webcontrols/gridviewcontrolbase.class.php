@@ -13,9 +13,6 @@
 	 *
 	 * @property string $parameter specifies the request parameter
 	 * @property string $pkey specifies the primary key field
-	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
-	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
-	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
 	 * @property bool $escapeOutput Specifies whether to escape the output
 	 * @property bool $readonly Specifies whether control is readonly
 	 * @property bool $disabled Specifies whether the control is disabled
@@ -43,24 +40,6 @@
 		 * @var string
 		 */
 		protected $pkey						= '';
-
-		/**
-		 * event request parameter
-		 * @var string
-		 */
-		protected $ajaxPostBack				= false;
-
-		/**
-		 * specifies the optional ajax start handler
-		 * @var string
-		 */
-		public $ajaxStartHandler			= 'null';
-
-		/**
-		 * specifies the optional ajax completion handler
-		 * @var string
-		 */
-		public $ajaxCompletionHandler		= 'null';
 
 		/**
 		 * determines whether to escape the output
@@ -179,15 +158,6 @@
 			elseif( $field === 'pkey' ) {
 				return $this->pkey;
 			}
-			elseif( $field === 'ajaxPostBack' ) {
-				return $this->ajaxPostBack;
-			}
-			elseif( $field === 'ajaxStartHandler' ) {
-				return $this->ajaxStartHandler;
-			}
-			elseif( $field === 'ajaxCompletionHandler' ) {
-				return $this->ajaxCompletionHandler;
-			}
 			elseif( $field === 'escapeOutput' ) {
 				return $this->escapeOutput;
 			}
@@ -235,15 +205,6 @@
 			}
 			elseif( $field === 'pkey' ) {
 				$this->pkey = (string)$value;
-			}
-			elseif( $field === 'ajaxPostBack' ) {
-				$this->ajaxPostBack = (bool)$value;
-			}
-			elseif( $field === 'ajaxStartHandler' ) {
-				$this->ajaxStartHandler = (string)$ajaxStartHandler;
-			}
-			elseif( $field === 'ajaxCompletionHandler' ) {
-				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
 			}
 			elseif( $field === 'escapeOutput' ) {
 				$this->escapeOutput = (bool)$value;

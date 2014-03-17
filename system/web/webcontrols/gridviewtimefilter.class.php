@@ -75,7 +75,7 @@
 			$input->setAttribute('title', $this->tooltip);
 //			$input->setAttribute('class', 'timefilter');
 
-			if($this->column->ajaxPostBack)
+			if($this->ajaxPostBack)
 			{
 				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
 			}
