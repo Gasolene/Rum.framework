@@ -143,11 +143,14 @@
 			{
 				foreach($this->validators as $validator)
 				{
-					if(!$validator->validate($this->getFileInfo()))
+					if( isset( $_FILES[$this->getHTMLControlId()] ))
 					{
-						$fail = true;
-						if($errMsg) $errMsg .= ", ";
-						$errMsg .= $validator->errorMessage;
+						if(!$validator->validate($_FILES[$this->getHTMLControlId()]))
+						{
+							$fail = true;
+							if($errMsg) $errMsg .= ", ";
+							$errMsg .= $validator->errorMessage;
+						}
 					}
 				}
 			}

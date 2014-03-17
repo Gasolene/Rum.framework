@@ -78,7 +78,7 @@
 			$input->setAttribute('title', $this->tooltip);
 //			$input->setAttribute('class', 'datetimefilter');
 
-			if($this->column->gridView->ajaxPostBack)
+			if($this->column->ajaxPostBack)
 			{
 				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
 			}

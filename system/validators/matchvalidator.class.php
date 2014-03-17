@@ -17,7 +17,7 @@
 	 * @subpackage		Validators
 	 * @author			Darnell Shinbine
 	 */
-	class MatchValidator extends CompareEqualValidator
+	class MatchValidator extends CompareValidator
 	{
 		/**
 		 * MatchValidator

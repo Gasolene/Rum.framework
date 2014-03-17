@@ -98,7 +98,7 @@
 			$date_end->setAttribute('title', $this->tooltip);
 //			$date_end->setAttribute('class', 'daterangefilter');
 
-			if($this->column->gridView->ajaxPostBack)
+			if($this->column->ajaxPostBack)
 			{
 				$date_start->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_startdate='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
 				$date_end->setAttribute(   'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_enddate='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );

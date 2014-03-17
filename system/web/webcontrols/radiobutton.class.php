@@ -44,9 +44,10 @@
 		 * @param  string   $default		Default value
 		 * @return void
 		 */
-		public function __construct( $controlId, $groupName, $default = false )
+		public function __construct( $controlId, $groupName = 'group', $default = false )
 		{
 			parent::__construct( $controlId, $controlId );
+			if($groupName=='group') trigger_error ("RadioButton groupName name not specified, using default", E_USER_NOTICE);
 
 			$this->checked = (bool)$default;
 			$this->groupName = (string)$groupName;

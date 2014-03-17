@@ -719,7 +719,7 @@
 						{
 							$class = $mapping['type'];
 							$ds = $class::all();
-							$label = \substr( strrchr( $mapping['type'], '\\'), 1 );
+//							$label = \substr( strrchr( $mapping['type'], '\\'), 1 );
 
 							$control->textField = isset($mapping["columnText"])?$mapping["columnText"]:$mapping["columnRef"];
 							$control->valueField = $mapping["columnKey"];
@@ -903,7 +903,7 @@
 							}
 						}
 
-						$column = new \System\Web\WebControls\GridViewDropDownList($field, $activeRecord->pkey, $options, $param);
+						$column = new \System\Web\WebControls\GridViewDropDownList($field, $activeRecord->pkey, $options, $param, isset($mapping["columnText"])?$mapping["columnText"]:$mapping["columnRef"]);
 						$column->textField = isset($mapping["columnText"])?$mapping["columnText"]:$mapping["columnRef"];
 						$column->valueField = $mapping["columnRef"];
 						$column->setFilter(new \System\Web\WebControls\GridViewListFilter($options));
@@ -932,49 +932,49 @@
 							}
 						}
 
-						$column = new \System\Web\WebControls\GridViewDropDownList($field, $activeRecord->pkey, $options, $param);
+						$column = new \System\Web\WebControls\GridViewDropDownList($field, $activeRecord->pkey, $options, $param, $field);
 						$column->setFilter(new \System\Web\WebControls\GridViewListFilter($options));
 						$column->default = $activeRecord[$field];
 					}
 					else if($type === 'date')
 					{
-						$column = new \System\Web\WebControls\GridViewDate($field, $activeRecord->pkey, $param);
+						$column = new \System\Web\WebControls\GridViewDate($field, $activeRecord->pkey, $param, $field);
 						$column->setFilter(new \System\Web\WebControls\GridViewDateFilter());
 						$column->default = $activeRecord[$field];
 					}
 					else if($type === 'time')
 					{
-						$column = new \System\Web\WebControls\GridViewTime($field, $activeRecord->pkey, $param);
+						$column = new \System\Web\WebControls\GridViewTime($field, $activeRecord->pkey, $param, $field);
 						$column->setFilter(new \System\Web\WebControls\GridViewTimeFilter());
 						$column->default = $activeRecord[$field];
 					}
 					else if($type === 'datetime')
 					{
-						$column = new \System\Web\WebControls\GridViewDateTime($field, $activeRecord->pkey, $param);
+						$column = new \System\Web\WebControls\GridViewDateTime($field, $activeRecord->pkey, $param, $field);
 						$column->setFilter(new \System\Web\WebControls\GridViewDateTimeFilter());
 						$column->default = $activeRecord[$field];
 					}
 					else if($type === 'boolean')
 					{
-						$column = new \System\Web\WebControls\GridViewCheckBox($field, $activeRecord->pkey, $param);
+						$column = new \System\Web\WebControls\GridViewCheckBox($field, $activeRecord->pkey, $param, $field);
 						$column->setFilter(new \System\Web\WebControls\GridViewBooleanFilter());
 						$column->default = $activeRecord[$field];
 					}
 					else if($type === 'blob')
 					{
-						$column = new \System\Web\WebControls\GridViewTextArea($field, $activeRecord->pkey, $param);
+						$column = new \System\Web\WebControls\GridViewTextArea($field, $activeRecord->pkey, $param, $field);
 						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
 						$column->default = $activeRecord[$field];
 					}
 					else if($type === 'search')
 					{
-						$column = new \System\Web\WebControls\GridViewSearch($field, $activeRecord->pkey, $param);
+						$column = new \System\Web\WebControls\GridViewSearch($field, $activeRecord->pkey, $param, $field);
 						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
 						$column->default = $activeRecord[$field];
 					}
 					else
 					{
-						$column = new \System\Web\WebControls\GridViewText($field, $activeRecord->pkey, $param);
+						$column = new \System\Web\WebControls\GridViewText($field, $activeRecord->pkey, $param, $field);
 						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
 						$column->default = $activeRecord[$field];
 					}

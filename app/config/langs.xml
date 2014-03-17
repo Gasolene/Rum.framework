@@ -20,6 +20,7 @@
 	<string id="must_match_the_pattern" value="must match the pattern %n" />
 	<string id="is_not_a_valid_file_type" value="is not a valid file type" />
 	<string id="is_not_a_valid_option" value="is not a valid option" />
+	<string id="is_invalid" value="is invalid" />
 	<string id="is_required" value="is required" />
 	<string id="validation_failed" value="validation has failed" />
   </lang>
