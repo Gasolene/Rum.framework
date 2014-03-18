@@ -334,7 +334,7 @@
 			}
 			elseif( $field === 'ajaxPostBack' ) {
 				trigger_error("GridView::ajaxPostBack is deprecated", E_USER_DEPRECATED);
-				return false;
+				$false=false;return $false;
 			}
 			elseif( $field === 'updateRowsOnly' ) {
 				return $this->updateRowsOnly;
