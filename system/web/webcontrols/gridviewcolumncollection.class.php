@@ -53,10 +53,10 @@
 				trigger_error("GridViewColumnCollection::ajaxPostBack is deprecated", E_USER_DEPRECATED);
 				foreach($this->items as $item)
 				{
-					if($item instanceof GridViewControlBase)
+					$item->ajaxPostBack = (bool)$value;
+					if($item->filter)
 					{
-						$item->ajaxPostBack = (bool)$value;
-						if($item->filter) $item->filter->ajaxPostBack = (bool)$value;
+						$item->filter->ajaxPostBack = (bool)$value;
 					}
 				}
 			}
