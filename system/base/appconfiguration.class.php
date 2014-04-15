@@ -694,11 +694,11 @@
 						}
 						// authenticationDeny
 						if( isset( $node_data['attributes']['DENY'] )) {
-							$this->authenticationDeny = explode( ',', strtolower( $node_data['attributes']['DENY'] ));
+							$this->authenticationDeny = array_map('trim', explode( ',', strtolower( $node_data['attributes']['DENY'] )));
 						}
 						// authenticationAllow
 						if( isset( $node_data['attributes']['ALLOW'] )) {
-							$this->authenticationAllow = explode( ',', strtolower( $node_data['attributes']['ALLOW'] ));
+							$this->authenticationAllow = array_map('trim', explode( ',', strtolower( $node_data['attributes']['ALLOW'] )));
 						}
 						// authenticationRestrict
 						if( isset( $node_data['attributes']['RESTRICT'] )) {
