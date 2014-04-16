@@ -99,7 +99,7 @@
 		 */
 		protected function getEntityValue( $charset = 'utf-8' )
 		{
-			if( $this->innerHtml )
+			if( strlen($this->innerHtml)>0 )
 			{
 				return $this->innerHtml;
 			}
