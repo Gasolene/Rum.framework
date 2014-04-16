@@ -1405,7 +1405,7 @@
 						throw new \System\Base\InvalidOperationException("Could not run expression in GridView on column `".$column["DataField"]."`: \$html = " . ($html) . ';');
 					}
 
-					$td->innerHtml = $html?$html:'&nbsp;';
+					$td->innerHtml = strlen($html)>0?$html:'&nbsp;';
 				}
 
 				// add td element to tr

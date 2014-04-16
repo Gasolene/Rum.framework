@@ -471,9 +471,11 @@
 			}
 			else {
 
+				$value = $this->getEntityValue($charset);
+
 				/* add text */
-				if( $this->getEntityValue($charset) ) {
-					$xml .= '>' . $this->getEntityValue($charset) . '</' . \Rum::escape( \strtolower( $this->name )) . '>' . \System\Base\CARAGERETURN;
+				if( strlen($value)>0 ) {
+					$xml .= '>' . $value . '</' . \Rum::escape( \strtolower( $this->name )) . '>' . \System\Base\CARAGERETURN;
 				}
 				elseif( $this->cdata ) {
 					$xml .= '><![CDATA[' . $this->cdata . ']]></' . \Rum::escape( \strtolower( $this->name )) . '>' . \System\Base\CARAGERETURN;
