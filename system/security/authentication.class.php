@@ -133,6 +133,15 @@
 				}
 			}
 
+			// Authenticate using custom objects
+			foreach( \System\Base\ApplicationBase::getInstance()->config->authenticationCredentialsCustom as $credential ) {
+				$credentialObject = new $credential["class"]($credential);
+
+				if( $credentialObject->authorize( $username ) ) {
+					return true;
+				}
+			}
+
 			// Invalid credentials
 			return false;
 		}
@@ -496,6 +505,17 @@
 				$credential = new LDAPCredential($credential);
 
 				$status = $credential->authenticate( $username, $password );
+				if( !$status->invalidCredentials() ) {
+					return $status;
+				}
+			}
+
+			// Authenticate using custom objects
+			foreach( \System\Base\ApplicationBase::getInstance()->config->authenticationCredentialsCustom as $credential ) {
+				
+				$credentialObject = new $credential["class"]($credential);
+
+				$status = $credentialObject->authenticate( $username, $password );
 				if( !$status->invalidCredentials() ) {
 					return $status;
 				}

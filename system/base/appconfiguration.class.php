@@ -42,6 +42,7 @@
 	 * @property array $authenticationCredentialsUsers array of authentication users
 	 * @property array $authenticationCredentialsTables array of authentication tables
 	 * @property array $authenticationCredentialsLDAP array of authentication LDAP connections
+	 * @property array $authenticationCredentialsCustom array of custom credential parameters
 	 * @property array $authenticationMemberships array of memberships
 	 * @property array $authenticationMembershipsTables array of membership tables
 	 * @property array $authorizationDeny specifies the roles that are denied access by default
@@ -256,6 +257,12 @@
 		private $authenticationCredentialsLDAP	= array();
 
 		/**
+		 * contains an array of custom credential parameters
+		 * @var array
+		 */
+		private $authenticationCredentialsCustom	= array();
+
+		/**
 		 * contains an array of user memberships
 		 * @var array
 		 */
@@ -416,6 +423,9 @@
 			}
 			elseif( $field === 'authenticationCredentialsLDAP' ) {
 				return $this->authenticationCredentialsLDAP;
+			}
+			elseif( $field === 'authenticationCredentialsCustom' ) {
+				return $this->authenticationCredentialsCustom;
 			}
 			elseif( $field === 'authenticationMemberships' ) {
 				return $this->authenticationMemberships;
@@ -1136,6 +1146,63 @@
 						}
 
 						$this->authenticationCredentialsLDAP[] = $ldap;
+					}
+
+					$this->_closeNode( $nodes, $index );
+				}
+				// custom
+				elseif( $node_data['tag'] === 'CUSTOM' )
+				{
+					if( $node_data['type'] === 'open' )
+					{
+						$custom = array('name'=>'','class'=>'');
+						$this->_getCustomParametersNodes( $nodes, $index, $custom );
+
+						if( $node_data['type'] != 'cdata' &&
+							isset( $node_data['attributes'] ))
+						{
+							if( isset( $node_data['attributes']['CLASS'] ))
+							{
+								$custom['name'] = $node_data['attributes']['NAME'];
+								$custom['class'] = $node_data['attributes']['CLASS'];
+							}
+						}
+
+						$this->authenticationCredentialsCustom[] = $custom;
+					}
+
+					$this->_closeNode( $nodes, $index );
+				}
+			}
+		}
+
+
+		/**
+		 * get app-setting nodes
+		 *
+		 * @param   array	&$nodes	array of xml nodes
+		 * @param   int		&$index	array index
+		 * @return  void
+		 */
+		private function _getCustomParametersNodes( &$nodes, &$index, &$array )
+		{
+			while( $index < sizeof( $nodes ))
+			{
+				$node_data = $nodes[$index++];
+
+				if( $node_data['type'] === 'close' )
+				{
+					return;
+				}
+				elseif( $node_data['tag'] === 'ADD' &&
+						$node_data['type'] != 'cdata' &&
+						isset( $node_data['attributes'] ))
+				{
+					// error page
+					if( isset( $node_data['attributes']['KEY'] ) &&
+						isset( $node_data['attributes']['VALUE'] ))
+					{
+						$array[$node_data['attributes']['KEY']] = $node_data['attributes']['VALUE'];
 					}
 
 					$this->_closeNode( $nodes, $index );
