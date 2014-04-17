@@ -139,6 +139,9 @@
 				elseif(is_string($value)) {
 					$preparedStatement = str_replace("{$parameter}", '\''.  mysql_real_escape_string($value, $this->connection).'\'', $preparedStatement);
 				}
+				elseif(is_null($value)) {
+					$preparedStatement = str_replace("@{$parameter}", 'null', $preparedStatement);
+				}
 				else {
 					$preparedStatement = str_replace("{$parameter}", (real)$value, $preparedStatement);
 				}
