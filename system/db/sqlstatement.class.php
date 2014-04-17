@@ -120,6 +120,9 @@
 				elseif(is_string($value)) {
 					$preparedStatement = str_replace("@{$parameter}", '\''.$this->dataAdapter->escapeString($value).'\'', $preparedStatement);
 				}
+				elseif(is_null($value)) {
+					$preparedStatement = str_replace("@{$parameter}", 'null', $preparedStatement);
+				}
 				else {
 					$preparedStatement = str_replace("@{$parameter}", (real)$value, $preparedStatement);
 				}
