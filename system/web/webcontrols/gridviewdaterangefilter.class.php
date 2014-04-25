@@ -10,6 +10,8 @@
 
 	/**
 	 * Represents a GridView date range filter
+	 * 
+	 * @property string $dateFormat Specifies date format
 	 *
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
@@ -21,6 +23,45 @@
 		 * @var string
 		 */
 		protected $tooltip					= 'Select a date range';
+
+
+		/**
+		 * specifies date format
+		 * @var string
+		 */
+		protected $dateFormat				= 'Y-m-d';
+
+
+		/**
+		 * gets object property
+		 *
+		 * @param  string	$field		name of field
+		 * @return string				string of variables
+		 * @ignore
+		 */
+		public function __get( $field ) {
+			if( $field === 'dateFormat' ) {
+				return $this->dateFormat;
+			} else {
+				return parent::__get($field);
+			}
+		}
+		
+		/**
+		 * sets object property
+		 *
+		 * @param  string	$field		name of field
+		 * @param  mixed	$value		value of field
+		 * @return mixed
+		 * @ignore
+		 */
+		public function __set( $field, $value ) {
+			if( $field === 'dateFormat' ) {
+				$this->dateFormat = (string)$value;
+			} else {
+				parent::__set( $field, $value );
+			}
+		}
 
 
 		/**
@@ -87,14 +128,14 @@
 			$date_start = new \System\XML\DomObject('input');
 			$date_start->setAttribute('type', 'date');
 			$date_start->setAttribute('name', "{$HTMLControlId}__filter_startdate");
-			$date_start->setAttribute('value', $this->minValue);
+			$date_start->setAttribute('value', !in_array($this->minValue, array('0000-00-00',NULL))?date($this->dateFormat, strtotime($this->minValue)):'');
 			$date_start->setAttribute('title', $this->tooltip);
 //			$date_start->setAttribute('class', 'daterangefilter');
 
 			$date_end = new \System\XML\DomObject('input');
 			$date_end->setAttribute('type', 'date');
 			$date_end->setAttribute('name', "{$HTMLControlId}__filter_enddate");
-			$date_end->setAttribute('value', $this->maxValue);
+			$date_end->setAttribute('value', !in_array($this->maxValue, array('0000-00-00',NULL))?date($this->dateFormat, strtotime($this->maxValue)):'');
 			$date_end->setAttribute('title', $this->tooltip);
 //			$date_end->setAttribute('class', 'daterangefilter');
 
