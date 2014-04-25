@@ -360,6 +360,23 @@
 
 
 		/**
+		 * Function to convert multi select items to string
+		 */
+		this.convertValuesFromListBox = function(element) {
+			var converted_string = "";
+			for (var i = 0; i < element.options.length; i++) {
+				if(element.options[i].selected){
+					if(converted_string.length>0) {
+						converted_string += "&"
+					}
+					converted_string += element.getAttribute("name") + "[]=" + element.options[i].value;
+				}
+			}
+			return converted_string;
+		};
+
+
+		/**
 		 * this.to set the Validation Ready flag
 		 */
 		setValidationReady = function() {

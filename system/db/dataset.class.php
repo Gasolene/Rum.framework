@@ -6,7 +6,6 @@
 	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\DB;
-	use \System\Base\ModelBase;
 
 
 	/**
@@ -694,7 +693,7 @@
 		 * @param  int		$case_insensitive	specifies case insentitive
 		 * @return void
 		 */
-		public function filter( $column, $operator, $value = '', $case_insensitive = false )
+		public function filter( $column, $operator, $value, $case_insensitive = false )
 		{
 			// alias
 			if( $operator === '=' ) $operator = '==';
@@ -739,7 +738,19 @@
 							if( $case_insensitive )
 							{
 								$cmp_value = strtolower( $this->rows[$i][$field->name] );
-								$value = strtolower( $value );
+								if(is_array($value))
+								{
+									$tmp_value = array();
+									foreach($value as $var)
+									{
+										$tmp_value[] = strtolower($var);
+									}
+									$value = $tmp_value;
+								}
+								else
+								{
+									$value = strtolower( $value );
+								}
 							}
 							else
 							{
@@ -808,13 +819,29 @@
 							}
 							else
 							{
-								// compare strings
-								eval(
-									'if( $cmp_value' . $operator . '"' . (string) $value . '")
+								if(is_array($value))
+								{
+									foreach($value as $var)
 									{
-										$tmp_array[] = $this->rows[$i];
-									}'
-								);
+										// compare strings
+										eval(
+											'if( $cmp_value' . $operator . '"' . (string) $var . '")
+											{
+												$tmp_array[] = $this->rows[$i];
+											}'
+										);
+									}
+								}
+								else
+								{
+									// compare strings
+									eval(
+										'if( $cmp_value' . $operator . '"' . (string) $value . '")
+										{
+											$tmp_array[] = $this->rows[$i];
+										}'
+									);
+								}
 							}
 						}
 						else
@@ -946,7 +973,7 @@
 
 					return $max;
 				}
-				elseif( $this->fieldMeta[$field]->datetime || $this->fieldMeta[$field]->date || $this->fieldMeta[$field]->time )
+				elseif( $this->fieldMeta[$index]->datetime || $this->fieldMeta[$index]->date || $this->fieldMeta[$index]->time )
 				{
 					for( $i=0, $count=count($this->rows); $i < $count; $i++ )
 					{
