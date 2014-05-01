@@ -22,16 +22,37 @@
 
 		/**
 		 * Specifies the default ajax start handler
+		 * @param params parameters
 		 */
-		this.defaultAjaxStartHandler = function(params){};
+		this.defaultAjaxStartHandler = function(params){console.log('start');};
 
 		/**
 		 * Specifies the default ajax completion handler
+		 * @param params parameters
 		 */
 		this.defaultAjaxCompletionHandler = function(params){};
 
 		/**
+		 * Specifies the default ajax timeout handler
+		 */
+		this.defaultTimeoutHandler = function(){alert("The server has timed out, some data may not have been saved");};
+
+		/**
+		 * Specifies the default ajax error handler
+		 * @param status error status code
+		 */
+		this.defaultErrorHandler = function(status){alert("A "+status+" error on the server has been detected, some data may not have been saved");};
+
+		/**
+		 * Specifies the default timeout
+		 */
+		this.defaultTimeout = 30000;
+
+
+		/**
 		 * Function to get a XMLDom object
+		 * @param param param
+		 * @param timeout timeout
 		 */
 		this.init = function(param, timeout) {
 			asyncParam = param;
@@ -40,6 +61,7 @@
 
 		/**
 		 * Function to get a XMLDom object
+		 * @param id element id
 		 */
 		this.id = function(id) {
 			return document.getElementById(id);
@@ -48,6 +70,9 @@
 
 		/**
 		 * Function to flash a new message for n milliseconds
+		 * @param message message
+		 * @param type message type
+		 * @param delay delay in seconds
 		 */
 		this.flash = function(message, type, delay) {
 			if(!delay) delay = 3000;
@@ -81,6 +106,7 @@
 
 		/**
 		 * this.to forward
+		 * @param url url
 		 */
 		this.forward = function(url) {
 			location.href=url;
@@ -89,6 +115,7 @@
 
 		/**
 		 * this.to send a xmlhttp request.
+		 * @param element html element
 		 */
 		this.getParams = function( element ) {
 			var params = '';
@@ -96,7 +123,7 @@
 			var selects = element.getElementsByTagName('select');
 			var textareas = element.getElementsByTagName('textarea');
 			for (x=0;x<inputs.length;x++) {
-				if(inputs[x].getAttribute('type')!='button' && inputs[x].getAttribute('type')!='submit' && inputs[x].getAttribute('type')!='image') {
+				if(inputs[x].getAttribute('type')!=='button' && inputs[x].getAttribute('type')!=='submit' && inputs[x].getAttribute('type')!=='image') {
 					if(inputs[x].getAttribute('type')==='checkbox') {
 						if(inputs[x].checked) {
 							if(params) params = params + '&';
@@ -118,32 +145,25 @@
 				params = params + textareas[x].getAttribute('name') + '=' + textareas[x].value;
 			}
 			return params;
-		}
+		};
 
 
 		/**
 		 * this.to send a xmlhttp request.
-		 */
-		this.sendAsync = function( url, params, method ) {
-
-			var http_request = this.createXMLHttpRequest();
-			this.sendAsyncWithCallback(http_request, url, params, method);
-		}
-
-
-		/**
-		 * this.to send a xmlhttp request.
+		 * @param url url
+		 * @param params parameters
+		 * @param method method
 		 */
 		this.sendSync = function( url, params, method ) {
 
-			if (method == null){
+			if (method === null){
 				method = 'GET';
 			}
-			if (params == null){
+			if (params === null){
 				params = '';
 			}
 
-			if (method.toUpperCase() == 'GET' && params){
+			if (method.toUpperCase() === 'GET' && params){
 				if( url.indexOf( '?' ) > -1 ) {
 					url = url + '&' + params;
 				}
@@ -178,6 +198,7 @@
 
 		/**
 		 * this.to submit html forms
+		 * @param formElement form element
 		 */
 		this.submit = function(formElement) {
 
@@ -189,69 +210,58 @@
 
 		/**
 		 * this.to send a xmlhttp request.
+		 * @param url url
+		 * @param params parameters
+		 * @param method method
+		 * @param callback callback handler
+		 * @param timeout timeout
 		 */
-		this.sendAsyncWithCallback = function( http_request, url, params, method, completionHandler ) {
+		this.sendAsync = function(url, params, method, callback, timeout) {
 
-			if (method == null){
-				method = 'GET';
-			}
+			var timeoutHandler;
+			if(!timeout) timeout = this.defaultTimeout;
+			if(!timeoutHandler) timeoutHandler = this.defaultTimeoutHandler;
 
-			if(params) {
-				params += '&'+asyncParam+'=1';
-			}
-			else {
-				params = '?'+asyncParam+'=1';
-			}
-
-			if (method.toUpperCase() == 'GET' && params){
-				if( url.indexOf( '?' ) > -1 ) {
-					url = url + '&' + params;
-				}
-				else {
-					url = url + '?' + params;
-				}
-				params = '';
-			}
-
-			if (completionHandler != null){
-				http_request.onreadystatechange = completionHandler;
-			}
-
-			http_request.open(method, url, true);
-			http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			//http_request.setRequestHeader("Content-length", params.length);
-			//http_request.setRequestHeader("Connection", "close");
-			http_request.send( params );
+			var http_request = this.createXMLHttpRequest();
+			sendHTTPRequest(http_request, url, params, method, callback, timeout, timeoutHandler);
 		};
 
 
 		/**
 		 * this.to send a xmlhttp request.
+		 * @param url url
+		 * @param params parameters
+		 * @param method method
+		 * @param startHandler start handler
+		 * @param completionHandler completion handler
+		 * @param timeout timeout
 		 */
-		this.evalAsync = function( url, params, method, startHandler, completionHandler ) {
-
-			if(!startHandler) startHandler = this.defaultAjaxStartHandler;
-			if(!completionHandler) completionHandler = this.defaultAjaxCompletionHandler;
+		this.evalAsync = function(url, params, method, startHandler, completionHandler, timeout) {
 
 			var eventArgs={};
+			var errorHandler;
+			var timeoutHandler;
+			if(!startHandler) startHandler = this.defaultAjaxStartHandler;
+			if(!completionHandler) completionHandler = this.defaultAjaxCompletionHandler;
+			if(!timeout) timeout = this.defaultTimeout;
+			if(!errorHandler) errorHandler = this.defaultErrorHandler;
+			if(!timeoutHandler) timeoutHandler = this.defaultTimeoutHandler;
+
 			params.split('&').forEach(function(e) {
 				a=e.split('='); eventArgs[a[0]] = a[1];
 			});
 
 			var http_request = this.createXMLHttpRequest();
-
-			if(http_request === null) {
-				console.log('browser does not support HTTP Request');
-			}
-
-			var callback = function() { evalHttpResponse( http_request, completionHandler, eventArgs ); };
-			this.sendAsyncWithCallback(http_request, url, params, method, callback);
- 			startHandler(eventArgs);
+			var callback = function() {evalHttpResponse(http_request, completionHandler, errorHandler, eventArgs);};
+			sendHTTPRequest(http_request, url, params, method, callback, timeout, timeoutHandler);
+			startHandler(eventArgs);
 		};
 
 
 		/**
 		 * this.to reset validation timer
+		 * @param formElement form element
+		 * @param iframeID iframe id
 		 */
 		this.documentLoaded = function(formElement, iframeID) {
 
@@ -269,7 +279,7 @@
 				//documentElement = window.frames[iframeID].document;
 			}
 
-			if (documentElement.location.href == "about:blank") {
+			if (documentElement.location.href === "about:blank") {
 				return;
 			}
 			//if (typeof(frameElement.completeCallback) == 'this.function =') {
@@ -280,6 +290,8 @@
 
 		/**
 		 * Funciton to assert a Validation Message
+		 * @param id element id
+		 * @param msg message
 		 */
 		this.assert = function(id, msg) {
 			if(this.id(id)) {
@@ -294,6 +306,7 @@
 
 		/**
 		 * Funciton to clear Validation Message
+		 * @param id element id
 		 */
 		this.clear = function( id ) {
 			if(this.id(id)) {
@@ -317,6 +330,7 @@
 
 		/**
 		 * this.to specify whether an asyncronous Validation attempt is ready
+		 * @param id element id
 		 */
 		this.isReady = function( id ) {
 			if(hasText(this.id(id))) {
@@ -351,7 +365,7 @@
 			}
 
 			if (!http_request) {
-				alert('Cannot create XMLHTTP instance');
+				throw "Cannot create XMLHTTP instance";
 				return false;
 			}
 
@@ -361,13 +375,14 @@
 
 		/**
 		 * Function to convert multi select items to string
+		 * @param element html element
 		 */
 		this.convertValuesFromListBox = function(element) {
 			var converted_string = "";
 			for (var i = 0; i < element.options.length; i++) {
 				if(element.options[i].selected){
 					if(converted_string.length>0) {
-						converted_string += "&"
+						converted_string += "&";
 					}
 					converted_string += element.getAttribute("name") + "[]=" + element.options[i].value;
 				}
@@ -385,23 +400,79 @@
 
 
 		/**
-		 * this.to parse HTTP response
+		 * send a xmlhttp request.
+		 * @param http_request http request object
+		 * @param url url
+		 * @param params parameters
+		 * @param method method
+		 * @param callback callback handler
+		 * @param timeout timeout
+		 * @param timeoutHandler timeout handler
 		 */
-		evalHttpResponse = function( http_request, completionHandler, eventArgs  ) {
-			eval(getHttpResponse(http_request, completionHandler, eventArgs ));
+		sendHTTPRequest = function(http_request, url, params, method, callback, timeout, timeoutHandler) {
+
+			if (method === null){
+				method = 'GET';
+			}
+
+			if(params) {
+				params += '&'+asyncParam+'=1';
+			}
+			else {
+				params = '?'+asyncParam+'=1';
+			}
+
+			if (method.toUpperCase() === 'GET' && params){
+				if( url.indexOf( '?' ) > -1 ) {
+					url = url + '&' + params;
+				}
+				else {
+					url = url + '?' + params;
+				}
+				params = '';
+			}
+
+			if (callback !== null){
+				http_request.onreadystatechange = callback;
+			}
+			http_request.open(method, url, true);
+			http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			//http_request.setRequestHeader("Content-length", params.length);
+			//http_request.setRequestHeader("Connection", "close");
+			if(timeout) {
+				http_request.timeout = timeout;
+				http_request.ontimeout = timeoutHandler;
+			}
+			http_request.send( params );
+		};
+
+
+		/**
+		 * parse HTTP response
+		 * @param http_request http request object
+		 * @param completionHandler completion handler
+		 * @param errorHandler event handler
+		 * @param eventArgs event args
+		 */
+		evalHttpResponse = function( http_request, completionHandler, errorHandler, eventArgs  ) {
+			eval(getHttpResponse(http_request, completionHandler, errorHandler, eventArgs ));
 		};
 
 
 		/**
 		 * this.to receive HTTP response
+		 * @param http_request http request object
+		 * @param completionHandler completion handler
+		 * @param errorHandler event handler
+		 * @param eventArgs event args
 		 */
-		getHttpResponse = function( http_request, completionHandler, eventArgs ) {
+		getHttpResponse = function( http_request, completionHandler, errorHandler, eventArgs ) {
 			// if xmlhttp shows "loaded"
 			if (http_request) {
 				// if xmlhttp shows "loaded"
-				if (http_request.readyState==4) {
+				if (http_request.readyState===4) {
 					// if status "OK"
-					if (http_request.status==200) {
+					if (http_request.status===200) {
 						// get response
 						response = http_request.responseText;
 
@@ -409,8 +480,8 @@
 						return response;
 					}
 					else {
-						completionHandler(eventArgs);
-						throw "Problem retrieving XML data";
+						errorHandler(http_request.status);
+						console.log("Error Status Code:" + http_request.status);
 					}
 				}
 			}
@@ -419,6 +490,8 @@
 
 		/**
 		 * this.to set the validation ready flag
+		 * @param formElement form element
+		 * @param response response
 		 */
 		evalFormResponse = function(formElement, response) {
 			eval(response);
@@ -429,6 +502,8 @@
 
 		/**
 		 * this.to create frame element
+		 * @param formElement form element
+		 * @param callback callback
 		 */
 		createFrame = function(formElement, callback) {
 
@@ -440,7 +515,7 @@
 				iFrameElement.parentNode.removeChild(iFrameElement);
 			}
 
-			divElement.id = formElement.getAttribute('id') + '__async_postback'
+			divElement.id = formElement.getAttribute('id') + '__async_postback';
 			divElement.innerHTML = '<iframe style="display:none" src="about:blank" id="'+frameName+'" name="'+frameName+'" onload="Rum.documentLoaded(Rum.id(\''+formElement.getAttribute('id')+'\'), \''+frameName+'\'); return true;"></iframe>';
 
 			document.body.appendChild(divElement);
@@ -463,6 +538,9 @@
 
 		/**
 		 * this.to set text of an element
+		 * @param element html element
+		 * @param text text
+		 * @param status status
 		 */
 		setText = function( element, text, status ) {
 
@@ -490,6 +568,7 @@
 
 		/**
 		 * this.to return if element contains text
+		 * @param element html element
 		 */
 		hasText = function( element ) {
 			if ( element ) {
@@ -507,6 +586,9 @@
 
 		/**
 		 * add listener to element
+		 * @param element html element
+		 * @param eventName event name
+		 * @param handler event hander
 		 */
 		addListener = function(element, eventName, handler) {
 			if (element.addEventListener) {
@@ -518,11 +600,13 @@
 			else {
 				element['on' + eventName] = handler;
 			}
-		}
+		};
 
 
 		/**
 		 * set opacity of element
+		 * @param element html element
+		 * @param level level
 		 */
 		setOpacity = function(element, level) {
 			if(level===0) {
@@ -534,19 +618,23 @@
 				element.style.KhtmlOpacity = level;
 				element.style.filter = "alpha(opacity=" + (level * 100) + ");";
 			}
-		}
+		};
 
 
 		/**
 		 * fadeout timer handler
+		 * @param element html element
+		 * @param level level
 		 */
 		createTimeoutHandler = function( element, level ) {
 			return function() { setOpacity( element, level ); };
-		}
+		};
 
 
 		/**
 		 * fadeout element for n milliseconds
+		 * @param element html element
+		 * @param duration duration in ms
 		 */
 		fadeOut = function(element, duration) {
 			var steps = 20;
@@ -554,7 +642,7 @@
 			for (var i = 1; i <= steps; i++) {
 				setTimeout( createTimeoutHandler( element, 1-i/steps ), (i/steps) * duration);
 			}
-		}
+		};
 
 		// GridView methods
 
@@ -574,12 +662,12 @@
 
 			for( var i = 0; i < checkBoxes.length; i++ )
 			{
-				if( checkBoxes[i].className == controlId + '__checkbox' )
+				if( checkBoxes[i].className === controlId + '__checkbox' )
 				{
 					checkBoxes[i].checked = selectAll.checked;
 				}
 			}
-		}
+		};
 
 
 		/**
@@ -594,12 +682,12 @@
 			var trTags = document.getElementById( controlId ).getElementsByTagName( 'tr' );
 
 			for( var i = 0; i < trTags.length; i++ ) {
-				if( trTags[i].className == 'selected row' ) {
+				if( trTags[i].className === 'selected row' ) {
 					trTags[i].className = 'row';
 				}
-				if( trTags[i].className == 'selected row_alt' ) {
+				if( trTags[i].className === 'selected row_alt' ) {
 					trTags[i].className = 'row_alt';
 				}
 			}
-		}
+		};
 	};
