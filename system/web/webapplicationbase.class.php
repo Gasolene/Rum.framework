@@ -647,8 +647,16 @@
 				}
 				else
 				{
-					// Not Authenticated
-					\System\Security\Authentication::redirectToLogin();
+					if( isset( $request->request["async"] ))
+					{
+						// Not Authenticated
+						\Rum::sendHTTPError(401);
+					}
+					else
+					{
+						// Not Authenticated
+						\System\Security\Authentication::redirectToLogin();
+					}
 				}
 			}
 		}
