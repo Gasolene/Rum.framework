@@ -88,6 +88,7 @@
      @loginpage (default=login): the login page controller
      @cookiename (default=__AUTHCOOKIE): the name of the authentication cookie
      @secret: specifies the secret when setting auth cookies
+     @expires: specifies the inactive time before session expires in seconds
    @credentials
      @user
        @username: the username to challenge

@@ -35,13 +35,13 @@
 		/**
 		 * Specifies the default ajax timeout handler
 		 */
-		this.defaultTimeoutHandler = function(){alert("The server has timed out, some data may not have been saved");};
+		this.defaultTimeoutHandler = function(){alert("The Web server request has timed out!");};
 
 		/**
 		 * Specifies the default ajax error handler
 		 * @param status error status code
 		 */
-		this.defaultErrorHandler = function(status){alert("A "+status+" error on the server has been detected, some data may not have been saved");};
+		this.defaultErrorHandler = function(status){alert("The Web server encountered an unexpected condition that prevented it from fulfilling the request!");};
 
 		/**
 		 * Specifies the default timeout

@@ -231,7 +231,7 @@
 		 * specifies the inactive time before session expires in seconds
 		 * @var string
 		 */
-		private $authenticationFormsExpires		= 30;
+		private $authenticationFormsExpires		= 0;
 
 		/**
 		 * specifies the password format for http authentication
