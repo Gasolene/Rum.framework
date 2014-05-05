@@ -417,7 +417,7 @@
 			{
 				// Show login form
 				$this->legend = $this->loginFormTitle;
-				$this->add(new LabelText('username'));
+				$this->add(new Text('username'));
 				$this->add(new Password('password'));
 				$this->add(new CheckBox('permanent'));
 				$this->add(new Button('login', $this->loginButtonLabelText));

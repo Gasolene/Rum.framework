@@ -84,7 +84,7 @@
 		 */
 		public function fetchInsertControl()
 		{
-			return "'<input {$this->getAttrs()} type=\"date\" value=\"'.(!in_array(%{$this->dataField}%, array('0000-00-00',NULL))?date('{$this->dateFormat}',strtotime(\'{$this->default}\')):'').'\"/>'";
+			return "'<input {$this->getAttrs()} type=\"date\" value=\"'.(!in_array('{$this->default}', array('0000-00-00',NULL))?date('{$this->dateFormat}',strtotime('{$this->default}')):'').'\"/>'";
 		}
 	}
 ?>
