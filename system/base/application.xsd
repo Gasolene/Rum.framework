@@ -84,6 +84,7 @@
           <xs:attribute name="loginpage" type="xs:string" use="optional" />
           <xs:attribute name="cookiename" type="xs:string" use="optional" />
           <xs:attribute name="secret" type="xs:string" use="optional" />
+          <xs:attribute name="expires" type="xs:int" use="optional" />
         </xs:complexType>
       </xs:element>
       <xs:element name="credentials" minOccurs="0" maxOccurs="1">

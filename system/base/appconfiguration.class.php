@@ -39,6 +39,7 @@
 	 * @property string $authenticationFormsLoginPage specifies authentication login page
 	 * @property string $authenticationFormsCookieName specifies session cookie name
 	 * @property string $authenticationFormsSecret specifies secret used when checking auth cookies
+	 * @property string $authenticationFormsExpires specifies the inactive time before session expires in seconds
 	 * @property array $authenticationCredentialsUsers array of authentication users
 	 * @property array $authenticationCredentialsTables array of authentication tables
 	 * @property array $authenticationCredentialsLDAP array of authentication LDAP connections
@@ -225,6 +226,12 @@
 		 * @var string
 		 */
 		private $authenticationFormsSecret		= 'secret';
+
+		/**
+		 * specifies the inactive time before session expires in seconds
+		 * @var string
+		 */
+		private $authenticationFormsExpires		= 30;
 
 		/**
 		 * specifies the password format for http authentication
@@ -414,6 +421,9 @@
 			}
 			elseif( $field === 'authenticationFormsSecret' ) {
 				return $this->authenticationFormsSecret;
+			}
+			elseif( $field === 'authenticationFormsExpires' ) {
+				return $this->authenticationFormsExpires;
 			}
 			elseif( $field === 'authenticationCredentialsUsers' ) {
 				return $this->authenticationCredentialsUsers;
@@ -924,6 +934,10 @@
 					// authenticationFormsSecret
 					if( isset( $node_data['attributes']['SECRET'] )) {
 						$this->authenticationFormsSecret = $node_data['attributes']['SECRET'];
+					}
+					// authenticationFormsExpires
+					if( isset( $node_data['attributes']['EXPIRES'] )) {
+						$this->authenticationFormsExpires = (int)$node_data['attributes']['EXPIRES'];
 					}
 
 					$this->_closeNode( $nodes, $index );
