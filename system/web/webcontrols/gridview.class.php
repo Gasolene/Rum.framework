@@ -1018,7 +1018,7 @@
 							$column->setFilter(new GridViewListFilter($this->__filterValues[$column->dataField]));
 						}
 						else {
-							$column->setFilter(new GridViewTextFilter());
+							$column->setFilter(new GridViewStringFilter());
 						}
 						$column->filter->ajaxPostBack = $column->ajaxPostBack;
 					}
