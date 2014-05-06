@@ -39,11 +39,9 @@
 		 * @param  string $errorMessage error message
 		 * @return void
 		 */
-		public function __construct(\System\Web\WebControls\InputBase &$controlToValidate, $errorMessage = '')
+		public function __construct($errorMessage = '')
 		{
 			parent::__construct($errorMessage);
-
-			$this->controlToValidate =& $controlToValidate;
 		}
 
 		/**

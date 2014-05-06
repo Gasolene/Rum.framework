@@ -288,7 +288,7 @@
 		 * @param  \ArrayAccess		$ds		data source to attach
 		 * @return void
 		 */
-		final public function bind(\System\Base\IBindable &$ds)
+		final public function bind(\System\Base\IBindable $ds)
 		{
 			$this->dataSource =& $ds;
 			$this->onDataBind();

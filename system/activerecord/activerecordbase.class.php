@@ -963,19 +963,19 @@
 					else if($type === 'blob')
 					{
 						$column = new \System\Web\WebControls\GridViewTextArea($field, $activeRecord->pkey, $param, $field);
-						$column->setFilter(new \System\Web\WebControls\GridViewTextFilter());
+						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
 						$column->default = $activeRecord[$field];
 					}
 					else if($type === 'search')
 					{
 						$column = new \System\Web\WebControls\GridViewSearch($field, $activeRecord->pkey, $param, $field);
-						$column->setFilter(new \System\Web\WebControls\GridViewTextFilter());
+						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
 						$column->default = $activeRecord[$field];
 					}
 					else
 					{
 						$column = new \System\Web\WebControls\GridViewText($field, $activeRecord->pkey, $param, $field);
-						$column->setFilter(new \System\Web\WebControls\GridViewTextFilter());
+						$column->setFilter(new \System\Web\WebControls\GridViewStringFilter());
 						$column->default = $activeRecord[$field];
 					}
 
@@ -1071,10 +1071,9 @@
 				{
 					if($gridView->findColumn($field))
 					{
-						eval("\$validator = new {$validator};");
-						if($validator instanceof \System\Validators\ValidatorBase)
+						if(false===eval("\$gridView->findColumn(\$field)->validators->add(new {$validator});"))
 						{
-							$gridView->findColumn($field)->validators->add($validator);
+							throw new \System\Base\InvalidOperationException("Cannot create validator: new {$validator};");
 						}
 					}
 				}

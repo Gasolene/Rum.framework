@@ -120,13 +120,13 @@
 			if( $permanent )
 			{
 				\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName, $uid, time() + $expires, \Rum::config()->uri, null, $ssl );
-				\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_SECRET', $secret, time() + $expires, \Rum::config()->uri, null, $ssl );
+				\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_secret', $secret, time() + $expires, \Rum::config()->uri, null, $ssl );
 			}
 			else
 			{
 				// set session cookie
 				\System\Base\ApplicationBase::getInstance()->session[\Rum::config()->authenticationFormsCookieName] = $uid;
-				\System\Base\ApplicationBase::getInstance()->session[\Rum::config()->authenticationFormsCookieName.'_SECRET'] = $secret;
+				\System\Base\ApplicationBase::getInstance()->session[\Rum::config()->authenticationFormsCookieName.'_secret'] = $secret;
 			}
 		}
 
@@ -160,13 +160,13 @@
 		 */
 		public static function getAuthSecret()
 		{
-			if( isset( \System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_SECRET'] ))
+			if( isset( \System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret'] ))
 			{
-				return \System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_SECRET'];
+				return \System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret'];
 			}
-			elseif( isset( $_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_SECRET'] ))
+			elseif( isset( $_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret'] ))
 			{
-				return $_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_SECRET'];
+				return $_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret'];
 			}
 			else
 			{
@@ -186,25 +186,25 @@
 			{
 				if(\System\Base\ApplicationBase::getInstance()->config->authenticationFormsExpires > 0)
 				{
-					if(isset(\System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_LAST_ACTIVITY']) && (time() - \System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity'] > \System\Base\ApplicationBase::getInstance()->config->authenticationFormsExpires)) {
+					if(isset(\System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity']) && (time() - \System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity'] > \System\Base\ApplicationBase::getInstance()->config->authenticationFormsExpires)) {
 						
 						FormsAuthentication::signout();
 						return false;
 					}
 				}
-				\System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_LAST_ACTIVITY'] = time();
+				\System\Base\ApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity'] = time();
 				return true;
 			}
 			elseif( isset( $_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName] ))
 			{
 				if(\System\Base\ApplicationBase::getInstance()->config->authenticationFormsExpires > 0)
 				{
-					if(isset($_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_LAST_ACTIVITY']) && (time() - $_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity'] > \System\Base\ApplicationBase::getInstance()->config->authenticationFormsExpires)) {
+					if(isset($_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity']) && (time() - $_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity'] > \System\Base\ApplicationBase::getInstance()->config->authenticationFormsExpires)) {
 						FormsAuthentication::signout();
 						return false;
 					}
 				}
-				$_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_LAST_ACTIVITY'] = time();
+				$_COOKIE[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity'] = time();
 				return true;
 			}
 			else
@@ -224,13 +224,13 @@
 			if( isset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName] ))
 			{
 				unset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName] );
-				unset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_SECRET'] );
-				unset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_LAST_ACTIVITY'] );
+				unset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_secret'] );
+				unset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity'] );
 			}
 
 			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName, '', -1, \Rum::config()->uri, null, $ssl );
-			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_SECRET', '', -1, \Rum::config()->uri, null, $ssl );
-			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_LAST_ACTIVITY', '', -1, \Rum::config()->uri, null, $ssl );
+			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_secret', '', -1, \Rum::config()->uri, null, $ssl );
+			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_last_activity', '', -1, \Rum::config()->uri, null, $ssl );
 
 			\System\Web\WebApplicationBase::getInstance()->setForwardPage();
 		}

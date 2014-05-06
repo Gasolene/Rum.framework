@@ -20,9 +20,9 @@
 	 * @property GridView $gridView instance of the GridView
 	 * @property EventCollection $events event collection
 	 * @property GridViewFilter $filter specifies the column filter
-	 * 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
-	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
-	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
+	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
+	 * @property string $ajaxStartHandler specifies the optional ajax start handler
+	 * @property string $ajaxCompletionHandler specifies the optional ajax completion handler
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Web
@@ -231,10 +231,10 @@
 				$this->ajaxPostBack = (bool)$value;
 			}
 			elseif( $field === 'ajaxStartHandler' ) {
-				$this->ajaxStartHandler = (string)$ajaxStartHandler;
+				$this->ajaxStartHandler = (string)$value;
 			}
 			elseif( $field === 'ajaxCompletionHandler' ) {
-				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
+				$this->ajaxCompletionHandler = (string)$value;
 			}
 			elseif( $field === 'ondblclick' ) {
 				trigger_error("GridViewColumn::ondblclick is deprecated", E_USER_DEPRECATED);

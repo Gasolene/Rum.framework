@@ -20,7 +20,7 @@
 		 * specifies control tool tip
 		 * @var string
 		 */
-		protected $tooltip					= 'Select a option from the list';
+		protected $tooltip					= 'Check/uncheck the checkbox';
 
 
 		/**
