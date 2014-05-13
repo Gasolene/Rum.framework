@@ -134,16 +134,16 @@
 			$preparedStatement = $this->statement;
 			foreach($this->parameters as $parameter => $value) {
 				if(strpos($value, '0x' )===0) {
-					$preparedStatement = str_replace("{$parameter}", $value, $preparedStatement);
+					$preparedStatement = str_replace($parameter, $value, $preparedStatement);
 				}
 				elseif(is_string($value)) {
-					$preparedStatement = str_replace("{$parameter}", '\''.  mysql_real_escape_string($value, $this->connection).'\'', $preparedStatement);
+					$preparedStatement = str_replace($parameter, '\'' . $this->connection->real_escape_string($value) . '\'', $preparedStatement);
 				}
 				elseif(is_null($value)) {
-					$preparedStatement = str_replace("@{$parameter}", 'null', $preparedStatement);
+					$preparedStatement = str_replace($parameter, 'null', $preparedStatement);
 				}
 				else {
-					$preparedStatement = str_replace("{$parameter}", (real)$value, $preparedStatement);
+					$preparedStatement = str_replace($parameter, (real)$value, $preparedStatement);
 				}
 			}
 			return $preparedStatement;
