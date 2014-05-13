@@ -112,6 +112,9 @@
 		 * @return DataSet
 		 */
 		final public function openDataSet(array $parameters = array(), DataSetType $lock_type = null) {
+			foreach($parameters as $parameter => $value) {
+				$this->bind($parameter, $value);
+			}
 			return $this->dataAdapter->openDataSet($this, $lock_type);
 		}
 
