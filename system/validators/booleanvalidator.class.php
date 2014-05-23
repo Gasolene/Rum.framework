@@ -31,14 +31,14 @@
 
 
 		/**
-		 * sets the controlId and prepares the control attributes
+		 * validates the passed value
 		 *
 		 * @param  mixed $value value to validate
-		 * @return void
+		 * @return bool
 		 */
 		public function validate($value)
 		{
-			return $value === true || $value === false;
+			return $value == true || $value == false;
 		}
 	}
 ?>

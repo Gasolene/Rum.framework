@@ -670,12 +670,12 @@
 
 
 		/**
-		 * static method to return a count of records of this type
+		 * static method to return a count of the total number of records of this type
 		 *
 		 * @param  array		$args		associative array of keys and values
 		 * @return DataSet
 		 */
-		static public function count( array $args = array() )
+		static public function total( array $args = array() )
 		{
 			return ActiveRecordBase::countByType( self::getClass(), $args );
 		}
@@ -1071,10 +1071,17 @@
 				{
 					if($gridView->findColumn($field))
 					{
-						if(false===eval("\$gridView->findColumn(\$field)->validators->add(new {$validator});"))
+						if(false===eval("\$validatorIntance = new {$validator};"))
 						{
 							throw new \System\Base\InvalidOperationException("Cannot create validator: new {$validator};");
 						}
+
+						if($validatorIntance instanceof \System\Validators\UniqueValidator)
+						{
+							$validatorIntance->setDataSource(self::all(), $field);
+						}
+
+						$gridView->findColumn($field)->validators->add($validatorIntance);
 					}
 				}
 			}

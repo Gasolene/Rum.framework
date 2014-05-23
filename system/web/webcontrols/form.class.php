@@ -336,7 +336,7 @@
 
 
 		/**
-		 * validate all controls in form object
+		 * validate all controls in Form object
 		 *
 		 * @param  string $errMsg error message
 		 * @return bool

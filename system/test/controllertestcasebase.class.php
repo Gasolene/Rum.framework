@@ -347,6 +347,7 @@
 			\System\Web\HTTPRequest::$cookie = array();
 
 			foreach( $params as $key => $value ) {
+				$key = str_replace(' ', '_', str_replace('.', '_', $key));
 				$_REQUEST[(string)$key] = $value;
 				if( strtolower( (string)$method ) === 'post' ) {
 					$_POST[(string)$key] = $value;

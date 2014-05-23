@@ -20,7 +20,7 @@
 	 * @subpackage		Web
 	 * @author			Darnell Shinbine
 	 */
-	abstract class FormModelBase extends ModelBase
+	abstract class FormModelBase extends ModelBase implements \System\Base\IBindable
 	{
 		/**
 		 * Contains an associative array of field names mapped to field types
@@ -234,6 +234,28 @@
 			{
 				throw new \System\Base\IndexOutOfRangeException("undefined index $index in ".get_class($this));
 			}
+		}
+
+
+		/**
+		 * returns fields as array
+		 *
+		 * @return array
+		 */
+		public function fields()
+		{
+			return $this->fields;
+		}
+
+
+		/**
+		 * returns count
+		 *
+		 * @return int
+		 */
+		public function count()
+		{
+			return 1;
 		}
 
 

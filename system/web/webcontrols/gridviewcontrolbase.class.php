@@ -246,7 +246,7 @@
 
 
 		/**
-		 * validates control data, returns true on success
+		 * validates control against validators, returns true on success
 		 *
 		 * @param  string		$errMsg		error message
 		 * @return bool						true if control value is valid

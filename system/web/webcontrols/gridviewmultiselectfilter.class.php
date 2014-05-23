@@ -226,7 +226,7 @@
 				$select->addChild($option);
 			}
 
-			if($this->column->gridView->ajaxPostBack)
+			if($this->ajaxPostBack)
 			{
 				$select->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/', '{$requestString}&'+Rum.convertValuesFromListBox(this));" );
 			}

@@ -99,10 +99,9 @@
 
 
 		/**
-		 * validates the control
+		 * validates the passed value
 		 *
 		 * @param  mixed $value value to validate
-		 * 
 		 * @return bool
 		 */
 		abstract public function validate($value);

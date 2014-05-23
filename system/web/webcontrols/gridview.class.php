@@ -503,7 +503,7 @@
 
 
 		/**
-		 * validate all controls in form object
+		 * validate all controls in GridView object
 		 *
 		 * @param  string $errMsg error message
 		 * @return bool

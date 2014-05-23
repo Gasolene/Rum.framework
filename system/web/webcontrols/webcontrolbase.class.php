@@ -304,7 +304,7 @@
 		 * @return void
 		 * @ignore
 		 */
-		final public function attachDataSource( \System\Base\ModelBase $ds )
+		final public function attachDataSource(\System\Base\IBindable $ds)
 		{
 			return $this->bind($ds);
 		}

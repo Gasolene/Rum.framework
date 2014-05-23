@@ -20,16 +20,22 @@
 	class UniqueValidator extends ValidatorBase
 	{
 		/**
-		 * control to validate
-		 * @var InputBase
-		 */
-		protected $controlToValidate;
-
-		/**
 		 * previous value
 		 * @var string
 		 */
 		private $prevValue;
+
+		/**
+		 * data source to validate against
+		 * @var DataSet
+		 */
+		private $dataSource;
+
+		/**
+		 * field name to validate against
+		 * @var string
+		 */
+		private $fieldName;
 
 
 		/**
@@ -44,6 +50,7 @@
 			parent::__construct($errorMessage);
 		}
 
+
 		/**
 		 * on load
 		 *
@@ -51,27 +58,37 @@
 		 */
 		protected function onLoad()
 		{
-			$this->prevValue = $this->controlToValidate->value;
 			$this->errorMessage = $this->errorMessage?$this->errorMessage:\System\Base\ApplicationBase::getInstance()->translator->get('must_be_unique');
 		}
 
 
 		/**
-		 * sets the controlId and prepares the control attributes
+		 * set data source
+		 *
+		 * @return void
+		 */
+		public function setDataSource(\System\DB\DataSet $dataSource, $fieldName)
+		{
+			$this->dataSource =& $dataSource;
+			$this->fieldName = $fieldName;
+		}
+
+
+		/**
+		 * validates the passed value
 		 *
 		 * @param  mixed $value value to validate
-		 * @return void
+		 * @return bool
 		 */
 		public function validate($value)
 		{
-			if($value == $this->prevValue) return true;
+			if($value === $this->prevValue) return true;
 
-			$form = $this->controlToValidate->getParentByType('\System\Web\WebControls\Form');
-			if($form)
+			if($this->dataSource)
 			{
-				foreach($form->dataSource->rows as $row)
+				foreach($this->dataSource->rows as $row)
 				{
-					if($row[$this->controlToValidate->dataField] == $value) return false;
+					if($row[$this->fieldName] == $value) return false;
 				}
 			}
 			return true;
