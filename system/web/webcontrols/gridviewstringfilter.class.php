@@ -80,8 +80,8 @@
 
 			if($this->ajaxPostBack)
 			{
-				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
-				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");return false;}" );
+				$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".($this->ajaxStartHandler).",".($this->ajaxCompletionHandler).");" );
+				$input->setAttribute( 'onkeypress', "if(event.keyCode==13){event.returnValue=false;Rum.evalAsync('{$uri}','{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".($this->ajaxStartHandler).",".($this->ajaxCompletionHandler).");return false;}" );
 			}
 			else
 			{

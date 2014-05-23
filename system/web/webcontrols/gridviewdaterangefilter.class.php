@@ -141,8 +141,8 @@
 
 			if($this->ajaxPostBack)
 			{
-				$date_start->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_startdate='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
-				$date_end->setAttribute(   'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_enddate='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
+				$date_start->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_startdate='+encodeURIComponent(this.value),'POST',".($this->ajaxStartHandler).",".($this->ajaxCompletionHandler).");" );
+				$date_end->setAttribute(   'onchange', "Rum.evalAsync('{$uri}/','{$requestString}&{$HTMLControlId}__filter_enddate='+encodeURIComponent(this.value),'POST',".($this->ajaxStartHandler).",".($this->ajaxCompletionHandler).");" );
 			}
 			else
 			{

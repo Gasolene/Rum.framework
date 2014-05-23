@@ -103,7 +103,7 @@
 
 			if($this->ajaxPostBack)
 			{
-				$select->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/', '{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".\addslashes($this->ajaxStartHandler).",".\addslashes($this->ajaxCompletionHandler).");" );
+				$select->setAttribute( 'onchange', "Rum.evalAsync('{$uri}/', '{$requestString}&{$HTMLControlId}__filter_value='+encodeURIComponent(this.value),'POST',".($this->ajaxStartHandler).",".($this->ajaxCompletionHandler).");" );
 			}
 			else
 			{
