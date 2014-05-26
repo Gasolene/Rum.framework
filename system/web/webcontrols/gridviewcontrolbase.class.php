@@ -18,7 +18,6 @@
 	 * @property bool $disabled Specifies whether the control is disabled
 	 * @property string $tooltip Specifies control tooltip
 	 * @property string $default Specifies default value
-	 * @property array $validators Array of validators
 	 * @property bool $disableAutoComplete Specifies whether to disable the browsers auto complete feature
 	 * @property string $placeholder Specifies the text for the placeholder attribute
 	 * @property string $value Specifies the value of control
@@ -176,9 +175,6 @@
 			elseif( $field === 'default' ) {
 				return $this->default;
 			}
-			elseif( $field === 'validators' ) {
-				return $this->validators;
-			}
 			elseif( $field === 'value' ) {
 				return $this->value;
 			}
@@ -242,7 +238,6 @@
 		public function addValidator(\System\Validators\ValidatorBase $validator)
 		{
 			$validator->field = $this->dataField;
-			$validator->dataSource = $this->gridView->dataSource;
 			$this->validators->add($validator);
 		}
 

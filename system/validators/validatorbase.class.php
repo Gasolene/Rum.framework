@@ -98,17 +98,6 @@
 
 
 		/**
-		 * bind to data source
-		 *
-		 * @return void
-		 */
-		public function bind(\System\DB\DataSet &$dataSource)
-		{
-			$this->dataSource =& $dataSource;
-		}
-
-
-		/**
 		 * called when all controls are loaded
 		 *
 		 * @param  array	&$request	request data

@@ -849,7 +849,10 @@
 						eval("\$validator = new {$validator};");
 						if($validator instanceof \System\Validators\ValidatorBase)
 						{
-							$form->getControl($field)->validators->add($validator);
+							if($validator instanceof \System\Validators\UniqueValidator) {
+								$validator->dataSource = self::all();
+							}
+							$form->getControl($field)->addValidator($validator);
 						}
 					}
 				}
@@ -1076,7 +1079,10 @@
 							throw new \System\Base\InvalidOperationException("Cannot create validator: new {$validator};");
 						}
 
-						$gridView->findColumn($field)->validators->add($validatorIntance);
+						if($validatorIntance instanceof \System\Validators\UniqueValidator) {
+							$validatorIntance->dataSource = self::all();
+						}
+						$gridView->findColumn($field)->addValidator($validatorIntance);
 					}
 				}
 			}

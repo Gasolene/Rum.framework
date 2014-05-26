@@ -375,7 +375,7 @@
 						eval("\$validator = new {$validator};");
 						if($validator instanceof \System\Validators\ValidatorBase)
 						{
-							$form->fieldset->getControl($field)->validators->add($validator);
+							$form->fieldset->getControl($field)->addValidator($validator);
 						}
 					}
 				}

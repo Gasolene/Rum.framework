@@ -22,7 +22,6 @@
 	 * @property string $tooltip Specifies control tooltip
 	 * @property bool $submitted Specifies whether the data has been submitted
 	 * @property bool $changed Specifies whether the data has been changed
-	 * @property array $validators Array of validators
 	 * @property bool $disableAutoComplete Specifies whether to disable the browsers auto complete feature
 	 * @property string $placeholder Specifies the text for the placeholder attribute
 	 *
@@ -246,9 +245,6 @@
 			elseif( $field === 'changed' ) {
 				return $this->changed;
 			}
-			elseif( $field === 'validators' ) {
-				return $this->validators;
-			}
 			else {
 				return parent::__get($field);
 			}
@@ -340,7 +336,6 @@
 		public function addValidator(\System\Validators\ValidatorBase $validator)
 		{
 			$validator->field = $this->dataField;
-//			$validator->bind($this->parent->dataSource);
 			$this->validators->add($validator);
 		}
 
