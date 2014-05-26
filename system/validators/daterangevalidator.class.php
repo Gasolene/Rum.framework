@@ -56,7 +56,7 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = $this->errorMessage?$this->errorMessage:
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:$this->label.' '.
 					\str_replace('%x', ($this->minDate? "after ".$this->minDate : ""), 
 					\str_replace('%y', ($this->maxDate? ($this->minDate? " and ":"")."before ".$this->maxDate : ""), 
 					\System\Base\ApplicationBase::getInstance()->translator->get('must_be_within_the_range_of_x_and_y')));

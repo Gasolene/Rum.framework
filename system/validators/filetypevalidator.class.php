@@ -60,7 +60,7 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = $this->errorMessage?$this->errorMessage:\System\Base\ApplicationBase::getInstance()->translator->get('is_not_a_valid_file_type');
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:$this->label.' '.\System\Base\ApplicationBase::getInstance()->translator->get('is_not_a_valid_file_type');
 		}
 
 

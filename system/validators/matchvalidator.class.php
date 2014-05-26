@@ -29,7 +29,7 @@
 		public function __construct(\System\Web\WebControls\InputBase &$controlToMatch, $errorMessage = '' )
 		{
 			trigger_error("MatchValidator is deprecated, use CompareValidator instead", E_USER_DEPRECATED);
-			parent::__construct($controlToMatch, $errorMessage);
+			parent::__construct($controlToMatch->dataField, '==', $errorMessage);
 		}
 	}
 ?>

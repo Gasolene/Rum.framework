@@ -26,7 +26,7 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = $this->errorMessage?$this->errorMessage:\System\Base\ApplicationBase::getInstance()->translator->get('must_be_numeric');
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:$this->label.' '.\System\Base\ApplicationBase::getInstance()->translator->get('must_be_numeric');
 		}
 
 

@@ -11,6 +11,8 @@
 	/**
 	 * Provides basic validation for web controls
 	 *
+	 * @property string $field field name to validate
+	 * @property string $label field label
 	 * @property string $errorMessage error message
 	 *
 	 * @package			PHPRum
@@ -19,6 +21,18 @@
 	 */
 	abstract class ValidatorBase
 	{
+		/**
+		 * field name to validate
+		 * @var string
+		 */
+		protected $field;
+
+		/**
+		 * field label
+		 * @var string
+		 */
+		protected $label;
+
 		/**
 		 * error message
 		 * @var string
@@ -48,7 +62,10 @@
 		 * @ignore
 		 */
 		public function __get( $field ) {
-			if( $field === 'errorMessage' ) {
+			if( $field === 'field' ) {
+				return $this->field;
+			}
+			elseif( $field === 'errorMessage' ) {
 				return $this->errorMessage;
 			}
 			else {
@@ -68,12 +85,26 @@
 		 * @ignore
 		 */
 		public function __set( $field, $value ) {
-			if( $field === 'errorMessage' ) {
+			if( $field === 'field' ) {
+				$this->field = (string)$value;
+			}
+			elseif( $field === 'errorMessage' ) {
 				$this->errorMessage = (string)$value;
 			}
 			else {
 				throw new \System\Base\BadMemberCallException("call to undefined property $field in ".get_class($this));
 			}
+		}
+
+
+		/**
+		 * bind to data source
+		 *
+		 * @return void
+		 */
+		public function bind(\System\DB\DataSet &$dataSource)
+		{
+			$this->dataSource =& $dataSource;
 		}
 
 
@@ -86,6 +117,7 @@
 		final public function load()
 		{
 			// onLoad event
+			$this->label = $this->label?$this->label:ucwords(str_replace('_',' ',$this->field));
 			$this->onLoad();
 		}
 

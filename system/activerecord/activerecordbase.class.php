@@ -1076,11 +1076,6 @@
 							throw new \System\Base\InvalidOperationException("Cannot create validator: new {$validator};");
 						}
 
-						if($validatorIntance instanceof \System\Validators\UniqueValidator)
-						{
-							$validatorIntance->setDataSource(self::all(), $field);
-						}
-
 						$gridView->findColumn($field)->validators->add($validatorIntance);
 					}
 				}

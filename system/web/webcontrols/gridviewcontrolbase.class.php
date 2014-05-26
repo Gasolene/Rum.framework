@@ -241,6 +241,8 @@
 		 */
 		public function addValidator(\System\Validators\ValidatorBase $validator)
 		{
+			$validator->field = $this->dataField;
+			$validator->dataSource = $this->gridView->dataSource;
 			$this->validators->add($validator);
 		}
 
@@ -258,7 +260,16 @@
 			{
 				foreach($this->validators as $validator)
 				{
-					if(!$validator->validate($this->value))
+					if($validator instanceof \System\Validators\CompareValidator)
+					{
+						if(!$validator->compare($this->value, $this->gridView->columns->findColumn($validator->fieldToCompare)->value))
+						{
+							$fail = true;
+							if($errMsg) $errMsg .= ", ";
+							$errMsg .= $validator->errorMessage;
+						}
+					}
+					elseif(!$validator->validate($this->value))
 					{
 						$fail = true;
 						if($errMsg) $errMsg .= ", ";

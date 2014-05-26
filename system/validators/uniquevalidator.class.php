@@ -31,12 +31,6 @@
 		 */
 		private $dataSource;
 
-		/**
-		 * field name to validate against
-		 * @var string
-		 */
-		private $fieldName;
-
 
 		/**
 		 * UniqueValidator
@@ -58,19 +52,8 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = $this->errorMessage?$this->errorMessage:\System\Base\ApplicationBase::getInstance()->translator->get('must_be_unique');
-		}
-
-
-		/**
-		 * set data source
-		 *
-		 * @return void
-		 */
-		public function setDataSource(\System\DB\DataSet $dataSource, $fieldName)
-		{
-			$this->dataSource =& $dataSource;
-			$this->fieldName = $fieldName;
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:$this->label.' '.$this->field.' '.\System\Base\ApplicationBase::getInstance()->translator->get('must_be_unique');
+			$this->prevValue = $this->dataSource[$this->field];
 		}
 
 

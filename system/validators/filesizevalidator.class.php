@@ -56,7 +56,7 @@
 		 */
 		protected function onLoad()
 		{
-			$this->errorMessage = $this->errorMessage?$this->errorMessage:str_replace('%n', "{$this->maxSize}KB", \System\Base\ApplicationBase::getInstance()->translator->get('must_be_less_than'));
+			$this->errorMessage = $this->errorMessage?$this->errorMessage:$this->label.' '.str_replace('%n', "{$this->maxSize}KB", \System\Base\ApplicationBase::getInstance()->translator->get('must_be_less_than'));
 		}
 
 
