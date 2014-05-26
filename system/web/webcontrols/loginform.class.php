@@ -116,7 +116,7 @@
 		 ** Specifies the confirm password label text
 		 * @var string
 		 */
-		protected $ConfirmPasswordLabelText		= "Confirm password";
+		protected $confirmPasswordLabelText		= "Confirm password";
 
 		/**
 		 * specifies the message when login failed
@@ -159,6 +159,18 @@
 		 * @var string
 		 */
 		protected $successMsg					= 'You have successfully logged in';
+
+		/**
+		 * specifies the password validation message
+		 * @var string
+		 */
+		protected $passwordValidationMsg		= 'Password must contain at least 6 characters with at least 1 numeric character';
+
+		/**
+		 * specifies the passwords must match validation message
+		 * @var string
+		 */
+		protected $passwordsMustMatchValidationMsg		= 'Passwords must match';
 
 		/**
 		 * Specifies the from address when email is sent
@@ -390,16 +402,16 @@
 				$this->legend = $this->resetPasswordFormTitle;
 				$this->add(new Password('username'));
 				$this->add(new Password('password'));
-				$this->add(new Button('login', $this->resetButtonlabel));
+				$this->add(new Button('login', $this->resetButtonLabelText));
 
 				$this->getControl('username')->label = $this->newPasswordLabelText;
-				$this->getControl('password')->label = $this->confirmPasswordLabel;
+				$this->getControl('password')->label = $this->confirmPasswordLabelText;
 				$this->getControl('username')->placeholder = $this->newPasswordLabelText;
-				$this->getControl('password')->placeholder = $this->confirmPasswordLabel;
+				$this->getControl('password')->placeholder = $this->confirmPasswordLabelText;
 
 				$this->getControl('username')->addValidator(new \System\Validators\RequiredValidator());
-				$this->getControl('username')->addValidator(new \System\Validators\MatchValidator($this->password));
-				$this->getControl('username')->addValidator(new \System\Validators\PatternValidator('^(?=.*\d).{6,16}$^'));
+				$this->getControl('username')->addValidator(new \System\Validators\CompareValidator('password', '==', $this->passwordsMustMatchValidationMsg));
+				$this->getControl('username')->addValidator(new \System\Validators\PatternValidator('^(?=.*\d).{6,16}$^', $this->passwordValidationMsg));
 			}
 			elseif( isset( $request["forgot_password"] ))
 			{
