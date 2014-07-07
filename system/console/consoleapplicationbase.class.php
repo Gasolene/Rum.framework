@@ -18,5 +18,18 @@
 	 */
 	abstract class ConsoleApplicationBase extends ApplicationBase
 	{
+		/**
+		 * returns the environment
+		 *
+		 * @return  string
+		 */
+		final protected function getEnv()
+		{
+			if(isset($_SERVER["APP_ENV"]))
+			{
+				return $_SERVER["APP_ENV"];
+			}
+			else return "";
+		}
 	}
 ?>

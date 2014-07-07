@@ -238,6 +238,8 @@
 			{
 				if( !$this->running )
 				{
+					$env = $this->getEnv();
+
 					// lock ServletBase
 					$this->running = true;
 
@@ -251,7 +253,7 @@
 					$this->loadAppConfig( __CONFIG_PATH__ . __APP_CONF_FILENAME__ );
 
 					// load env application configuration
-					if($_SERVER[__ENV_PARAMETER__]) $this->loadAppConfig( __ENV_PATH__ . '/' . strtolower($_SERVER[__ENV_PARAMETER__]) . __APP_CONF_FILENAME__ );
+					if($env) $this->loadAppConfig( __ENV_PATH__ . '/' . strtolower($env) . __APP_CONF_FILENAME__ );
 
 					// get handles
 					$this->cache = $this->getCache();
@@ -437,6 +439,14 @@
 		{
 			ApplicationBase::getInstance()->handleShutDown();
 		}
+
+
+		/**
+		 * returns the environment
+		 *
+		 * @return  string
+		 */
+		abstract protected function getEnv();
 
 
 		/**

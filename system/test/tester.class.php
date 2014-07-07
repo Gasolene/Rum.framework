@@ -208,14 +208,14 @@
 			error_reporting( E_ALL & ~E_STRICT );
 
 			// load global app configuration
-			if(file_exists(__CONFIG_PATH__ . __APP_CONF_FILENAME__)) {
-				\System\Base\ApplicationBase::getInstance()->loadAppConfig( __CONFIG_PATH__ . __APP_CONF_FILENAME__ );
-			}
+//			if(file_exists(__CONFIG_PATH__ . __APP_CONF_FILENAME__)) {
+//				\System\Base\ApplicationBase::getInstance()->loadAppConfig( __CONFIG_PATH__ . __APP_CONF_FILENAME__ );
+//			}
 
 			// load test env app configuration
-			if(file_exists(__ENV_PATH__ . '/' . __TEST_ENV__ . __APP_CONF_FILENAME__)) {
-				\System\Base\ApplicationBase::getInstance()->loadAppConfig( __ENV_PATH__ . '/' . __TEST_ENV__ . __APP_CONF_FILENAME__ );
-			}
+//			if(file_exists(__ENV_PATH__ . '/' . __TEST_ENV__ . __APP_CONF_FILENAME__)) {
+//				\System\Base\ApplicationBase::getInstance()->loadAppConfig( __ENV_PATH__ . '/' . __TEST_ENV__ . __APP_CONF_FILENAME__ );
+//			}
 
 //			if(\Rum::config()->dsn)
 //			{
