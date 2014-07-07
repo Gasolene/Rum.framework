@@ -457,6 +457,45 @@
 
 
 		/**
+		 * returns the environment
+		 *
+		 * @return  string
+		 */
+		final protected function getEnv()
+		{
+			$env = '';
+			if(isset($_SERVER["APP_ENV"]))
+			{
+				$env = $_SERVER["APP_ENV"];
+			}
+			else
+			{
+				$env = '';
+			}
+
+			if($env===__DEV_ENV__ || $env===__TEST_ENV__ || !$env)
+			{
+				if(strpos(\System\Web\HTTPRequest::$request[\Rum::config()->requestParameter], 'dev')===0)
+				{
+					// kludge handle
+					if(strpos(\System\Web\HTTPRequest::$request[\Rum::config()->requestParameter], 'run_')!==false ||
+							\System\Web\HTTPRequest::$request["id"]==='run_all')
+					{
+						$env = __TEST_ENV__;
+					}
+					else
+					{
+						$env =__DEV_ENV__;
+					}
+	//				end kludge
+				}
+			}
+
+			return $env;
+		}
+
+
+		/**
 		 * execute the application
 		 *
 		 * @return  void
@@ -647,8 +686,16 @@
 				}
 				else
 				{
-					// Not Authenticated
-					\System\Security\Authentication::redirectToLogin();
+					if( isset( $request->request["async"] ))
+					{
+						// Not Authenticated
+						\Rum::sendHTTPError(401);
+					}
+					else
+					{
+						// Not Authenticated
+						\System\Security\Authentication::redirectToLogin();
+					}
 				}
 			}
 		}
@@ -719,6 +766,7 @@
 
 							\System\Web\HTTPResponse::clear();
 							\System\Web\HTTPResponse::write("console.log('".(str_replace("\n", '', str_replace("\r", '', $content)))."');");
+							\System\Web\HTTPResponse::write("alert('An unhandled exception occurred during execution, please check logs');");
 							\System\Web\HTTPResponse::end();
 						}
 					}
