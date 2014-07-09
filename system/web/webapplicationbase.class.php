@@ -475,7 +475,7 @@
 
 			if($env===__DEV_ENV__ || $env===__TEST_ENV__ || !$env)
 			{
-				if(strpos(\System\Web\HTTPRequest::$request[\Rum::config()->requestParameter], 'dev')===0)
+				if(isset(\System\Web\HTTPRequest::$request[\Rum::config()->requestParameter])&&strpos(\System\Web\HTTPRequest::$request[\Rum::config()->requestParameter], 'dev')===0)
 				{
 					// kludge handle
 					if(strpos(\System\Web\HTTPRequest::$request[\Rum::config()->requestParameter], 'run_')!==false ||
