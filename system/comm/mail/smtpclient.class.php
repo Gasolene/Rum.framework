@@ -292,10 +292,10 @@
 			//Set who the message is to be sent to
 			$mail->addAddress($message->to);
 			foreach($message->cc as $cc) {
-				$mail->addAddress($cc);
+				$mail->addCC($cc);
 			}
 			foreach($message->bcc as $bcc) {
-				$mail->addAddress($bcc);
+				$mail->addBCC($bcc);
 			}
 
 			//Set the subject line
