@@ -483,6 +483,17 @@
 
 
 		/**
+		 * get all attachments
+		 *
+		 * @return array of attachments
+		 */
+		public function getAttachments()
+		{
+			return $this->attachments;
+		}
+
+
+		/**
 		 * get end of line seperator
 		 *
 		 * @return string

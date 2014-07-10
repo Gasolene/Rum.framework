@@ -10,7 +10,9 @@
 	/**
 	 * include lib
 	 */
-	require_once __LIB_PATH__ . '/smtp/class.smtp.php';
+//	require_once __LIB_PATH__ . '/smtp/class.smtp.php';
+	require_once __LIB_PATH__ . '/PHPMailer/class.phpmailer.php';
+	require_once __LIB_PATH__ . '/PHPMailer/class.smtp.php';
 
 	/**
 	 * Handles email sending via smtp client
@@ -74,8 +76,9 @@
 		/**
 		 * smpt client
 		 * @var SMTP
-		 */
+		 * /
 		private $smtp = null;
+		 */
 
 
 		/**
@@ -180,7 +183,7 @@
 		 * Initiates a connection to an SMTP server
 		 * operation failed.
 		 * @return void
-		 */
+		 * /
 		public function open()
 		{
 			if( $this->smtp == null )
@@ -230,12 +233,13 @@
 				throw new \System\Base\InvalidOperationException("Could not connect to SMPT server, check smtp settings");
 			}
 		}
+		*/
 
 
 		/**
 		 * Closes the active SMTP session if one exists.
 		 * @return void
-		 */
+		 * /
 		public function close()
 		{
 			if( $this->smtp != null )
@@ -248,6 +252,7 @@
 				}
 			}
 		}
+		*/
 
 
 		/**
@@ -258,65 +263,58 @@
 		 */
 		public function send(MailMessage $message)
 		{
-			$this->open();
+			//Create a new PHPMailer instance
+			$mail = new \PHPMailer();
+			//Tell PHPMailer to use SMTP
+			$mail->isSMTP();
+			//Enable SMTP debugging
+			// 0 = off (for production use)
+			// 1 = client messages
+			// 2 = client and server messages
+			$mail->SMTPDebug = 0;
+			//Ask for HTML-friendly debug output
+			$mail->Debugoutput = 'html';
+			//Set the hostname of the mail server
+			$mail->Host = $this->host;
+			//Set the SMTP port number - likely to be 25, 465 or 587
+			$mail->Port = $this->port;
+			//Whether to use SMTP authentication
+			$mail->SMTPAuth = true;
+			//Username to use for SMTP authentication
+			$mail->Username = $this->authUsername;
+			//Password to use for SMTP authentication
+			$mail->Password = $this->authPassword;
+			//Set who the message is to be sent from
+			$mail->setFrom($message->from);
+			//Set an alternative reply-to address
+			$mail->addReplyTo($message->from);
 
-			if(!$this->smtp->Mail($message->from))
-			{
-				$this->smtp->Reset();
-				throw new \System\Base\InvalidOperationException("Could not send email, check smtp settings");
+			//Set who the message is to be sent to
+			$mail->addAddress($message->to);
+			foreach($message->cc as $cc) {
+				$mail->addAddress($cc);
 			}
-
-			$bad_rcpt = array();
-
-			// Attempt to send attach all recipients
-			if(!$this->smtp->Recipient($message->to))
-			{
-				$bad_rcpt[] = $message->to;
-			}
-
-			for($i = 0; $i < count($message->cc); $i++)
-			{
-				if(!$this->smtp->Recipient($message->cc[$i]))
-				{
-					$bad_rcpt[] = $message->cc[$i];
-				}
-			}
-			for($i = 0; $i < count($message->bcc); $i++)
-			{
-				if(!$this->smtp->Recipient($message->bcc[$i]))
-				{
-					$bad_rcpt[] = $message->bcc[$i];
-				}
-			}
-
-			if(count($bad_rcpt) > 0) // Create error message
-			{
-				for($i = 0; $i < count($bad_rcpt); $i++)
-				{
-					if($i != 0) { $error .= ", "; }
-					$error .= $bad_rcpt[$i];
-				}
-				$this->smtp->Reset();
-				throw new \System\Base\InvalidOperationException("mail was not accepted for delivery, recipients failed {$error}");
+			foreach($message->bcc as $bcc) {
+				$mail->addAddress($bcc);
 			}
 
-			if( !$this->smtp->Data( $message->getHeaders() . $message->getContent() ))
+			//Set the subject line
+			$mail->Subject = $message->subject;
+			//Read an HTML message body from an external file, convert referenced images to embedded,
+			//convert HTML into a basic plain-text alternative body
+			$mail->msgHTML($message->body);
+			//Replace the plain text body with one created manually
+//			$mail->AltBody = 'This is a plain-text message body';
+			//Attach an image file
+			foreach($message->getAttachments() as $attachment)
 			{
-				//$this->smtp->Reset();
-				throw new \System\Base\InvalidOperationException("mail was not accepted for delivery, " . implode(',', $this->smtp->error));
-			}
-			else
-			{
-				\Rum::log("Mail message sent via SMTPClient from `{$message->from}` to `{$message->to}`, subject `{$message->subject}`", 'mail');
+				// TODO: write content to tmp file
+				$mail->addAttachment($attachment["content"]);
 			}
 
-			if($this->keepAlive)
-			{
-				$this->smtp->Reset();
-			}
-			else
-			{
-				$this->close();
+			//send the message, check for errors
+			if (!$mail->send()) {
+				throw new \System\Base\InvalidOperationException("Mail was not accepted for delivery, {$mail->ErrorInfo}");
 			}
 		}
 	}
