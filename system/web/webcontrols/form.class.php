@@ -689,7 +689,7 @@
 			// loop through input controls
 			foreach( $this->controls as $childControl )
 			{
-				$childControl->updateAjax();
+				$childControl->needsUpdating = true;
 			}
 		}
 
