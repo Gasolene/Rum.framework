@@ -1123,7 +1123,8 @@
 			// Update only tbody element
 			$page = $this->getParentByType('\System\Web\WebControls\Page');
 
-			$tbody = \addslashes(str_replace("<tbody>", '', str_replace("</tbody>", '', $this->getDomObject()->tbody->fetch())));
+//			$tbody = \addslashes(str_replace("<tbody>", '', str_replace("</tbody>", '', $this->getDomObject()->tbody->fetch())));
+			$tbody = \addslashes(str_replace("<tbody>", '', str_replace("</tbody>", '', trim(preg_replace('/\n+/','' ,preg_replace('/\r+/','' ,$this->getDomObject()->tbody->fetch()))))));
 
 			// Update rows
 			$page->loadAjaxJScriptBuffer('var tbody1 = Rum.id(\''.$this->getHTMLControlId().'\').getElementsByTagName(\'tbody\')[0];');
