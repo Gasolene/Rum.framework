@@ -91,20 +91,6 @@
 
 
 		/**
-		 * this.to clear all flash messages
-		 */
-		this.unflashAll = function() {
-			if(this.id('messages')) {
-				var messages = this.id('messages').childNodes;
-				for(i=0;i<messages.length;i++)
-				{
-					messages[i].parentNode.removeChild(messages[i]);
-				}
-			}
-		};
-
-
-		/**
 		 * this.to forward
 		 * @param url url
 		 */
