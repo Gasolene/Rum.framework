@@ -439,7 +439,7 @@
 				$this->filter->filterDataSet($ds);
 
 				if($this->filter->submitted == true && $this->gridView->ajaxPostBack) {
-					$this->gridView->updateAjax();
+					$this->gridView->needsUpdating = true;
 				}
 			}
 		}
