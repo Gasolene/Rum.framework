@@ -100,7 +100,7 @@
 		public function compare($value1, $value2)
 		{
 			$this->setErrMsg($value2);
-;
+
 			if($this->operator=='==' || $this->operator=='=')
 			{
 				return ($value1 == $value2);
