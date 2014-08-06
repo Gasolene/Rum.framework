@@ -78,30 +78,6 @@
 
 
 		/**
-		 * read view state from session
-		 *
-		 * @param  array	&$viewState	session array
-		 * @return void
-		 */
-		protected function onLoadViewState( array &$viewState )
-		{
-			return;
-		}
-
-
-		/**
-		 * write view state to session
-		 *
-		 * @param  array	&$viewState	session array
-		 * @return void
-		 */
-		protected function onSaveViewState( array &$viewState )
-		{
-			return;
-		}
-
-
-		/**
 		 * Event called on ajax callback
 		 *
 		 * @return void
