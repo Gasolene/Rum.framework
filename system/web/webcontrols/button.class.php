@@ -109,6 +109,32 @@
 			}
 		}
 
+		/**
+		 * renders form open tag
+		 *
+		 * @param   array	$args	attribute parameters
+		 * @return void
+		 */
+		public function begin( $args = array() )
+		{
+			$tmp = $this->text;
+			$this->text = '';
+			$result = $this->getDomObject()->fetch( $args );
+			$this->text = $tmp;
+			\System\Web\HTTPResponse::write( str_replace( '</button>', '', $result ));
+		}
+
+
+		/**
+		 * renders form close tag
+		 *
+		 * @return void
+		 */
+		public function end()
+		{
+			\System\Web\HTTPResponse::write( '</button>' );
+		}
+
 
 		/**
 		 * getDomObject
@@ -119,8 +145,26 @@
 		 */
 		public function getDomObject()
 		{
-			$input = $this->getInputDomObject();
-			$input->setAttribute( 'value', $this->text );
+			$input = $this->createDomObject( 'button' );
+			$input->setAttribute( 'name', $this->getHTMLControlId() );
+			$input->setAttribute( 'id', $this->getHTMLControlId() );
+
+			if( $this->autoFocus )
+			{
+				$input->setAttribute( 'autofocus', 'autofocus' );
+			}
+
+			if( $this->disabled )
+			{
+				$input->setAttribute( 'disabled', 'disabled' );
+			}
+
+			if( !$this->visible )
+			{
+				$input->setAttribute( 'type', 'hidden' );
+			}
+
+			$input->nodeValue = $this->text;
 //			$input->setAttribute( 'class', ' button' );
 
 			if( $this->src )
