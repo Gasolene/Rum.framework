@@ -489,7 +489,7 @@
 					}
 	//				end kludge
 				}
-				elseif(strpos(\System\Web\HTTPRequest::$request[\Rum::config()->requestParameter], 'test')===0)
+				elseif(isset(\System\Web\HTTPRequest::$request[\Rum::config()->requestParameter]) && strpos(\System\Web\HTTPRequest::$request[\Rum::config()->requestParameter], 'test')===0)
 				{
 					$env =__TEST_ENV__;
 				}
