@@ -368,6 +368,7 @@
 		 */
 		public function start( $args = array() )
 		{
+			trigger_error("Form::start() is deprecated, use Form::begin() instead", E_USER_DEPRECATED);
 			$this->begin( $args );
 		}
 
