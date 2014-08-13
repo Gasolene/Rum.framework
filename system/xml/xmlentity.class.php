@@ -504,14 +504,7 @@
 			// set render time attributes
 			foreach( $args as $key => $value )
 			{
-				if( isset( $this->attributes[strtolower($key)] ))
-				{
-					$this->attributes[strtolower($key)] .= $value;
-				}
-				else
-				{
-					$this->attributes[strtolower($key)] = $value;
-				}
+				$this->attributes[strtolower($key)] = $value;
 			}
 
 			return $this->getXMLString();
