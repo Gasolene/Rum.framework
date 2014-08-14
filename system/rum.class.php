@@ -223,42 +223,13 @@
 
 
 		/**
-		 * returns the application messages as an HTML element
+		 * returns an array of que'd up messages
 		 *
-		 * @return string
+		 * @return array
 		 */
 		static public function messages()
 		{
-			$output = '<ul id="messages" class="messages">';
-
-			if( \System\Web\WebApplicationBase::getInstance()->messages->count > 0 )
-			{
-				foreach(\System\Web\WebApplicationBase::getInstance()->messages as $message)
-				{
-					if($message->type == \System\Base\AppMessageType::Fail())
-					{
-						$output .= "<li class=\"fail\">";
-					}
-					elseif($message->type == \System\Base\AppMessageType::Warning())
-					{
-						$output .= "<li class=\"warning\">";
-					}
-					elseif($message->type == \System\Base\AppMessageType::Success())
-					{
-						$output .= "<li class=\"success\">";
-					}
-					else
-					{
-						$output .= "<li class=\"info\">";
-					}
-
-					$output .= \nl2br(\Rum::escape($message->message)) . '</li>';
-				}
-			}
-
-			$output .= '</ul>';
-
-			return $output;
+			return \System\Web\WebApplicationBase::getInstance()->messages;
 		}
 
 

@@ -21,6 +21,14 @@
 		var validationReady = true;
 
 		/**
+		 * Specifies the default flash handler
+		 * @param params parameters
+		 */
+		this.defaultFlashHandler = function(message, type){
+			alert(message);
+		};
+
+		/**
 		 * Specifies the default ajax start handler
 		 * @param params parameters
 		 */
@@ -74,19 +82,8 @@
 		 * @param type message type
 		 * @param delay delay in seconds
 		 */
-		this.flash = function(message, type, delay) {
-			if(!delay) delay = 3000;
-			if(this.id('messages')) {
-				var li = document.createElement('li');
-				var text = document.createTextNode(message);
-				li.setAttribute('class', type);
-//				addListener(a, 'click', function(){li.style.display='none';});
-				li.appendChild(text);
-				this.id('messages').appendChild(li);
-				setTimeout(function() {
-					fadeOut(li);
-				}, delay);
-			}
+		this.flash = function(message, type) {
+			this.defaultFlashHandler(message, type);
 		};
 
 

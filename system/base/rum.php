@@ -201,11 +201,6 @@
 	if( !defined( '__VALIDATION_TIMEOUT__' ))			define( '__VALIDATION_TIMEOUT__',			'3000' );
 
 	/**
-	 * specifies the asyncronous flash message timeout
-	 */
-	if( !defined( '__FLASH_MSG_TIMEOUT__' ))			define( '__FLASH_MSG_TIMEOUT__',			'3000' );
-
-	/**
 	 * specifies the number of warnings to dump
 	 */
 	if( !defined( '__ERROR_LIMIT__' ))					define( '__ERROR_LIMIT__',					10 );

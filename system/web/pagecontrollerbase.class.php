@@ -165,7 +165,7 @@
 			}
 
 			$this->page->addScript( \System\Web\WebApplicationBase::getInstance()->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript')) . '&asset=rum.js' );
-			$this->page->onload .= 'Rum.init(\''.__ASYNC_REQUEST_PARAMETER__.'\', '.__VALIDATION_TIMEOUT__.', '.__FLASH_MSG_TIMEOUT__.');';
+			$this->page->onload .= 'Rum.init(\''.__ASYNC_REQUEST_PARAMETER__.'\', '.__VALIDATION_TIMEOUT__.');';
 
 			// combine all css files for theme
 			$themeStatus = \System\Base\Build::get('theme_built');
