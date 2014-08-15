@@ -276,7 +276,7 @@
 				$null->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
-			if( $this->ajaxPostBack || $this->ajaxValidation )
+			if( $this->ajaxPostBack )
 			{
 				$js = '\'' . $this->getHTMLControlId() . '__day=\' + Rum.id(\'' . $this->getHTMLControlId() . '__day\').value + ';
 				$js .= '\'&' . $this->getHTMLControlId() . '__month=\' + Rum.id(\'' . $this->getHTMLControlId() . '__month\').value + ';

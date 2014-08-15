@@ -607,7 +607,9 @@
 		 */
 		final public function updateAjax()
 		{
-			$this->onUpdateAjax();
+			if(\Rum::app()->requestHandler->isAjaxPostBack) {
+				$this->onUpdateAjax();
+			}
 		}
 
 

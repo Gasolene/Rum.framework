@@ -100,7 +100,7 @@
 				$select->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
-			if( $this->ajaxPostBack || $this->ajaxValidation )
+			if( $this->ajaxPostBack )
 			{
 				if( !$this->multiple )
 				{
@@ -193,17 +193,17 @@
 				}
 			}
 
-			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted)
-			{
-				if($this->validate($errMsg))
-				{
-					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.clear('{$this->getHTMLControlId()}');");
-				}
-				else
-				{
-					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}', '".\addslashes($errMsg)."');");
-				}
-			}
+//			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted)
+//			{
+//				if($this->validate($errMsg))
+//				{
+//					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.clear('{$this->getHTMLControlId()}');");
+//				}
+//				else
+//				{
+//					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}', '".\addslashes($errMsg)."');");
+//				}
+//			}
 		}
 
 

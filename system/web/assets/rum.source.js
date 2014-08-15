@@ -21,18 +21,16 @@
 		var validationReady = true;
 
 		/**
-		 * Specifies the default flash handler
+		 * Specifies the default ajax start handler
 		 * @param params parameters
 		 */
-		this.defaultFlashHandler = function(message, type){
-			alert(message);
-		};
+		this.defaultFlashHandler = function(message, type){alert(message);};
 
 		/**
 		 * Specifies the default ajax start handler
 		 * @param params parameters
 		 */
-		this.defaultAjaxStartHandler = function(params){console.log('start');};
+		this.defaultAjaxStartHandler = function(params){};
 
 		/**
 		 * Specifies the default ajax completion handler
@@ -275,7 +273,7 @@
 		 * Funciton to assert a Validation Message
 		 * @param id element id
 		 * @param msg message
-		 */
+		 * /
 		this.assert = function(id, msg) {
 			if(this.id(id)) {
 				if(this.id(id).className.indexOf(" invalid") === -1) {
@@ -285,12 +283,13 @@
 			}
 			this.reset();
 		};
+		*/
 
 
 		/**
 		 * Funciton to clear Validation Message
 		 * @param id element id
-		 */
+		 * /
 		this.clear = function( id ) {
 			if(this.id(id)) {
 				if(this.id(id+"__err")) {
@@ -300,6 +299,7 @@
 			}
 			this.reset();
 		};
+		*/
 
 
 		/**

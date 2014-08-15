@@ -16,7 +16,6 @@
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
 	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
-	 * @property bool $ajaxValidation specifies whether to perform ajax validation, Default is false
 	 * @property bool $readonly Specifies whether control is readonly
 	 * @property bool $disabled Specifies whether the control is disabled
 	 * @property string $tooltip Specifies control tooltip
@@ -60,12 +59,6 @@
 		 * @var string
 		 */
 		public $ajaxCompletionHandler		= 'null';
-
-		/**
-		 * Specifies whether form will submit ajax validation, Default is false
-		 * @var bool
-		 */
-		protected $ajaxValidation			= false;
 
 		/**
 		 * Specifies whether the control is readonly, Default is false
@@ -214,9 +207,6 @@
 			elseif( $field === 'ajaxCompletionHandler' ) {
 				return $this->ajaxCompletionHandler;
 			}
-			elseif( $field === 'ajaxValidation' ) {
-				return $this->ajaxValidation;
-			}
 			elseif( $field === 'disableAutoComplete' ) {
 				return $this->disableAutoComplete;
 			}
@@ -284,7 +274,7 @@
 				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
 			}
 			elseif( $field === 'ajaxValidation' ) {
-				$this->ajaxValidation = (bool)$value;
+				trigger_error("InputBase::ajaxValidation is deprecated, use ValidationMessage instead", E_USER_DEPRECATED);
 			}
 			elseif( $field === 'disableAutoComplete' ) {
 				$this->disableAutoComplete = (bool)$value;
@@ -383,6 +373,7 @@
 		 */
 		public function error( array $args = array() )
 		{
+			trigger_error("InputBase::error() is deprecated, user ErrorMessage instead", E_USER_DEPRECATED);
 			\System\Web\HTTPResponse::write( $this->fetchError( $args ));
 		}
 
@@ -451,7 +442,7 @@
 				$input->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType( '\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
-			if( $this->ajaxPostBack || $this->ajaxValidation )
+			if( $this->ajaxPostBack )
 			{
 				$input->setAttribute( 'onchange', 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+encodeURIComponent(this.value)+\'&'.$this->getRequestData().'\',\'POST\','.\addslashes($this->ajaxStartHandler).','.\addslashes($this->ajaxCompletionHandler).');' );
 			}
@@ -556,17 +547,17 @@
 				}
 			}
 
-			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted )
-			{
-				if($this->validate($errMsg))
-				{
-					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.clear('{$this->getHTMLControlId()}');");
-				}
-				else
-				{
-					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}', '".\addslashes($errMsg)."');");
-				}
-			}
+//			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted )
+//			{
+//				if($this->validate($errMsg))
+//				{
+//					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.clear('{$this->getHTMLControlId()}');");
+//				}
+//				else
+//				{
+//					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}', '".\addslashes($errMsg)."');");
+//				}
+//			}
 		}
 
 

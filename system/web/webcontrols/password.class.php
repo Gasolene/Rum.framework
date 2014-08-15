@@ -98,7 +98,7 @@
 			$input = $this->getInputDomObject();
 //			$input->setAttribute( 'class', ' password' );
 
-			if( $this->ajaxPostBack || $this->ajaxValidation )
+			if( $this->ajaxPostBack )
 			{
 				$input->setAttribute( 'onkeyup', 'if(Rum.isReady(\''.$this->getHTMLControlId().'__err\')){' . 'Rum.evalAsync(\'' . $this->ajaxCallback . '\',\'' . $this->getHTMLControlId().'=\'+encodeURIComponent(this.value)+\'&'.$this->getRequestData().'\',\'POST\','.\addslashes($this->ajaxStartHandler).','.\addslashes($this->ajaxCompletionHandler).');}' );
 			}

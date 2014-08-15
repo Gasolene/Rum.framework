@@ -235,17 +235,17 @@
 				}
 			}
 
-			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted)
-			{
-				if($this->validate($errMsg))
-				{
-					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.clear('{$this->getHTMLControlId()}');");
-				}
-				else
-				{
-					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}', '".\addslashes($errMsg)."');");
-				}
-			}
+//			if(( $this->ajaxPostBack || $this->ajaxValidation ) && $this->submitted)
+//			{
+//				if($this->validate($errMsg))
+//				{
+//					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.clear('{$this->getHTMLControlId()}');");
+//				}
+//				else
+//				{
+//					$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.assert('{$this->getHTMLControlId()}', '".\addslashes($errMsg)."');");
+//				}
+//			}
 		}
 	}
 ?>

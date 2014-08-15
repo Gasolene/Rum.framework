@@ -212,7 +212,7 @@
 				$null->setAttribute( 'onchange', 'Rum.id(\''.$this->getParentByType('\System\Web\WebControls\Form')->getHTMLControlId().'\').submit();' );
 			}
 
-			if( $this->ajaxPostBack || $this->ajaxValidation )
+			if( $this->ajaxPostBack )
 			{
 				$js = '\'' . $this->getHTMLControlId() . '__hour=\' + Rum.id(\'' . $this->getHTMLControlId() . '__hour\').value + ';
 				$js .= '\'&' . $this->getHTMLControlId() . '__minute=\' + Rum.id(\'' . $this->getHTMLControlId() . '__minute\').value + ';
