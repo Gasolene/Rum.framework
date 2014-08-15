@@ -64,6 +64,12 @@
 		protected $forward				= '';
 
 		/**
+		 * turn on or off ajax post backs
+		 * @var bool
+		 */
+		protected $ajaxPostBack			= false;
+
+		/**
 		 * specifies whether to check for hidden field before processing request
 		 * @var bool
 		 */
