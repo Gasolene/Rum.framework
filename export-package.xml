@@ -181,43 +181,13 @@
 			<param name="plugin" value="ckeditor" />
 		</antcall>
 		<antcall target="_export.plugin.package">
-			<param name="plugin" value="commoncontrols" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="datepicker" />
-		</antcall>
-		<antcall target="_export.plugin.package">
 			<param name="plugin" value="fckeditor" />
 		</antcall>
-		<!--
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="gatewayadapter" />
-		</antcall>
-		-->
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="gd" />
-		</antcall>
-		<!--
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="imagecropper" />
-		</antcall>
-		-->
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="jquery" />
-		</antcall>
-		<!--
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="pickadate" />
-		</antcall>
-		-->
 		<antcall target="_export.plugin.package">
 			<param name="plugin" value="picklist" />
 		</antcall>
 		<antcall target="_export.plugin.package">
 			<param name="plugin" value="rss" />
-		</antcall>
-		<antcall target="_export.plugin.package">
-			<param name="plugin" value="suggestbox" />
 		</antcall>
 		<antcall target="_export.plugin.package">
 			<param name="plugin" value="tinymce" />

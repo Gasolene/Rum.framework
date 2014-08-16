@@ -1,6 +1,6 @@
-Written by Darnell S., April 10, 2010
+Written by Darnell S., Aug 15, 2014
 
-Copyright 2011 by Darnell S.
+Copyright 2014 by Darnell S.
 Redistribution of this file is permitted under the GNU Public License.
 
 Installation
@@ -12,7 +12,7 @@ Installation
 Documentation
 ------------------
 
-1. /docs/documentation
+1. visit php-rum.com
 
 Known Issues
 ------------------
