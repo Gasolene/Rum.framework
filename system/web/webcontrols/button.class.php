@@ -53,12 +53,14 @@
 			$onPostMethod = 'on' . ucwords( $this->controlId ) . 'Click';
 			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $onPostMethod))
 			{
+				trigger_error("built in method {$onPostMethod} is deprecated, use on" . ucwords( $this->controlId ) . 'Post instead', E_USER_DEPRECATED);
 				$this->events->registerEventHandler(new \System\Web\Events\InputPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onPostMethod));
 			}
 
 			$onAjaxPostMethod = 'on' . ucwords( $this->controlId ) . 'AjaxClick';
 			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $onAjaxPostMethod))
 			{
+				trigger_error("built in method {$onAjaxPostMethod} is deprecated, use on" . ucwords( $this->controlId ) . 'AjaxPost instead', E_USER_DEPRECATED);
 				$this->ajaxPostBack = true;
 				$this->events->registerEventHandler(new \System\Web\Events\InputAjaxPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onAjaxPostMethod));
 			}
@@ -157,11 +159,6 @@
 			if( $this->disabled )
 			{
 				$input->setAttribute( 'disabled', 'disabled' );
-			}
-
-			if( !$this->visible )
-			{
-				$input->setAttribute( 'type', 'hidden' );
 			}
 
 			$input->nodeValue = $this->text;
