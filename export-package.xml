@@ -111,25 +111,16 @@
 ?&gt;</echo>
 	</target>
 
+<!--
 	<target name="build.hello_world" description="Build HelloWorld package and update source files">
-
-		<!-- update framework files -->
-		<echo message="Updating framework source files" />
-		<copy todir="${hello_world.path}" overwrite="true">
-			<fileset dir=".">
-				<patternset refid="package.include.files" />
-			</fileset>
-		</copy>
-
-		<!-- update themes -->
 		<echo message="Updating themes" />
 		<copy todir="${hello_world.path}/public/themes" overwrite="true">
 			<fileset dir="${test.path}/public/themes">
 				<patternset refid="package.include.files" />
 			</fileset>
 		</copy>
-
 	</target>
+-->
 
 	<target name="export.packages" description="Export packages">
 
@@ -166,13 +157,13 @@
 			<param name="src" value="${hello_world.path}" />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
-<!--
+
 		<antcall target="_export.package">
 			<param name="dest" value="${output.blog}" />
 			<param name="src" value="${blog.path}" />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
--->
+
 		<!-- export plugins -->
 		<antcall target="_export.plugin.package">
 			<param name="plugin" value="calendar" />
