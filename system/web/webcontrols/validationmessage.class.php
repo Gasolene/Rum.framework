@@ -77,11 +77,11 @@
 		 */
 		public function __set( $field, $value ) {
 			if( $field === 'controlToValidate' ) {
-				if(1) {
+				if($value instanceof InputBase) {
 					$this->controlToValidate = $value;
 				}
 				else {
-					
+					throw new \System\Base\BadMemberCallException("controlToValidate must be type InputBase");
 				}
 			}
 			else {
@@ -108,6 +108,35 @@
 
 
 		/**
+		 * renders form open tag
+		 *
+		 * @param   array	$args	attribute parameters
+		 * @return void
+		 */
+		public function begin( $args = array() )
+		{
+			$span = $this->createDomObject( 'span' );
+			$span->setAttribute('id', $this->getHTMLControlId());
+			if(!$this->errMsg) {
+				$span->setAttribute('style', 'display:none;');
+			}
+
+			\System\Web\HTTPResponse::write(str_replace( '</span>', '', $span->fetch($args)));
+		}
+
+
+		/**
+		 * renders form close tag
+		 *
+		 * @return void
+		 */
+		public function end()
+		{
+			\System\Web\HTTPResponse::write( '</span>' );
+		}
+
+
+		/**
 		 * returns an input DomObject representing control
 		 *
 		 * @return DomObject
@@ -116,7 +145,12 @@
 		{
 			$span = $this->createDomObject( 'span' );
 			$span->setAttribute('id', $this->getHTMLControlId());
-			$span->nodeValue = $this->errMsg;
+			if($this->errMsg) {
+				$span->nodeValue = $this->errMsg;
+			}
+			else {
+				$span->setAttribute('style', 'display:none;');
+			}
 			return $span;
 		}
 
@@ -128,6 +162,13 @@
 		 */
 		protected function onUpdateAjax()
 		{
+			if($this->errMsg) {
+				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').style.display='inline';");
+			}
+			else {
+				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').style.display='none';");
+			}
+
 			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').innerHTML='{$this->errMsg}';");
 		}
 	}
