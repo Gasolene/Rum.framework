@@ -706,6 +706,7 @@
 				}
 
 				$control = $form->getControl( $field );
+				$form->add(new \System\Web\WebControls\ValidationMessage($field.'_error', $control));
 //				$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
 
 				// create references
@@ -1074,6 +1075,7 @@
 				{
 					if($gridView->findColumn($field))
 					{
+						$validatorIntance = null;
 						if(false===eval("\$validatorIntance = new {$validator};"))
 						{
 							throw new \System\Base\InvalidOperationException("Cannot create validator: new {$validator};");
