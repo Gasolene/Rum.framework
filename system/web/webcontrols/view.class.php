@@ -208,7 +208,7 @@
 					{
 						$this->_parameters[$field] = (array)$value;
 					}
-					elseif($value instanceof \System\Base\ModelBase)
+					elseif($value instanceof \System\Base\IBindable)
 					{
 						$this->_parameters[$field] = $value->toArray();
 					}
