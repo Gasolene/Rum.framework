@@ -55,7 +55,9 @@
 						define( INCLUDEPREFIX . $path, true );
 
 						// include class
-						@include $path;
+						if(file_exists($path)) {
+							include $path;
+						}
 					}
 				}
 			}
