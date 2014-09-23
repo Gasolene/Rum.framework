@@ -228,9 +228,9 @@
 				unset( \System\Web\WebApplicationBase::getInstance()->session[\System\Base\ApplicationBase::getInstance()->config->authenticationFormsCookieName.'_last_activity'] );
 			}
 
-			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName, '', -1, \Rum::config()->uri, null, $ssl );
-			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_secret', '', -1, \Rum::config()->uri, null, $ssl );
-			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_last_activity', '', -1, \Rum::config()->uri, null, $ssl );
+			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName, '', -1, \Rum::config()->uri, null );
+			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_secret', '', -1, \Rum::config()->uri, null );
+			\System\Web\HTTPResponse::setCookie(\Rum::config()->authenticationFormsCookieName.'_last_activity', '', -1, \Rum::config()->uri, null );
 
 			\System\Web\WebApplicationBase::getInstance()->setForwardPage();
 		}

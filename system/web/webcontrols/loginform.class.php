@@ -305,7 +305,7 @@
 				// Show reset password form
 				$this->add(new Password('username'));
 				$this->add(new Password('password'));
-				$this->add(new Button('login', \Rum::app()->translator->get('login')));
+				$this->add(new Button('login', \Rum::app()->translator->get('reset_password')));
 
 				$this->getControl('username')->addValidator(new \System\Validators\RequiredValidator());
 				$this->getControl('username')->addValidator(new \System\Validators\CompareValidator('password', '=='));
@@ -325,7 +325,7 @@
 				$this->add(new Text('username'));
 				$this->add(new Password('password'));
 				$this->add(new CheckBox('remember_me'));
-				$this->add(new Button('login', \Rum::app()->translator->get('reset_password')));
+				$this->add(new Button('login', \Rum::app()->translator->get('login')));
 				$this->add(new HyperLink('forgot_password', \Rum::app()->translator->get('forgot_password'), $this->getQueryString('forgot_password=true')));
 			}
 		}
