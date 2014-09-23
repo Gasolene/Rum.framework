@@ -670,12 +670,12 @@
 
 
 		/**
-		 * static method to return a count of the total number of records of this type
+		 * static method to return a count of the number of records of this type
 		 *
 		 * @param  array		$args		associative array of keys and values
 		 * @return DataSet
 		 */
-		static public function total( array $args = array() )
+		static public function countAll( array $args = array() )
 		{
 			return ActiveRecordBase::countByType( self::getClass(), $args );
 		}
