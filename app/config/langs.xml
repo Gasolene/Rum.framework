@@ -23,8 +23,5 @@
 	<string id="is_invalid" value="is invalid" />
 	<string id="is_required" value="is required" />
 	<string id="validation_failed" value="validation has failed" />
-	<string id="login" value="login" />
-	<string id="reset_password" value="reset password" />
-	<string id="forgot_password" value="forgot password" />
   </lang>
 </langs>
