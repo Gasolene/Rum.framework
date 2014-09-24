@@ -317,6 +317,15 @@
 				/**
 				 * get ajax buffer
 				**/
+				ob_start();
+				$this->page->fetch();
+				ob_clean();
+				$this->page->updateAjax();
+
+				/**
+				 * onPreRender event
+				 * update all components with data from the request
+				**/
 
 				if(\System\Web\WebApplicationBase::getInstance()->messages->count>0)
 				{
@@ -324,8 +333,6 @@
 					{
 						$this->page->loadAjaxJScriptBuffer("Rum.flash( '".\str_replace("\n", '', \str_replace("\r", '', \addslashes($msg->message)))."', '".\strtolower($msg->type)."');");
 					}
-
-					//\System\Web\WebApplicationBase::getInstance()->messages->removeAll();
 				}
 
 				if(\System\Web\WebApplicationBase::getInstance()->forwardURI)

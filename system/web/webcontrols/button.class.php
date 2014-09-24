@@ -32,6 +32,12 @@
 		 */
 		protected $src						= '';
 
+		/**
+		 * contains tmp args array
+		 * @var array
+		 */
+		private $_args				= array();
+
 
 		/**
 		 * Constructor
@@ -119,11 +125,8 @@
 		 */
 		public function begin( $args = array() )
 		{
-			$tmp = $this->text;
-			$this->text = '';
-			$result = $this->getDomObject()->fetch( $args );
-			$this->text = $tmp;
-			\System\Web\HTTPResponse::write( str_replace( '</button>', '', $result ));
+			$this->_args = $args;
+			ob_start();
 		}
 
 
@@ -134,7 +137,8 @@
 		 */
 		public function end()
 		{
-			\System\Web\HTTPResponse::write( '</button>' );
+			$this->text = ob_get_clean();
+			\System\Web\HTTPResponse::write( $this->getDomObject()->fetch( $this->_args ));
 		}
 
 

@@ -607,8 +607,16 @@
 		 */
 		final public function updateAjax()
 		{
-			if(\Rum::app()->requestHandler->isAjaxPostBack) {
-				$this->onUpdateAjax();
+			if(\Rum::app()->requestHandler->isAjaxPostBack)
+			{
+				for( $i = 0, $count = $this->controls->count; $i < $count; $i++ )
+				{
+					$this->controls->itemAt( $i )->updateAjax();
+				}
+
+				if($this->needsUpdating) {
+					$this->onUpdateAjax();
+				}
 			}
 		}
 
@@ -799,12 +807,7 @@
 		 *
 		 * @return void
 		 */
-		protected function onPreRender()
-		{
-			if($this->needsUpdating) {
-				$this->updateAjax();
-			}
-		}
+		protected function onPreRender() {}
 
 
 		/**

@@ -32,6 +32,12 @@
 		 */
 		protected $itemText				= '';
 
+		/**
+		 * contains tmp args array
+		 * @var array
+		 */
+		private $_args				= array();
+
 
 		/**
 		 * Constructor
@@ -100,8 +106,9 @@
 		 * @param   array	$args	attribute parameters
 		 * @return void
 		 */
-		public function begin()
+		public function begin( array $args = array() )
 		{
+			$this->_args = $args;
 			ob_start();
 		}
 
@@ -114,7 +121,7 @@
 		public function end()
 		{
 			$this->itemText = '"' . ob_get_clean() . '"';
-			\System\Web\HTTPResponse::write($this->getDomObject()->innerHtml);
+			\System\Web\HTTPResponse::write($this->getDomObject()->fetch( $this->_args ));
 		}
 
 
@@ -128,7 +135,7 @@
 			if(!$this->itemText) $this->itemText = "%{$this->dataField}%";
 
 			// convert object into array
-			$ul = new \System\XML\DomObject('ul');
+			$ul = new \System\XML\DomObject('div');
 			$ul->setAttribute( 'id', $this->getHTMLControlId() );
 
 			// convert object into array
