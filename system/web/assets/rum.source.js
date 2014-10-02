@@ -137,10 +137,10 @@
 		 */
 		this.sendSync = function( url, params, method ) {
 
-			if (method === null){
+			if (!method){
 				method = 'GET';
 			}
-			if (params === null){
+			if (!params){
 				params = '';
 			}
 
@@ -394,7 +394,7 @@
 		 */
 		sendHTTPRequest = function(http_request, url, params, method, callback, timeout, timeoutHandler) {
 
-			if (method === null){
+			if (!method){
 				method = 'GET';
 			}
 
