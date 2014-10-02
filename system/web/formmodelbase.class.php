@@ -53,7 +53,8 @@
 			'search' => 'System\Web\WebControls\Search',
 			'string' => 'System\Web\WebControls\Text',
 			'tel' => 'System\Web\WebControls\Tel',
-			'time' => 'System\Web\WebControls\Time'
+			'time' => 'System\Web\WebControls\Time',
+			'url' => 'System\Web\WebControls\URL'
 		);
 
 		/**
@@ -76,6 +77,7 @@
 			'string' => 'System\Web\WebControls\GridViewText',
 			'tel' => 'System\Web\WebControls\GridViewTel',
 			'time' => 'System\Web\WebControls\GridViewTime',
+			'url' => 'System\Web\WebControls\GridViewLink'
 		);
 
 		/**
