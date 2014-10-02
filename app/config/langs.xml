@@ -23,8 +23,15 @@
 	<string id="is_invalid" value="is invalid" />
 	<string id="is_required" value="is required" />
 	<string id="validation_failed" value="validation has failed" />
+	<string id="login_form" value="Login form" />
+	<string id="password_reset_form" value="Password reset form" />
 	<string id="login" value="login" />
 	<string id="reset_password" value="reset password" />
 	<string id="forgot_password" value="forgot password" />
+	<string id="username" value="Username" />
+	<string id="password" value="Password" />
+	<string id="remember_me" value="Remember me" />
+	<string id="email_address" value="E-mail address" />
+	<string id="confirm_password" value="Confirm password" />
   </lang>
 </langs>

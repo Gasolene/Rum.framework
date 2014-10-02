@@ -140,6 +140,7 @@
 		{
 			if( $field === 'legend' )
 			{
+				trigger_error("Form::legend is deprecated", E_USER_DEPRECATED);
 				$this->legend = (string)$value;
 			}
 			elseif( $field === 'action' )
@@ -393,6 +394,7 @@
 		 */
 		public function getDomObject()
 		{
+			trigger_error("Form::render() is deprecated, use Form::begin() instead", E_USER_DEPRECATED);
 			$form = $this->getFormDomObject();
 			$buttons = array();
 			$fieldset = '';

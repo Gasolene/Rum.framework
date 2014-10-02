@@ -280,6 +280,7 @@
 				$this->disableAutoComplete = (bool)$value;
 			}
 			elseif( $field === 'placeholder' ) {
+				trigger_error("InputBase::placeholder is deprecated", E_USER_DEPRECATED);
 				$this->placeholder = (string)$value;
 			}
 			elseif( $field === 'readonly' ) {
@@ -293,6 +294,7 @@
 				$this->label = (string)$value;
 			}
 			elseif( $field === 'tooltip' ) {
+				trigger_error("InputBase::tooltip is deprecated", E_USER_DEPRECATED);
 				$this->tooltip = (string)$value;
 			}
 			elseif( $field === 'tabIndex' ) {
