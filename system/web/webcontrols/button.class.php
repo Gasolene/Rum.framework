@@ -213,7 +213,7 @@
 				$form = $this->getParentByType('\System\Web\WebControls\Form');
 				if($form)
 				{
-					$this->attributes->add('onclick', 'return Rum.submit(Rum.id(\'' . $form->getHTMLControlId() . '\'), ' . ( 'Rum.evalFormResponse);' ));
+					$this->attributes->add('onclick', 'return Rum.submit(Rum.id(\'' . $form->getHTMLControlId() . '\'));' );
 				}
 			}
 		}

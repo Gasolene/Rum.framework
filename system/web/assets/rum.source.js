@@ -181,10 +181,14 @@
 		 * this.to submit html forms
 		 * @param formElement form element
 		 */
-		this.submit = function(formElement) {
+		this.submit = function(formElement, startHandler, completionHandler) {
 
-			var callback = evalFormResponse;
-			createFrame(formElement, callback);
+			var eventArgs = {};
+			if(!startHandler) startHandler = this.defaultAjaxStartHandler;
+			if(!completionHandler) completionHandler = this.defaultAjaxCompletionHandler;
+
+			createFrame(formElement, completionHandler, eventArgs);
+			startHandler(eventArgs);
 			return true;
 		};
 
@@ -477,7 +481,12 @@
 		 * @param response response
 		 */
 		evalFormResponse = function(formElement, response) {
+			// Kludge: this is kludge, no way to set custom completion handler for this event!
+			var eventArgs = {};
+			var completionHandler = Rum.defaultAjaxCompletionHandler;
+
 			eval(response);
+			completionHandler(eventArgs);
 			formElement.removeChild(Rum.id(formElement.getAttribute('id')+'__async'));
 			formElement.setAttribute('target', '');
 		};
@@ -488,8 +497,9 @@
 		 * @param formElement form element
 		 * @param callback callback
 		 */
-		createFrame = function(formElement, callback) {
+		createFrame = function(formElement, completionHandler, eventArgs) {
 
+			var callback = this.evalFormResponse;
 			var frameName = 'f' + Math.floor(Math.random() * 99999);
 			var divElement = document.createElement('DIV');
 			var iFrameElement = document.getElementById(formElement.getAttribute('id') + '__async_postback');

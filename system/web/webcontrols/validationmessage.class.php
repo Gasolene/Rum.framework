@@ -163,13 +163,16 @@
 		protected function onUpdateAjax()
 		{
 			if($this->errMsg) {
-				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').style.display='inline';");
+				// TODO: move inside Rum.js
+				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("if(Rum.id('{$this->getHTMLControlId()}')){Rum.id('{$this->getHTMLControlId()}').style.display='inline';}");
 			}
 			else {
-				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').style.display='none';");
+				// TODO: move inside Rum.js
+				$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("if(Rum.id('{$this->getHTMLControlId()}')){Rum.id('{$this->getHTMLControlId()}').style.display='none';}");
 			}
 
-			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("Rum.id('{$this->getHTMLControlId()}').innerHTML='{$this->errMsg}';");
+			// TODO: move inside Rum.js
+			$this->getParentByType('\System\Web\WebControls\Page')->loadAjaxJScriptBuffer("if(Rum.id('{$this->getHTMLControlId()}')){Rum.id('{$this->getHTMLControlId()}').innerHTML='{$this->errMsg}';}");
 		}
 	}
 ?>

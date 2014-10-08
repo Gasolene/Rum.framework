@@ -581,7 +581,7 @@
 			// perform ajax request
 			if( $this->ajaxPostBack )
 			{
-				$this->_onsubmit = "return Rum.submit(this, " . ( 'Rum.evalFormResponse);' );
+				$this->_onsubmit = "return Rum.submit(this);";
 			}
 		}
 
