@@ -3,7 +3,7 @@
 	 * @license			see /docs/license.txt
 	 * @package			PHPRum
 	 * @author			Darnell Shinbine
-	 * @copyright		Copyright (c) 2011
+	 * @copyright		Copyright (c) 2013
 	 */
 	namespace System\Comm;
 
@@ -17,6 +17,7 @@
 	 * @property string $timeout timeout
 	 * @property string $httpVersion HTTP version
 	 * @property string $url URL to send to
+	 * @property bool $keepAlive Specifies whether to keep connection alive
 	 *
 	 * @package			PHPRum
 	 * @subpackage		Comm
@@ -59,6 +60,12 @@
 		 * @var string
 		 */
 		private $url					= '';
+
+		/**
+		 * Specifies whether to keep connection alive
+		 * @var bool
+		 */
+		private $keepAlive				= false;
 
 		/**
 		 * headers to send
@@ -105,6 +112,10 @@
 			elseif( $field === 'url' )
 			{
 				return $this->url;
+			}
+			elseif( $field === 'keepAlive' )
+			{
+				return $this->keepAlive;
 			}
 			else
 			{
@@ -156,6 +167,10 @@
 			elseif( $field === 'url' )
 			{
 				$this->url = (string)$value;
+			}
+			elseif( $field === 'keepAlive' )
+			{
+				$this->keepAlive = (bool)$value;
 			}
 			else
 			{
@@ -313,7 +328,12 @@
 				$request .= "$header\r\n";
 			}
 
-			$request .= "Connection: keep-alive\r\n\r\n";
+			if($this->keepAlive) {
+				$request .= "Connection: keep-alive\r\n\r\n";
+			}
+			else {
+				$request .= "Connection: Close\r\n\r\n";
+			}
 
 			if( strtoupper( $this->method ) === 'POST' )
 			{
