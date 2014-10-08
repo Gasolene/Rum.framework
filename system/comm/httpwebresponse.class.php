@@ -93,7 +93,7 @@
 			// handle Continue condition
 			if( strstr( $this->httpStatus, "HTTP/1.1 100 Continue" ) !== false )
 			{
-				while( !$stream->oes() && ( $headers = $stream->readln() ))
+				while( !$stream->eos() && ( $headers = $stream->readln() ))
 				{
 					if( str_replace( "\r", '', $headers ) === "\n" )
 					{
@@ -113,7 +113,7 @@
 					break;
 				}
 
-				$data = explode( ':', str_replace( "\r", '', str_replace( "\n", '', $headers )));
+				$data = explode( ':', str_replace( "\r", '', str_replace( "\n", '', $headers )), 2);
 
 				if( isset( $data[1] ))
 				{
