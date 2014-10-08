@@ -1372,7 +1372,7 @@
 			{
 				if( strtolower( $mapping['type'] ) === strtolower( $type ))
 				{
-					if( $mapping['relationship'] == RelationshipType::HasMany()->__toString() )
+					if( $mapping['relationship'] == RelationshipType::HasManyAndBelongsTo()->__toString() )
 					{
 						$query = $this->dataSet->dataAdapter->queryBuilder();
 						$query->delete();
@@ -1382,7 +1382,7 @@
 						$query->execute();
 						return;
 					}
-					if( $mapping['relationship'] == RelationshipType::HasManyAndBelongsTo()->__toString() )
+					if( $mapping['relationship'] == RelationshipType::HasMany()->__toString() )
 					{
 						$query = $this->dataSet->dataAdapter->queryBuilder();
 						$query->update( $mapping['table'] );
