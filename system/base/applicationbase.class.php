@@ -353,7 +353,10 @@
 				$this->config = $appConfigObj;
 				$this->dataAdapter = null;
 				$this->debug = ( $this->config->state == AppState::debug() )?TRUE:FALSE;
-				return;
+
+				if(!$this->debug) {
+					return;
+				}
 			}
 
 			// Parse XML file
