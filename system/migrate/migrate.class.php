@@ -37,6 +37,7 @@
 
 			$migrations = new Migrations();
 			$this->loadAppConfig( __ENV_PATH__ . '/' . strtolower($env) . __APP_CONF_FILENAME__ );
+			\System\Base\Build::clean();
 
 			if($task=="upgrade")
 			{
