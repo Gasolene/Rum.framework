@@ -307,8 +307,9 @@
 		{
 			$autoLoaders = Build::get('autoloaders');
 
-			if( is_null( $autoLoaders ))
+			if( is_null( $autoLoaders ) || $this->debug )
 			{
+				$this->timer->pause();
 				$autoLoaders = array();
 
 				$dir = @opendir( __PLUGINS_PATH__ );
@@ -327,6 +328,7 @@
 				}
 
 				Build::put('autoloaders', $autoLoaders);
+				$this->timer->resume();
 			}
 
 			foreach($autoLoaders as $autoLoader)
@@ -359,12 +361,14 @@
 				}
 			}
 
+			$this->timer->pause();
 			// Parse XML file
 			$this->config->loadAppConfig( $xmlConfig );
 			$this->dataAdapter = null;
 			$this->debug = ( $this->config->state == AppState::debug() )?TRUE:FALSE;
 
 			Build::put( $cacheId, $this->config );
+			$this->timer->resume();
 		}
 
 
