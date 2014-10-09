@@ -301,7 +301,6 @@
 //			$legend = \substr( strrchr( self::getClass(), '\\'), 1 );
 
 			$form = new \System\Web\WebControls\Form( $controlId );
-			$form->add( new \System\Web\WebControls\Fieldset( 'fieldset' ));
 //			$form->fieldset->legend = \ucwords( \System\Web\WebApplicationBase::getInstance()->translator->get( $legend, $legend ));
 
 			// create controls
@@ -309,12 +308,45 @@
 			{
 				if(isset(self::$field_mappings[$type]))
 				{
-					$form->fieldset->add(new self::$field_mappings[$type]($field));
-//					$form->fieldset->getControl( $field )->label = ucwords( \System\Web\WebApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
+					$form->add(new self::$field_mappings[$type]($field));
 				}
 				else
 				{
 					throw new \System\Base\InvalidOperationException("No field mapping assigned to `{$type}`");
+				}
+
+				$control = $form->getControl( $field );
+				$form->add(new \System\Web\WebControls\ValidationMessage($field.'_error', $control));
+//				$form->fieldset->getControl( $field )->label = ucwords( \System\Web\WebApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
+
+				// create list
+				if($type === 'enum')
+				{
+					$options = array();
+					foreach( $activeRecord->rules[$field] as $rule )
+					{
+						$type = \strstr($rule, '(', true);
+						if($type === 'enum')
+						{
+							$type = \strstr($rule, '(', true);
+							if(!$type)
+							{
+								$type = $rule;
+							}
+							$params = \strstr($rule, '(');
+							if(!$params)
+							{
+								$params = '()';
+							}
+							eval("\$options = {$params};");
+
+							foreach($options as $key=>$value) {
+								$control->items->add($key, $value);
+							}
+
+							continue 2;
+						}
+					}
 				}
 			}
 
@@ -372,12 +404,12 @@
 
 				foreach( $validators as $validator )
 				{
-					if($form->fieldset->hasControl($field))
+					if($form->hasControl($field))
 					{
 						eval("\$validator = new {$validator};");
 						if($validator instanceof \System\Validators\ValidatorBase)
 						{
-							$form->fieldset->getControl($field)->addValidator($validator);
+							$form->getControl($field)->addValidator($validator);
 						}
 					}
 				}
