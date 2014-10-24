@@ -42,49 +42,6 @@
 
 
 		/**
-		 * returns the current page breadcrumb trail as an HTML element
-		 *
-		 * @return string
-		 */
-		static public function breadcrumb()
-		{
-			$pages = array();
-			$breadcrumb = '';
-			$parent = '';
-			foreach(explode('/', \System\Web\WebApplicationBase::getInstance()->currentPage) as $page)
-			{
-				$title = $page;
-				if($parent) {
-					$page = $parent . '/' . $page;
-				}
-				else {
-					$page = $page;
-				}
-				$pages[$title] = $page;
-				$parent = $page;
-			}
-			$i=0;
-			foreach($pages as $title=>$page)
-			{
-				if($breadcrumb)
-				{
-					$breadcrumb .= '&nbsp;&raquo;&nbsp;';
-				}
-				if(count($pages)-1<>$i++)
-				{
-					$breadcrumb .= "<a href=\"".\System\Web\WebApplicationBase::getInstance()->getPageURI($page)."\">".ucwords($title)."</a>";
-				}
-				else
-				{
-					$breadcrumb .= ucwords($title);
-				}
-			}
-
-			return $breadcrumb;
-		}
-
-
-		/**
 		 * This method returns the configuration object
 		 *
 		 * @return  CacheBase
@@ -204,7 +161,7 @@
 		 */
 		static public function link($title, $page, array $args = array(), $class = '')
 		{
-			$uri = \Rum::escape(\System\Web\WebApplicationBase::getInstance()->getPageURI($page, $args));
+			$uri = \Rum::escape(self::uri($page, $args));
 			return "<a href=\"{$uri}\" title=\"{$title}\" class=\"{$class}\">{$title}</a>";
 		}
 
@@ -265,7 +222,71 @@
 		 */
 		static public function uri( $page = '', array $args = array() )
 		{
-			return \System\Web\WebApplicationBase::getInstance()->getPageURI( $page, $args );
+			if( \Rum::app() instanceof \System\Web\WebApplicationBase )
+			{
+				return \System\Web\WebApplicationBase::getInstance()->getPageURI( $page, $args );
+			}
+			else
+			{
+				$uri = \Rum::app()->config->uri;
+
+				// get controller
+				$page = strtolower( \urldecode( $page?str_replace( '.', '/', str_replace( '_', '-', $page ) ):'' ));
+
+				if( \Rum::app()->config->rewriteURIS )
+				{
+					$id = __PAGE_EXTENSION__;
+
+					if( !empty( $args['id'] ))
+					{
+						$id = '/' . rawurlencode($args['id']);
+						unset( $args['id'] );
+					}
+
+					// build uri
+					$uri .= '/' . $page . $id;
+				}
+				else {
+					// append page to parameter list
+					if( $page ) {
+						$args[\Rum::app()->config->requestParameter] = $page;
+					}
+
+					// build uri
+					$uri .= substr( $_SERVER['SCRIPT_NAME'], strrpos( $_SERVER['SCRIPT_NAME'], '/' ));
+				}
+
+				// add parameters to query string
+				$params = '';
+				foreach( $args as $key => $value )
+				{
+					$param = '';
+					if(is_array($value))
+					{
+						$values = '';
+						foreach($value as $item)
+						{
+							$values[] = "{$key}[]=$item";
+						}
+						$param = join("&", $values);
+					}
+					else
+					{
+						$param = "{$key}=".rawurlencode($value);
+					}
+
+					if( $params )
+					{
+						$params .= "&{$param}";
+					}
+					else {
+						$params .= "?{$param}";
+					}
+				}
+
+				// create query string
+				return $uri . $params;
+			}
 		}
 
 
@@ -278,7 +299,7 @@
 		 */
 		static public function url( $page = '', array $args = array() )
 		{
-			return __PROTOCOL__ . '://' . __HOST__ . \System\Web\WebApplicationBase::getInstance()->getPageURI( $page, $args );
+			return __PROTOCOL__ . '://' . __HOST__ . self::uri( $page, $args );
 		}
 
 
