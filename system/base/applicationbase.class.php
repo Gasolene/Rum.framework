@@ -348,15 +348,16 @@
 		{
 			$cacheId = 'app-config:' . strtolower( $xmlConfig );
 
-			// Retrieve Appconfig from cache
-			$appConfigObj = Build::get( $cacheId );
-			if($appConfigObj)
+			if(\Rum::app()->getEnv() != __DEV_ENV__)
 			{
-				$this->config = $appConfigObj;
-				$this->dataAdapter = null;
-				$this->debug = ( $this->config->state == AppState::debug() )?TRUE:FALSE;
+				// Retrieve Appconfig from cache
+				$appConfigObj = Build::get( $cacheId );
+				if($appConfigObj)
+				{
+					$this->config = $appConfigObj;
+					$this->dataAdapter = null;
+					$this->debug = ( $this->config->state == AppState::debug() )?TRUE:FALSE;
 
-				if(!$this->debug) {
 					return;
 				}
 			}
