@@ -348,7 +348,7 @@
 		{
 			$cacheId = 'app-config:' . strtolower( $xmlConfig );
 
-			if(\Rum::app()->getEnv() != __DEV_ENV__)
+			if(\Rum::app()->getEnv() != __DEV_ENV__ && \Rum::app()->getEnv() != __TEST_ENV__)
 			{
 				// Retrieve Appconfig from cache
 				$appConfigObj = Build::get( $cacheId );
