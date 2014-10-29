@@ -227,7 +227,7 @@
 				// getAll[Type]Records() = getAllRecordsByType( string $type )
 				elseif( $prefix === 'getAll' && ( $suffix === 'Records' || $suffix === 's' || $suffix === '' ))
 				{
-					if( count($args) <= 1 )
+					if( count($args) <= 3 )
 					{
 						return $this->getAllRecordsByType( $type, isset($args[0])?$args[0]:array(), isset($args[1])?$args[1]:array(), isset($args[2])?$args[2]:array(), isset($args[3])?$args[3]:array(), isset($args[4])?$args[4]:array() );
 					}
@@ -240,7 +240,7 @@
 				// getCount[Type]Records() = findAllRecordsByType( string $type )
 				elseif( $prefix === 'getCount' && ( $suffix === 'Records' || $suffix === 's' || $suffix === '' ))
 				{
-					if( count($args) <= 1 )
+					if( count($args) <= 3 )
 					{
 						return $this->getCountByType( $type, isset($args[0])?$args[0]:array(), isset($args[1])?$args[1]:array(), isset($args[2])?$args[2]:array(), isset($args[3])?$args[3]:array(), isset($args[4])?$args[4]:array() );
 					}
