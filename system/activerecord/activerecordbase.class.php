@@ -1699,7 +1699,7 @@
 						->select( $mapping['table'], '*' )
 						->from( $mapping['table'] );
 
-						foreach( $args as $key => $value )
+						foreach( $filter as $key => $value )
 						{
 							$query->where( $activeRecord->table, (string)$key, '=', $value );
 						}
