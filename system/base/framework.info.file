@@ -30,19 +30,19 @@
      * build number
      * @var string
      */
-	const FRAMEWORK_BUILD_NUMBER = '201410291303';
+	const FRAMEWORK_BUILD_NUMBER = '201410311320';
 
     /**
      * build date
      * @var string
      */
-	const FRAMEWORK_BUILD_TIME = '29 Oct 14';
+	const FRAMEWORK_BUILD_TIME = '31 Oct 14';
 
     /**
      * build time
      * @var string
      */
-	const FRAMEWORK_BUILD_DATE = '13:03:48 MDT';
+	const FRAMEWORK_BUILD_DATE = '13:20:07 MDT';
 
     /**
      * framework authors
@@ -54,11 +54,11 @@
      * framework version string
      * @var string
      */
-	const FRAMEWORK_VERSION_STRING = '6.6.0-beta-1.10 (Build 201410291303)';
+	const FRAMEWORK_VERSION_STRING = '6.6.0-beta-1.10 (Build 201410311320)';
 
     /**
      * framework date string
      * @var string
      */
-	const FRAMEWORK_DATE_STRING = 'last build on 29 Oct 14 at 13:03:48 MDT';
+	const FRAMEWORK_DATE_STRING = 'last build on 31 Oct 14 at 13:20:07 MDT';
 ?>

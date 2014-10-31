@@ -120,7 +120,7 @@
 		 */
 		public function generateHash($passwordToEncrypt, $salt)
 		{
-			return \System\Security\Authentication::generateHash($this->credential["password-format"], $passwordToEncrypt, (isset($this->credential["salt"])?$this->credential["salt"]:'') . $salt);
+			return \System\Security\Authentication::generateHash(isset($this->credential["password-format"])?$this->credential["password-format"]:'', $passwordToEncrypt, (isset($this->credential["salt"])?$this->credential["salt"]:'') . $salt);
 		}
 
 
