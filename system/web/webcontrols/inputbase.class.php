@@ -14,8 +14,8 @@
 	 * @property bool $autoFocus specifies whether to auto focus
 	 * @property bool $autoPostBack Specifies whether form will perform postback on change, Default is false
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
-	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
-	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
+	 * @property string $ajaxStartHandler specifies the optional ajax start handler
+	 * @property string $ajaxCompletionHandler specifies the optional ajax completion handler
 	 * @property bool $readonly Specifies whether control is readonly
 	 * @property bool $disabled Specifies whether the control is disabled
 	 * @property string $tooltip Specifies control tooltip

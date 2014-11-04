@@ -21,6 +21,11 @@
 		var validationReady = true;
 
 		/**
+		 * Specifies the current form ajax completion handler
+		 */
+		var formCompletionHandler = function(params){};
+
+		/**
 		 * Specifies the default ajax start handler
 		 * @param params parameters
 		 */
@@ -476,14 +481,14 @@
 
 
 		/**
-		 * this.to set the validation ready flag
+		 * handle form responses
 		 * @param formElement form element
 		 * @param response response
 		 */
 		evalFormResponse = function(formElement, response) {
 			// Kludge: this is kludge, no way to set custom completion handler for this event!
 			var eventArgs = {};
-			var completionHandler = Rum.defaultAjaxCompletionHandler;
+			var completionHandler = formCompletionHandler?formCompletionHandler:Rum.defaultAjaxCompletionHandler;
 
 			eval(response);
 			completionHandler(eventArgs);
@@ -513,6 +518,7 @@
 
 			document.body.appendChild(divElement);
 
+			formCompletionHandler = completionHandler;
 			var frameElement = document.getElementById(frameName);
 			//if (callback && typeof(callback) == 'this.function =') {
 				frameElement.completeCallback = callback;

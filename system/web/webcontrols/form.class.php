@@ -22,6 +22,8 @@
 	 * @property string $encodeType form encoding type
 	 * @property string $forward controller to forward to
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback, Default is false
+	 * @property string $ajaxStartHandler specifies the optional ajax start handler
+	 * @property string $ajaxCompletionHandler specifies the optional ajax completion handler
 	 * @property string $honeyPot specifies the content of the honeypot field
 	 * @property string $submitted specifies if form was submitted
 	 * @property RequestParameterCollection $parameters form parameters
@@ -68,6 +70,18 @@
 		 * @var bool
 		 */
 		protected $ajaxPostBack			= false;
+
+		/**
+		 * specifies the optional ajax start handler
+		 * @var string
+		 */
+		public $ajaxStartHandler			= 'null';
+
+		/**
+		 * specifies the optional ajax completion handler
+		 * @var string
+		 */
+		public $ajaxCompletionHandler		= 'null';
 
 		/**
 		 * specifies whether to check for hidden field before processing request
@@ -173,6 +187,12 @@
 			{
 				$this->setAjaxPostBack($value);
 			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				$this->ajaxStartHandler = (string)$ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
+			}
 			elseif( $field === 'ajaxValidation' )
 			{
 				trigger_error("Form::ajaxValidation is deprecated, use ValidationMessage instead", E_USER_DEPRECATED);
@@ -239,6 +259,12 @@
 			elseif( $field === 'ajaxPostBack' )
 			{
 				return $this->ajaxPostBack;
+			}
+			elseif( $field === 'ajaxStartHandler' ) {
+				return $this->ajaxStartHandler;
+			}
+			elseif( $field === 'ajaxCompletionHandler' ) {
+				return $this->ajaxCompletionHandler;
 			}
 			elseif( $field === 'honeyPot' )
 			{
@@ -581,7 +607,7 @@
 			// perform ajax request
 			if( $this->ajaxPostBack )
 			{
-				$this->_onsubmit = "return Rum.submit(this);";
+				$this->_onsubmit = 'return Rum.submit(this,'.($this->ajaxStartHandler).','.($this->ajaxCompletionHandler).');';
 			}
 		}
 
