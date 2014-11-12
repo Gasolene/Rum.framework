@@ -302,9 +302,14 @@
 			$mail->Subject = $message->subject;
 			//Read an HTML message body from an external file, convert referenced images to embedded,
 			//convert HTML into a basic plain-text alternative body
-			$mail->msgHTML($message->body);
+			if($message->html) {
+				$mail->msgHTML($message->body);
+			}
 			//Replace the plain text body with one created manually
-//			$mail->AltBody = 'This is a plain-text message body';
+			else {
+				$mail->msgHTML(nl2br($message->body));
+			}
+
 			//Attach an image file
 			foreach($message->getAttachments() as $attachment)
 			{
