@@ -238,6 +238,8 @@
 
 			// event handling
 			$this->events->add(new \System\Web\Events\PagePostEvent());
+			$this->events->add(new \System\Web\Events\GridViewSortEvent());
+			$this->events->add(new \System\Web\Events\GridViewFilterEvent());
 
 			// default events
 			$onPostMethod = 'on' . ucwords( $this->controlId ) . 'Post';
