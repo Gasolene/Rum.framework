@@ -72,9 +72,12 @@
 		 */
 		public function validate($value)
 		{
-			if( array_search( $value['type'], $this->types ) === false )
+			if( $value['type'] )
 			{
-				return false;
+				if( array_search( $value['type'], $this->types ) === false )
+				{
+					return false;
+				}
 			}
 			return true;
 		}
