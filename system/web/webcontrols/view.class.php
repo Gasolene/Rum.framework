@@ -425,6 +425,20 @@
 
 
 		/**
+		 * Event called on ajax callback
+		 *
+		 * @return void
+		 */
+		protected function onUpdateAjax()
+		{
+            if(!is_null($this->master))
+            {
+                $this->master->updateAjaxMasterView();
+            }
+		}
+
+
+		/**
 		 * send headers
 		 *
 		 * @return  void

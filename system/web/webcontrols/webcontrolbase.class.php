@@ -236,7 +236,7 @@
 			}
 			elseif( $field === 'needsUpdating' )
 			{
-				$this->needsUpdating = (bool)$value;
+				$this->setNeedsUpdating($value);
 			}
 			elseif( $field === 'parent' )
 			{
@@ -982,7 +982,23 @@
 			$this->enableViewState = (bool)$enableViewState;
 			if($this->enableViewState && $this->parent)
 			{
-				$this->parent->setEnableViewState($enableViewState);
+				$this->parent->setEnableViewState(true);
+			}
+		}
+
+
+		/**
+		 * set enableViewState on all child controls
+		 *
+		 * @param  bool $enableViewState viewstate state
+		 * @return void
+		 */
+		private function setNeedsUpdating($needsUpdating = true)
+		{
+			$this->needsUpdating = (bool)$needsUpdating;
+			if($this->needsUpdating && $this->parent)
+			{
+				$this->parent->setNeedsUpdating(true);
 			}
 		}
 	}
