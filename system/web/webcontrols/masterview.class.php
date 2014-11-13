@@ -170,6 +170,22 @@
 
 
 		/**
+		 * called when all controls are loaded
+		 *
+		 * @return void
+		 */
+		final public function updateAjaxMasterView()
+		{
+			for( $i = 0, $count = $this->controls->count; $i < $count; $i++ )
+			{
+                $this->controls->itemAt( $i )->updateAjax();
+			}
+
+			$this->onUpdateAjax();
+		}
+
+
+		/**
 		 * write view state to session
 		 *
 		 * @param  array	&$viewState	session data
