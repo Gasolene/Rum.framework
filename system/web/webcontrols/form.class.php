@@ -456,7 +456,7 @@
 					$dd = '<dd>';
 
 					// create label
-					$dt .= '<label for="'.$childControl->getHTMLControlId().'">' . $childControl->label . '</label>';
+					$dt .= '<label for="'.$childControl->getHTMLControlId().'">' . $childControl->controlId . '</label>';
 
 					// Get input control
 					$dd .= $childControl->fetch();
