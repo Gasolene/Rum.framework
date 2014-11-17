@@ -317,13 +317,14 @@
 
 				$control = $form->getControl( $field );
 				$form->add(new \System\Web\WebControls\ValidationMessage($field.'_error', $control));
+				$form->add(new \System\Web\WebControls\Label($field.'_label', str_replace( '_', ' ', $field )));
 //				$form->fieldset->getControl( $field )->label = ucwords( \System\Web\WebApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
 
 				// create list
 				if($type === 'enum')
 				{
 					$options = array();
-					foreach( $activeRecord->rules[$field] as $rule )
+					foreach( $model->rules[$field] as $rule )
 					{
 						$type = \strstr($rule, '(', true);
 						if($type === 'enum')

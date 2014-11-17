@@ -9,7 +9,7 @@
 
 
 	/**
-	 * Represents a Button Control
+	 * Represents a Label Control
 	 *
 	 * @property string $text Specifies button text
 	 *
@@ -23,7 +23,7 @@
 		 * specifies button text
 		 * @var string
 		 */
-		protected $text						= '';
+		protected $text							= '';
 
 
 		/**
@@ -37,25 +37,7 @@
 		{
 			parent::__construct( $controlId );
 
-			$this->text = $text;
-
-			// event handling
-			/*
-			$this->events->add(new \System\Web\Events\InputPostEvent());
-
-			$onPostMethod = 'on' . ucwords( $this->controlId ) . 'Click';
-			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $onPostMethod))
-			{
-				$this->events->registerEventHandler(new \System\Web\Events\InputPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onPostMethod));
-			}
-
-			$onAjaxPostMethod = 'on' . ucwords( $this->controlId ) . 'AjaxClick';
-			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $onAjaxPostMethod))
-			{
-				$this->ajaxPostBack = true;
-				$this->events->registerEventHandler(new \System\Web\Events\InputAjaxPostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onAjaxPostMethod));
-			}
-			*/
+			$this->text = $text?$text:$controlId;
 		}
 
 
@@ -107,15 +89,15 @@
 		 */
 		public function getDomObject()
 		{
-			$span = $this->createDomObject('label');
-			$span->nodeValue = $this->text;
+			$label = $this->createDomObject('label');
+			$label->nodeValue = $this->text;
 
 			if( !$this->visible )
 			{
-				$span->setAttribute( 'style', 'display:none;' );
+				$label->setAttribute( 'style', 'display:none;' );
 			}
 
-			return $span;
+			return $label;
 		}
 	}
 ?>

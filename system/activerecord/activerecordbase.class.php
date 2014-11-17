@@ -721,6 +721,7 @@
 
 				$control = $form->getControl( $field );
 				$form->add(new \System\Web\WebControls\ValidationMessage($field.'_error', $control));
+				$form->add(new \System\Web\WebControls\Label($field.'_label', str_replace( '_', ' ', $field )));
 //				$control->label = ucwords( \System\Base\ApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
 
 				// create references

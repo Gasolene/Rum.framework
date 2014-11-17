@@ -23,13 +23,13 @@
 		 * Name of the data field in the datasource
 		 * @var InputBase
 		 */
-		protected $controlToValidate				= '';
+		protected $controlToValidate				= null;
 
 		/**
-		 * Specifies the error message
+		 * Contains the error message returned by the validator
 		 * @var string
 		 */
-		protected $errMsg							= '';
+		private $errMsg								= '';
 
 
 		/**
@@ -42,7 +42,7 @@
 		 * @param  string   $default		Default value
 		 * @return void
 		 */
-		public function __construct( $controlId, InputBase &$controlToValidate = null)
+		public function __construct( $controlId, InputBase &$controlToValidate)
 		{
 			parent::__construct( $controlId );
 
