@@ -684,7 +684,7 @@
 
 			// filter results
 			$filter_event = new \System\Web\Events\GridViewFilterEvent();
-			if($this->events->contains( $filter_event )) {
+			if($this->events->handles( $filter_event )) {
 				$this->events->raise( $filter_event, $this );
 			}
 			elseif($this->canFilter) {
@@ -696,7 +696,7 @@
 			if( $this->sortBy && $this->canSort) {
 				$sort_event = new \System\Web\Events\GridViewSortEvent();
 
-				if($this->events->contains( $sort_event )) {
+				if($this->events->handles( $sort_event )) {
 					$this->events->raise( $sort_event, $this );
 				}
 				else {

@@ -136,6 +136,31 @@
 
 
 		/**
+		 * returns true if item array contains item
+		 *
+		 * @param  EventBase	$item		item
+		 * @return bool						true if item found
+		 */
+		public function handles( $item )
+		{
+			if( $item instanceof EventBase )
+			{
+				foreach( $this->eventHandlers as $eventHandler )
+				{
+					if( $eventHandler->event === $item->name )
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				throw new \System\Base\InvalidArgumentException("Argument 1 passed to ".get_class($this)."::handles() must be an object of type EventBase");
+			}
+		}
+
+
+		/**
 		 * returns first index of item found in Collection
 		 *
 		 * @param  EventBase	$item		item
