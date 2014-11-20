@@ -40,6 +40,9 @@
 		{
 			if(is_array($value))
 			{
+				if(isset($value["tmp_name"])) {
+					return (bool)$value["tmp_name"];
+				}
 				return (bool)$value || $value === '0';
 			}
 			else
