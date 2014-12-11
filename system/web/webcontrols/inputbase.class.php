@@ -539,7 +539,7 @@
 			{
 				$this->events->raise(new \System\Web\Events\InputPostEvent(), $this, $request);
 
-				if( $this->ajaxPostBack )
+				if( $this->ajaxPostBack && \Rum::app()->requestHandler->isAjaxPostBack )
 				{
 					$this->events->raise(new \System\Web\Events\InputAjaxPostEvent(), $this, $request);
 				}
@@ -549,7 +549,7 @@
 			{
 				$this->events->raise(new \System\Web\Events\InputChangeEvent(), $this, $request);
 
-				if( $this->ajaxPostBack )
+				if( $this->ajaxPostBack && \Rum::app()->requestHandler->isAjaxPostBack )
 				{
 					$this->events->raise(new \System\Web\Events\InputAjaxChangeEvent(), $this, $request);
 				}
