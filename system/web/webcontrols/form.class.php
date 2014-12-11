@@ -423,6 +423,7 @@
 			trigger_error("Form::render() is deprecated, use Form::begin() instead", E_USER_DEPRECATED);
 			$form = $this->getFormDomObject();
 			$buttons = array();
+			$labels = array();
 			$fieldset = '';
 			$dl = '';
 
@@ -437,6 +438,10 @@
 				elseif( $childControl instanceof Button )
 				{
 					$buttons[] = $childControl;
+				}
+				elseif( $childControl instanceof Label )
+				{
+					$labels[] = $childControl;
 				}
 				else
 				{
@@ -455,20 +460,23 @@
 					$dt = '<dt>';
 					$dd = '<dd>';
 
-					// create label
-					$dt .= '<label for="'.$childControl->getHTMLControlId().'">' . $childControl->controlId . '</label>';
+					// Get input control
+					if($this->controls->contains($childControl->controlId.'_label')) {
+						$dt .= $this->controls->{$childControl->controlId.'_label'}->fetch(array('for'=>$childControl->controlId));
+					}
+					else {
+						// create label
+						$dt .= '<label for="'.$childControl->getHTMLControlId().'">' . $childControl->controlId . '</label>';
+					}
 
 					// Get input control
 					$dd .= $childControl->fetch();
 
 				  	// create validation message span tag
 					$errMsg = '';
-					if( $this->submitted )
-					{
+					if( $this->submitted ) {
 						$childControl->validate($errMsg);
 					}
-
-					$dd .= $childControl->fetchError(array('class'=>'warning'));
 
 					$dl .= $dt . '</dt>';
 					$dl .= $dd . '</dd>';
