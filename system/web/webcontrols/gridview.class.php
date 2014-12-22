@@ -13,6 +13,7 @@
 	 *
 	 * @property string $caption
 	 * @property int $pageSize
+	 * @property int $pageMax
 	 * @property int $page
 	 * @property bool $canSort
 	 * @property bool $canFilter
@@ -53,6 +54,12 @@
 		 * @var int
 		 */
 		protected $pageSize					= 20;
+
+		/**
+		 * Max number of pages to display at a time
+		 * @var int
+		 */
+		protected $pageMax					= 10;
 
 		/**
 		 * current grid page
@@ -258,6 +265,9 @@
 			elseif( $field === 'pageSize' ) {
 				return $this->pageSize;
 			}
+			elseif( $field === 'pageMax' ) {
+				return $this->pageMax;
+			}
 			elseif( $field === 'canSort' ) {
 				return $this->canSort;
 			}
@@ -387,6 +397,9 @@
 			}
 			elseif( $field === 'pageSize' ) {
 				$this->pageSize = (int)$value;
+			}
+			elseif( $field === 'pageMax' ) {
+				$this->pageMax = (int)$value;
 			}
 			elseif( $field === 'page' ) {
 				$this->page = (int)$value;
@@ -744,7 +757,7 @@
 				if($this->events->handles( $filter_event )) {
 					$this->events->raise( $filter_event, $this );
 				}
-				else {
+					else {
 					// filter DataSet
 					$this->columns->filterDataSet( $this->dataSource );
 				}
@@ -1565,26 +1578,42 @@
 
 			$td->setAttribute( 'colspan', sizeof( $this->columns ) + $inc );
 
-			$span = new \System\XML\DomObject( 'span' );
-			$span->setAttribute( 'class', 'pagination' );
+			$pagination = new \System\XML\DomObject( 'span' );
+			$pagination->setAttribute( 'class', 'pagination' );
 
-			// prev
-			$a = new \System\XML\DomObject( 'a' );
-			$a->nodeValue .= 'prev';
+			// first
+			$first = new \System\XML\DomObject( 'a' );
+			$first->setAttribute('class', 'first');
+			$first->nodeValue .= 'first';
 			if( $this->page > 1 )
 			{
-				$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
+				$first->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page=1&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
 			else
 			{
-				$a->setAttribute('class', 'disabled');
+				$first->appendAttribute('class', ' disabled');
 			}
-			$span->addChild( $a );
-			$span->addChild( new \System\XML\TextNode(' '));
+			$pagination->addChild( $first );
+			$pagination->addChild( new \System\XML\TextNode(' '));
+
+			// prev
+			$prev = new \System\XML\DomObject( 'a' );
+			$prev->setAttribute('class', 'prev');
+			$prev->nodeValue .= 'prev';
+			if( $this->page > 1 )
+			{
+				$prev->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.($this->page-1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
+			}
+			else
+			{
+				$prev->appendAttribute('class', ' disabled');
+			}
+			$pagination->addChild( $prev );
+			$pagination->addChild( new \System\XML\TextNode(' '));
 
 			// page jump
 			$count = count($this->dataSource);
-			for( $page=1; $this->pageSize && (( $page * $this->pageSize ) - $this->pageSize ) < $count; $page++ )
+			for( $page = ($this->page <= $this->pageMax)?1:floor($this->page / $this->pageMax)*$this->pageMax, $paginationLoop = 1; $this->pageSize && (( $page * $this->pageSize ) - $this->pageSize ) < $count && $paginationLoop <= $this->pageMax; $page++ )
 			{
 				$start = ((( $page * $this->pageSize ) - $this->pageSize ) + 1 );
 
@@ -1603,34 +1632,49 @@
 					$a = new \System\XML\DomObject( 'a' );
 					$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.$page.'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 					$a->nodeValue .= $page;
-					$span->addChild( $a );
-					$span->addChild( new \System\XML\TextNode(' '));
+					$pagination->addChild( $a );
+					$pagination->addChild( new \System\XML\TextNode(' '));
 				}
 				else
 				{
 					$a = new \System\XML\DomObject( 'a' );
 					$a->setAttribute( 'class', 'disabled' );
 					$a->nodeValue .= $page;
-					$span->addChild( $a );
-					$span->addChild( new \System\XML\TextNode(' '));
+					$pagination->addChild( $a );
+					$pagination->addChild( new \System\XML\TextNode(' '));
 				}
+				$paginationLoop++;
 			}
 
 			// next
-			$a = new \System\XML\DomObject( 'a' );
-			$a->nodeValue .= 'next';
+			$next = new \System\XML\DomObject( 'a' );
+			$next->setAttribute('class', 'next');
+			$next->nodeValue .= 'next';
 			if(( $this->page * $this->pageSize ) < $count && $this->pageSize )
 			{
-				$a->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
+				$next->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.($this->page+1).'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
 			}
 			else
 			{
-				$a->setAttribute('class', 'disabled');
+				$next->appendAttribute('class', ' disabled');
 			}
-			$span->addChild( $a );
-			$span->addChild( new \System\XML\TextNode(' '));
+			$pagination->addChild( $next );
+			$pagination->addChild( new \System\XML\TextNode(' '));
 
-			$td->addChild( $span );
+			// last
+			$last = new \System\XML\DomObject( 'a' );
+			$last->setAttribute('class', 'last');
+			$last->nodeValue .= 'last';
+			if(( $this->page * $this->pageSize ) < $count && $this->pageSize )
+			{
+				$last->setAttribute( 'href', $this->getQueryString($this->getHTMLControlId().'__page='.$count.'&'.$this->getHTMLControlId().'__sort_by='.$this->sortBy.'&'.$this->getHTMLControlId().'__sort_order='.$this->sortOrder));
+			}
+			else
+			{
+				$last->appendAttribute('class', ' disabled');
+			}
+			$pagination->addChild( $last );
+			$pagination->addChild( new \System\XML\TextNode(' '));
 
 			// get page info
 			$start = ((( $this->page * $this->pageSize ) - $this->pageSize ) + 1 );
@@ -1646,11 +1690,27 @@
 				$end = $count;
 			}
 
-			$span = new \System\XML\DomObject( 'span' );
-			$span->setAttribute('class', 'summary');
-			$span->nodeValue .= "showing {$start} to {$end} of " . $count;
+			$current_page = new \System\XML\DomObject( 'span' );
+			$current_page->setAttribute('class', 'page');
 
-			$td->addChild( $span );
+			// Choose Page
+			$totalPageCount = ceil( $count / $this->pageSize );
+
+			$input = new \System\XML\DomObject( 'input' );
+			$input->setAttribute( 'type', 'number');
+			$input->setAttribute( 'value', $this->page );
+
+			$uri = (preg_match("/(page=)\w+/i",$this->getQueryString()))?preg_replace("/(page=)\w+/i", "page='+this.value+'", $this->getQueryString()):$this->getQueryString()."?".$this->getHTMLControlId()."__page='+this.value+'&".$this->getHTMLControlId()."__sort_by=&".$this->getHTMLControlId()."__sort_order=".$this->sortOrder;
+
+			$input->setAttribute( 'onchange', "Rum.evalAsync('{$uri}','','POST')" );
+			$input->setAttribute( 'onchange', "Rum.sendSync('{$uri}')" );
+
+			$current_page->addChild( new \System\XML\TextNode('page '));
+			$current_page->addChild( $input );
+			$current_page->addChild( new \System\XML\TextNode(" of {$totalPageCount} "));
+
+			$td->addChild( $pagination );
+			$td->addChild( $current_page );
 			$tr->addChild( $td );
 
 			return $tr;
