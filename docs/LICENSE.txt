@@ -1,8 +1,8 @@
 License
 ===================
 
-	Copyright: (c) 2009, Authors/Developers
-				   Darnell S.
+	Copyright: (c) 2015, Authors/Developers
+				   Darnell Shinbine
 
 	This software is released under the terms of the GNU Lesser Gerneral Public License.
 	See /docs/GNU.txt for the complete license
