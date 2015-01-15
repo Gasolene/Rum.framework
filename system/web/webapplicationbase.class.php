@@ -461,7 +461,7 @@
 		 *
 		 * @return  string
 		 */
-		final protected function getEnv()
+		final public function getEnv()
 		{
 			$env = '';
 			if(isset($_SERVER["APP_ENV"]))

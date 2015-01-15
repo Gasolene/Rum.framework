@@ -454,7 +454,7 @@
 		 *
 		 * @return  string
 		 */
-		abstract protected function getEnv();
+		abstract public function getEnv();
 
 
 		/**
