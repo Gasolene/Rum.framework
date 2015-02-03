@@ -167,24 +167,28 @@
 			if(\System\Web\HTTPRequest::getRequestMethod() == 'GET')
 			{
 				unset($_GET[\Rum::config()->requestParameter]);
-				$this->view->setData($this->encode(call_user_method('get', $this, $_GET), $this->contentType));
+//				$this->view->setData($this->encode(call_user_method('get', $this, $_GET), $this->contentType));
+				$this->view->setData($this->encode(call_user_func(array(&$this, "get"), $_GET), $this->contentType));
 			}
 			elseif(\System\Web\HTTPRequest::getRequestMethod() == 'POST')
 			{
 				unset($_POST[\Rum::config()->requestParameter]);
-				$this->view->setData($this->encode(call_user_method('post', $this, $_POST), $this->contentType));
+//				$this->view->setData($this->encode(call_user_method('post', $this, $_POST), $this->contentType));
+				$this->view->setData($this->encode(call_user_func(array(&$this, "post"), $_POST), $this->contentType));
 			}
 			elseif(\System\Web\HTTPRequest::getRequestMethod() == 'PUT')
 			{
 				$data = fopen("php://input", "r");
 				unset($data[\Rum::config()->requestParameter]);
-				$this->view->setData($this->encode(call_user_method('put', $this, $data), $this->contentType));
+//				$this->view->setData($this->encode(call_user_method('put', $this, $data), $this->contentType));
+				$this->view->setData($this->encode(call_user_func(array(&$this, "put"), $data), $this->contentType));
 			}
 			elseif(\System\Web\HTTPRequest::getRequestMethod() == 'DELETE')
 			{
 				$data = fopen("php://input", "r");
 				unset($data[\Rum::config()->requestParameter]);
-				$this->view->setData($this->encode(call_user_method('delete', $this, $data), $this->contentType));
+//				$this->view->setData($this->encode(call_user_method('delete', $this, $data), $this->contentType));
+				$this->view->setData($this->encode(call_user_func(array(&$this, "delete"), $data), $this->contentType));
 			}
 			else
 			{
