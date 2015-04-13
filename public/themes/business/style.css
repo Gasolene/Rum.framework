@@ -1,0 +1,50 @@
+<!--/*--><![CDATA[/*><!--*/
+
+html, body {
+  color: #535353;
+  background-color: #ffffff;
+  font: 12px Futura, 'Century Gothic', AppleGothic, Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  color: #677d81;
+  font-size: 24px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #677d81;
+}
+
+h2 {
+  color: #202f32;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+li {
+  margin-left: 20px;
+}
+
+em
+{
+	font-style: italic;
+	font-size: 10px;
+}
+
+a {
+  color: #0000ff;
+}
+
+a:link {
+  color: #0000ff;
+}
+
+a:visited {
+  color: #0000ff;
+}
+
+p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/*]]>*/-->

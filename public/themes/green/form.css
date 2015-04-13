@@ -1,0 +1,163 @@
+<!--/*--><![CDATA[/*><!--*/
+
+form {
+}
+
+form em {
+  font-style: italic;
+}
+
+form fieldset {
+  border: 0px solid;
+}
+
+form fieldset legend {
+  border-bottom:1px dotted #aac9ce;
+  text-align: left;
+  color: #677d81;
+  font-size: 24px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+form fieldset dl {
+}
+
+form fieldset dl dt {
+  display: inline-block;
+  padding-top: 2px; /* padding */
+  padding-bottom: 2px; /* padding */
+  float: left;
+  clear: left;
+  width: 160px; /* width of labels */
+}
+
+form fieldset dl dd {
+  position: relative;
+  margin-left: 160px; /* width of labels */
+  padding-top: 2px; /* padding */
+  padding-bottom: 2px; /* padding */
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+form fieldset label {
+  color: #535353;
+  font-size: 16px;
+  text-align: left;
+  padding-right: 8px;
+  font-weight: bold;
+  line-height: 32px;
+  cursor: pointer;
+}
+
+form fieldset label.required {
+  background-image: url(images/redstar.gif);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+form fieldset fieldset {
+  display: inline;
+  padding-top: 8px;
+  padding-left: 0px;
+  border: none;
+}
+
+form fieldset fieldset label {
+  display: block;
+  width: auto;
+  text-align: left;
+  line-height: 30px;
+}
+
+form .watermark {
+  color: #aaaaaa;
+}
+
+table input,
+table select,
+table textarea,
+fieldset input,
+fieldset select,
+fieldset textarea {
+  font-size: 18px;
+  line-height: 27px;
+  padding: 2px;
+  text-shadow: #ffffff 0px 0px 4px;
+  border: 1px solid #aac9ce;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-image: url(images/textbox.png);
+  background-size:100% 100%;
+}
+
+inputinput[type="text"] {
+  height: 27px;
+}
+
+textarea {
+}
+
+fieldset input:hover,
+fieldset input:focus,
+fieldset select:hover,
+fieldset select:focus,
+fieldset textarea:hover,
+fieldset textarea:focus {
+  border: 1px solid #7f989c;
+}
+
+fieldset .invalid {
+  color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+.warning {
+  position: absolute;
+  top: 10px;
+  left: 400px;
+  color: #d8000c;
+  padding-left: 20px;
+  background-image: url("images/point.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+
+.warning span {
+  display: block;
+  width: 260px;
+  line-height: 34px;
+  padding-left: 36px;
+  padding-right: 20px;
+  color: #d8000c;
+  border-top: 1px solid #d8000c;
+  border-right: 1px solid #d8000c;
+  border-bottom: 1px solid #d8000c;
+  background-color: #ffbaba;
+  background-image: url("icons/Knob Cancel.png");
+  background-position: 0px 2px;
+  background-repeat: no-repeat;
+}
+
+form .buttons {
+  margin-top: 10px;
+  margin-left: 160px;
+}
+
+input[type="button"],input[type="submit"] {
+  margin-right: 10px;
+  width: 94px;
+  height: 36px;
+  font-size: 13px;
+  line-height: 36px;
+  color: #677d81;
+  text-align: center;
+  text-shadow: #ffffff 0px 0px 4px;
+  border: 0px;
+  cursor: pointer;
+  background-color: #ffffff;
+  background-image: url(images/button.png);
+}
+
+/*]]>*/-->

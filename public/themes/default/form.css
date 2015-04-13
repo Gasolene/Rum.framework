@@ -1,0 +1,174 @@
+<!--/*--><![CDATA[/*><!--*/
+
+form {
+}
+
+fieldset {
+  border:1px solid #A6A6A6;
+  margin-bottom: 20px;
+}
+
+fieldset legend {
+  text-align: left;
+  color: #1f497d;
+  font-size: 24px;
+  line-height: 32px;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: -1px;
+  margin-right: -1px;
+  margin-bottom: 10px;
+  border: 1px solid #A6A6A6;
+  background-color: #C6D9F1;
+}
+
+fieldset legend span {
+  display: block;
+  padding-left: 20px;
+}
+
+fieldset dl {
+  padding-left: 20px;
+}
+
+fieldset dl dt {
+  display: inline-block;
+  padding-top: 10px;
+  float: left;
+  clear: left;
+  width: 200px; /* width of labels */
+}
+
+fieldset dl dd {
+  position: relative;
+  margin-left: 200px; /* width of labels */
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+fieldset label {
+  color: #7F7F7F;
+  font-size: 16px;
+  text-align: left;
+  padding-right: 8px;
+  cursor: pointer;
+}
+
+fieldset label.required {
+  background-image: url(images/redstar.gif);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+fieldset fieldset {
+  display: inline;
+  padding-left: 0px;
+  border: none;
+  margin: 0px;
+}
+
+fieldset fieldset label {
+  display: block;
+  width: auto;
+  text-align: left;
+  line-height: 30px;
+}
+
+fieldset fieldset div {
+  float: left;
+  margin-right: 10px;
+}
+
+fieldset .invalid {
+  color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+fieldset .warning {
+  position: absolute;
+  top: 10px;
+  left: 240px;
+  color: #d8000c;
+  padding-left: 20px;
+  background-image: url("images/point.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+
+fieldset .warning span {
+  display: block;
+  width: 260px;
+  line-height: 34px;
+  padding-left: 36px;
+  padding-right: 20px;
+  color: #d8000c;
+  border-top: 1px solid #d8000c;
+  border-right: 1px solid #d8000c;
+  border-bottom: 1px solid #d8000c;
+  background-color: #ffbaba;
+  background-image: url("icons/Fail.png");
+  background-position: 0px 2px;
+  background-repeat: no-repeat;
+}
+
+/* Controls */
+
+input,
+select,
+textarea {
+  line-height: 27px;
+  padding: 2px;
+  height: 27px;
+  border: 1px solid #A6A6A6;
+}
+
+select {
+  height: 33px;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  line-height: 32px !important;
+}
+
+input:hover,
+input:focus,
+select:hover,
+select:focus,
+textarea:hover,
+textarea:focus {
+  border: 1px solid #000000;
+}
+
+input[type="button"],
+input[type="submit"] {
+  height: 34px;
+  line-height: 34px;
+  border: 0 none rgba(0, 0, 0, 0);
+  border-radius: 2px 2px 2px 2px;
+  padding: 0.5em 1.5em;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  line-height: normal;
+  text-align: center;
+  vertical-align: baseline;
+}
+
+input[type="button"]:not(:first-child),
+input[type="submit"]:not(:first-child) {
+	margin-left: 20px;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover {
+  background-color:rgba(198,217,241,.8);
+}
+
+input[type="button"]:active,
+input[type="submit"]:active {
+  position:relative;
+  top:1px;
+  left:1px;
+}
+
+/*]]>*/-->

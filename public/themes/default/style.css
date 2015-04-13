@@ -1,0 +1,43 @@
+<!--/*--><![CDATA[/*><!--*/
+
+html, body {
+  color: #535353;
+  background-color: #ffffff;
+  font-family: Arial, Helvetica,sans-serif;
+  font: 2.4em Futura, 'Century Gothic', AppleGothic, sans-serif;
+  font-size: 14px;
+}
+
+h1 {
+  color: #677d81;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  color: #202f32;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+li {
+  margin-left: 20px;
+}
+
+a {
+  color: #0000ff;
+}
+
+a:link {
+  color: #0000ff;
+}
+
+a:visited {
+  color: #0000ff;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+/*]]>*/-->

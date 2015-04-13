@@ -1,0 +1,68 @@
+<!--/*--><![CDATA[/*><!--*/
+
+#nav {
+  position: absolute;
+  top: 10px;
+  left: 218px;
+  list-style: none;
+  z-index: 99;
+}
+
+#nav li {
+  float: left;
+  margin: 0px;
+}
+
+#nav li a {
+  display: block;
+  height: 47px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin: 0px;
+  line-height: 47px;
+  text-shadow: #ffffff 0px 0px 4px;
+  text-decoration: none;
+  text-transform: capitalize;
+  text-shadow: #ffffff 0px 0px 2px;
+  color: #3c555a;
+  font-size: 13px;
+}
+
+#nav li a:hover {
+  background: none;
+  color: #999999;
+}
+
+#nav li ul {
+  position: absolute;
+  width: 220px;
+  left: -999em;
+  list-style: none;
+  padding-top: 10px;
+  text-align: left;
+}
+
+#nav li ul li a {
+  width: 200px;
+  line-height: 40px;
+  height: 40px;
+  background-color: #f7f7f7;
+  padding: 0px;
+  margin-left: 24px;
+  padding-left: 6px;
+  border-bottom: 1px solid;
+}
+
+#nav li ul li a:hover {
+  background-color: #ffffff;
+}
+
+#nav li:hover ul {
+	left: auto;
+}
+
+#nav li:hover ul, #nav li.sfhover ul {
+	left: auto;
+}
+
+/*]]>*/-->

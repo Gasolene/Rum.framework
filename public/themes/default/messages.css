@@ -1,0 +1,46 @@
+<!--/*--><![CDATA[/*><!--*/
+
+ul.messages {
+  margin:0px;
+  list-style: none;
+}
+
+ul.messages li {
+  margin: 0px;
+  padding-left: 40px;
+  background-position: left;
+  background-repeat: no-repeat;
+  background-position: 6px 6px;
+  line-height: 46px;
+  margin-bottom: 20px;
+}
+
+ul.messages li.info {
+  color: #00529b;
+  border: 1px solid #00529b;
+  background-color: #bde5f8;
+  background-image: url("icons/Info.png");
+}
+
+ul.messages li.success {
+  color: #4f8a10;
+  border: 1px solid #4f8a10;
+  background-color: #dff2bf;
+  background-image: url("icons/Success.png");
+}
+
+ul.messages li.warning {
+  color: #9f6000;
+  border: 1px solid #9f6000;
+  background-color: #feefb3;
+  background-image: url("icons/Attention.png");
+}
+
+ul.messages li.fail {
+  color: #d8000c;
+  border: 1px solid #d8000c;
+  background-color: #ffbaba;
+  background-image: url("icons/Fail.png");
+}
+
+/*]]>*/-->

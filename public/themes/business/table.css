@@ -1,0 +1,129 @@
+<!--/*--><![CDATA[/*><!--*/
+
+table {
+  width: 100%;
+  border:1px solid #dcdcdc;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+}
+
+table thead a {
+  text-decoration: none;
+  color: #7F7F7F;
+}
+
+table caption {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+	background-image: -ms-linear-gradient(top, #ededed, #dfdfdf);
+	background-color:#ededed;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border:1px solid #dcdcdc;
+	border-bottom:0px solid;
+	color:#777777;
+	font-size:15px;
+	font-weight: bold;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+	text-align: left;
+	padding-left: 20px;
+}
+
+table thead th,
+table thead td {
+  line-height: 18px;
+  font-size: 13px;
+  text-align: left;
+  color: #7F7F7F;
+  font-weight: normal;
+  border-bottom:1px dotted #a6a6a6;
+  white-space: nowrap;
+}
+
+table th,
+table td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding: 0px;
+  font-size: 12px;
+  line-height: 18px;
+  padding-left: 10px;
+  
+}
+
+table tbody tr:hover {
+  background-color: #DDDDDD;
+  cursor: pointer;
+}
+
+table .row_alt {
+  background-color: #F7F7F7;
+}
+
+table tfoot {
+  /*background-image: url(images/dot.png);*/
+  background-position: 0 80px;
+  background-repeat: repeat-x;
+}
+
+table tfoot tr td {
+  line-height: 18px;
+  padding-left: 10px;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+
+table tfoot .insert td {
+  /* border-bottom:1px dotted #aac9ce; */
+}
+
+table tfoot a.disabled {
+  display: inline;
+  color: #999999;
+}
+
+table .sort_desc {
+	background-image: url(images/down.png);
+	background-position:left;
+	background-repeat:no-repeat;
+	padding-left: 15px;
+}
+
+table .sort_asc {
+	background-image: url(images/up.png);
+	background-position:left;
+	background-repeat:no-repeat;
+	padding-left: 15px;
+}
+
+table .listcolumn {
+	width: 20px;
+}
+
+table a.disabled {
+	display: none;
+}
+
+/* Controls */
+
+table input[type="checkbox"] {
+  width: 40px;
+}
+
+table thead input[type="text"] {
+  margin: 0px;
+  width: 50%;
+  height: 20px;
+  text-shadow: #ffffff 0px 0px 4px;
+  border: 1px solid #677d81;
+  background: none;
+}
+
+/*]]>*/-->

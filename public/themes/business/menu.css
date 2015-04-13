@@ -1,0 +1,134 @@
+<!--/*--><![CDATA[/*><!--*/
+
+<!--/*--><![CDATA[/*><!--*/
+
+#nav {
+  position: absolute;
+  top: 0px;
+  list-style: none;
+  z-index: 99;
+}
+
+#nav li {
+  float: left;
+  margin: 0px;
+  margin-left: 5px;
+}
+
+#nav li a {
+  display: block;
+  height: 47px;
+  width: 120px;
+  padding-left: 5px;
+  margin: 0px;
+  line-height: 47px;
+  text-shadow: #ffffff 0px 0px 0px;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#nav li a:hover {
+  background: none;
+  color: #ff700d;
+  text-shadow: #ffffff 0px 0px 0px;
+}
+
+#nav li ul {
+  position: absolute;
+  width: 140px;
+  left: -999em;
+  list-style: none;
+  text-align: left;
+  background-color: #044e9e;
+}
+
+#nav li ul li a {
+  width: 130px;
+  line-height: 30px;
+  height: 30px;
+  font-size: 90%;
+  border-bottom: 1px solid;
+}
+
+#nav li ul li a:hover {
+  background-color: #ffffff;
+}
+
+#nav li:hover ul {
+	left: auto;
+}
+
+#nav li:hover ul, #nav li.sfhover ul {
+	left: auto;
+}
+
+#nav li ul ul {
+	margin: -51px 0 0 120px;
+}
+
+#nav, #nav ul {
+	padding: 0;
+	margin: 0;
+	list-style: none; 
+	line-height: 1;
+}
+
+#nav li:hover ul ul, #nav li.sfhover ul ul {
+	left: -999em;
+}
+
+#nav li:hover ul, #nav li li:hover ul, #nav li.sfhover ul, #nav li li.sfhover ul {
+	left: auto;
+}
+
+#panel {
+    position: fixed;
+    top: 0;
+    height: 100%;    
+    background: transparent;
+    left: 0;
+	z-index: 5000;
+}
+
+#panel-content {
+    position: relative;
+    width: 0px;
+    overflow: hidden;
+    height: 100%;
+    background: black;
+    border:0px solid #000;
+    float:left;
+}
+
+#panel-tab {
+    position: relative;
+    width: 50px;
+    background-color: transparent;
+    float:left;
+    padding: 0px;
+	z-index: 5000;
+	top: 45px;
+}
+
+.meny-arrow {
+	position: absolute;
+	z-index: 5000;
+	width: 37px;
+	background-size: 100%;
+	top: 0px;
+	cursor: pointer;
+	background-image: url(images/menu-button.png);
+	width: 30px;
+	height: 85px;
+
+	-webkit-transition: opacity 0.4s ease 0.4s; 
+	   -moz-transition: opacity 0.4s ease 0.4s; 
+	    -ms-transition: opacity 0.4s ease 0.4s; 
+	     -o-transition: opacity 0.4s ease 0.4s; 
+	        transition: opacity 0.4s ease 0.4s;
+}
+
+/*]]>*/-->
