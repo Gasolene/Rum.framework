@@ -31,6 +31,12 @@
 		 */
 		private $errMsg								= '';
 
+		/**
+		 * contains tmp args array
+		 * @var array
+		 */
+		private $_args								= array();
+
 
 		/**
 		 * Constructor
@@ -115,13 +121,8 @@
 		 */
 		public function begin( $args = array() )
 		{
-			$span = $this->createDomObject( 'span' );
-			$span->setAttribute('id', $this->getHTMLControlId());
-			if(!$this->errMsg) {
-				$span->setAttribute('style', 'display:none;');
-			}
-
-			\System\Web\HTTPResponse::write(str_replace( '</span>', '', $span->fetch($args)));
+			$this->_args = $args;
+			ob_start();
 		}
 
 
@@ -132,7 +133,8 @@
 		 */
 		public function end()
 		{
-			\System\Web\HTTPResponse::write( '</span>' );
+			$this->errMsg = ob_get_clean();
+			\System\Web\HTTPResponse::write( $this->getDomObject()->fetch( $this->_args ));
 		}
 
 
@@ -146,7 +148,7 @@
 			$span = $this->createDomObject( 'span' );
 			$span->setAttribute('id', $this->getHTMLControlId());
 			if($this->errMsg) {
-				$span->nodeValue = $this->errMsg;
+				$span->innerHtml = $this->errMsg;
 			}
 			else {
 				$span->setAttribute('style', 'display:none;');
