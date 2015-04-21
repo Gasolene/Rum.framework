@@ -321,32 +321,29 @@
 //				$form->fieldset->getControl( $field )->label = ucwords( \System\Web\WebApplicationBase::getInstance()->translator->get( $field, str_replace( '_', ' ', $field )));
 
 				// create list
-				if($type === 'enum')
+				$options = array();
+				foreach( $model->rules[$field] as $rule )
 				{
-					$options = array();
-					foreach( $model->rules[$field] as $rule )
+					$type = \strstr($rule, '(', true);
+					if($type === 'enum')
 					{
 						$type = \strstr($rule, '(', true);
-						if($type === 'enum')
+						if(!$type)
 						{
-							$type = \strstr($rule, '(', true);
-							if(!$type)
-							{
-								$type = $rule;
-							}
-							$params = \strstr($rule, '(');
-							if(!$params)
-							{
-								$params = '()';
-							}
-							eval("\$options = {$params};");
-
-							foreach($options as $key=>$value) {
-								$control->items->add($key, $value);
-							}
-
-							continue 2;
+							$type = $rule;
 						}
+						$params = \strstr($rule, '(');
+						if(!$params)
+						{
+							$params = '()';
+						}
+						eval("\$options = {$params};");
+
+						foreach($options as $key=>$value) {
+							$control->items->add($key, $value);
+						}
+
+						continue 2;
 					}
 				}
 			}

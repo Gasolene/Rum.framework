@@ -747,7 +747,7 @@
 					}
 				}
 				// create list
-				else if($type === 'enum')
+				else
 				{
 					$options = array();
 					foreach( $activeRecord->rules[$field] as $rule )
