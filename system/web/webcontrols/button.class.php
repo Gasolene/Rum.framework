@@ -36,7 +36,7 @@
 		 * contains tmp args array
 		 * @var array
 		 */
-		private $_args				= array();
+		private $_args						= array();
 
 
 		/**
@@ -117,6 +117,7 @@
 			}
 		}
 
+
 		/**
 		 * renders form open tag
 		 *
@@ -165,7 +166,7 @@
 				$input->setAttribute( 'disabled', 'disabled' );
 			}
 
-			$input->nodeValue = $this->text;
+			$input->innerHtml = $this->text;
 //			$input->setAttribute( 'class', ' button' );
 
 			if( $this->src )
