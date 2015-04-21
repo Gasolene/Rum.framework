@@ -139,6 +139,7 @@ textarea:focus {
   border: 1px solid #000000;
 }
 
+button,
 input[type="button"],
 input[type="submit"] {
   height: 34px;
