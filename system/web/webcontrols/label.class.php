@@ -25,6 +25,12 @@
 		 */
 		protected $text							= '';
 
+		/**
+		 * contains tmp args array
+		 * @var array
+		 */
+		private $_args							= array();
+
 
 		/**
 		 * Constructor
@@ -81,6 +87,31 @@
 
 
 		/**
+		 * renders form open tag
+		 *
+		 * @param   array	$args	attribute parameters
+		 * @return void
+		 */
+		public function begin( $args = array() )
+		{
+			$this->_args = $args;
+			ob_start();
+		}
+
+
+		/**
+		 * renders form close tag
+		 *
+		 * @return void
+		 */
+		public function end()
+		{
+			$this->text = ob_get_clean();
+			\System\Web\HTTPResponse::write( $this->getDomObject()->fetch( $this->_args ));
+		}
+
+
+		/**
 		 * getDomObject
 		 *
 		 * returns a DomObject representing control
@@ -90,7 +121,7 @@
 		public function getDomObject()
 		{
 			$label = $this->createDomObject('label');
-			$label->nodeValue = $this->text;
+			$label->innerHtml = $this->text;
 
 			if( !$this->visible )
 			{
