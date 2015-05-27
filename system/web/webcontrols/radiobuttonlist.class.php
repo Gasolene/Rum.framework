@@ -177,7 +177,7 @@
 		 * called when control is loaded
 		 *
 		 * @return bool			true if successfull
-		 */
+		 * /
 		protected function onLoad()
 		{
 			parent::onLoad();

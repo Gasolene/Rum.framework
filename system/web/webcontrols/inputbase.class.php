@@ -386,17 +386,6 @@
 
 
 		/**
-		 * called when control is initiated
-		 *
-		 * @return void
-		 */
-		protected function onInit()
-		{
-			$this->defaultHTMLControlId = $this->getHTMLControlId();
-		}
-
-
-		/**
 		 * handle load events
 		 *
 		 * @return void
