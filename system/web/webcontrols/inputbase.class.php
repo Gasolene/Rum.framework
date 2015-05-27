@@ -292,7 +292,6 @@
 
 			$domObject = new \System\XML\DomObject('span');
 			$domObject->setAttribute('id', $this->getHTMLControlId().'__err');
-//			$domObject->setAttribute('class', 'warning');
 			if(!$errMsg) {
 				$domObject->setAttribute('style', 'display:none;');
 			}
@@ -331,7 +330,7 @@
 
 			if( $this->submitted && !$this->validate() )
 			{
-				$input->setAttribute( 'class', ' invalid' );
+				$input->appendAttribute( 'class', ' invalid' );
 			}
 
 			if( $this->autoPostBack )

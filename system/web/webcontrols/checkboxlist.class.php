@@ -22,19 +22,5 @@
 		 * @var bool
 		 */
 		protected $multiple					= true;
-
-
-		/**
-		 * returns a DomObject representing control
-		 *
-		 * @return DomObject
-		 * /
-		public function getDomObject()
-		{
-			$dom = parent::getDomObject();
-//			$dom->setAttribute( 'class', ' checkbuttonlist' );
-			return $dom;
-		}
-		*/
 	}
 ?>

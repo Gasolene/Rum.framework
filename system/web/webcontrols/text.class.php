@@ -87,7 +87,6 @@
 		public function getDomObject()
 		{
 			$input = $this->getInputDomObject();
-//			$input->setAttribute( 'class', ' text' );
 
 			if(!is_null($this->value))
 			{

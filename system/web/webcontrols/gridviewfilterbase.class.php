@@ -11,7 +11,6 @@
 	/**
 	 * Represents a GridView filter
 	 * 
-	 * @property string $tooltip Specifies control tooltip
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property bool $ajaxStartHandler specifies the optional ajax start handler
 	 * @property bool $ajaxCompletionHandler specifies the optional ajax completion handler
@@ -46,12 +45,6 @@
 		protected $column;
 
 		/**
-		 * specifies control tool tip
-		 * @var string
-		 */
-		protected $tooltip					= '';
-
-		/**
 		 * specifies the optional ajax start handler
 		 * @var string
 		 */
@@ -77,10 +70,7 @@
 		 * @ignore
 		 */
 		public function __get( $field ) {
-			if( $field === 'tooltip' ) {
-				return $this->tooltip;
-			}
-			elseif( $field === 'ajaxStartHandler' ) {
+			if( $field === 'ajaxStartHandler' ) {
 				return $this->ajaxStartHandler;
 			}
 			elseif( $field === 'ajaxCompletionHandler' ) {
@@ -107,10 +97,7 @@
 		 * @ignore
 		 */
 		public function __set( $field, $value ) {
-			if( $field === 'tooltip' ) {
-				$this->tooltip = (string)$value;
-			}
-			elseif( $field === 'ajaxStartHandler' ) {
+			if( $field === 'ajaxStartHandler' ) {
 				$this->ajaxStartHandler = (string)$ajaxStartHandler;
 			}
 			elseif( $field === 'ajaxCompletionHandler' ) {

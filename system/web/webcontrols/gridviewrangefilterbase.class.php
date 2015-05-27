@@ -28,12 +28,6 @@
 		 */
 		protected $maxValue;
 
-		/**
-		 * specifies control tool tip
-		 * @var string
-		 */
-		protected $tooltip					= 'Enter a range';
-
 
 		/**
 		 * read view state from session

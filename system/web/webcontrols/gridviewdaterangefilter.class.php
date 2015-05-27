@@ -19,13 +19,6 @@
 	class GridViewDateRangeFilter extends GridViewRangeFilterBase
 	{
 		/**
-		 * specifies control tool tip
-		 * @var string
-		 */
-		protected $tooltip					= 'Select a date range';
-
-
-		/**
 		 * specifies date format
 		 * @var string
 		 */
@@ -129,15 +122,11 @@
 			$date_start->setAttribute('type', 'date');
 			$date_start->setAttribute('name', "{$HTMLControlId}__filter_startdate");
 			$date_start->setAttribute('value', !in_array($this->minValue, array('0000-00-00',NULL))?date($this->dateFormat, strtotime($this->minValue)):'');
-			$date_start->setAttribute('title', $this->tooltip);
-//			$date_start->setAttribute('class', 'daterangefilter');
 
 			$date_end = new \System\XML\DomObject('input');
 			$date_end->setAttribute('type', 'date');
 			$date_end->setAttribute('name', "{$HTMLControlId}__filter_enddate");
 			$date_end->setAttribute('value', !in_array($this->maxValue, array('0000-00-00',NULL))?date($this->dateFormat, strtotime($this->maxValue)):'');
-			$date_end->setAttribute('title', $this->tooltip);
-//			$date_end->setAttribute('class', 'daterangefilter');
 
 			if($this->ajaxPostBack)
 			{

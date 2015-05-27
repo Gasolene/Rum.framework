@@ -113,7 +113,6 @@
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'value', $this->value );
 			$input->setAttribute( 'name',  $this->groupName );
-//			$input->setAttribute( 'class', ' radiobutton' );
 
 			if( $this->visible )
 			{

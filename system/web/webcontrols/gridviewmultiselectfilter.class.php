@@ -26,12 +26,6 @@
 		protected $values = array();
 
 		/**
-		 * specifies control tool tip
-		 * @var string
-		 */
-		protected $tooltip					= 'Select one or more options';
-
-		/**
 		 * Specifies name of text field in datasource
 		 * @var string
 		 */
@@ -177,9 +171,7 @@
 
 			$select = new \System\XML\DomObject( 'select' );
 			$select->setAttribute('name', "{$HTMLControlId}__filter_value");
-			$select->setAttribute('title', $this->tooltip);
 			$select->setAttribute('multiple', 'multiple');
-//			$select->setAttribute('class', 'listfilter');
 			$option = new \System\XML\DomObject( 'option' );
 			$option->setAttribute('value', '');
 			$option->nodeValue = '';

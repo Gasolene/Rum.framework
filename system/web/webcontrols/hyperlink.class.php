@@ -149,7 +149,6 @@
 		public function getDomObject()
 		{
 			$a = $this->createDomObject('a');
-//			$a->setAttribute( 'class', ' hyperlink' );
 			$a->setAttribute('href', $this->url);
 			$a->setAttribute('target', $this->target);
 

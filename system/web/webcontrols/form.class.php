@@ -349,8 +349,6 @@
 		 */
 		public function getDomObject()
 		{
-			throw new \System\Base\InvalidOperationException("Form::render() is not allowed, use Form::begin()");
-
 			$form = $this->getFormDomObject();
 			$buttons = array();
 			$labels = array();
@@ -452,7 +450,6 @@
 			$form->setAttribute( 'action', $this->action );
 			$form->setAttribute( 'method', strtolower( $this->method ));
 			$form->setAttribute( 'enctype', $this->encodeType );
-//			$form->setAttribute( 'class', ' form' );
 
 			if( $this->_onsubmit )
 			{

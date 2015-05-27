@@ -27,13 +27,11 @@
 			$textarea = $this->createDomObject( 'textarea' );
 			$textarea->setAttribute( 'name', $this->getHTMLControlId() );
 			$textarea->setAttribute( 'id', $this->getHTMLControlId() );
-//			$textarea->setAttribute( 'class', ' textarea' );
-			$textarea->setAttribute( 'title', $this->tooltip );
 			$textarea->nodeValue = $this->value;
 
 			if( $this->submitted && !$this->validate() )
 			{
-				$textarea->setAttribute( 'class', ' invalid' );
+				$textarea->appendAttribute( 'class', ' invalid' );
 			}
 
 			if( $this->autoPostBack )
@@ -76,11 +74,6 @@
 			if( $this->disableAutoComplete )
 			{
 				$textarea->setAttribute( 'autocomplete', 'off' ); // not xhtml compliant
-			}
-
-			if( $this->placeholder )
-			{
-				$textarea->setAttribute( 'placeholder', $this->placeholder );
 			}
 
 			return $textarea;

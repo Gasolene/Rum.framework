@@ -16,10 +16,8 @@
 	 * @property bool $escapeOutput Specifies whether to escape the output
 	 * @property bool $readonly Specifies whether control is readonly
 	 * @property bool $disabled Specifies whether the control is disabled
-	 * @property string $tooltip Specifies control tooltip
 	 * @property string $default Specifies default value
 	 * @property bool $disableAutoComplete Specifies whether to disable the browsers auto complete feature
-	 * @property string $placeholder Specifies the text for the placeholder attribute
 	 * @property string $value Specifies the value of control
 	 *
 	 * @package			PHPRum
@@ -59,12 +57,6 @@
 		protected $disabled					= false;
 
 		/**
-		 * specifies control tool tip
-		 * @var string
-		 */
-		protected $tooltip					= '';
-
-		/**
 		 * specifies default value
 		 * @var string
 		 */
@@ -81,12 +73,6 @@
 		 * @var bool
 		 */
 		protected $disableAutoComplete		= false;
-
-		/**
-		 * Specifies the text for the placeholder attribute
-		 * @var string
-		 */
-		protected $placeholder				= '';
 
 		/**
 		 * Specifies the value of control
@@ -109,17 +95,15 @@
 		 * @param  string		$headerText			header text
 		 * @param  string		$footerText			footer text
 		 * @param  string		$className			css class name
-		 * @param  string		$tooltip			toolstip
 		 * @param  string		$default			default value
 		 * @return void
 		 */
-		public function __construct( $dataField, $pkey, $parameter='', $headerText='', $footerText='', $className='', $tooltip='', $default = '' )
+		public function __construct( $dataField, $pkey, $parameter='', $headerText='', $footerText='', $className='', $default = '' )
 		{
 			parent::__construct( $dataField, $headerText, '', $footerText, $className );
 
 			$this->parameter = $parameter?$parameter:str_replace(" ","_",$dataField);
 			$this->pkey = $pkey;
-			$this->tooltip = $tooltip;
 			$this->default = $default;
 			$this->validators  = new \System\Validators\ValidatorCollection($this);
 
@@ -160,17 +144,11 @@
 			elseif( $field === 'disableAutoComplete' ) {
 				return $this->disableAutoComplete;
 			}
-			elseif( $field === 'placeholder' ) {
-				return $this->placeholder;
-			}
 			elseif( $field === 'readonly' ) {
 				return $this->readonly;
 			}
 			elseif( $field === 'disabled' ) {
 				return $this->disabled;
-			}
-			elseif( $field === 'tooltip' ) {
-				return $this->tooltip;
 			}
 			elseif( $field === 'default' ) {
 				return $this->default;
@@ -205,17 +183,11 @@
 			elseif( $field === 'disableAutoComplete' ) {
 				$this->disableAutoComplete = (bool)$value;
 			}
-			elseif( $field === 'placeholder' ) {
-				$this->placeholder = (string)$value;
-			}
 			elseif( $field === 'readonly' ) {
 				$this->readonly = (bool)$value;
 			}
 			elseif( $field === 'disabled' ) {
 				$this->disabled = (bool)$value;
-			}
-			elseif( $field === 'tooltip' ) {
-				$this->tooltip = (string)$value;
 			}
 			elseif( $field === 'default' ) {
 				$this->default = (string)$value;
@@ -397,10 +369,6 @@
 				$attrs .= ' autocomplete="off"';
 			}
 
-//			if( $this->placeholder )
-//			{
-//				$attrs .= " placeholder=\"{$this->placeholder}\"";
-//			}
 			return $attrs;
 		}
 
