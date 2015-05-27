@@ -15,12 +15,9 @@
 	 * @property string $lang specifies default language
 	 * @property string $charset specifies default character set
 	 * @property AppSettingsCollection $appsettings collection of app settings
-	 * @property string $defaultTheme specifies the default theme
 	 * @property bool $viewStateEnabled specifies whether viewstate is enabled
 	 * @property string $viewStateMethod specifies the viewstate method
 	 * @property int $viewStateExpires specifies the viewstate expiration in seconds form the current time
-	 * @property string $themesPath path to themes folder
-	 * @property string $themesURI uri to themes folder
 	 * @property string $defaultController specifies default controller
 	 * @property string $requestParameter specifies page request parameter
 	 * @property bool $rewriteURIS specifies whether to rewrite URI's
@@ -100,18 +97,6 @@
 		 * @var AppSettingsCollection
 		 */
 		private $appsettings;
-
-		/**
-		 * specifies the default theme
-		 * @var string
-		 */
-		private $defaultTheme					= 'default';
-
-		/**
-		 * specifies the URI to the themes folder
-		 * @var string
-		 */
-		private $themes							= '/themes';
 
 		/**
 		 * specifies whether viewstate is enabled
@@ -349,15 +334,6 @@
 			}
 			elseif( $field === 'appsettings' ) {
 				return new AppSettingsCollection( $this->appsettings );
-			}
-			elseif( $field === 'defaultTheme' ) {
-				return $this->defaultTheme;
-			}
-			elseif( $field === 'themesPath' ) {
-				return __HTDOCS_PATH__ . $this->themes;
-			}
-			elseif( $field === 'themesURI' ) {
-				return __APP_URI__ . $this->themes;
 			}
 			elseif( $field === 'viewStateEnabled' ) {
 				return $this->viewStateEnabled;
@@ -648,19 +624,6 @@
 					{
 						$this->_getAppSettingNodes( $nodes, $index );
 					}
-				}
-				// pages
-				elseif( $node_data['tag'] === 'PAGES' && $node_data['type'] != 'cdata' && isset( $node_data['attributes'] ))
-				{
-					if( isset( $node_data['attributes']['THEME'] )) {
-						// TODO: Deprecated
-						$this->defaultTheme = $node_data['attributes']['THEME'];
-					}
-					if( isset( $node_data['attributes']['DEFAULT-THEME'] )) {
-						$this->defaultTheme = $node_data['attributes']['DEFAULT-THEME'];
-					}
-
-					$this->_closeNode( $nodes, $index );
 				}
 				// viewstate
 				elseif( $node_data['tag'] === 'VIEWSTATE' && $node_data['type'] != 'cdata' && isset( $node_data['attributes'] ))

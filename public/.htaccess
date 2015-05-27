@@ -55,6 +55,9 @@ RewriteEngine On
 # This file contains default page routing for typical applications
 # Modify this script as needed
 
+# /assets/*/
+RewriteRule ^(assets|css|img|js|)($|/) - [L]
+
 # REST Web service routing
 
 # /rest/u/{user}/t/{token}/{collection}/

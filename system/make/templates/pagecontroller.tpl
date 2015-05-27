@@ -11,7 +11,6 @@
 	 * The PageControllerBase exposes 3 protected properties
 	 * @property int $outputCache Specifies how long to cache page output in seconds, 0 disables caching
 	 * @property Page $page Contains an instance of the Page component
-	 * @property string $theme Specifies the theme for this page
 	 *
 	 * @package			<Namespace>
 	 */

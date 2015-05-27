@@ -19,12 +19,6 @@
   -->
   <app-settings />
 
-  <!--
-   pages specification
-   @default-theme: (default=default): specifies the default theme
-  -->
-  <pages               default-theme = "default" />
-
  <!--
    viewstate specification
    @enabled (default=false): specifies whether to enable viewstate

@@ -18,6 +18,9 @@
 	 */
 	include '../system/base/rum.php';
 
+	// set error reorting
+	error_reporting( E_ALL | E_STRICT );
+
 	// create instance of the application and run!!!
 	\System\Base\ApplicationBase::getInstance(new MyApp())->run();
 ?>

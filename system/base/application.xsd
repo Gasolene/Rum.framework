@@ -5,7 +5,6 @@
   <xs:complexType>
     <xs:all>
       <xs:element ref="app-settings" minOccurs="0" maxOccurs="1"/>
-      <xs:element ref="pages" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="viewstate" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="request" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="session" minOccurs="0" maxOccurs="1"/>
@@ -31,13 +30,6 @@
         </xs:complexType>
       </xs:element>
     </xs:choice>
-  </xs:complexType>
-</xs:element>
-
-<xs:element name="pages">
-  <xs:complexType>
-    <xs:attribute name="default-theme" type="xs:string" use="optional" />
-    <xs:attribute name="theme" type="xs:string" use="optional" /> <!-- backwards compatability -->
   </xs:complexType>
 </xs:element>
 
