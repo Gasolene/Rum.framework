@@ -187,13 +187,6 @@
 			elseif( $field === 'ajaxCompletionHandler' ) {
 				return $this->ajaxCompletionHandler;
 			}
-			elseif( $field === 'canFilter' ) {
-				trigger_error("GridViewColumn::canFilter is deprecated", E_USER_DEPRECATED);
-				return true;
-			}
-			elseif( $field === 'ondblclick' ) {
-				trigger_error("GridViewColumn::ondblclick is deprecated", E_USER_DEPRECATED);
-			}
 			else {
 				return parent::__get($field);
 			}
@@ -235,12 +228,6 @@
 			}
 			elseif( $field === 'ajaxCompletionHandler' ) {
 				$this->ajaxCompletionHandler = (string)$value;
-			}
-			elseif( $field === 'ondblclick' ) {
-				trigger_error("GridViewColumn::ondblclick is deprecated", E_USER_DEPRECATED);
-			}
-			elseif( $field === 'canFilter' ) {
-				trigger_error("GridViewColumn::canFilter is deprecated", E_USER_DEPRECATED);
 			}
 			else {
 				parent::__set($field, $value);

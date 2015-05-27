@@ -1051,38 +1051,17 @@ No building is needed or allowed in a production environment.</p>
 					}
 					elseif($request->get[\Rum::config()->requestParameter]=='dev' && $request->get["id"]=="run_all")
 					{
-						trigger_error("URI mapping dev/run_all is deprecated, use test/run_all instead", E_USER_DEPRECATED);
 						$tester = new \System\Test\Tester();
 						$tester->runAllTestCases(new \System\Test\HTMLTestReporter());
 						exit;
 					}
 					elseif($request->get[\Rum::config()->requestParameter]=='dev/run_unit_test' )
 					{
-						trigger_error("URI mapping dev/run_unit_test is deprecated, use test/run_unit_test instead", E_USER_DEPRECATED);
 						$tester = new \System\Test\Tester();
 						$tester->runUnitTestCase($request->get["id"], new \System\Test\HTMLTestReporter());
 						exit;
 					}
 					elseif($request->get[\Rum::config()->requestParameter]=='dev/run_functional_test' )
-					{
-						trigger_error("URI mapping dev/run_functional_test is deprecated, use test/run_functional_test instead", E_USER_DEPRECATED);
-						$tester = new \System\Test\Tester();
-						$tester->runFunctionalTestCase($request->get["id"], new \System\Test\HTMLTestReporter());
-						exit;
-					}
-					elseif($request->get[\Rum::config()->requestParameter]=='test' && $request->get["id"]=="run_all")
-					{
-						$tester = new \System\Test\Tester();
-						$tester->runAllTestCases(new \System\Test\HTMLTestReporter());
-						exit;
-					}
-					elseif($request->get[\Rum::config()->requestParameter]=='test/run_unit_test' )
-					{
-						$tester = new \System\Test\Tester();
-						$tester->runUnitTestCase($request->get["id"], new \System\Test\HTMLTestReporter());
-						exit;
-					}
-					elseif($request->get[\Rum::config()->requestParameter]=='test/run_functional_test' )
 					{
 						$tester = new \System\Test\Tester();
 						$tester->runFunctionalTestCase($request->get["id"], new \System\Test\HTMLTestReporter());

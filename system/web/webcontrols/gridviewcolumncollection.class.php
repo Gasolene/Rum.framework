@@ -39,35 +39,6 @@
 
 
 		/**
-		 * sets object property
-		 *
-		 * @param  string	$field		name of field
-		 * @param  mixed	$value		value of field
-		 * @return void					string of variables
-		 * @ignore
-		 */
-		public function __set( $field, $value )
-		{
-			if( $field === 'ajaxPostBack' )
-			{
-				trigger_error("GridViewColumnCollection::ajaxPostBack is deprecated", E_USER_DEPRECATED);
-				foreach($this->items as $item)
-				{
-					$item->ajaxPostBack = (bool)$value;
-					if($item->filter)
-					{
-						$item->filter->ajaxPostBack = (bool)$value;
-					}
-				}
-			}
-			else
-			{
-				return parent::__get($field);
-			}
-		}
-
-
-		/**
 		 * implement ArrayAccess methods
 		 * @ignore
 		 */

@@ -724,20 +724,6 @@
 
 
 		/**
-		 * creates controlId string for html
-		 *
-		 * @return string	html id string
-		 * @deprecated since version number
-		 * @ignore
-		 */
-		final public function getHTMLControlIdString()
-		{
-			trigger_error('WebControlBase::getHTMLControlIdString() is deprecated, use WebControlBase::getHTMLControlId() instead', E_USER_DEPRECATED);
-			return $this->getHTMLControlId();
-		}
-
-
-		/**
 		 * returns a DomObject representing control
 		 *
 		 * @return DomObject
