@@ -4,16 +4,16 @@
 <meta charset="<?=Rum::app()->charset?>" />
 <title></title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<link href="<?=\Rum::config()->uri?>/assets/css/combined.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 <body>
 
 <div id="page">
 	<div id="header">
-		<a id="logo"><img src="<?=\Rum::config()->uri?>/assets/img/logo.png"/></a>
+		<a id="logo"><img src="<?=  Rum::config()->uri?>/resources/images/logo.png"/></a>
 		<ul id="nav">
-			<li><a href="<?=\Rum::config()->uri?>">Home</a></li>
+			<li><a href="/">Home</a></li>
 		</ul>
+		<a href="/logout/" class="login">Logout</a>
 	</div>
 
 	<div id="body">
@@ -29,8 +29,7 @@
 	</div>
 
 	<div id="footer">
-		<span><strong>Framework version:</strong> <?php echo \System\Base\FRAMEWORK_VERSION_STRING ?></span><br />
-		<span><strong>Processor:</strong> <?=\number_format(\Rum::app()->timer->elapsed()*1000, 2)?>ms</span>
+		<span><strong>Framework Version:</strong> <?php echo \System\Base\FRAMEWORK_VERSION_STRING ?></span>
 	</div>
 
 </div>

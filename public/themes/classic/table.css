@@ -1,0 +1,76 @@
+<!--/*--><![CDATA[/*><!--*/
+
+table {
+  width: 100%;
+  border-spacing: 0px;
+  /* border-collapse: collapse; */
+}
+
+table caption {
+  margin-bottom: 10px;
+  text-align: left;
+  font-size: 22px;
+  line-height: 22px;
+  font-style: italic;
+  color: #999999;
+  font-weight: bold;
+  margin-bottom: 12px;
+  font-family: arial, "lucida console", sans-serif;
+}
+
+table th,
+table td {
+  padding: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: left;
+  background: none;
+}
+
+table thead td {
+  white-space: nowrap;
+}
+
+table tr {
+  position: relative;
+}
+
+table thead tr th {
+  border-bottom: 1px solid #E7E7E7;
+  font-weight: bold;
+}
+
+table tbody tr.row td {
+  border-bottom: 1px solid #E7E7E7;
+}
+
+table tbody tr.row_alt td {
+  border-bottom: 1px solid #E7E7E7;
+}
+
+table th {
+}
+
+table td {
+	/* white-space: nowrap; */
+}
+
+table .sort_desc {
+	background-image: url(images/down.png);
+	background-position:left;
+	background-repeat:no-repeat;
+	padding-left: 15px;
+}
+
+table .sort_asc {
+	background-image: url(images/up.png);
+	background-position:left;
+	background-repeat:no-repeat;
+	padding-left: 15px;
+}
+
+table a.disabled {
+	display: none;
+}
+
+/*]]>*/-->

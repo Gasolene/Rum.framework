@@ -1,0 +1,189 @@
+<!--/*--><![CDATA[/*><!--*/
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  clear: left;
+}
+
+table a {
+  text-decoration: none;
+  color: #7F7F7F;
+}
+
+table caption {
+  text-align: left;
+  color: #333333;
+  font-size: 24px;
+  line-height: 32px;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: -1px;
+  margin-right: -1px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+table thead th {
+  line-height: 50px;
+  height: 50px;
+  font-size: 13px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  color: #FFFFFF;
+  font-weight: bold;
+  white-space: nowrap;
+  background-color: #2E497F;
+  border-left:1px solid #3D5B98;
+}
+
+table thead td {
+  line-height: 50px;
+  height: 50px;
+  font-size: 13px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  color: #FFFFFF;
+  font-weight: bold;
+  white-space: nowrap;
+  border-left:1px solid #e6e6e6;
+  border-right:1px solid #e6e6e6;
+  border-bottom:1px solid #e6e6e6;
+}
+
+table thead th a:link {
+  color: #FFFFFF;
+}
+
+table thead th,
+table thead td,
+table tbody td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding: 0px;
+  text-align: center;
+  line-height: 40px;
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-right:1px solid #e6e6e6;
+}
+
+table thead tr,
+table tbody tr {
+  border-left:1px solid #e6e6e6;
+  border-bottom:1px solid #e6e6e6 !important;
+}
+
+table .row_alt {
+  background-color: #f2f2f3;
+}
+
+table tfoot {
+  background-image: url(images/dot.png);
+  background-position: 0 80px;
+  background-repeat: repeat-x;
+}
+
+table tfoot tr td {
+  height: 40px;
+  line-height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+table tfoot td {
+	text-align: left;
+}
+
+table tfoot a {
+  border: 1px solid #e6e6e6;
+  padding: 4px;
+  background-color: #F7F7F7;
+}
+
+table tfoot a:link {
+  background-color: #e6e6e6;
+  color: #1f497d;
+}
+
+table tfoot a:hover {
+  background-color: #F7F7F7;
+}
+
+/* Classes */
+
+table tfoot .disabled {
+  display: inline;
+  color: #999999;
+}
+
+table .sort_desc {
+	background-image: url(images/down.png);
+	background-position:left;
+	background-repeat:no-repeat;
+	padding-left: 15px;
+}
+
+table .sort_asc {
+	background-image: url(images/up.png);
+	background-position:left;
+	background-repeat:no-repeat;
+	padding-left: 15px;
+}
+
+/* Controls */
+
+table input[type="checkbox"] {
+  width: 40px;
+}
+
+table thead input[type="text"] {
+  margin: 0px;
+  width: 50%;
+  height: 20px;
+  text-shadow: #ffffff 0px 0px 4px;
+  border: 1px solid #677d81;
+  background: none;
+}
+
+/* Fixing whitespace/table overflow */
+
+table thead th {
+  white-space: normal;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+table thead td {
+    white-space:normal;
+    padding-left: 0;
+    padding-right: 0;
+    
+    
+}
+table input[type="button"],
+table input[type="submit"] {
+    display: inline;
+	width: 60px;
+}
+
+table thead input[type="text"] {
+    width:40%;
+    height:19px;
+}
+
+table tbody th, table tbody td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+table thead .id, table tr .id  {
+    padding-left: 20px;
+}
+
+/*]]>*/-->

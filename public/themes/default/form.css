@@ -56,7 +56,7 @@ fieldset label {
 }
 
 fieldset label.required {
-  background-image: url(../img/redstar.gif);
+  background-image: url(images/redstar.gif);
   background-position: right;
   background-repeat: no-repeat;
 }

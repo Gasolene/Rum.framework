@@ -1,0 +1,56 @@
+<!--/*--><![CDATA[/*><!--*/
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  margin: 0px;
+  background-position: top;
+  background-repeat: repeat-x;
+  height: 100%;
+  background-image: url(images/bg.gif);
+  background-repeat: repeat-x;
+  background-position: top;
+}
+
+#page {
+  position: relative;
+  width: 70%;
+  min-width: 1000px;
+  margin: 0 auto;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -67px; /* the bottom margin is the negative value of the footer's height */
+}
+
+#header {
+  height: 67px;
+  position: relative;
+  text-align: right;
+}
+
+#header #logo {
+  position: absolute;
+  top: 6px;
+  left: 0px;
+  margin-left: 0px;
+}
+
+#body {
+  position: relative;
+  padding-top: 70px;
+}
+
+#content {
+}
+
+#footer {
+  color: #3c555a;
+  font-size: 11px;
+  margin-top: 40px;
+}
+
+/*]]>*/-->

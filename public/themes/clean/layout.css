@@ -9,10 +9,7 @@ html, body {
   margin: 0px;
   background-position: top;
   background-repeat: repeat-x;
-  height: 100%;
-  background-image: url(../img/bg.gif);
-  background-repeat: repeat-x;
-  background-position: top;
+  /* height: 100%; */
 }
 
 #page {
@@ -20,6 +17,7 @@ html, body {
   width: 70%;
   min-width: 1000px;
   margin: 0 auto;
+  /*
   min-height: 100%;
   height: auto !important;
   height: 100%;
@@ -27,30 +25,22 @@ html, body {
 }
 
 #header {
-  height: 67px;
+  height: 90px;
   position: relative;
-  text-align: right;
 }
 
-#header #logo {
-  position: absolute;
-  top: 6px;
-  left: 0px;
-  margin-left: 0px;
-}
-
-#body {
-  position: relative;
-  padding-top: 70px;
+#logo {
+  padding: 10px;
+  margin-top: 10px;
+  float: left;
+  border:1px solid #E0E0E0;
 }
 
 #content {
 }
 
 #footer {
-  color: #3c555a;
-  font-size: 11px;
-  margin-top: 40px;
+  
 }
 
 /*]]>*/-->

@@ -108,14 +108,14 @@ table .disabled {
 }
 
 table .sort_desc {
-	background-image: url(../img/down.png);
+	background-image: url(images/down.png);
 	background-position:left;
 	background-repeat:no-repeat;
 	padding-left: 15px;
 }
 
 table .sort_asc {
-	background-image: url(../img/up.png);
+	background-image: url(images/up.png);
 	background-position:left;
 	background-repeat:no-repeat;
 	padding-left: 15px;
@@ -151,12 +151,12 @@ table input[type="submit"]:hover {
 
 table tbody input[type="button"],
 table tbody input[type="submit"] {
-  background-image: url(../img/icons/Remove.png);
+  background-image: url(icons/Remove.png);
 }
 
 table tbody .insert input[type="button"],
 table tbody .insert input[type="submit"] {
-  background-image: url(../img/icons/Add.png);
+  background-image: url(icons/Add.png);
 }
 
 /*]]>*/-->

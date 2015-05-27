@@ -1,0 +1,174 @@
+<!--/*--><![CDATA[/*><!--*/
+
+form {
+  clear: left;
+}
+
+/* Fieldset properties */
+
+fieldset {
+  border: none;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+fieldset legend {
+  text-align: left;
+  color: #333333;
+  font-size: 24px;
+  line-height: 24px;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: -1px;
+  margin-right: -1px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+fieldset legend span {
+  display: block;
+}
+
+fieldset dl {
+  
+}
+
+fieldset dl dt {
+  float: left;
+  clear: left;
+  width: 160px; /* width of labels */
+}
+
+fieldset dl dd {
+  clear: left;
+  position: relative;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+fieldset label {
+  color: #7F7F7F;
+  font-size: 16px;
+  text-align: left;
+  padding-right: 8px;
+  cursor: pointer;
+}
+
+fieldset label.required {
+  background-image: url(images/redstar.gif);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+fieldset fieldset {
+  display: inline;
+  padding-left: 0px;
+  border: none;
+  margin: 0px;
+}
+
+fieldset fieldset label {
+  display: block;
+  width: auto;
+  text-align: left;
+  line-height: 30px;
+}
+
+fieldset fieldset div {
+  float: left;
+  margin-right: 10px;
+}
+
+fieldset .invalid {
+  color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+fieldset .warning {
+  position: absolute;
+  top: 10px;
+  left: 260px;
+  color: #d8000c;
+  padding-left: 20px;
+  background-image: url("images/point.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+
+fieldset .warning span {
+  display: block;
+  width: 260px;
+  line-height: 34px;
+  padding-left: 36px;
+  padding-right: 20px;
+  color: #d8000c;
+  border-top: 1px solid #d8000c;
+  border-right: 1px solid #d8000c;
+  border-bottom: 1px solid #d8000c;
+  background-color: #ffbaba;
+  background-image: url("icons/Knob Cancel.png");
+  background-position: 0px 2px;
+  background-repeat: no-repeat;
+}
+
+/* Controls */
+
+input,
+select,
+textarea {
+  line-height: 27px;
+  padding: 2px;
+  height: 28px;
+  border: 1px solid #a6a6a6;
+}
+
+select {
+  height: 32px;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  line-height: 27px !important;
+}
+
+input:hover,
+input:focus,
+select:hover,
+select:focus,
+textarea:hover,
+textarea:focus {
+  border: 1px solid #000000;
+}
+
+button,input[type="button"],input[type="submit"] {
+  height: 34px;
+  line-height: 32px;
+  padding-left: 40px;
+  padding-right: 40px;
+  text-align: center;
+  color: #818285 !important;
+  text-decoration: none;
+  cursor: pointer;
+  background:url(images/overlay.png) repeat-x center;
+  border:1px solid #a6a6a6;
+  -moz-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+input[type="button"]:not(:first-child),
+input[type="submit"]:not(:first-child) {
+	margin-left: 20px;
+}
+
+input[type="button"]:hover,input[type="submit"]:hover{
+  background-color:rgba(198,217,241,.8);
+  color: #000000 !important;
+  border:1px solid #a6a6a6;
+}
+
+input[type="button"]:active,input[type="submit"]:active{
+  position:relative;
+  top:1px;
+  left:1px;
+  color: #000000;
+}
+
+/*]]>*/-->
