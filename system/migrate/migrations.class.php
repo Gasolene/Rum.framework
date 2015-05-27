@@ -46,7 +46,7 @@
 						$statement->execute();
 					}
 					else {
-						throw new \System\Base\InvalidOperationException("Migrations::up() must return a SQLStatement object");
+						trigger_error("Migrations::up() should return a SQLStatement object", E_USER_DEPRECATED);
 					}
 
 					// set version
@@ -83,7 +83,7 @@
 							$statement->execute();
 						}
 						else {
-							throw new \System\Base\InvalidOperationException("Migrations::down() must return a SQLStatement object");
+							trigger_error("Migrations::down() should return a SQLStatement object", E_USER_DEPRECATED);
 						}
 
 						$this->setVersion($migration->version);

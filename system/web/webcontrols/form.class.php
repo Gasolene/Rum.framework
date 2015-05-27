@@ -35,6 +35,13 @@
 	class Form extends WebControlBase
 	{
 		/**
+		 * Fieldset legend, Default is none
+		 * @var string
+		 * @ignore
+		 */
+		protected $legend				= '';
+
+		/**
 		 * URL to send form data, Default is self
 		 * @var string
 		 */
@@ -145,7 +152,12 @@
 		 */
 		public function __set( $field, $value )
 		{
-			if( $field === 'action' )
+			if( $field === 'legend' )
+			{
+				trigger_error("Form::legend is deprecated", E_USER_DEPRECATED);
+				$this->legend = (string)$value;
+			}
+			elseif( $field === 'action' )
 			{
 				$this->action = (string)$value;
 			}
@@ -181,9 +193,27 @@
 			elseif( $field === 'ajaxCompletionHandler' ) {
 				$this->ajaxCompletionHandler = (string)$ajaxCompletionHandler;
 			}
+			elseif( $field === 'ajaxValidation' )
+			{
+				trigger_error("Form::ajaxValidation is deprecated, use ValidationMessage instead", E_USER_DEPRECATED);
+			}
+			elseif( $field === 'autoFocus' )
+			{
+				trigger_error("Form::autoFocus is deprecated, use InputBase::autoFocus instead", E_USER_DEPRECATED);
+			}
+			elseif( $field === 'hiddenField' )
+			{
+				trigger_error("Form::hiddenField is deprecated, use Form::honeyPot instead", E_USER_DEPRECATED);
+				$this->honeyPot = (string)$value;
+			}
 			elseif( $field === 'honeyPot' )
 			{
 				$this->honeyPot = (string)$value;
+			}
+			elseif( $field === 'onPost' )
+			{
+				trigger_error("Form::onPost is deprecated", E_USER_DEPRECATED);
+				$this->onPost = (string)$value;
 			}
 			else
 			{
@@ -201,7 +231,11 @@
 		 */
 		public function __get( $field )
 		{
-			if( $field === 'action' )
+			if( $field === 'legend' )
+			{
+				return $this->legend;
+			}
+			elseif( $field === 'action' )
 			{
 				return $this->action;
 			}
@@ -217,6 +251,11 @@
 			{
 				return $this->forward;
 			}
+			elseif( $field === 'autoFocus' )
+			{
+				trigger_error("Form::autoFocus is deprecated, use InputBase::autoFocus instead", E_USER_DEPRECATED);
+				return false;
+			}
 			elseif( $field === 'ajaxPostBack' )
 			{
 				return $this->ajaxPostBack;
@@ -231,9 +270,27 @@
 			{
 				return $this->honeyPot;
 			}
+			elseif( $field === 'onPost' )
+			{
+				trigger_error("Form::onPost is deprecated", E_USER_DEPRECATED);
+				return $this->onPost;
+			}
 			elseif( $field === 'submitted' )
 			{
 				return $this->submitted;
+			}
+			elseif( $field === 'submit' )
+			{
+				if(null===$this->findControl('submit')) {
+					trigger_error("ActiveRecordBase::form()->submit is deprecated, no longer generates a submit button", E_USER_DEPRECATED);
+					try {
+						$this->add(new Button('submit'));
+					}
+					catch(\Exception $e) {
+						throw new \System\Base\InvalidOperationException("ActiveRecordBase::form()->submit is no longer generated");
+					}
+				}
+				return $this->findControl('submit');
 			}
 			else
 			{
@@ -323,6 +380,20 @@
 		 *
 		 * @param   array	$args	attribute parameters
 		 * @return void
+		 * @ignore
+		 */
+		public function start( $args = array() )
+		{
+			trigger_error("Form::start() is deprecated, use Form::begin() instead", E_USER_DEPRECATED);
+			$this->begin( $args );
+		}
+
+
+		/**
+		 * renders form open tag
+		 *
+		 * @param   array	$args	attribute parameters
+		 * @return void
 		 */
 		public function begin( $args = array() )
 		{
@@ -349,8 +420,7 @@
 		 */
 		public function getDomObject()
 		{
-			throw new \System\Base\InvalidOperationException("Form::render() is not allowed, use Form::begin()");
-
+			trigger_error("Form::render() is deprecated, use Form::begin() instead", E_USER_DEPRECATED);
 			$form = $this->getFormDomObject();
 			$buttons = array();
 			$labels = array();
@@ -427,6 +497,7 @@
 			if($dl)
 			{
 				$fieldset .= '<fieldset>';
+				$fieldset .= '<legend><span>' . $this->legend . '</span></legend>';
 				$fieldset .= '<dl>';
 				$fieldset .= $dl;
 				$fieldset .= '</dl>';

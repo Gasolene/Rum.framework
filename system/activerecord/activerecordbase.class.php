@@ -593,6 +593,45 @@
 
 
 		/**
+		 * static method to find ActiveRecordBases of this type
+		 *
+		 * @param  array		$args		associative array of keys and values
+		 * @ignore
+		 */
+		static public function findAll( array $args = array() )
+		{
+			trigger_error("ActiveRecord::findAll(args) is deprecated, use ::all instead", E_USER_DEPRECATED);
+			return ActiveRecordBase::findAllByType( self::getClass(), $args );
+		}
+
+
+		/**
+		 * static method to find the first ActiveRecordBase of this type
+		 *
+		 * @param  string		$args		associative array of keys and values
+		 * @ignore
+		 */
+		static public function first( array $args = array())
+		{
+			trigger_error("ActiveRecordBase::first() is deprecated", E_USER_DEPRECATED);
+			return ActiveRecordBase::firstByType( self::getClass(), $args );
+		}
+
+
+		/**
+		 * static method to find the last ActiveRecordBase of this type
+		 *
+		 * @param  string		$args		associative array of keys and values
+		 * @ignore
+		 */
+		static public function last( array $args = array() )
+		{
+			trigger_error("ActiveRecordBase::last() is deprecated", E_USER_DEPRECATED);
+			return ActiveRecordBase::lastByType( self::getClass(), $args );
+		}
+
+
+		/**
 		 * static method to return a DataSet of this type
 		 *
 		 * @param  array		$columns	array of column names to return

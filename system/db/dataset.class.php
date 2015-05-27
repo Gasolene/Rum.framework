@@ -1120,6 +1120,18 @@
 
 
 		/**
+		 * Requery datasource
+		 *
+		 * @return void
+		 */
+		public function requery()
+		{
+			trigger_error("DataSet::requery() is deprecated, use DataSet::refresh() instead", E_USER_DEPRECATED);
+			$this->refresh();
+		}
+
+
+		/**
 		 * refresh data from data source
 		 *
 		 * @return void

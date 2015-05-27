@@ -188,6 +188,30 @@
 		protected $columns;
 
 		/**
+		 * specifies the action to take on mouseover events
+		 * @ignore
+		 */
+		protected $onmouseover				= '';
+
+		/**
+		 * specifies the action to take on onmouseout events
+		 * @ignore
+		 */
+		protected $onmouseout				= '';
+
+		/**
+		 * specifies the action to take on click events
+		 * @ignore
+		 */
+		protected $onclick					= '';
+
+		/**
+		 * specifies the action to take on double click events
+		 * @ignore
+		 */
+		protected $ondblclick				= '';
+
+		/**
 		 * Specifies whether to update rows only, or the entire table on updateAjax()
 		 * @var bool
 		 */
@@ -216,6 +240,14 @@
 			$this->events->add(new \System\Web\Events\PagePostEvent());
 			$this->events->add(new \System\Web\Events\GridViewSortEvent());
 			$this->events->add(new \System\Web\Events\GridViewFilterEvent());
+
+			// default events
+			$onPostMethod = 'on' . ucwords( $this->controlId ) . 'Post';
+			if(\method_exists(\System\Web\WebApplicationBase::getInstance()->requestHandler, $onPostMethod))
+			{
+				trigger_error("GridViewPostEvent is deprecated, use PageRequestEvent instead", E_USER_DEPRECATED);
+				$this->events->registerEventHandler(new \System\Web\Events\PagePostEventHandler('\System\Web\WebApplicationBase::getInstance()->requestHandler->' . $onPostMethod));
+			}
 		}
 
 
@@ -295,6 +327,26 @@
 			}
 			elseif( $field === 'rowDataField' ) {
 				return $this->rowDataField;
+			}
+			elseif( $field === 'onmouseover' ) {
+				trigger_error("GridView::onmouseover is deprecated, use GridView::render(args) instead", E_USER_DEPRECATED);
+				return $this->onmouseover;
+			}
+			elseif( $field === 'onmouseout' ) {
+				trigger_error("GridView::onmouseout is deprecated, use GridView::render(args) instead", E_USER_DEPRECATED);
+				return $this->onmouseout;
+			}
+			elseif( $field === 'onclick' ) {
+				trigger_error("GridView::onclick is deprecated, use GridView::render(args) instead", E_USER_DEPRECATED);
+				return $this->onclick;
+			}
+			elseif( $field === 'ondblclick' ) {
+				trigger_error("GridView::ondblclick is deprecated, use GridView::render(args) instead", E_USER_DEPRECATED);
+				return $this->ondblclick;
+			}
+			elseif( $field === 'ajaxPostBack' ) {
+				trigger_error("GridView::ajaxPostBack is deprecated", E_USER_DEPRECATED);
+				$false=false;return $false;
 			}
 			elseif( $field === 'updateRowsOnly' ) {
 				return $this->updateRowsOnly;
@@ -376,6 +428,9 @@
 			elseif( $field === 'showPageNumber' ) {
 				$this->showPageNumber = (bool)$value;
 			}
+			elseif( $field === 'showPrimaryKey' ) {
+				trigger_error("GridView::showPrimaryKey is deprecated", E_USER_DEPRECATED);
+			}
 			elseif( $field === 'showInsertRow' ) {
 				$this->showInsertRow = (bool)$value;
 			}
@@ -408,6 +463,26 @@
 			}
 			elseif( $field === 'rowDataField' ) {
 				$this->rowDataField = (string) $value;
+			}
+			elseif( $field === 'onmouseover' ) {
+				trigger_error("GridView::onmouseover is deprecated", E_USER_DEPRECATED);
+				$this->onmouseover = (string)$value;
+			}
+			elseif( $field === 'onmouseout' ) {
+				trigger_error("GridView::onmouseout is deprecated", E_USER_DEPRECATED);
+				$this->onmouseout = (string)$value;
+			}
+			elseif( $field === 'onclick' ) {
+				trigger_error("GridView::onclick is deprecated", E_USER_DEPRECATED);
+				$this->onclick = (string)$value;
+			}
+			elseif( $field === 'ondblclick' ) {
+				trigger_error("GridView::ondblclick is deprecated", E_USER_DEPRECATED);
+				$this->ondblclick = (string)$value;
+			}
+			elseif( $field === 'ajaxPostBack' ) {
+				trigger_error("GridView::ajaxPostBack is deprecated", E_USER_DEPRECATED);
+				$this->columns->ajaxPostBack = (bool)$value;
 			}
 			elseif( $field === 'updateRowsOnly' ) {
 				$this->updateRowsOnly = (bool)$value;
@@ -467,6 +542,151 @@
 
 
 		/**
+		 * insert row in DataSet
+		 *
+		 * @return void
+		 */
+		public function insertRow()
+		{
+			trigger_error("GridView::insertRow() is deprecated, use GridViewColumn::fill() instead", E_USER_DEPRECATED);
+			$request = \System\Web\HTTPRequest::$post;
+
+			if( $this->dataSource )
+			{
+				$pkey = '';
+				foreach($this->dataSource->fieldMeta as $meta)
+				{
+					if($meta->primaryKey)
+					{
+						$pkey = $meta->name;
+						break;
+					}
+				}
+
+				if($pkey)
+				{
+					$this->dataSource[$pkey] = null;
+					foreach($this->dataSource->fields as $field)
+					{
+						if(isset($request[str_replace(' ', '_', $field)]))
+						{
+							$this->dataSource[$field] = $request[str_replace(' ', '_', $field)];
+						}
+					}
+					$this->dataSource->insert();
+				}
+				else
+				{
+					throw new \System\Base\InvalidOperationException("GridView::dataSource contains no primary key");
+				}
+			}
+			else
+			{
+				throw new \System\Base\InvalidOperationException("GridView::insertRow() called with null dataSource");
+			}
+		}
+
+
+		/**
+		 * update row in DataSet
+		 *
+		 * @param string $id entity id (primary key value) of the current row
+		 * @return void
+		 */
+		public function updateRow($id)
+		{
+			trigger_error("GridView::insertRow() is deprecated, use GridViewColumn::fill() instead", E_USER_DEPRECATED);
+			$request = \System\Web\HTTPRequest::$post;
+
+			if( $this->dataSource )
+			{
+				$pkey = '';
+				foreach($this->dataSource->fieldMeta as $meta)
+				{
+					if($meta->primaryKey)
+					{
+						$pkey = $meta->name;
+						break;
+					}
+				}
+
+				if($pkey)
+				{
+					if($this->dataSource->seek($pkey, $id))
+					{
+						foreach($this->dataSource->fields as $field)
+						{
+							if(isset($request[str_replace(' ', '_', $field)]))
+							{
+								$this->dataSource[$field] = $request[str_replace(' ', '_', $field)];
+							}
+						}
+						$this->dataSource->update();
+					}
+					else
+					{
+						throw new \System\Base\InvalidOperationException("GridView::dataSource contains no record with primary key `{$id}`");
+					}
+				}
+				else
+				{
+					throw new \System\Base\InvalidOperationException("GridView::dataSource contains no primary key");
+				}
+			}
+			else
+			{
+				throw new \System\Base\InvalidOperationException("GridView::updateRow() called with null dataSource");
+			}
+		}
+
+
+		/**
+		 * delete row in DataSet
+		 *
+		 * @param string $id entity id (primary key value) of the current row
+		 * @return void
+		 */
+		public function deleteRow($id)
+		{
+			trigger_error("GridView::insertRow() is deprecated, use GridViewColumn::fill() instead", E_USER_DEPRECATED);
+			$request = \System\Web\HTTPRequest::$request;
+
+			if( $this->dataSource )
+			{
+				$pkey = '';
+				foreach($this->dataSource->fieldMeta as $meta)
+				{
+					if($meta->primaryKey)
+					{
+						$pkey = $meta->name;
+						break;
+					}
+				}
+
+				if($pkey)
+				{
+					if($this->dataSource->seek($pkey, $id))
+					{
+						$this->dataSource->delete();
+					}
+					else
+					{
+						throw new \System\Base\InvalidOperationException("GridView::dataSource contains no record with primary key `{$id}`");
+					}
+				}
+				else
+				{
+					throw new \System\Base\InvalidOperationException("GridView::dataSource contains no primary key");
+				}
+			}
+			else
+			{
+				throw new \System\Base\InvalidOperationException("GridView::updateRow() called with null dataSource");
+			}
+		}
+
+
+		/**
 		 * fill an existing \ArrayAccess object with data from a GridView button post back
 		 * 
 		 * @param \ArrayAccess $object object to fill
@@ -484,6 +704,19 @@
 					$object[$field] = $request[str_replace(' ', '_', $field)];
 				}
 			}
+		}
+
+
+		/**
+		 * set filter values
+		 *
+		 * @param  array &$filter	Instance of a GridViewFilterBase
+		 * @return void
+		 */
+		final public function setFilterValues($field, array $values)
+		{
+			trigger_error("GridView::setFilterValues() is deprecated, use GridViewColumn::setFilter() instead", E_USER_DEPRECATED);
+			$this->__filterValues[$field] = $values;
 		}
 
 

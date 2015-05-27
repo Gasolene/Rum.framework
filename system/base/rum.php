@@ -216,6 +216,16 @@
 	if( !defined( '__QUOTE_STYLE__' ))					define( '__QUOTE_STYLE__',					ENT_COMPAT );
 
 	/**
+	 * specifies whether to show deprecated notices
+	 */
+	//if( !defined( '__SHOW_DEPRECATED_NOTICES__' ))		define( '__SHOW_DEPRECATED_NOTICES__',		TRUE );
+
+	/**
+	 * specifies whether to show deprecated notices
+	 */
+	//if( !defined( '__BACKWARDS_COMPATIBILITY_MODE__' ))	define( '__BACKWARDS_COMPATIBILITY_MODE__',	FALSE );
+
+	/**
 	 * specifies the number of warnings to dump
 	 */
 	if( !defined( '__ACTIVERECORD_AUTO_MAP__' ))		define( '__ACTIVERECORD_AUTO_MAP__',		FALSE );
