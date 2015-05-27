@@ -151,6 +151,7 @@
 			}
 
 			$input->innerHtml = $this->text;
+//			$input->setAttribute( 'class', ' button' );
 
 			if( $this->src )
 			{

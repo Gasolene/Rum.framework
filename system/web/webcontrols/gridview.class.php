@@ -946,6 +946,7 @@
 				$th = new \System\XML\DomObject( 'th' );
 
 				// set column attributes
+//				$th->setAttribute( 'class', 'listcolumn' );
 				$th->innerHtml .= $this->listName;
 
 				if( $this->multiple )
@@ -1028,6 +1029,13 @@
 				// add column to header
 				$tr->addChild( $th );
 			}
+
+//			if($this->canChangeOrder)
+//			{
+//				$th = new \System\XML\DomObject('th');
+//				$th->setAttribute( 'class', 'movecolumn' );
+//				$tr->addChild( $th );
+//			}
 
 			return $tr;
 		}

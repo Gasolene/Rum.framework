@@ -19,6 +19,13 @@
 	class GridViewDateTimeFilter extends GridViewFilterBase
 	{
 		/**
+		 * specifies control tool tip
+		 * @var string
+		 */
+		protected $tooltip					= 'Select a date/time';
+
+
+		/**
 		 * specifies date format
 		 * @var string
 		 */
@@ -109,6 +116,8 @@
 			$input->setAttribute('type', 'datetime');
 			$input->setAttribute('name', "{$HTMLControlId}__filter_value");
 			$input->setAttribute('value', !in_array($this->value, array('0000-00-00',NULL))?date($this->dateFormat, strtotime($this->value)):'');
+			$input->setAttribute('title', $this->tooltip);
+//			$input->setAttribute('class', 'datetimefilter');
 
 			if($this->ajaxPostBack)
 			{

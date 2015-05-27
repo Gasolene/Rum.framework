@@ -34,6 +34,7 @@
 		{
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'value', $this->value );
+//			$input->setAttribute( 'class', ' '.self::type );
 			$input->setAttribute( 'type', self::type );
 
 			return $input;

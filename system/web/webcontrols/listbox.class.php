@@ -76,6 +76,8 @@
 		{
 			$select = $this->createDomObject( 'select' );
 			$select->setAttribute( 'id', $this->getHTMLControlId());
+			$select->setAttribute( 'title', $this->tooltip );
+//			$select->setAttribute( 'class', ' listbox' );
 			$select->setAttribute( 'size', $this->listSize );
 
 			if( $this->multiple )
@@ -90,7 +92,7 @@
 
 			if( $this->submitted && !$this->validate() )
 			{
-				$select->appendAttribute( 'class', ' invalid' );
+				$select->setAttribute( 'class', 'invalid' );
 			}
 
 			if( $this->autoPostBack )

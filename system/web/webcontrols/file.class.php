@@ -124,6 +124,7 @@
 		{
 			$input = $this->getInputDomObject();
 			$input->setAttribute( 'type', 'file' );
+//			$input->setAttribute( 'class', ' file' );
 
 			return $input;
 		}

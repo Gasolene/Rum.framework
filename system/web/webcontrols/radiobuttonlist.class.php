@@ -102,6 +102,7 @@
 		{
 			$fieldset = new \System\XML\DomObject( 'fieldset' );
 			$fieldset->setAttribute( 'id', $this->getHTMLControlId() );
+//			$fieldset->setAttribute( 'class', ' radiobuttonlist' );
 
 			if( !$this->visible )
 			{
@@ -112,11 +113,13 @@
 			{
 				$input = $this->createDomObject( 'input' );
 				$input->setAttribute( 'id', $this->getHTMLControlId() . '__' . $i );
+//				$input->setAttribute( 'class', 'radiobuttonlist_input' );
 				$input->setAttribute( 'value', $this->items->itemAt( $i ));
+				$input->setAttribute( 'title', $this->tooltip );
 
 				if( $this->submitted && !$this->validate() )
 				{
-					$input->appendAttribute( 'class', ' invalid' );
+					$input->setAttribute( 'class', 'invalid' );
 				}
 
 				if( $this->autoPostBack )
