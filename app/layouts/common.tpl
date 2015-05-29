@@ -4,6 +4,7 @@
 <meta charset="<?=Rum::app()->charset?>" />
 <title></title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script src="<?=\Rum::config()->uri?>/assets/js/jquery-2.1.4.min.js"></script>
 <link href="<?=\Rum::config()->uri?>/assets/css/combined.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 <body>
