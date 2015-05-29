@@ -137,7 +137,7 @@
 		{
 			parent::onLoad();
 
-			$this->autoPostBack = $this->getParentByType( '\System\Web\WebControls\RadioGroup' )->autoPostBack;
+//			$this->autoPostBack = $this->getParentByType( '\System\Web\WebControls\RadioGroup' )->autoPostBack;
 		}
 
 

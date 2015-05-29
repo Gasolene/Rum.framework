@@ -1090,12 +1090,6 @@
 		 */
 		protected function getRowBody( \System\DB\DataSet &$ds )
 		{
-			// js events
-			$onmouseover = $this->onmouseover;
-			$onmouseout  = $this->onmouseout;
-			$onclick	 = $this->onclick;
-			$ondblclick  = $this->ondblclick;
-
 			// create item node
 			$tr = new \System\XML\DomObject( 'tr' );
 
@@ -1192,36 +1186,6 @@
 
 				// add td element to tr
 				$tr->addChild( $td );
-			}
-
-			// parse event string
-			foreach( $ds->fields as $field ) {
-
-				if( $onmouseover ) {
-					$onmouseover = str_replace( '%' . $field . '%', $ds[$field], $onmouseover );
-				}
-				if( $onmouseout ) {
-					$onmouseout = str_replace( '%' . $field . '%', $ds[$field], $onmouseout );
-				}
-				if( $onclick ) {
-					$onclick = str_replace( '%' . $field . '%', $ds[$field], $onclick );
-				}
-				if( $ondblclick ) {
-					$ondblclick = str_replace( '%' . $field . '%', $ds[$field], $ondblclick );
-				}
-			}
-
-			if( $this->onmouseover ) {
-				$tr->setAttribute( 'onmouseover', $onmouseover );
-			}
-			if( $this->onmouseout ) {
-				$tr->setAttribute( 'onmouseout', $onmouseout );
-			}
-			if( $this->onclick ) {
-				$tr->setAttribute( 'onclick', $onclick );
-			}
-			if( $this->ondblclick ) {
-				$tr->setAttribute( 'ondblclick', $ondblclick );
 			}
 
 			return $tr;

@@ -227,26 +227,26 @@
 				// getAll[Type]Records() = getAllRecordsByType( string $type )
 				elseif( $prefix === 'getAll' && ( $suffix === 'Records' || $suffix === 's' || $suffix === '' ))
 				{
-					if( count($args) <= 3 )
+					if( count($args) <= 5 )
 					{
 						return $this->getAllRecordsByType( $type, isset($args[0])?$args[0]:array(), isset($args[1])?$args[1]:array(), isset($args[2])?$args[2]:array(), isset($args[3])?$args[3]:array(), isset($args[4])?$args[4]:array() );
 					}
 					else
 					{
-						throw new \System\Base\InvalidArgumentException("Overloaded method ".get_class($this)."::$function expects one parameter of type array");
+						throw new \System\Base\InvalidArgumentException("Overloaded method ".get_class($this)."::$function expects a maximum of 5 parameters of type array");
 					}
 				}
 
 				// getCount[Type]Records() = findAllRecordsByType( string $type )
 				elseif( $prefix === 'getCount' && ( $suffix === 'Records' || $suffix === 's' || $suffix === '' ))
 				{
-					if( count($args) <= 3 )
+					if( count($args) <= 5 )
 					{
 						return $this->getCountByType( $type, isset($args[0])?$args[0]:array(), isset($args[1])?$args[1]:array(), isset($args[2])?$args[2]:array(), isset($args[3])?$args[3]:array(), isset($args[4])?$args[4]:array() );
 					}
 					else
 					{
-						throw new \System\Base\InvalidArgumentException("Overloaded method ".get_class($this)."::$function expects one parameter of type array");
+						throw new \System\Base\InvalidArgumentException("Overloaded method ".get_class($this)."::$function expects a maximum of 5 parameters of type array");
 					}
 				}
 
@@ -279,13 +279,13 @@
 				// findAll[Type]Records() = findAllRecordsByType( string $type )
 				elseif( $prefix === 'findAll' && ( $suffix === 'Records' || $suffix === 's' || $suffix === '' ))
 				{
-					if( count($args) <= 1 )
+					if( count($args) <= 5 )
 					{
 						return $this->findAllRecordsByType( $type, isset($args[0])?$args[0]:array(), isset($args[1])?$args[1]:array(), isset($args[2])?$args[2]:array(), isset($args[3])?$args[3]:array(), isset($args[4])?$args[4]:array() );
 					}
 					else
 					{
-						throw new \System\Base\InvalidArgumentException("Overloaded method ".get_class($this)."::$function expects one parameter of type array");
+						throw new \System\Base\InvalidArgumentException("Overloaded method ".get_class($this)."::$function expects a maximum of 5 parameters of type array");
 					}
 				}
 				else
@@ -1554,7 +1554,7 @@
 							$records = array();
 							foreach( $ds->rows as $row )
 							{
-								$records[] = ActiveRecordBase::findByType( $type, array_merge( $args, array( $activeRecord->pkey => $row[$activeRecord->pkey] )));
+								$records[] = ActiveRecordBase::findByType( $type, array_merge( $filter, array( $activeRecord->pkey => $row[$activeRecord->pkey] )));
 							}
 
 							return new ActiveRecordCollection($records);
@@ -1587,7 +1587,7 @@
 							$records = array();
 							foreach( $ds->rows as $row )
 							{
-								$records[] = ActiveRecordBase::findByType( $type, array_merge( $args, array( $activeRecord->pkey => $row[$activeRecord->pkey] )));
+								$records[] = ActiveRecordBase::findByType( $type, array_merge( $filter, array( $activeRecord->pkey => $row[$activeRecord->pkey] )));
 							}
 
 							return new ActiveRecordCollection($records);

@@ -367,7 +367,7 @@
 <link href="<?php echo $this->escape( $linkElement['href'] ) ?>" rel="<?php echo $this->escape( $linkElement['rel'] ) ?>" type="<?php echo $this->escape( $linkElement['type'] ) ?>" media="<?php echo $this->escape( $linkElement['media'] ) ?>" />
 <?php endforeach; ?>
 <?php foreach( $this->scriptElements as $scriptElement ) : ?>
-<script src="<?php echo $this->escape( $scriptElement['src'] ) ?>" type="<?php echo $this->escape( $scriptElement['type'] ) ?>"></script>
+<script async src="<?php echo $this->escape( $scriptElement['src'] ) ?>" type="<?php echo $this->escape( $scriptElement['type'] ) ?>"></script>
 <?php endforeach; ?>
 <?php if( $this->onload ) : ?>
 <script type="text/javascript">

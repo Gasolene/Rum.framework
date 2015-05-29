@@ -352,6 +352,7 @@
 			$form = $this->getFormDomObject();
 			$buttons = array();
 			$labels = array();
+			$errors = array();
 			$fieldset = '';
 			$dl = '';
 
@@ -359,17 +360,17 @@
 			{
 				$childControl = $this->controls->itemAt( $i );
 
-				if( $childControl instanceof Fieldset )
-				{
-					$form->innerHtml .= $childControl->fetch();
-				}
-				elseif( $childControl instanceof Button )
+				if( $childControl instanceof Button )
 				{
 					$buttons[] = $childControl;
 				}
 				elseif( $childControl instanceof Label )
 				{
 					$labels[] = $childControl;
+				}
+				elseif( $childControl instanceof ValidationMessage )
+				{
+					$errors[] = $childControl;
 				}
 				else
 				{
@@ -390,7 +391,7 @@
 
 					// Get input control
 					if($this->controls->contains($childControl->controlId.'_label')) {
-						$dt .= $this->controls->{$childControl->controlId.'_label'}->fetch(array('for'=>$childControl->controlId));
+						$dt .= $this->controls->itemAt($this->controls->indexOf($childControl->controlId.'_label'))->fetch(array('for'=>$childControl->controlId));
 					}
 					else {
 						// create label
@@ -400,11 +401,16 @@
 					// Get input control
 					$dd .= $childControl->fetch();
 
-				  	// create validation message span tag
-					$errMsg = '';
-					if( $this->submitted ) {
-						$childControl->validate($errMsg);
+					// Get error control
+					if($this->controls->contains($childControl->controlId.'_error')) {
+						$dd .= $this->controls->itemAt($this->controls->indexOf($childControl->controlId.'_error'))->fetch();
 					}
+
+				  	// create validation message span tag
+//					$errMsg = '';
+//					if( $this->submitted ) {
+//						$childControl->validate($errMsg);
+//					}
 
 					$dl .= $dt . '</dt>';
 					$dl .= $dd . '</dd>';
