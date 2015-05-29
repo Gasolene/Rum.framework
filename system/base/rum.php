@@ -201,11 +201,6 @@
 	if( !defined( '__VALIDATION_TIMEOUT__' ))			define( '__VALIDATION_TIMEOUT__',			'3000' );
 
 	/**
-	 * specifies the asyncronous flash message timeout
-	 */
-	if( !defined( '__FLASH_MSG_TIMEOUT__' ))			define( '__FLASH_MSG_TIMEOUT__',			'3000' );
-
-	/**
 	 * specifies the number of warnings to dump
 	 */
 	if( !defined( '__ERROR_LIMIT__' ))					define( '__ERROR_LIMIT__',					10 );
@@ -214,11 +209,6 @@
 	 * specifies the quote style when escaping
 	 */
 	if( !defined( '__QUOTE_STYLE__' ))					define( '__QUOTE_STYLE__',					ENT_COMPAT );
-
-	/**
-	 * specifies the number of warnings to dump
-	 */
-	if( !defined( '__ACTIVERECORD_AUTO_MAP__' ))		define( '__ACTIVERECORD_AUTO_MAP__',		FALSE );
 
 	/*
 	 * default paths

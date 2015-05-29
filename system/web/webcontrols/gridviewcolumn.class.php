@@ -425,7 +425,7 @@
 			{
 				$this->filter->filterDataSet($ds);
 
-				if($this->filter->submitted == true && $this->gridView->ajaxPostBack) {
+				if($this->filter->submitted == true && $this->ajaxPostBack) {
 					$this->gridView->needsUpdating = true;
 				}
 			}

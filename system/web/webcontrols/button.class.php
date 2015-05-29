@@ -140,11 +140,6 @@
 			$input->setAttribute( 'name', $this->getHTMLControlId() );
 			$input->setAttribute( 'id', $this->getHTMLControlId() );
 
-			if( $this->autoFocus )
-			{
-				$input->setAttribute( 'autofocus', 'autofocus' );
-			}
-
 			if( $this->disabled )
 			{
 				$input->setAttribute( 'disabled', 'disabled' );

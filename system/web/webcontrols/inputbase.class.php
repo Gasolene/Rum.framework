@@ -11,7 +11,6 @@
 	/**
 	 * Provides base functionality for Input Controls
 	 *
-	 * @property bool $autoFocus specifies whether to auto focus
 	 * @property bool $autoPostBack Specifies whether form will perform postback on change, Default is false
 	 * @property bool $ajaxPostBack specifies whether to perform ajax postback on change, Default is false
 	 * @property string $ajaxStartHandler specifies the optional ajax start handler
@@ -153,10 +152,7 @@
 		 * @ignore
 		 */
 		public function __get( $field ) {
-			if( $field === 'autoFocus' ) {
-				return $this->autoFocus;
-			}
-			elseif( $field === 'autoPostBack' ) {
+			if( $field === 'autoPostBack' ) {
 				return $this->autoPostBack;
 			}
 			elseif( $field === 'ajaxPostBack' ) {
@@ -198,10 +194,7 @@
 		 * @ignore
 		 */
 		public function __set( $field, $value ) {
-			if( $field === 'autoFocus' ) {
-				$this->autoFocus = (bool)$value;
-			}
-			elseif( $field === 'autoPostBack' ) {
+			if( $field === 'autoPostBack' ) {
 				$this->autoPostBack = (bool)$value;
 			}
 			elseif( $field === 'ajaxPostBack' ) {
@@ -322,11 +315,6 @@
 			$input = $this->createDomObject( 'input' );
 			$input->setAttribute( 'name', $this->getHTMLControlId() );
 			$input->setAttribute( 'id', $this->getHTMLControlId() );
-
-			if( $this->autoFocus )
-			{
-				$input->setAttribute( 'autofocus', 'autofocus' );
-			}
 
 			if( $this->submitted && !$this->validate() )
 			{
