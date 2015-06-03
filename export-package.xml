@@ -14,7 +14,6 @@
 	<property name="output.update"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_update" />
 	<property name="output.archive"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}.${build.revision.number}" />
 	<property name="output.plugins"				value="${rum.path}/public/downloads/release/${build.zip.exension}/plugins" />
-	<property name="output.hello_world"			value="${rum.path}/public/downloads/demo/hello_world" />
 	<property name="output.blog"				value="${rum.path}/public/downloads/demo/blog" />
 	<property name="output.docs"				value="${rum.path}/public/docs" />
 
@@ -111,27 +110,7 @@
 ?&gt;</echo>
 	</target>
 
-<!--
-	<target name="build.hello_world" description="Build HelloWorld package and update source files">
-		<echo message="Updating themes" />
-		<copy todir="${hello_world.path}/public/themes" overwrite="true">
-			<fileset dir="${test.path}/public/themes">
-				<patternset refid="package.include.files" />
-			</fileset>
-		</copy>
-	</target>
--->
-
 	<target name="export.packages" description="Export packages">
-
-		<!-- copy docs to public folder - ->
-		<echo message="Updating docs" />
-		<copy todir="${output.docs}" overwrite="true">
-			<fileset dir="./docs">
-				<patternset refid="package.include.files" />
-			</fileset>
-		</copy>
-		-->
 
 		<!-- export packages -->
 		<antcall target="_export.package">
@@ -149,12 +128,6 @@
 		<antcall target="_export.package">
 			<param name="dest" value="${output.archive}" />
 			<param name="src" value="." />
-			<param name="excludes" value="${exclude}" />
-		</antcall>
-
-		<antcall target="_export.package">
-			<param name="dest" value="${output.hello_world}" />
-			<param name="src" value="${hello_world.path}" />
 			<param name="excludes" value="${exclude}" />
 		</antcall>
 

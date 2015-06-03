@@ -124,10 +124,10 @@
 						$key = $value[$this->textField];
 						$value = $value[$this->valueField];
 					}
-					$value = \Rum::escape($value, ENT_QUOTES);
+					$dspvalue = \Rum::escape($value, ENT_QUOTES);
 					$key = \Rum::escape($key, ENT_QUOTES);
 
-					$html .= "<option value=\"{$value}\" '.(%{$this->dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
+					$html .= "<option value=\"{$dspvalue}\" '.(%{$this->dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
 				}
 				$html .= '</select>\'';
 
@@ -142,10 +142,10 @@
 						$key = $value[$this->textField];
 						$value = $value[$this->valueField];
 					}
-					$value = \Rum::escape($value, ENT_QUOTES);
+					$dspvalue = \Rum::escape($value, ENT_QUOTES);
 					$key = \Rum::escape($key, ENT_QUOTES);
 
-					$html .= "<option value=\"{$value}\" '.(%{$this->dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
+					$html .= "<option value=\"{$dspvalue}\" '.(%{$this->dataField}%=='{$value}'?'selected=\"selected\"':'').'>{$key}</option>";
 				}
 				$html .= '</select>\'';
 
@@ -167,14 +167,14 @@
 					$key = $value[$this->textField];
 					$value = $value[$this->valueField];
 				}
-				$value = \Rum::escape($value, ENT_QUOTES);
+				$dspvalue = \Rum::escape($value, ENT_QUOTES);
 				$key = \Rum::escape($key, ENT_QUOTES);
 
 				if($value==$this->default) {
-					$html .= "<option selected=\"selected\" value=\"{$value}\">{$key}</option>";
+					$html .= "<option selected=\"selected\" value=\"{$dspvalue}\">{$key}</option>";
 				}
 				else {
-					$html .= "<option value=\"{$value}\">{$key}</option>";
+					$html .= "<option value=\"{$dspvalue}\">{$key}</option>";
 				}
 			}
 			$html .= '</select>\'';
