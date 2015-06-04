@@ -711,28 +711,31 @@
 				else
 				{
 					$options = array();
-					foreach( $activeRecord->rules[$field] as $rule )
+					if(isset($activeRecord->rules[$field]))
 					{
-						$type = \strstr($rule, '(', true);
-						if($type === 'enum')
+						foreach( $activeRecord->rules[$field] as $rule )
 						{
 							$type = \strstr($rule, '(', true);
-							if(!$type)
+							if($type === 'enum')
 							{
-								$type = $rule;
-							}
-							$params = \strstr($rule, '(');
-							if(!$params)
-							{
-								$params = '()';
-							}
-							eval("\$options = {$params};");
+								$type = \strstr($rule, '(', true);
+								if(!$type)
+								{
+									$type = $rule;
+								}
+								$params = \strstr($rule, '(');
+								if(!$params)
+								{
+									$params = '()';
+								}
+								eval("\$options = {$params};");
 
-							foreach($options as $key=>$value) {
-								$control->items->add($key, $value);
-							}
+								foreach($options as $key=>$value) {
+									$control->items->add($key, $value);
+								}
 
-							continue 2;
+								continue 2;
+							}
 						}
 					}
 				}
