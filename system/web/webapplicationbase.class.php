@@ -783,7 +783,6 @@
 <title>Unhandled Exception: ".htmlentities($e->getMessage())."</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
 <link href=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css', 'asset'=>'debug_tools/exception.css'))) . "\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
-<link href=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css', 'asset'=>'debug_tools/debug.css'))) . "\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
 <script src=\"" . htmlentities($this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/javascript', 'asset'=>'debug_tools/debug.js'))) . "\" type=\"text/javascript\"></script>
 </head>
 <body>
@@ -1008,7 +1007,6 @@
 <head>
 <title>Building...</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">
-<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/debug.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />
 ".(isset($request["nostyle"])?"":"<link href=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/css')) . "&asset=debug_tools/exception.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />")."
 <script src=\"" . $this->getPageURI(__MODULE_REQUEST_PARAMETER__, array('id'=>'core', 'type'=>'text/js')) . "&asset=debug_tools/debug.js\" type=\"text/javascript\"></script>
 </head>
