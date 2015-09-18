@@ -720,11 +720,14 @@
 
 				foreach( $backtrace as $trace )
 				{
-					if( strstr( $trace['file'], __SYSTEM_PATH__ ) === false )
+					if(isset($trace['file']))
 					{
-						$file = $trace['file'];
-						$line = $trace['line'];
-						break;
+						if( strstr( $trace['file'], __SYSTEM_PATH__ ) === false )
+						{
+							$file = $trace['file'];
+							$line = $trace['line'];
+							break;
+						}
 					}
 				}
 
