@@ -1093,9 +1093,6 @@
 			// create item node
 			$tr = new \System\XML\DomObject( 'tr' );
 
-			// set row attributes
-			$tr->setAttribute( 'class', ($ds->cursor & 1)?'row_alt':'row' );// set data-field attributes
-
 			// set data-field attributes
 			if($this->rowDataField) {
 				$tr->setAttribute( 'data-field', $ds[$this->rowDataField] );
