@@ -561,7 +561,7 @@
 			if( isset( $request->request['lang'] ))
 			{
 				// Get Language
-				$this->lang = $request->request['lang'];
+				$this->setLang($request->request['lang']);
 			}
 
 			$request[$this->config->requestParameter] = strtolower( $this->forwardPage );

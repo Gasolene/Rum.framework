@@ -213,6 +213,18 @@
 
 
 		/**
+		 * set lang property
+		 *
+		 * @param  string	$lang		lang
+		 * @return void
+		 */
+		public function setLang( $lang )
+		{
+			$this->lang = $lang;
+		}
+
+
+		/**
 		 * there can exists only one instance of this class
 		 * So this method will throw an exception if someone tries to call it.
 		 *
