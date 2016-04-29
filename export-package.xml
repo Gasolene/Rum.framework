@@ -10,12 +10,12 @@
 	<property name="build.revision.number"		value="0" />
 	<property name="authors"					value="darnell.shinbine" />
 
-	<property name="output.install"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_release" />
-	<property name="output.update"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_update" />
-	<property name="output.archive"				value="${rum.path}/public/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}.${build.revision.number}" />
-	<property name="output.plugins"				value="${rum.path}/public/downloads/release/${build.zip.exension}/plugins" />
-	<property name="output.blog"				value="${rum.path}/public/downloads/demo/blog" />
-	<property name="output.docs"				value="${rum.path}/public/docs" />
+	<property name="output.install"				value="${rum.path}/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_release" />
+	<property name="output.update"				value="${rum.path}/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}_update" />
+	<property name="output.archive"				value="${rum.path}/downloads/release/${build.zip.exension}/php_rum_v${build.zip.exension}.${build.revision.number}" />
+	<property name="output.plugins"				value="${rum.path}/downloads/release/${build.zip.exension}/plugins" />
+	<property name="output.blog"				value="${rum.path}/downloads/demo/blog" />
+	<property name="output.docs"				value="${rum.path}/docs" />
 
 	<!-- exclude files -->
 	<property name="exclude"				value="docs/TODO.txt, build.number, build-test.xml, export-package.xml, local.properties, default.local.properties, README.md, nbproject/**" />
