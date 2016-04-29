@@ -35,20 +35,31 @@
 	</div>
 
 </div>
-<script>
-	Rum.defaultFlashHandler = function(message, type){
-		$(".messages").append('<li class="'+type+'">'+message+'</li>');
-	};
-	Rum.defaultErrorHandler = function(status){
-		if(status==401) {
-			alert("Logged out! You have been logged out, please login again.");
-			location.reload();
+
+	<script>
+	var rumReady = function rumReady() {
+		if(typeof Rum !== "undefined") {
+			Rum.defaultFlashHandler = function(message, type){
+				$(".messages").empty();
+				$(".messages").append('<li class="'+type+'">'+message+'</li>');
+			};
+			Rum.defaultErrorHandler = function(status){
+				if(status==401) {
+					alert("Logged out! You have been logged out, please login again.");
+					location.reload();
+				}
+				else {
+					alert("The Web server encountered an unexpected condition that prevented it from fulfilling the request!");
+				}
+			};
 		}
-		else {
-			alert("The Web server encountered an unexpected condition that prevented it from fulfilling the request!");
+		else{
+			setTimeout(function(){
+				rumReady();
+			},250);
 		}
-	};
-</script>
+	}();
+	</script>
 
 </body>
 </html>
