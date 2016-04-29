@@ -576,6 +576,7 @@
 				'NEWDECIMAL' => 'real',
 				'DECIMAL' => 'real',
 				'TIMESTAMP' => 'int',
+				'TINY' => 'boolean',
 				'' => ''
 			);
 
