@@ -781,7 +781,8 @@ WHERE';
 			if( $this->empty ) {
 				if( strlen( $whereClause ) === 0 ) {
 					$whereClause = '
-';
+where
+	0';
 				}
 			}
 
