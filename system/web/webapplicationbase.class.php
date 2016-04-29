@@ -720,11 +720,14 @@
 
 				foreach( $backtrace as $trace )
 				{
-					if( strstr( $trace['file'], __SYSTEM_PATH__ ) === false )
+					if( isset( $trace['file'] ))
 					{
-						$file = $trace['file'];
-						$line = $trace['line'];
-						break;
+						if( strstr( $trace['file'], __SYSTEM_PATH__ ) === false )
+						{
+							$file = $trace['file'];
+							$line = $trace['line'];
+							break;
+						}
 					}
 				}
 
@@ -1368,7 +1371,7 @@ No building is needed or allowed in a production environment.</p>
 					if(isset($call['args']))
 					{
 						foreach( $call['args'] as $arg ) {
-							$trace = \Rum::escape(\addslashes(\print_r($arg,true)));
+							$trace = \Rum::escape(\addslashes(@\print_r($arg,true)));
 							if( $ii++ > 0 ) {
 								\System\Web\HTTPResponse::write( "," );
 							}
