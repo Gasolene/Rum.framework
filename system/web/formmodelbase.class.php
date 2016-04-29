@@ -266,7 +266,7 @@
 		 *
 		 * @return void
 		 */
-		abstract public function refresh();
+		public function refresh() {}
 
 
 		/**
@@ -274,7 +274,7 @@
 		 *
 		 * @return void
 		 */
-		abstract public function save();
+		public function save() {}
 
 
 		/**
